@@ -1,0 +1,4725 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.9" />
+<title>Settings</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
+  padding: 0;
+  margin: 0;
+}
+pre {
+  white-space: pre-wrap;
+}
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #888;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; vertical-align: text-bottom; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install();
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>Settings</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 1. Quick reference for section &#8220;general&#8221;</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Setting</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-ignore-case">ignore-case</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to find text on a page case-insensitively.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-startpage">startpage</a></p></td>
+<td align="left" valign="top"><p class="table">The default page(s) to open at the start, separated by commas.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-yank-ignored-url-parameters">yank-ignored-url-parameters</a></p></td>
+<td align="left" valign="top"><p class="table">The URL parameters to strip with :yank url, separated by commas.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-default-open-dispatcher">default-open-dispatcher</a></p></td>
+<td align="left" valign="top"><p class="table">The default program used to open downloads. Set to an empty string to use the default internal handler.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-default-page">default-page</a></p></td>
+<td align="left" valign="top"><p class="table">The page to open if :open -t/-b/-w is used without URL. Use <code>about:blank</code> for a blank page.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-auto-search">auto-search</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to start a search when something else than a URL is entered.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-auto-save-config">auto-save-config</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to save the config automatically on quit.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-auto-save-interval">auto-save-interval</a></p></td>
+<td align="left" valign="top"><p class="table">How often (in milliseconds) to auto-save config/cookies/etc.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-editor">editor</a></p></td>
+<td align="left" valign="top"><p class="table">The editor (and arguments) to use for the <code>open-editor</code> command.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-editor-encoding">editor-encoding</a></p></td>
+<td align="left" valign="top"><p class="table">Encoding to use for editor.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-private-browsing">private-browsing</a></p></td>
+<td align="left" valign="top"><p class="table">Open new windows in private browsing mode which does not record visited pages.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-developer-extras">developer-extras</a></p></td>
+<td align="left" valign="top"><p class="table">Enable extra tools for Web developers.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-print-element-backgrounds">print-element-backgrounds</a></p></td>
+<td align="left" valign="top"><p class="table">Whether the background color and images are also drawn when the page is printed.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-xss-auditing">xss-auditing</a></p></td>
+<td align="left" valign="top"><p class="table">Whether load requests should be monitored for cross-site scripting attempts.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-default-encoding">default-encoding</a></p></td>
+<td align="left" valign="top"><p class="table">Default encoding to use for websites.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-new-instance-open-target">new-instance-open-target</a></p></td>
+<td align="left" valign="top"><p class="table">How to open links in an existing instance if a new one is launched.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-new-instance-open-target.window">new-instance-open-target.window</a></p></td>
+<td align="left" valign="top"><p class="table">Which window to choose when opening links as new tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-log-javascript-console">log-javascript-console</a></p></td>
+<td align="left" valign="top"><p class="table">How to log javascript console messages.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-save-session">save-session</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to always save the open pages.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-session-default-name">session-default-name</a></p></td>
+<td align="left" valign="top"><p class="table">The name of the session to save by default, or empty for the last loaded session.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#general-url-incdec-segments">url-incdec-segments</a></p></td>
+<td align="left" valign="top"><p class="table">The URL segments where <code>:navigate increment/decrement</code> will search for a number.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 2. Quick reference for section &#8220;ui&#8221;</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Setting</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-history-session-interval">history-session-interval</a></p></td>
+<td align="left" valign="top"><p class="table">The maximum time in minutes between two history items for them to be considered being from the same session. Use -1 to disable separation.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-zoom-levels">zoom-levels</a></p></td>
+<td align="left" valign="top"><p class="table">The available zoom levels, separated by commas.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-default-zoom">default-zoom</a></p></td>
+<td align="left" valign="top"><p class="table">The default zoom level.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-downloads-position">downloads-position</a></p></td>
+<td align="left" valign="top"><p class="table">Where to show the downloaded files.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-status-position">status-position</a></p></td>
+<td align="left" valign="top"><p class="table">The position of the status bar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-message-timeout">message-timeout</a></p></td>
+<td align="left" valign="top"><p class="table">Time (in ms) to show messages in the statusbar for.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-message-unfocused">message-unfocused</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to show messages in unfocused windows.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-confirm-quit">confirm-quit</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to confirm quitting the application.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-zoom-text-only">zoom-text-only</a></p></td>
+<td align="left" valign="top"><p class="table">Whether the zoom factor on a frame applies only to the text or to all content.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-frame-flattening">frame-flattening</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to  expand each subframe to its contents.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-user-stylesheet">user-stylesheet</a></p></td>
+<td align="left" valign="top"><p class="table">User stylesheet to use (absolute filename or filename relative to the config directory). Will expand environment variables.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-hide-scrollbar">hide-scrollbar</a></p></td>
+<td align="left" valign="top"><p class="table">Hide the main scrollbar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-smooth-scrolling">smooth-scrolling</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to enable smooth scrolling for web pages. Note smooth scrolling does not work with the :scroll-px command.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-remove-finished-downloads">remove-finished-downloads</a></p></td>
+<td align="left" valign="top"><p class="table">Number of milliseconds to wait before removing finished downloads. Will not be removed if value is -1.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-hide-statusbar">hide-statusbar</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to hide the statusbar unless a message is shown.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-statusbar-padding">statusbar-padding</a></p></td>
+<td align="left" valign="top"><p class="table">Padding for statusbar (top, bottom, left, right).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-window-title-format">window-title-format</a></p></td>
+<td align="left" valign="top"><p class="table">The format to use for the window title. The following placeholders are defined:</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-modal-js-dialog">modal-js-dialog</a></p></td>
+<td align="left" valign="top"><p class="table">Use standard JavaScript modal dialog for alert() and confirm()</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-hide-wayland-decoration">hide-wayland-decoration</a></p></td>
+<td align="left" valign="top"><p class="table">Hide the window decoration when using wayland (requires restart)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-keyhint-blacklist">keyhint-blacklist</a></p></td>
+<td align="left" valign="top"><p class="table">Keychains that shouldn&#8217;t be shown in the keyhint dialog</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-keyhint-delay">keyhint-delay</a></p></td>
+<td align="left" valign="top"><p class="table">Time from pressing a key to seeing the keyhint dialog (ms)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-prompt-radius">prompt-radius</a></p></td>
+<td align="left" valign="top"><p class="table">The rounding radius for the edges of prompts.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#ui-prompt-filebrowser">prompt-filebrowser</a></p></td>
+<td align="left" valign="top"><p class="table">Show a filebrowser in upload/download prompts.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 3. Quick reference for section &#8220;network&#8221;</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Setting</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#network-do-not-track">do-not-track</a></p></td>
+<td align="left" valign="top"><p class="table">Value to send in the <code>DNT</code> header.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#network-accept-language">accept-language</a></p></td>
+<td align="left" valign="top"><p class="table">Value to send in the <code>accept-language</code> header.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#network-referer-header">referer-header</a></p></td>
+<td align="left" valign="top"><p class="table">Send the Referer header</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#network-user-agent">user-agent</a></p></td>
+<td align="left" valign="top"><p class="table">User agent to send. Empty to send the default.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#network-proxy">proxy</a></p></td>
+<td align="left" valign="top"><p class="table">The proxy to use.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#network-proxy-dns-requests">proxy-dns-requests</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to send DNS requests over the configured proxy.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#network-ssl-strict">ssl-strict</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to validate SSL handshakes.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#network-dns-prefetch">dns-prefetch</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to try to pre-fetch DNS entries to speed up browsing.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#network-custom-headers">custom-headers</a></p></td>
+<td align="left" valign="top"><p class="table">Set custom headers for qutebrowser HTTP requests.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#network-netrc-file">netrc-file</a></p></td>
+<td align="left" valign="top"><p class="table">Set location of a netrc-file for HTTP authentication. If empty, ~/.netrc is used.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 4. Quick reference for section &#8220;completion&#8221;</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Setting</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion-show">show</a></p></td>
+<td align="left" valign="top"><p class="table">When to show the autocompletion window.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion-download-path-suggestion">download-path-suggestion</a></p></td>
+<td align="left" valign="top"><p class="table">What to display in the download filename input.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion-timestamp-format">timestamp-format</a></p></td>
+<td align="left" valign="top"><p class="table">How to format timestamps (e.g. for history)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion-height">height</a></p></td>
+<td align="left" valign="top"><p class="table">The height of the completion, in px or as percentage of the window.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion-cmd-history-max-items">cmd-history-max-items</a></p></td>
+<td align="left" valign="top"><p class="table">How many commands to save in the command history.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion-web-history-max-items">web-history-max-items</a></p></td>
+<td align="left" valign="top"><p class="table">How many URLs to show in the web history.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion-quick-complete">quick-complete</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to move on to the next part when there&#8217;s only one possible completion left.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion-shrink">shrink</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to shrink the completion to be smaller than the configured size if there are no scrollbars.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion-scrollbar-width">scrollbar-width</a></p></td>
+<td align="left" valign="top"><p class="table">Width of the scrollbar in the completion window (in px).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion-scrollbar-padding">scrollbar-padding</a></p></td>
+<td align="left" valign="top"><p class="table">Padding of scrollbar handle in completion window (in px).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 5. Quick reference for section &#8220;input&#8221;</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Setting</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input-timeout">timeout</a></p></td>
+<td align="left" valign="top"><p class="table">Timeout (in milliseconds) for ambiguous key bindings.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input-partial-timeout">partial-timeout</a></p></td>
+<td align="left" valign="top"><p class="table">Timeout (in milliseconds) for partially typed key bindings.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input-insert-mode-on-plugins">insert-mode-on-plugins</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to switch to insert mode when clicking flash and other plugins.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input-auto-leave-insert-mode">auto-leave-insert-mode</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to leave insert mode if a non-editable element is clicked.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input-auto-insert-mode">auto-insert-mode</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to automatically enter insert mode if an editable element is focused after page load.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input-forward-unbound-keys">forward-unbound-keys</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to forward unbound keys to the webview in normal mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input-spatial-navigation">spatial-navigation</a></p></td>
+<td align="left" valign="top"><p class="table">Enables or disables the Spatial Navigation feature.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input-links-included-in-focus-chain">links-included-in-focus-chain</a></p></td>
+<td align="left" valign="top"><p class="table">Whether hyperlinks should be included in the keyboard focus chain.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input-rocker-gestures">rocker-gestures</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to enable Opera-like mouse rocker gestures. This disables the context menu.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input-mouse-zoom-divider">mouse-zoom-divider</a></p></td>
+<td align="left" valign="top"><p class="table">How much to divide the mouse wheel movements to translate them into zoom increments.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 6. Quick reference for section &#8220;tabs&#8221;</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Setting</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-background-tabs">background-tabs</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to open new tabs (middleclick/ctrl+click) in background.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-select-on-remove">select-on-remove</a></p></td>
+<td align="left" valign="top"><p class="table">Which tab to select when the focused tab is removed.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-new-tab-position">new-tab-position</a></p></td>
+<td align="left" valign="top"><p class="table">How new tabs are positioned.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-new-tab-position-explicit">new-tab-position-explicit</a></p></td>
+<td align="left" valign="top"><p class="table">How new tabs opened explicitly are positioned.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-last-close">last-close</a></p></td>
+<td align="left" valign="top"><p class="table">Behavior when the last tab is closed.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-show">show</a></p></td>
+<td align="left" valign="top"><p class="table">When to show the tab bar</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-show-switching-delay">show-switching-delay</a></p></td>
+<td align="left" valign="top"><p class="table">Time to show the tab bar before hiding it when tabs&#8594;show is set to <em>switching</em>.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-wrap">wrap</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to wrap when changing tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-movable">movable</a></p></td>
+<td align="left" valign="top"><p class="table">Whether tabs should be movable.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-close-mouse-button">close-mouse-button</a></p></td>
+<td align="left" valign="top"><p class="table">On which mouse button to close tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-position">position</a></p></td>
+<td align="left" valign="top"><p class="table">The position of the tab bar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-show-favicons">show-favicons</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to show favicons in the tab bar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-favicon-scale">favicon-scale</a></p></td>
+<td align="left" valign="top"><p class="table">Scale for favicons in the tab bar. The tab size is unchanged, so big favicons also require extra <code>tabs-&gt;padding</code>.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-width">width</a></p></td>
+<td align="left" valign="top"><p class="table">The width of the tab bar if it&#8217;s vertical, in px or as percentage of the window.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-pinned-width">pinned-width</a></p></td>
+<td align="left" valign="top"><p class="table">The width for pinned tabs with a horizontal tabbar, in px.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-indicator-width">indicator-width</a></p></td>
+<td align="left" valign="top"><p class="table">Width of the progress indicator (0 to disable).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-tabs-are-windows">tabs-are-windows</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to open windows instead of tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-title-format">title-format</a></p></td>
+<td align="left" valign="top"><p class="table">The format to use for the tab title. The following placeholders are defined:</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-title-format-pinned">title-format-pinned</a></p></td>
+<td align="left" valign="top"><p class="table">The format to use for the tab title for pinned tabs. The same placeholders like for title-format are defined.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-title-alignment">title-alignment</a></p></td>
+<td align="left" valign="top"><p class="table">Alignment of the text inside of tabs</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-mousewheel-tab-switching">mousewheel-tab-switching</a></p></td>
+<td align="left" valign="top"><p class="table">Switch between tabs using the mouse wheel.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-padding">padding</a></p></td>
+<td align="left" valign="top"><p class="table">Padding for tabs (top, bottom, left, right).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs-indicator-padding">indicator-padding</a></p></td>
+<td align="left" valign="top"><p class="table">Padding for indicators (top, bottom, left, right).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 7. Quick reference for section &#8220;storage&#8221;</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Setting</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#storage-download-directory">download-directory</a></p></td>
+<td align="left" valign="top"><p class="table">The directory to save downloads to. An empty value selects a sensible os-specific default. Will expand environment variables.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#storage-prompt-download-directory">prompt-download-directory</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to prompt the user for the download location.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#storage-remember-download-directory">remember-download-directory</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to remember the last used download directory.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#storage-maximum-pages-in-cache">maximum-pages-in-cache</a></p></td>
+<td align="left" valign="top"><p class="table">The maximum number of pages to hold in the global memory page cache.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#storage-offline-web-application-cache">offline-web-application-cache</a></p></td>
+<td align="left" valign="top"><p class="table">Whether support for the HTML 5 web application cache feature is enabled.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#storage-local-storage">local-storage</a></p></td>
+<td align="left" valign="top"><p class="table">Whether support for HTML 5 local storage and Web SQL is enabled.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#storage-cache-size">cache-size</a></p></td>
+<td align="left" valign="top"><p class="table">Size of the HTTP network cache. Empty to use the default value.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 8. Quick reference for section &#8220;content&#8221;</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Setting</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-allow-images">allow-images</a></p></td>
+<td align="left" valign="top"><p class="table">Whether images are automatically loaded in web pages.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-allow-javascript">allow-javascript</a></p></td>
+<td align="left" valign="top"><p class="table">Enables or disables the running of JavaScript programs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-allow-plugins">allow-plugins</a></p></td>
+<td align="left" valign="top"><p class="table">Enables or disables plugins in Web pages.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-webgl">webgl</a></p></td>
+<td align="left" valign="top"><p class="table">Enables or disables WebGL.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-hyperlink-auditing">hyperlink-auditing</a></p></td>
+<td align="left" valign="top"><p class="table">Enable or disable hyperlink auditing (&lt;a ping&gt;).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-geolocation">geolocation</a></p></td>
+<td align="left" valign="top"><p class="table">Allow websites to request geolocations.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-notifications">notifications</a></p></td>
+<td align="left" valign="top"><p class="table">Allow websites to show notifications.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-media-capture">media-capture</a></p></td>
+<td align="left" valign="top"><p class="table">Allow websites to record audio/video.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-javascript-can-open-windows-automatically">javascript-can-open-windows-automatically</a></p></td>
+<td align="left" valign="top"><p class="table">Whether JavaScript programs can open new windows without user interaction.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-javascript-can-close-windows">javascript-can-close-windows</a></p></td>
+<td align="left" valign="top"><p class="table">Whether JavaScript programs can close windows.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-javascript-can-access-clipboard">javascript-can-access-clipboard</a></p></td>
+<td align="left" valign="top"><p class="table">Whether JavaScript programs can read or write to the clipboard.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-ignore-javascript-prompt">ignore-javascript-prompt</a></p></td>
+<td align="left" valign="top"><p class="table">Whether all javascript prompts should be ignored.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-ignore-javascript-alert">ignore-javascript-alert</a></p></td>
+<td align="left" valign="top"><p class="table">Whether all javascript alerts should be ignored.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-local-content-can-access-remote-urls">local-content-can-access-remote-urls</a></p></td>
+<td align="left" valign="top"><p class="table">Whether locally loaded documents are allowed to access remote urls.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-local-content-can-access-file-urls">local-content-can-access-file-urls</a></p></td>
+<td align="left" valign="top"><p class="table">Whether locally loaded documents are allowed to access other local urls.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-cookies-accept">cookies-accept</a></p></td>
+<td align="left" valign="top"><p class="table">Control which cookies to accept.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-cookies-store">cookies-store</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to store cookies. Note this option needs a restart with QtWebEngine on Qt &lt; 5.9.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-host-block-lists">host-block-lists</a></p></td>
+<td align="left" valign="top"><p class="table">List of URLs of lists which contain hosts to block.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-host-blocking-enabled">host-blocking-enabled</a></p></td>
+<td align="left" valign="top"><p class="table">Whether host blocking is enabled.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-host-blocking-whitelist">host-blocking-whitelist</a></p></td>
+<td align="left" valign="top"><p class="table">List of domains that should always be loaded, despite being ad-blocked.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content-enable-pdfjs">enable-pdfjs</a></p></td>
+<td align="left" valign="top"><p class="table">Enable pdf.js to view PDF files in the browser.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 9. Quick reference for section &#8220;hints&#8221;</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Setting</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-border">border</a></p></td>
+<td align="left" valign="top"><p class="table">CSS border value for hints.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-mode">mode</a></p></td>
+<td align="left" valign="top"><p class="table">Mode to use for hints.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-chars">chars</a></p></td>
+<td align="left" valign="top"><p class="table">Chars used for hint strings.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-min-chars">min-chars</a></p></td>
+<td align="left" valign="top"><p class="table">Minimum number of chars used for hint strings.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-scatter">scatter</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to scatter hint key chains (like Vimium) or not (like dwb). Ignored for number hints.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-uppercase">uppercase</a></p></td>
+<td align="left" valign="top"><p class="table">Make chars in hint strings uppercase.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-dictionary">dictionary</a></p></td>
+<td align="left" valign="top"><p class="table">The dictionary file to be used by the word hints.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-auto-follow">auto-follow</a></p></td>
+<td align="left" valign="top"><p class="table">Controls when a hint can be automatically followed without the user pressing Enter.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-auto-follow-timeout">auto-follow-timeout</a></p></td>
+<td align="left" valign="top"><p class="table">A timeout (in milliseconds) to inhibit normal-mode key bindings after a successful auto-follow.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-next-regexes">next-regexes</a></p></td>
+<td align="left" valign="top"><p class="table">A comma-separated list of regexes to use for <em>next</em> links.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-prev-regexes">prev-regexes</a></p></td>
+<td align="left" valign="top"><p class="table">A comma-separated list of regexes to use for <em>prev</em> links.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-find-implementation">find-implementation</a></p></td>
+<td align="left" valign="top"><p class="table">Which implementation to use to find elements to hint.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints-hide-unmatched-rapid-hints">hide-unmatched-rapid-hints</a></p></td>
+<td align="left" valign="top"><p class="table">Controls hiding unmatched hints in rapid mode.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 10. Quick reference for section &#8220;colors&#8221;</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Setting</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.fg">completion.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Text color of the completion widget.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.bg">completion.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the completion widget.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.alternate-bg">completion.alternate-bg</a></p></td>
+<td align="left" valign="top"><p class="table">Alternating background color of the completion widget.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.category.fg">completion.category.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of completion widget category headers.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.category.bg">completion.category.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the completion widget category headers.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.category.border.top">completion.category.border.top</a></p></td>
+<td align="left" valign="top"><p class="table">Top border color of the completion widget category headers.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.category.border.bottom">completion.category.border.bottom</a></p></td>
+<td align="left" valign="top"><p class="table">Bottom border color of the completion widget category headers.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.item.selected.fg">completion.item.selected.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the selected completion item.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.item.selected.bg">completion.item.selected.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the selected completion item.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.item.selected.border.top">completion.item.selected.border.top</a></p></td>
+<td align="left" valign="top"><p class="table">Top border color of the completion widget category headers.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.item.selected.border.bottom">completion.item.selected.border.bottom</a></p></td>
+<td align="left" valign="top"><p class="table">Bottom border color of the selected completion item.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.match.fg">completion.match.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the matched text in the completion.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.scrollbar.fg">completion.scrollbar.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Color of the scrollbar handle in completion view.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-completion.scrollbar.bg">completion.scrollbar.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Color of the scrollbar in completion view</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.fg">statusbar.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the statusbar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.bg">statusbar.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the statusbar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.fg.private">statusbar.fg.private</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the statusbar in private browsing mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.bg.private">statusbar.bg.private</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the statusbar in private browsing mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.fg.insert">statusbar.fg.insert</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the statusbar in insert mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.bg.insert">statusbar.bg.insert</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the statusbar in insert mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.fg.command">statusbar.fg.command</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the statusbar in command mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.bg.command">statusbar.bg.command</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the statusbar in command mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.fg.command.private">statusbar.fg.command.private</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the statusbar in private browsing + command mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.bg.command.private">statusbar.bg.command.private</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the statusbar in private browsing + command mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.fg.caret">statusbar.fg.caret</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the statusbar in caret mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.bg.caret">statusbar.bg.caret</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the statusbar in caret mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.fg.caret-selection">statusbar.fg.caret-selection</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the statusbar in caret mode with a selection</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.bg.caret-selection">statusbar.bg.caret-selection</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the statusbar in caret mode with a selection</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.progress.bg">statusbar.progress.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the progress bar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.url.fg">statusbar.url.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Default foreground color of the URL in the statusbar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.url.fg.success">statusbar.url.fg.success</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the URL in the statusbar on successful load (http).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.url.fg.success.https">statusbar.url.fg.success.https</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the URL in the statusbar on successful load (https).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.url.fg.error">statusbar.url.fg.error</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the URL in the statusbar on error.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.url.fg.warn">statusbar.url.fg.warn</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the URL in the statusbar when there&#8217;s a warning.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-statusbar.url.fg.hover">statusbar.url.fg.hover</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the URL in the statusbar for hovered links.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.fg.odd">tabs.fg.odd</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of unselected odd tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.bg.odd">tabs.bg.odd</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of unselected odd tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.fg.even">tabs.fg.even</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of unselected even tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.bg.even">tabs.bg.even</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of unselected even tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.fg.selected.odd">tabs.fg.selected.odd</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of selected odd tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.bg.selected.odd">tabs.bg.selected.odd</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of selected odd tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.fg.selected.even">tabs.fg.selected.even</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of selected even tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.bg.selected.even">tabs.bg.selected.even</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of selected even tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.bg.bar">tabs.bg.bar</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the tab bar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.indicator.start">tabs.indicator.start</a></p></td>
+<td align="left" valign="top"><p class="table">Color gradient start for the tab indicator.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.indicator.stop">tabs.indicator.stop</a></p></td>
+<td align="left" valign="top"><p class="table">Color gradient end for the tab indicator.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.indicator.error">tabs.indicator.error</a></p></td>
+<td align="left" valign="top"><p class="table">Color for the tab indicator on errors..</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-tabs.indicator.system">tabs.indicator.system</a></p></td>
+<td align="left" valign="top"><p class="table">Color gradient interpolation system for the tab indicator.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-hints.fg">hints.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Font color for hints.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-hints.bg">hints.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color for hints. Note that you can use a <code>rgba(...)</code> value for transparency.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-hints.fg.match">hints.fg.match</a></p></td>
+<td align="left" valign="top"><p class="table">Font color for the matched part of hints.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-downloads.bg.bar">downloads.bg.bar</a></p></td>
+<td align="left" valign="top"><p class="table">Background color for the download bar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-downloads.fg.start">downloads.fg.start</a></p></td>
+<td align="left" valign="top"><p class="table">Color gradient start for download text.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-downloads.bg.start">downloads.bg.start</a></p></td>
+<td align="left" valign="top"><p class="table">Color gradient start for download backgrounds.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-downloads.fg.stop">downloads.fg.stop</a></p></td>
+<td align="left" valign="top"><p class="table">Color gradient end for download text.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-downloads.bg.stop">downloads.bg.stop</a></p></td>
+<td align="left" valign="top"><p class="table">Color gradient stop for download backgrounds.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-downloads.fg.system">downloads.fg.system</a></p></td>
+<td align="left" valign="top"><p class="table">Color gradient interpolation system for download text.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-downloads.bg.system">downloads.bg.system</a></p></td>
+<td align="left" valign="top"><p class="table">Color gradient interpolation system for download backgrounds.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-downloads.fg.error">downloads.fg.error</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color for downloads with errors.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-downloads.bg.error">downloads.bg.error</a></p></td>
+<td align="left" valign="top"><p class="table">Background color for downloads with errors.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-webpage.bg">webpage.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color for webpages if unset (or empty to use the theme&#8217;s color)</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-keyhint.fg">keyhint.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Text color for the keyhint widget.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-keyhint.fg.suffix">keyhint.fg.suffix</a></p></td>
+<td align="left" valign="top"><p class="table">Highlight color for keys to complete the current keychain</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-keyhint.bg">keyhint.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the keyhint widget.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-messages.fg.error">messages.fg.error</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of an error message.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-messages.bg.error">messages.bg.error</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of an error message.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-messages.border.error">messages.border.error</a></p></td>
+<td align="left" valign="top"><p class="table">Border color of an error message.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-messages.fg.warning">messages.fg.warning</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color a warning message.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-messages.bg.warning">messages.bg.warning</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of a warning message.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-messages.border.warning">messages.border.warning</a></p></td>
+<td align="left" valign="top"><p class="table">Border color of an error message.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-messages.fg.info">messages.fg.info</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color an info message.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-messages.bg.info">messages.bg.info</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of an info message.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-messages.border.info">messages.border.info</a></p></td>
+<td align="left" valign="top"><p class="table">Border color of an info message.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-prompts.fg">prompts.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color for prompts.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-prompts.bg">prompts.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color for prompts.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors-prompts.selected.bg">prompts.selected.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color for the selected item in filename prompts.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 11. Quick reference for section &#8220;fonts&#8221;</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Setting</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-_monospace">_monospace</a></p></td>
+<td align="left" valign="top"><p class="table">Default monospace fonts.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-completion">completion</a></p></td>
+<td align="left" valign="top"><p class="table">Font used in the completion widget.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-completion.category">completion.category</a></p></td>
+<td align="left" valign="top"><p class="table">Font used in the completion categories.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-tabbar">tabbar</a></p></td>
+<td align="left" valign="top"><p class="table">Font used in the tab bar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-statusbar">statusbar</a></p></td>
+<td align="left" valign="top"><p class="table">Font used in the statusbar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-downloads">downloads</a></p></td>
+<td align="left" valign="top"><p class="table">Font used for the downloadbar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-hints">hints</a></p></td>
+<td align="left" valign="top"><p class="table">Font used for the hints.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-debug-console">debug-console</a></p></td>
+<td align="left" valign="top"><p class="table">Font used for the debugging console.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-web-family-standard">web-family-standard</a></p></td>
+<td align="left" valign="top"><p class="table">Font family for standard fonts.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-web-family-fixed">web-family-fixed</a></p></td>
+<td align="left" valign="top"><p class="table">Font family for fixed fonts.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-web-family-serif">web-family-serif</a></p></td>
+<td align="left" valign="top"><p class="table">Font family for serif fonts.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-web-family-sans-serif">web-family-sans-serif</a></p></td>
+<td align="left" valign="top"><p class="table">Font family for sans-serif fonts.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-web-family-cursive">web-family-cursive</a></p></td>
+<td align="left" valign="top"><p class="table">Font family for cursive fonts.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-web-family-fantasy">web-family-fantasy</a></p></td>
+<td align="left" valign="top"><p class="table">Font family for fantasy fonts.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-web-size-minimum">web-size-minimum</a></p></td>
+<td align="left" valign="top"><p class="table">The hard minimum font size.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-web-size-minimum-logical">web-size-minimum-logical</a></p></td>
+<td align="left" valign="top"><p class="table">The minimum logical font size that is applied when zooming out.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-web-size-default">web-size-default</a></p></td>
+<td align="left" valign="top"><p class="table">The default font size for regular text.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-web-size-default-fixed">web-size-default-fixed</a></p></td>
+<td align="left" valign="top"><p class="table">The default font size for fixed-pitch text.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-keyhint">keyhint</a></p></td>
+<td align="left" valign="top"><p class="table">Font used in the keyhint widget.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-messages.error">messages.error</a></p></td>
+<td align="left" valign="top"><p class="table">Font used for error messages.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-messages.warning">messages.warning</a></p></td>
+<td align="left" valign="top"><p class="table">Font used for warning messages.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-messages.info">messages.info</a></p></td>
+<td align="left" valign="top"><p class="table">Font used for info messages.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts-prompts">prompts</a></p></td>
+<td align="left" valign="top"><p class="table">Font used for prompts.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_general">general</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>General/miscellaneous options.</p></div>
+<div class="sect2">
+<h3 id="general-ignore-case">ignore-case</h3>
+<div class="paragraph"><p>Whether to find text on a page case-insensitively.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>: Search case-insensitively
+</p>
+</li>
+<li>
+<p>
+<code>false</code>: Search case-sensitively
+</p>
+</li>
+<li>
+<p>
+<code>smart</code>: Search case-sensitively if there are capital chars
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>smart</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-startpage">startpage</h3>
+<div class="paragraph"><p>The default page(s) to open at the start, separated by commas.</p></div>
+<div class="paragraph"><p>Default: <code>https://start.duckduckgo.com</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-yank-ignored-url-parameters">yank-ignored-url-parameters</h3>
+<div class="paragraph"><p>The URL parameters to strip with :yank url, separated by commas.</p></div>
+<div class="paragraph"><p>Default: <code>ref,utm_source,utm_medium,utm_campaign,utm_term,utm_content</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-default-open-dispatcher">default-open-dispatcher</h3>
+<div class="paragraph"><p>The default program used to open downloads. Set to an empty string to use the default internal handler.</p></div>
+<div class="paragraph"><p>Any {} in the string will be expanded to the filename, else the filename will be appended.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="general-default-page">default-page</h3>
+<div class="paragraph"><p>The page to open if :open -t/-b/-w is used without URL. Use <code>about:blank</code> for a blank page.</p></div>
+<div class="paragraph"><p>Default: <code>${startpage}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-auto-search">auto-search</h3>
+<div class="paragraph"><p>Whether to start a search when something else than a URL is entered.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>naive</code>: Use simple/naive check.
+</p>
+</li>
+<li>
+<p>
+<code>dns</code>: Use DNS requests (might be slow!).
+</p>
+</li>
+<li>
+<p>
+<code>false</code>: Never search automatically.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>naive</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-auto-save-config">auto-save-config</h3>
+<div class="paragraph"><p>Whether to save the config automatically on quit.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-auto-save-interval">auto-save-interval</h3>
+<div class="paragraph"><p>How often (in milliseconds) to auto-save config/cookies/etc.</p></div>
+<div class="paragraph"><p>Default: <code>15000</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-editor">editor</h3>
+<div class="paragraph"><p>The editor (and arguments) to use for the <code>open-editor</code> command.</p></div>
+<div class="paragraph"><p>The arguments get split like in a shell, so you can use <code>"</code> or <code>'</code> to quote them.
+<code>{}</code> gets replaced by the filename of the file to be edited.</p></div>
+<div class="paragraph"><p>Default: <code>gvim -f &quot;{}&quot;</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-editor-encoding">editor-encoding</h3>
+<div class="paragraph"><p>Encoding to use for editor.</p></div>
+<div class="paragraph"><p>Default: <code>utf-8</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-private-browsing">private-browsing</h3>
+<div class="paragraph"><p>Open new windows in private browsing mode which does not record visited pages.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-developer-extras">developer-extras</h3>
+<div class="paragraph"><p>Enable extra tools for Web developers.</p></div>
+<div class="paragraph"><p>This needs to be enabled for <code>:inspector</code> to work and also adds an <em>Inspect</em> entry to the context menu. For QtWebEngine, see <em>qutebrowser --help</em> instead.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="general-print-element-backgrounds">print-element-backgrounds</h3>
+<div class="paragraph"><p>Whether the background color and images are also drawn when the page is printed.
+This setting only works with Qt 5.8 or newer when using the QtWebEngine backend.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-xss-auditing">xss-auditing</h3>
+<div class="paragraph"><p>Whether load requests should be monitored for cross-site scripting attempts.</p></div>
+<div class="paragraph"><p>Suspicious scripts will be blocked and reported in the inspector&#8217;s JavaScript console. Enabling this feature might have an impact on performance.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-default-encoding">default-encoding</h3>
+<div class="paragraph"><p>Default encoding to use for websites.</p></div>
+<div class="paragraph"><p>The encoding must be a string describing an encoding such as <em>utf-8</em>, <em>iso-8859-1</em>, etc.</p></div>
+<div class="paragraph"><p>Default: <code>iso-8859-1</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-new-instance-open-target">new-instance-open-target</h3>
+<div class="paragraph"><p>How to open links in an existing instance if a new one is launched.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>tab</code>: Open a new tab in the existing window and activate the window.
+</p>
+</li>
+<li>
+<p>
+<code>tab-bg</code>: Open a new background tab in the existing window and activate the window.
+</p>
+</li>
+<li>
+<p>
+<code>tab-silent</code>: Open a new tab in the existing window without activating the window.
+</p>
+</li>
+<li>
+<p>
+<code>tab-bg-silent</code>: Open a new background tab in the existing window without activating the window.
+</p>
+</li>
+<li>
+<p>
+<code>window</code>: Open in a new window.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>tab</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-new-instance-open-target.window">new-instance-open-target.window</h3>
+<div class="paragraph"><p>Which window to choose when opening links as new tabs.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>first-opened</code>: Open new tabs in the first (oldest) opened window.
+</p>
+</li>
+<li>
+<p>
+<code>last-opened</code>: Open new tabs in the last (newest) opened window.
+</p>
+</li>
+<li>
+<p>
+<code>last-focused</code>: Open new tabs in the most recently focused window.
+</p>
+</li>
+<li>
+<p>
+<code>last-visible</code>: Open new tabs in the most recently visible window.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>last-focused</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-log-javascript-console">log-javascript-console</h3>
+<div class="paragraph"><p>How to log javascript console messages.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>none</code>: Don&#8217;t log messages.
+</p>
+</li>
+<li>
+<p>
+<code>debug</code>: Log messages with debug level.
+</p>
+</li>
+<li>
+<p>
+<code>info</code>: Log messages with info level.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>debug</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-save-session">save-session</h3>
+<div class="paragraph"><p>Whether to always save the open pages.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="general-session-default-name">session-default-name</h3>
+<div class="paragraph"><p>The name of the session to save by default, or empty for the last loaded session.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="general-url-incdec-segments">url-incdec-segments</h3>
+<div class="paragraph"><p>The URL segments where <code>:navigate increment/decrement</code> will search for a number.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>host</code>
+</p>
+</li>
+<li>
+<p>
+<code>path</code>
+</p>
+</li>
+<li>
+<p>
+<code>query</code>
+</p>
+</li>
+<li>
+<p>
+<code>anchor</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>path,query</code></p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ui">ui</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>General options related to the user interface.</p></div>
+<div class="sect2">
+<h3 id="ui-history-session-interval">history-session-interval</h3>
+<div class="paragraph"><p>The maximum time in minutes between two history items for them to be considered being from the same session. Use -1 to disable separation.</p></div>
+<div class="paragraph"><p>Default: <code>30</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-zoom-levels">zoom-levels</h3>
+<div class="paragraph"><p>The available zoom levels, separated by commas.</p></div>
+<div class="paragraph"><p>Default: <code>25%,33%,50%,67%,75%,90%,100%,110%,125%,150%,175%,200%,250%,300%,400%,500%</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-default-zoom">default-zoom</h3>
+<div class="paragraph"><p>The default zoom level.</p></div>
+<div class="paragraph"><p>Default: <code>100%</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-downloads-position">downloads-position</h3>
+<div class="paragraph"><p>Where to show the downloaded files.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>top</code>
+</p>
+</li>
+<li>
+<p>
+<code>bottom</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>top</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-status-position">status-position</h3>
+<div class="paragraph"><p>The position of the status bar.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>top</code>
+</p>
+</li>
+<li>
+<p>
+<code>bottom</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>bottom</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-message-timeout">message-timeout</h3>
+<div class="paragraph"><p>Time (in ms) to show messages in the statusbar for.
+Set to 0 to never clear messages.</p></div>
+<div class="paragraph"><p>Default: <code>2000</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-message-unfocused">message-unfocused</h3>
+<div class="paragraph"><p>Whether to show messages in unfocused windows.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-confirm-quit">confirm-quit</h3>
+<div class="paragraph"><p>Whether to confirm quitting the application.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Always show a confirmation.
+</p>
+</li>
+<li>
+<p>
+<code>multiple-tabs</code>: Show a confirmation if multiple tabs are opened.
+</p>
+</li>
+<li>
+<p>
+<code>downloads</code>: Show a confirmation if downloads are running
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Never show a confirmation.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>never</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-zoom-text-only">zoom-text-only</h3>
+<div class="paragraph"><p>Whether the zoom factor on a frame applies only to the text or to all content.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-frame-flattening">frame-flattening</h3>
+<div class="paragraph"><p>Whether to  expand each subframe to its contents.</p></div>
+<div class="paragraph"><p>This will flatten all the frames to become one scrollable page.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-user-stylesheet">user-stylesheet</h3>
+<div class="paragraph"><p>User stylesheet to use (absolute filename or filename relative to the config directory). Will expand environment variables.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-hide-scrollbar">hide-scrollbar</h3>
+<div class="paragraph"><p>Hide the main scrollbar.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-smooth-scrolling">smooth-scrolling</h3>
+<div class="paragraph"><p>Whether to enable smooth scrolling for web pages. Note smooth scrolling does not work with the :scroll-px command.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-remove-finished-downloads">remove-finished-downloads</h3>
+<div class="paragraph"><p>Number of milliseconds to wait before removing finished downloads. Will not be removed if value is -1.</p></div>
+<div class="paragraph"><p>Default: <code>-1</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-hide-statusbar">hide-statusbar</h3>
+<div class="paragraph"><p>Whether to hide the statusbar unless a message is shown.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-statusbar-padding">statusbar-padding</h3>
+<div class="paragraph"><p>Padding for statusbar (top, bottom, left, right).</p></div>
+<div class="paragraph"><p>Default: <code>1,1,0,0</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-window-title-format">window-title-format</h3>
+<div class="paragraph"><p>The format to use for the window title. The following placeholders are defined:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>{perc}</code>: The percentage as a string like <code>[10%]</code>.
+</p>
+</li>
+<li>
+<p>
+<code>{perc_raw}</code>: The raw percentage, e.g. <code>10</code>
+</p>
+</li>
+<li>
+<p>
+<code>{title}</code>: The title of the current web page
+</p>
+</li>
+<li>
+<p>
+<code>{title_sep}</code>: The string ` - ` if a title is set, empty otherwise.
+</p>
+</li>
+<li>
+<p>
+<code>{id}</code>: The internal window ID of this window.
+</p>
+</li>
+<li>
+<p>
+<code>{scroll_pos}</code>: The page scroll position.
+</p>
+</li>
+<li>
+<p>
+<code>{host}</code>: The host of the current web page.
+</p>
+</li>
+<li>
+<p>
+<code>{backend}</code>: Either <em>webkit</em> or <em>webengine</em>
+</p>
+</li>
+<li>
+<p>
+<code>{private}</code> : Indicates when private mode is enabled.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>{perc}{title}{title_sep}qutebrowser</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-modal-js-dialog">modal-js-dialog</h3>
+<div class="paragraph"><p>Use standard JavaScript modal dialog for alert() and confirm()</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-hide-wayland-decoration">hide-wayland-decoration</h3>
+<div class="paragraph"><p>Hide the window decoration when using wayland (requires restart)</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-keyhint-blacklist">keyhint-blacklist</h3>
+<div class="paragraph"><p>Keychains that shouldn&#8217;t be shown in the keyhint dialog</p></div>
+<div class="paragraph"><p>Globs are supported, so <em>;*</em> will blacklist all keychainsstarting with <em>;</em>. Use <em>*</em> to disable keyhints</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-keyhint-delay">keyhint-delay</h3>
+<div class="paragraph"><p>Time from pressing a key to seeing the keyhint dialog (ms)</p></div>
+<div class="paragraph"><p>Default: <code>500</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-prompt-radius">prompt-radius</h3>
+<div class="paragraph"><p>The rounding radius for the edges of prompts.</p></div>
+<div class="paragraph"><p>Default: <code>8</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="ui-prompt-filebrowser">prompt-filebrowser</h3>
+<div class="paragraph"><p>Show a filebrowser in upload/download prompts.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_network">network</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Settings related to the network.</p></div>
+<div class="sect2">
+<h3 id="network-do-not-track">do-not-track</h3>
+<div class="paragraph"><p>Value to send in the <code>DNT</code> header.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="network-accept-language">accept-language</h3>
+<div class="paragraph"><p>Value to send in the <code>accept-language</code> header.</p></div>
+<div class="paragraph"><p>Default: <code>en-US,en</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="network-referer-header">referer-header</h3>
+<div class="paragraph"><p>Send the Referer header</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Always send.
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Never send; this is not recommended, as some sites may break.
+</p>
+</li>
+<li>
+<p>
+<code>same-domain</code>: Only send for the same domain. This will still protect your privacy, but shouldn&#8217;t break any sites.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>same-domain</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="network-user-agent">user-agent</h3>
+<div class="paragraph"><p>User agent to send. Empty to send the default.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="network-proxy">proxy</h3>
+<div class="paragraph"><p>The proxy to use.</p></div>
+<div class="paragraph"><p>In addition to the listed values, you can use a <code>socks://...</code> or <code>http://...</code> URL.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>system</code>: Use the system wide proxy.
+</p>
+</li>
+<li>
+<p>
+<code>none</code>: Don&#8217;t use any proxy
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>system</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="network-proxy-dns-requests">proxy-dns-requests</h3>
+<div class="paragraph"><p>Whether to send DNS requests over the configured proxy.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="network-ssl-strict">ssl-strict</h3>
+<div class="paragraph"><p>Whether to validate SSL handshakes.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+<li>
+<p>
+<code>ask</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>ask</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="network-dns-prefetch">dns-prefetch</h3>
+<div class="paragraph"><p>Whether to try to pre-fetch DNS entries to speed up browsing.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="network-custom-headers">custom-headers</h3>
+<div class="paragraph"><p>Set custom headers for qutebrowser HTTP requests.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="network-netrc-file">netrc-file</h3>
+<div class="paragraph"><p>Set location of a netrc-file for HTTP authentication. If empty, ~/.netrc is used.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_completion">completion</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Options related to completion and command history.</p></div>
+<div class="sect2">
+<h3 id="completion-show">show</h3>
+<div class="paragraph"><p>When to show the autocompletion window.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Whenever a completion is available.
+</p>
+</li>
+<li>
+<p>
+<code>auto</code>: Whenever a completion is requested.
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Never.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>always</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="completion-download-path-suggestion">download-path-suggestion</h3>
+<div class="paragraph"><p>What to display in the download filename input.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>path</code>: Show only the download path.
+</p>
+</li>
+<li>
+<p>
+<code>filename</code>: Show only download filename.
+</p>
+</li>
+<li>
+<p>
+<code>both</code>: Show download path and filename.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>path</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="completion-timestamp-format">timestamp-format</h3>
+<div class="paragraph"><p>How to format timestamps (e.g. for history)</p></div>
+<div class="paragraph"><p>Default: <code>%Y-%m-%d</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="completion-height">height</h3>
+<div class="paragraph"><p>The height of the completion, in px or as percentage of the window.</p></div>
+<div class="paragraph"><p>Default: <code>50%</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="completion-cmd-history-max-items">cmd-history-max-items</h3>
+<div class="paragraph"><p>How many commands to save in the command history.</p></div>
+<div class="paragraph"><p>0: no history / -1: unlimited</p></div>
+<div class="paragraph"><p>Default: <code>100</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="completion-web-history-max-items">web-history-max-items</h3>
+<div class="paragraph"><p>How many URLs to show in the web history.</p></div>
+<div class="paragraph"><p>0: no history / -1: unlimited</p></div>
+<div class="paragraph"><p>Default: <code>1000</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="completion-quick-complete">quick-complete</h3>
+<div class="paragraph"><p>Whether to move on to the next part when there&#8217;s only one possible completion left.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="completion-shrink">shrink</h3>
+<div class="paragraph"><p>Whether to shrink the completion to be smaller than the configured size if there are no scrollbars.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="completion-scrollbar-width">scrollbar-width</h3>
+<div class="paragraph"><p>Width of the scrollbar in the completion window (in px).</p></div>
+<div class="paragraph"><p>Default: <code>12</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="completion-scrollbar-padding">scrollbar-padding</h3>
+<div class="paragraph"><p>Padding of scrollbar handle in completion window (in px).</p></div>
+<div class="paragraph"><p>Default: <code>2</code></p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_input">input</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Options related to input modes.</p></div>
+<div class="sect2">
+<h3 id="input-timeout">timeout</h3>
+<div class="paragraph"><p>Timeout (in milliseconds) for ambiguous key bindings.</p></div>
+<div class="paragraph"><p>If the current input forms both a complete match and a partial match, the complete match will be executed after this time.</p></div>
+<div class="paragraph"><p>Default: <code>500</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="input-partial-timeout">partial-timeout</h3>
+<div class="paragraph"><p>Timeout (in milliseconds) for partially typed key bindings.</p></div>
+<div class="paragraph"><p>If the current input forms only partial matches, the keystring will be cleared after this time.</p></div>
+<div class="paragraph"><p>Default: <code>5000</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="input-insert-mode-on-plugins">insert-mode-on-plugins</h3>
+<div class="paragraph"><p>Whether to switch to insert mode when clicking flash and other plugins.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="input-auto-leave-insert-mode">auto-leave-insert-mode</h3>
+<div class="paragraph"><p>Whether to leave insert mode if a non-editable element is clicked.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="input-auto-insert-mode">auto-insert-mode</h3>
+<div class="paragraph"><p>Whether to automatically enter insert mode if an editable element is focused after page load.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="input-forward-unbound-keys">forward-unbound-keys</h3>
+<div class="paragraph"><p>Whether to forward unbound keys to the webview in normal mode.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>all</code>: Forward all unbound keys.
+</p>
+</li>
+<li>
+<p>
+<code>auto</code>: Forward unbound non-alphanumeric keys.
+</p>
+</li>
+<li>
+<p>
+<code>none</code>: Don&#8217;t forward any keys.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>auto</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="input-spatial-navigation">spatial-navigation</h3>
+<div class="paragraph"><p>Enables or disables the Spatial Navigation feature.</p></div>
+<div class="paragraph"><p>Spatial navigation consists in the ability to navigate between focusable elements in a Web page, such as hyperlinks and form controls, by using Left, Right, Up and Down arrow keys. For example, if a user presses the Right key, heuristics determine whether there is an element he might be trying to reach towards the right and which element he probably wants.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="input-links-included-in-focus-chain">links-included-in-focus-chain</h3>
+<div class="paragraph"><p>Whether hyperlinks should be included in the keyboard focus chain.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="input-rocker-gestures">rocker-gestures</h3>
+<div class="paragraph"><p>Whether to enable Opera-like mouse rocker gestures. This disables the context menu.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="input-mouse-zoom-divider">mouse-zoom-divider</h3>
+<div class="paragraph"><p>How much to divide the mouse wheel movements to translate them into zoom increments.</p></div>
+<div class="paragraph"><p>Default: <code>512</code></p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tabs">tabs</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Configuration of the tab bar.</p></div>
+<div class="sect2">
+<h3 id="tabs-background-tabs">background-tabs</h3>
+<div class="paragraph"><p>Whether to open new tabs (middleclick/ctrl+click) in background.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-select-on-remove">select-on-remove</h3>
+<div class="paragraph"><p>Which tab to select when the focused tab is removed.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>prev</code>: Select the tab which came before the closed one (left in horizontal, above in vertical).
+</p>
+</li>
+<li>
+<p>
+<code>next</code>: Select the tab which came after the closed one (right in horizontal, below in vertical).
+</p>
+</li>
+<li>
+<p>
+<code>last-used</code>: Select the previously selected tab.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>next</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-new-tab-position">new-tab-position</h3>
+<div class="paragraph"><p>How new tabs are positioned.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>prev</code>: Before the current tab.
+</p>
+</li>
+<li>
+<p>
+<code>next</code>: After the current tab.
+</p>
+</li>
+<li>
+<p>
+<code>first</code>: At the beginning.
+</p>
+</li>
+<li>
+<p>
+<code>last</code>: At the end.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>next</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-new-tab-position-explicit">new-tab-position-explicit</h3>
+<div class="paragraph"><p>How new tabs opened explicitly are positioned.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>prev</code>: Before the current tab.
+</p>
+</li>
+<li>
+<p>
+<code>next</code>: After the current tab.
+</p>
+</li>
+<li>
+<p>
+<code>first</code>: At the beginning.
+</p>
+</li>
+<li>
+<p>
+<code>last</code>: At the end.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>last</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-last-close">last-close</h3>
+<div class="paragraph"><p>Behavior when the last tab is closed.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>ignore</code>: Don&#8217;t do anything.
+</p>
+</li>
+<li>
+<p>
+<code>blank</code>: Load a blank page.
+</p>
+</li>
+<li>
+<p>
+<code>startpage</code>: Load the start page.
+</p>
+</li>
+<li>
+<p>
+<code>default-page</code>: Load the default page.
+</p>
+</li>
+<li>
+<p>
+<code>close</code>: Close the window.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>ignore</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-show">show</h3>
+<div class="paragraph"><p>When to show the tab bar</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Always show the tab bar.
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Always hide the tab bar.
+</p>
+</li>
+<li>
+<p>
+<code>multiple</code>: Hide the tab bar if only one tab is open.
+</p>
+</li>
+<li>
+<p>
+<code>switching</code>: Show the tab bar when switching tabs.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>always</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-show-switching-delay">show-switching-delay</h3>
+<div class="paragraph"><p>Time to show the tab bar before hiding it when tabs&#8594;show is set to <em>switching</em>.</p></div>
+<div class="paragraph"><p>Default: <code>800</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-wrap">wrap</h3>
+<div class="paragraph"><p>Whether to wrap when changing tabs.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-movable">movable</h3>
+<div class="paragraph"><p>Whether tabs should be movable.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-close-mouse-button">close-mouse-button</h3>
+<div class="paragraph"><p>On which mouse button to close tabs.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>right</code>: Close tabs on right-click.
+</p>
+</li>
+<li>
+<p>
+<code>middle</code>: Close tabs on middle-click.
+</p>
+</li>
+<li>
+<p>
+<code>none</code>: Don&#8217;t close tabs using the mouse.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>middle</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-position">position</h3>
+<div class="paragraph"><p>The position of the tab bar.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>top</code>
+</p>
+</li>
+<li>
+<p>
+<code>bottom</code>
+</p>
+</li>
+<li>
+<p>
+<code>left</code>
+</p>
+</li>
+<li>
+<p>
+<code>right</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>top</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-show-favicons">show-favicons</h3>
+<div class="paragraph"><p>Whether to show favicons in the tab bar.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-favicon-scale">favicon-scale</h3>
+<div class="paragraph"><p>Scale for favicons in the tab bar. The tab size is unchanged, so big favicons also require extra <code>tabs-&gt;padding</code>.</p></div>
+<div class="paragraph"><p>Default: <code>1.0</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-width">width</h3>
+<div class="paragraph"><p>The width of the tab bar if it&#8217;s vertical, in px or as percentage of the window.</p></div>
+<div class="paragraph"><p>Default: <code>20%</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-pinned-width">pinned-width</h3>
+<div class="paragraph"><p>The width for pinned tabs with a horizontal tabbar, in px.</p></div>
+<div class="paragraph"><p>Default: <code>43</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-indicator-width">indicator-width</h3>
+<div class="paragraph"><p>Width of the progress indicator (0 to disable).</p></div>
+<div class="paragraph"><p>Default: <code>3</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-tabs-are-windows">tabs-are-windows</h3>
+<div class="paragraph"><p>Whether to open windows instead of tabs.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-title-format">title-format</h3>
+<div class="paragraph"><p>The format to use for the tab title. The following placeholders are defined:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>{perc}</code>: The percentage as a string like <code>[10%]</code>.
+</p>
+</li>
+<li>
+<p>
+<code>{perc_raw}</code>: The raw percentage, e.g. <code>10</code>
+</p>
+</li>
+<li>
+<p>
+<code>{title}</code>: The title of the current web page
+</p>
+</li>
+<li>
+<p>
+<code>{title_sep}</code>: The string ` - ` if a title is set, empty otherwise.
+</p>
+</li>
+<li>
+<p>
+<code>{index}</code>: The index of this tab.
+</p>
+</li>
+<li>
+<p>
+<code>{id}</code>: The internal tab ID of this tab.
+</p>
+</li>
+<li>
+<p>
+<code>{scroll_pos}</code>: The page scroll position.
+</p>
+</li>
+<li>
+<p>
+<code>{host}</code>: The host of the current web page.
+</p>
+</li>
+<li>
+<p>
+<code>{backend}</code>: Either <em>webkit</em> or <em>webengine</em>
+</p>
+</li>
+<li>
+<p>
+<code>{private}</code> : Indicates when private mode is enabled.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>{index}: {title}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-title-format-pinned">title-format-pinned</h3>
+<div class="paragraph"><p>The format to use for the tab title for pinned tabs. The same placeholders like for title-format are defined.</p></div>
+<div class="paragraph"><p>Default: <code>{index}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-title-alignment">title-alignment</h3>
+<div class="paragraph"><p>Alignment of the text inside of tabs</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>left</code>
+</p>
+</li>
+<li>
+<p>
+<code>right</code>
+</p>
+</li>
+<li>
+<p>
+<code>center</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>left</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-mousewheel-tab-switching">mousewheel-tab-switching</h3>
+<div class="paragraph"><p>Switch between tabs using the mouse wheel.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-padding">padding</h3>
+<div class="paragraph"><p>Padding for tabs (top, bottom, left, right).</p></div>
+<div class="paragraph"><p>Default: <code>0,0,5,5</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs-indicator-padding">indicator-padding</h3>
+<div class="paragraph"><p>Padding for indicators (top, bottom, left, right).</p></div>
+<div class="paragraph"><p>Default: <code>2,2,0,4</code></p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_storage">storage</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Settings related to cache and storage.</p></div>
+<div class="sect2">
+<h3 id="storage-download-directory">download-directory</h3>
+<div class="paragraph"><p>The directory to save downloads to. An empty value selects a sensible os-specific default. Will expand environment variables.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="storage-prompt-download-directory">prompt-download-directory</h3>
+<div class="paragraph"><p>Whether to prompt the user for the download location.
+If set to false, <em>download-directory</em> will be used.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="storage-remember-download-directory">remember-download-directory</h3>
+<div class="paragraph"><p>Whether to remember the last used download directory.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="storage-maximum-pages-in-cache">maximum-pages-in-cache</h3>
+<div class="paragraph"><p>The maximum number of pages to hold in the global memory page cache.</p></div>
+<div class="paragraph"><p>The Page Cache allows for a nicer user experience when navigating forth or back to pages in the forward/back history, by pausing and resuming up to <em>n</em> pages.</p></div>
+<div class="paragraph"><p>For more information about the feature, please refer to: <a href="http://webkit.org/blog/427/webkit-page-cache-i-the-basics/">http://webkit.org/blog/427/webkit-page-cache-i-the-basics/</a></p></div>
+<div class="paragraph"><p>Default: <code>0</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="storage-offline-web-application-cache">offline-web-application-cache</h3>
+<div class="paragraph"><p>Whether support for the HTML 5 web application cache feature is enabled.</p></div>
+<div class="paragraph"><p>An application cache acts like an HTTP cache in some sense. For documents that use the application cache via JavaScript, the loader engine will first ask the application cache for the contents, before hitting the network.</p></div>
+<div class="paragraph"><p>The feature is described in details at: <a href="http://dev.w3.org/html5/spec/Overview.html#appcache">http://dev.w3.org/html5/spec/Overview.html#appcache</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="storage-local-storage">local-storage</h3>
+<div class="paragraph"><p>Whether support for HTML 5 local storage and Web SQL is enabled.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="storage-cache-size">cache-size</h3>
+<div class="paragraph"><p>Size of the HTTP network cache. Empty to use the default value.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_content">content</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Loaded plugins/scripts and allowed actions.</p></div>
+<div class="sect2">
+<h3 id="content-allow-images">allow-images</h3>
+<div class="paragraph"><p>Whether images are automatically loaded in web pages.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-allow-javascript">allow-javascript</h3>
+<div class="paragraph"><p>Enables or disables the running of JavaScript programs.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-allow-plugins">allow-plugins</h3>
+<div class="paragraph"><p>Enables or disables plugins in Web pages.</p></div>
+<div class="paragraph"><p>Qt plugins with a mimetype such as "application/x-qt-plugin" are not affected by this setting.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-webgl">webgl</h3>
+<div class="paragraph"><p>Enables or disables WebGL.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-hyperlink-auditing">hyperlink-auditing</h3>
+<div class="paragraph"><p>Enable or disable hyperlink auditing (&lt;a ping&gt;).</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-geolocation">geolocation</h3>
+<div class="paragraph"><p>Allow websites to request geolocations.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+<li>
+<p>
+<code>ask</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>ask</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-notifications">notifications</h3>
+<div class="paragraph"><p>Allow websites to show notifications.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+<li>
+<p>
+<code>ask</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>ask</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-media-capture">media-capture</h3>
+<div class="paragraph"><p>Allow websites to record audio/video.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+<li>
+<p>
+<code>ask</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>ask</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="content-javascript-can-open-windows-automatically">javascript-can-open-windows-automatically</h3>
+<div class="paragraph"><p>Whether JavaScript programs can open new windows without user interaction.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-javascript-can-close-windows">javascript-can-close-windows</h3>
+<div class="paragraph"><p>Whether JavaScript programs can close windows.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="content-javascript-can-access-clipboard">javascript-can-access-clipboard</h3>
+<div class="paragraph"><p>Whether JavaScript programs can read or write to the clipboard.
+With QtWebEngine, writing the clipboard as response to a user interaction is always allowed.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-ignore-javascript-prompt">ignore-javascript-prompt</h3>
+<div class="paragraph"><p>Whether all javascript prompts should be ignored.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-ignore-javascript-alert">ignore-javascript-alert</h3>
+<div class="paragraph"><p>Whether all javascript alerts should be ignored.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-local-content-can-access-remote-urls">local-content-can-access-remote-urls</h3>
+<div class="paragraph"><p>Whether locally loaded documents are allowed to access remote urls.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-local-content-can-access-file-urls">local-content-can-access-file-urls</h3>
+<div class="paragraph"><p>Whether locally loaded documents are allowed to access other local urls.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-cookies-accept">cookies-accept</h3>
+<div class="paragraph"><p>Control which cookies to accept.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>all</code>: Accept all cookies.
+</p>
+</li>
+<li>
+<p>
+<code>no-3rdparty</code>: Accept cookies from the same origin only.
+</p>
+</li>
+<li>
+<p>
+<code>no-unknown-3rdparty</code>: Accept cookies from the same origin only, unless a cookie is already set for the domain.
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Don&#8217;t accept cookies at all.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>no-3rdparty</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="content-cookies-store">cookies-store</h3>
+<div class="paragraph"><p>Whether to store cookies. Note this option needs a restart with QtWebEngine on Qt &lt; 5.9.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-host-block-lists">host-block-lists</h3>
+<div class="paragraph"><p>List of URLs of lists which contain hosts to block.</p></div>
+<div class="paragraph"><p>The file can be in one of the following formats:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+An <em>/etc/hosts</em>-like file
+</p>
+</li>
+<li>
+<p>
+One host per line
+</p>
+</li>
+<li>
+<p>
+A zip-file of any of the above, with either only one file, or a file named <em>hosts</em> (with any extension).
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>https://www.malwaredomainlist.com/hostslist/hosts.txt,http://someonewhocares.org/hosts/hosts,http://winhelp2002.mvps.org/hosts.zip,http://malwaredomains.lehigh.edu/files/justdomains.zip,https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&amp;mimetype=plaintext</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-host-blocking-enabled">host-blocking-enabled</h3>
+<div class="paragraph"><p>Whether host blocking is enabled.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-host-blocking-whitelist">host-blocking-whitelist</h3>
+<div class="paragraph"><p>List of domains that should always be loaded, despite being ad-blocked.</p></div>
+<div class="paragraph"><p>Domains may contain * and ? wildcards and are otherwise required to exactly match the requested domain.</p></div>
+<div class="paragraph"><p>Local domains are always exempt from hostblocking.</p></div>
+<div class="paragraph"><p>Default: <code>piwik.org</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content-enable-pdfjs">enable-pdfjs</h3>
+<div class="paragraph"><p>Enable pdf.js to view PDF files in the browser.</p></div>
+<div class="paragraph"><p>Note that the files can still be downloaded by clicking the download button in the pdf.js viewer.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hints">hints</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Hinting settings.</p></div>
+<div class="sect2">
+<h3 id="hints-border">border</h3>
+<div class="paragraph"><p>CSS border value for hints.</p></div>
+<div class="paragraph"><p>Default: <code>1px solid #E3BE23</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints-mode">mode</h3>
+<div class="paragraph"><p>Mode to use for hints.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>number</code>: Use numeric hints. (In this mode you can also type letters form the hinted element to filter and reduce the number of elements that are hinted.)
+</p>
+</li>
+<li>
+<p>
+<code>letter</code>: Use the chars in the hints &#8594; chars setting.
+</p>
+</li>
+<li>
+<p>
+<code>word</code>: Use hints words based on the html elements and the extra words.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>letter</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints-chars">chars</h3>
+<div class="paragraph"><p>Chars used for hint strings.</p></div>
+<div class="paragraph"><p>Default: <code>asdfghjkl</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints-min-chars">min-chars</h3>
+<div class="paragraph"><p>Minimum number of chars used for hint strings.</p></div>
+<div class="paragraph"><p>Default: <code>1</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints-scatter">scatter</h3>
+<div class="paragraph"><p>Whether to scatter hint key chains (like Vimium) or not (like dwb). Ignored for number hints.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints-uppercase">uppercase</h3>
+<div class="paragraph"><p>Make chars in hint strings uppercase.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints-dictionary">dictionary</h3>
+<div class="paragraph"><p>The dictionary file to be used by the word hints.</p></div>
+<div class="paragraph"><p>Default: <code>/usr/share/dict/words</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints-auto-follow">auto-follow</h3>
+<div class="paragraph"><p>Controls when a hint can be automatically followed without the user pressing Enter.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Auto-follow whenever there is only a single hint on a page.
+</p>
+</li>
+<li>
+<p>
+<code>unique-match</code>: Auto-follow whenever there is a unique non-empty match in either the hint string (word mode) or filter (number mode).
+</p>
+</li>
+<li>
+<p>
+<code>full-match</code>: Follow the hint when the user typed the whole hint (letter, word or number mode) or the element&#8217;s text (only in number mode).
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: The user will always need to press Enter to follow a hint.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>unique-match</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints-auto-follow-timeout">auto-follow-timeout</h3>
+<div class="paragraph"><p>A timeout (in milliseconds) to inhibit normal-mode key bindings after a successful auto-follow.</p></div>
+<div class="paragraph"><p>Default: <code>0</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints-next-regexes">next-regexes</h3>
+<div class="paragraph"><p>A comma-separated list of regexes to use for <em>next</em> links.</p></div>
+<div class="paragraph"><p>Default: <code>\bnext\b,\bmore\b,\bnewer\b,\b[&gt;→≫\b,\b(&gt;&gt;|»)\b,\bcontinue\b]</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints-prev-regexes">prev-regexes</h3>
+<div class="paragraph"><p>A comma-separated list of regexes to use for <em>prev</em> links.</p></div>
+<div class="paragraph"><p>Default: <code>\bprev(ious)?\b,\bback\b,\bolder\b,\b[&lt;←≪\b,\b(&lt;&lt;|«)\b]</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints-find-implementation">find-implementation</h3>
+<div class="paragraph"><p>Which implementation to use to find elements to hint.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>javascript</code>: Better but slower
+</p>
+</li>
+<li>
+<p>
+<code>python</code>: Slightly worse but faster
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>python</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints-hide-unmatched-rapid-hints">hide-unmatched-rapid-hints</h3>
+<div class="paragraph"><p>Controls hiding unmatched hints in rapid mode.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_searchengines">searchengines</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Definitions of search engines which can be used via the address bar.
+The searchengine named <code>DEFAULT</code> is used when <code>general -&gt; auto-search</code> is true and something else than a URL was entered to be opened. Other search engines can be used by prepending the search engine name to the search term, e.g. <code>:open google qutebrowser</code>. The string <code>{}</code> will be replaced by the search term, use <code>{{</code> and <code>}}</code> for literal <code>{</code>/<code>}</code> signs.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_aliases">aliases</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Aliases for commands.
+By default, no aliases are defined. Example which adds a new command <code>:qtb</code> to open qutebrowsers website:</p></div>
+<div class="paragraph"><p><code>qtb = open https://www.qutebrowser.org/</code></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_colors">colors</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Colors used in the UI.
+A value can be in one of the following format:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>#RGB</code>/<code>#RRGGBB</code>/<code>#RRRGGGBBB</code>/<code>#RRRRGGGGBBBB</code>
+</p>
+</li>
+<li>
+<p>
+An SVG color name as specified in <a href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">the W3C specification</a>.
+</p>
+</li>
+<li>
+<p>
+transparent (no color)
+</p>
+</li>
+<li>
+<p>
+<code>rgb(r, g, b)</code> / <code>rgba(r, g, b, a)</code> (values 0-255 or percentages)
+</p>
+</li>
+<li>
+<p>
+<code>hsv(h, s, v)</code> / <code>hsva(h, s, v, a)</code> (values 0-255, hue 0-359)
+</p>
+</li>
+<li>
+<p>
+A gradient as explained in <a href="http://doc.qt.io/qt-5/stylesheet-reference.html#list-of-property-types">the Qt documentation</a> under &#8220;Gradient&#8221;.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>A *.system value determines the color system to use for color interpolation between similarly-named *.start and *.stop entries, regardless of how they are defined in the options. Valid values are <em>rgb</em>, <em>hsv</em>, and <em>hsl</em>.</p></div>
+<div class="paragraph"><p>The <code>hints.*</code> values are a special case as they&#8217;re real CSS colors, not Qt-CSS colors. There, for a gradient, you need to use <code>-webkit-gradient</code>, see <a href="https://www.webkit.org/blog/175/introducing-css-gradients/">the WebKit documentation</a>.</p></div>
+<div class="sect2">
+<h3 id="colors-completion.fg">completion.fg</h3>
+<div class="paragraph"><p>Text color of the completion widget.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.bg">completion.bg</h3>
+<div class="paragraph"><p>Background color of the completion widget.</p></div>
+<div class="paragraph"><p>Default: <code>#333333</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.alternate-bg">completion.alternate-bg</h3>
+<div class="paragraph"><p>Alternating background color of the completion widget.</p></div>
+<div class="paragraph"><p>Default: <code>#444444</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.category.fg">completion.category.fg</h3>
+<div class="paragraph"><p>Foreground color of completion widget category headers.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.category.bg">completion.category.bg</h3>
+<div class="paragraph"><p>Background color of the completion widget category headers.</p></div>
+<div class="paragraph"><p>Default: <code>qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #888888, stop:1 #505050)</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.category.border.top">completion.category.border.top</h3>
+<div class="paragraph"><p>Top border color of the completion widget category headers.</p></div>
+<div class="paragraph"><p>Default: <code>black</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.category.border.bottom">completion.category.border.bottom</h3>
+<div class="paragraph"><p>Bottom border color of the completion widget category headers.</p></div>
+<div class="paragraph"><p>Default: <code>${completion.category.border.top}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.item.selected.fg">completion.item.selected.fg</h3>
+<div class="paragraph"><p>Foreground color of the selected completion item.</p></div>
+<div class="paragraph"><p>Default: <code>black</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.item.selected.bg">completion.item.selected.bg</h3>
+<div class="paragraph"><p>Background color of the selected completion item.</p></div>
+<div class="paragraph"><p>Default: <code>#e8c000</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.item.selected.border.top">completion.item.selected.border.top</h3>
+<div class="paragraph"><p>Top border color of the completion widget category headers.</p></div>
+<div class="paragraph"><p>Default: <code>#bbbb00</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.item.selected.border.bottom">completion.item.selected.border.bottom</h3>
+<div class="paragraph"><p>Bottom border color of the selected completion item.</p></div>
+<div class="paragraph"><p>Default: <code>${completion.item.selected.border.top}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.match.fg">completion.match.fg</h3>
+<div class="paragraph"><p>Foreground color of the matched text in the completion.</p></div>
+<div class="paragraph"><p>Default: <code>#ff4444</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.scrollbar.fg">completion.scrollbar.fg</h3>
+<div class="paragraph"><p>Color of the scrollbar handle in completion view.</p></div>
+<div class="paragraph"><p>Default: <code>${completion.fg}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-completion.scrollbar.bg">completion.scrollbar.bg</h3>
+<div class="paragraph"><p>Color of the scrollbar in completion view</p></div>
+<div class="paragraph"><p>Default: <code>${completion.bg}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.fg">statusbar.fg</h3>
+<div class="paragraph"><p>Foreground color of the statusbar.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.bg">statusbar.bg</h3>
+<div class="paragraph"><p>Background color of the statusbar.</p></div>
+<div class="paragraph"><p>Default: <code>black</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.fg.private">statusbar.fg.private</h3>
+<div class="paragraph"><p>Foreground color of the statusbar in private browsing mode.</p></div>
+<div class="paragraph"><p>Default: <code>${statusbar.fg}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.bg.private">statusbar.bg.private</h3>
+<div class="paragraph"><p>Background color of the statusbar in private browsing mode.</p></div>
+<div class="paragraph"><p>Default: <code>#666666</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.fg.insert">statusbar.fg.insert</h3>
+<div class="paragraph"><p>Foreground color of the statusbar in insert mode.</p></div>
+<div class="paragraph"><p>Default: <code>${statusbar.fg}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.bg.insert">statusbar.bg.insert</h3>
+<div class="paragraph"><p>Background color of the statusbar in insert mode.</p></div>
+<div class="paragraph"><p>Default: <code>darkgreen</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.fg.command">statusbar.fg.command</h3>
+<div class="paragraph"><p>Foreground color of the statusbar in command mode.</p></div>
+<div class="paragraph"><p>Default: <code>${statusbar.fg}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.bg.command">statusbar.bg.command</h3>
+<div class="paragraph"><p>Background color of the statusbar in command mode.</p></div>
+<div class="paragraph"><p>Default: <code>${statusbar.bg}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.fg.command.private">statusbar.fg.command.private</h3>
+<div class="paragraph"><p>Foreground color of the statusbar in private browsing + command mode.</p></div>
+<div class="paragraph"><p>Default: <code>${statusbar.fg.private}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.bg.command.private">statusbar.bg.command.private</h3>
+<div class="paragraph"><p>Background color of the statusbar in private browsing + command mode.</p></div>
+<div class="paragraph"><p>Default: <code>${statusbar.bg.private}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.fg.caret">statusbar.fg.caret</h3>
+<div class="paragraph"><p>Foreground color of the statusbar in caret mode.</p></div>
+<div class="paragraph"><p>Default: <code>${statusbar.fg}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.bg.caret">statusbar.bg.caret</h3>
+<div class="paragraph"><p>Background color of the statusbar in caret mode.</p></div>
+<div class="paragraph"><p>Default: <code>purple</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.fg.caret-selection">statusbar.fg.caret-selection</h3>
+<div class="paragraph"><p>Foreground color of the statusbar in caret mode with a selection</p></div>
+<div class="paragraph"><p>Default: <code>${statusbar.fg}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.bg.caret-selection">statusbar.bg.caret-selection</h3>
+<div class="paragraph"><p>Background color of the statusbar in caret mode with a selection</p></div>
+<div class="paragraph"><p>Default: <code>#a12dff</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.progress.bg">statusbar.progress.bg</h3>
+<div class="paragraph"><p>Background color of the progress bar.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.url.fg">statusbar.url.fg</h3>
+<div class="paragraph"><p>Default foreground color of the URL in the statusbar.</p></div>
+<div class="paragraph"><p>Default: <code>${statusbar.fg}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.url.fg.success">statusbar.url.fg.success</h3>
+<div class="paragraph"><p>Foreground color of the URL in the statusbar on successful load (http).</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.url.fg.success.https">statusbar.url.fg.success.https</h3>
+<div class="paragraph"><p>Foreground color of the URL in the statusbar on successful load (https).</p></div>
+<div class="paragraph"><p>Default: <code>lime</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.url.fg.error">statusbar.url.fg.error</h3>
+<div class="paragraph"><p>Foreground color of the URL in the statusbar on error.</p></div>
+<div class="paragraph"><p>Default: <code>orange</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.url.fg.warn">statusbar.url.fg.warn</h3>
+<div class="paragraph"><p>Foreground color of the URL in the statusbar when there&#8217;s a warning.</p></div>
+<div class="paragraph"><p>Default: <code>yellow</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-statusbar.url.fg.hover">statusbar.url.fg.hover</h3>
+<div class="paragraph"><p>Foreground color of the URL in the statusbar for hovered links.</p></div>
+<div class="paragraph"><p>Default: <code>aqua</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.fg.odd">tabs.fg.odd</h3>
+<div class="paragraph"><p>Foreground color of unselected odd tabs.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.bg.odd">tabs.bg.odd</h3>
+<div class="paragraph"><p>Background color of unselected odd tabs.</p></div>
+<div class="paragraph"><p>Default: <code>grey</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.fg.even">tabs.fg.even</h3>
+<div class="paragraph"><p>Foreground color of unselected even tabs.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.bg.even">tabs.bg.even</h3>
+<div class="paragraph"><p>Background color of unselected even tabs.</p></div>
+<div class="paragraph"><p>Default: <code>darkgrey</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.fg.selected.odd">tabs.fg.selected.odd</h3>
+<div class="paragraph"><p>Foreground color of selected odd tabs.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.bg.selected.odd">tabs.bg.selected.odd</h3>
+<div class="paragraph"><p>Background color of selected odd tabs.</p></div>
+<div class="paragraph"><p>Default: <code>black</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.fg.selected.even">tabs.fg.selected.even</h3>
+<div class="paragraph"><p>Foreground color of selected even tabs.</p></div>
+<div class="paragraph"><p>Default: <code>${tabs.fg.selected.odd}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.bg.selected.even">tabs.bg.selected.even</h3>
+<div class="paragraph"><p>Background color of selected even tabs.</p></div>
+<div class="paragraph"><p>Default: <code>${tabs.bg.selected.odd}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.bg.bar">tabs.bg.bar</h3>
+<div class="paragraph"><p>Background color of the tab bar.</p></div>
+<div class="paragraph"><p>Default: <code>#555555</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.indicator.start">tabs.indicator.start</h3>
+<div class="paragraph"><p>Color gradient start for the tab indicator.</p></div>
+<div class="paragraph"><p>Default: <code>#0000aa</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.indicator.stop">tabs.indicator.stop</h3>
+<div class="paragraph"><p>Color gradient end for the tab indicator.</p></div>
+<div class="paragraph"><p>Default: <code>#00aa00</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.indicator.error">tabs.indicator.error</h3>
+<div class="paragraph"><p>Color for the tab indicator on errors..</p></div>
+<div class="paragraph"><p>Default: <code>#ff0000</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-tabs.indicator.system">tabs.indicator.system</h3>
+<div class="paragraph"><p>Color gradient interpolation system for the tab indicator.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>rgb</code>: Interpolate in the RGB color system.
+</p>
+</li>
+<li>
+<p>
+<code>hsv</code>: Interpolate in the HSV color system.
+</p>
+</li>
+<li>
+<p>
+<code>hsl</code>: Interpolate in the HSL color system.
+</p>
+</li>
+<li>
+<p>
+<code>none</code>: Don&#8217;t show a gradient.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>rgb</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-hints.fg">hints.fg</h3>
+<div class="paragraph"><p>Font color for hints.</p></div>
+<div class="paragraph"><p>Default: <code>black</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-hints.bg">hints.bg</h3>
+<div class="paragraph"><p>Background color for hints. Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
+<div class="paragraph"><p>Default: <code>qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgba(255, 247, 133, 0.8), stop:1 rgba(255, 197, 66, 0.8))</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-hints.fg.match">hints.fg.match</h3>
+<div class="paragraph"><p>Font color for the matched part of hints.</p></div>
+<div class="paragraph"><p>Default: <code>green</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-downloads.bg.bar">downloads.bg.bar</h3>
+<div class="paragraph"><p>Background color for the download bar.</p></div>
+<div class="paragraph"><p>Default: <code>black</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-downloads.fg.start">downloads.fg.start</h3>
+<div class="paragraph"><p>Color gradient start for download text.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-downloads.bg.start">downloads.bg.start</h3>
+<div class="paragraph"><p>Color gradient start for download backgrounds.</p></div>
+<div class="paragraph"><p>Default: <code>#0000aa</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-downloads.fg.stop">downloads.fg.stop</h3>
+<div class="paragraph"><p>Color gradient end for download text.</p></div>
+<div class="paragraph"><p>Default: <code>${downloads.fg.start}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-downloads.bg.stop">downloads.bg.stop</h3>
+<div class="paragraph"><p>Color gradient stop for download backgrounds.</p></div>
+<div class="paragraph"><p>Default: <code>#00aa00</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-downloads.fg.system">downloads.fg.system</h3>
+<div class="paragraph"><p>Color gradient interpolation system for download text.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>rgb</code>: Interpolate in the RGB color system.
+</p>
+</li>
+<li>
+<p>
+<code>hsv</code>: Interpolate in the HSV color system.
+</p>
+</li>
+<li>
+<p>
+<code>hsl</code>: Interpolate in the HSL color system.
+</p>
+</li>
+<li>
+<p>
+<code>none</code>: Don&#8217;t show a gradient.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>rgb</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-downloads.bg.system">downloads.bg.system</h3>
+<div class="paragraph"><p>Color gradient interpolation system for download backgrounds.</p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>rgb</code>: Interpolate in the RGB color system.
+</p>
+</li>
+<li>
+<p>
+<code>hsv</code>: Interpolate in the HSV color system.
+</p>
+</li>
+<li>
+<p>
+<code>hsl</code>: Interpolate in the HSL color system.
+</p>
+</li>
+<li>
+<p>
+<code>none</code>: Don&#8217;t show a gradient.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>rgb</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-downloads.fg.error">downloads.fg.error</h3>
+<div class="paragraph"><p>Foreground color for downloads with errors.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-downloads.bg.error">downloads.bg.error</h3>
+<div class="paragraph"><p>Background color for downloads with errors.</p></div>
+<div class="paragraph"><p>Default: <code>red</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-webpage.bg">webpage.bg</h3>
+<div class="paragraph"><p>Background color for webpages if unset (or empty to use the theme&#8217;s color)</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-keyhint.fg">keyhint.fg</h3>
+<div class="paragraph"><p>Text color for the keyhint widget.</p></div>
+<div class="paragraph"><p>Default: <code>#FFFFFF</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-keyhint.fg.suffix">keyhint.fg.suffix</h3>
+<div class="paragraph"><p>Highlight color for keys to complete the current keychain</p></div>
+<div class="paragraph"><p>Default: <code>#FFFF00</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-keyhint.bg">keyhint.bg</h3>
+<div class="paragraph"><p>Background color of the keyhint widget.</p></div>
+<div class="paragraph"><p>Default: <code>rgba(0, 0, 0, 80%)</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-messages.fg.error">messages.fg.error</h3>
+<div class="paragraph"><p>Foreground color of an error message.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-messages.bg.error">messages.bg.error</h3>
+<div class="paragraph"><p>Background color of an error message.</p></div>
+<div class="paragraph"><p>Default: <code>red</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-messages.border.error">messages.border.error</h3>
+<div class="paragraph"><p>Border color of an error message.</p></div>
+<div class="paragraph"><p>Default: <code>#bb0000</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-messages.fg.warning">messages.fg.warning</h3>
+<div class="paragraph"><p>Foreground color a warning message.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-messages.bg.warning">messages.bg.warning</h3>
+<div class="paragraph"><p>Background color of a warning message.</p></div>
+<div class="paragraph"><p>Default: <code>darkorange</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-messages.border.warning">messages.border.warning</h3>
+<div class="paragraph"><p>Border color of an error message.</p></div>
+<div class="paragraph"><p>Default: <code>#d47300</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-messages.fg.info">messages.fg.info</h3>
+<div class="paragraph"><p>Foreground color an info message.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-messages.bg.info">messages.bg.info</h3>
+<div class="paragraph"><p>Background color of an info message.</p></div>
+<div class="paragraph"><p>Default: <code>black</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-messages.border.info">messages.border.info</h3>
+<div class="paragraph"><p>Border color of an info message.</p></div>
+<div class="paragraph"><p>Default: <code>#333333</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-prompts.fg">prompts.fg</h3>
+<div class="paragraph"><p>Foreground color for prompts.</p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-prompts.bg">prompts.bg</h3>
+<div class="paragraph"><p>Background color for prompts.</p></div>
+<div class="paragraph"><p>Default: <code>darkblue</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors-prompts.selected.bg">prompts.selected.bg</h3>
+<div class="paragraph"><p>Background color for the selected item in filename prompts.</p></div>
+<div class="paragraph"><p>Default: <code>#308cc6</code></p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fonts">fonts</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Fonts used for the UI, with optional style/weight/size.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Style: <code>normal</code>/<code>italic</code>/<code>oblique</code>
+</p>
+</li>
+<li>
+<p>
+Weight: <code>normal</code>, <code>bold</code>, <code>100</code>..<code>900</code>
+</p>
+</li>
+<li>
+<p>
+Size: <em>number</em> <code>px</code>/<code>pt</code>
+</p>
+</li>
+</ul></div>
+<div class="sect2">
+<h3 id="fonts-_monospace">_monospace</h3>
+<div class="paragraph"><p>Default monospace fonts.</p></div>
+<div class="paragraph"><p>Default: <code>xos4 Terminus, Terminus, Monospace, &quot;DejaVu Sans Mono&quot;, Monaco, &quot;Bitstream Vera Sans Mono&quot;, &quot;Andale Mono&quot;, &quot;Courier New&quot;, Courier, &quot;Liberation Mono&quot;, monospace, Fixed, Consolas, Terminal</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-completion">completion</h3>
+<div class="paragraph"><p>Font used in the completion widget.</p></div>
+<div class="paragraph"><p>Default: <code>8pt ${_monospace}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-completion.category">completion.category</h3>
+<div class="paragraph"><p>Font used in the completion categories.</p></div>
+<div class="paragraph"><p>Default: <code>bold ${completion}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-tabbar">tabbar</h3>
+<div class="paragraph"><p>Font used in the tab bar.</p></div>
+<div class="paragraph"><p>Default: <code>8pt ${_monospace}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-statusbar">statusbar</h3>
+<div class="paragraph"><p>Font used in the statusbar.</p></div>
+<div class="paragraph"><p>Default: <code>8pt ${_monospace}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-downloads">downloads</h3>
+<div class="paragraph"><p>Font used for the downloadbar.</p></div>
+<div class="paragraph"><p>Default: <code>8pt ${_monospace}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-hints">hints</h3>
+<div class="paragraph"><p>Font used for the hints.</p></div>
+<div class="paragraph"><p>Default: <code>bold 13px ${_monospace}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-debug-console">debug-console</h3>
+<div class="paragraph"><p>Font used for the debugging console.</p></div>
+<div class="paragraph"><p>Default: <code>8pt ${_monospace}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-web-family-standard">web-family-standard</h3>
+<div class="paragraph"><p>Font family for standard fonts.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-web-family-fixed">web-family-fixed</h3>
+<div class="paragraph"><p>Font family for fixed fonts.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-web-family-serif">web-family-serif</h3>
+<div class="paragraph"><p>Font family for serif fonts.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-web-family-sans-serif">web-family-sans-serif</h3>
+<div class="paragraph"><p>Font family for sans-serif fonts.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-web-family-cursive">web-family-cursive</h3>
+<div class="paragraph"><p>Font family for cursive fonts.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-web-family-fantasy">web-family-fantasy</h3>
+<div class="paragraph"><p>Font family for fantasy fonts.</p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-web-size-minimum">web-size-minimum</h3>
+<div class="paragraph"><p>The hard minimum font size.</p></div>
+<div class="paragraph"><p>Default: <code>0</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-web-size-minimum-logical">web-size-minimum-logical</h3>
+<div class="paragraph"><p>The minimum logical font size that is applied when zooming out.</p></div>
+<div class="paragraph"><p>Default: <code>6</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-web-size-default">web-size-default</h3>
+<div class="paragraph"><p>The default font size for regular text.</p></div>
+<div class="paragraph"><p>Default: <code>16</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-web-size-default-fixed">web-size-default-fixed</h3>
+<div class="paragraph"><p>The default font size for fixed-pitch text.</p></div>
+<div class="paragraph"><p>Default: <code>13</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-keyhint">keyhint</h3>
+<div class="paragraph"><p>Font used in the keyhint widget.</p></div>
+<div class="paragraph"><p>Default: <code>8pt ${_monospace}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-messages.error">messages.error</h3>
+<div class="paragraph"><p>Font used for error messages.</p></div>
+<div class="paragraph"><p>Default: <code>8pt ${_monospace}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-messages.warning">messages.warning</h3>
+<div class="paragraph"><p>Font used for warning messages.</p></div>
+<div class="paragraph"><p>Default: <code>8pt ${_monospace}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-messages.info">messages.info</h3>
+<div class="paragraph"><p>Font used for info messages.</p></div>
+<div class="paragraph"><p>Default: <code>8pt ${_monospace}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts-prompts">prompts</h3>
+<div class="paragraph"><p>Font used for prompts.</p></div>
+<div class="paragraph"><p>Default: <code>8pt sans-serif</code></p></div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2017-07-04 17:14:04 CEST
+</div>
+</div>
+</body>
+</html>

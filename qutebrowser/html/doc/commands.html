@@ -1,0 +1,4116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.9" />
+<title>Commands</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
+  padding: 0;
+  margin: 0;
+}
+pre {
+  white-space: pre-wrap;
+}
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #888;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; vertical-align: text-bottom; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install();
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>Commands</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>In qutebrowser, all keybindings are mapped to commands.</p></div>
+<div class="paragraph"><p>Some commands are hidden, which means they don&#8217;t show up in the command
+completion when pressing <code>:</code>, as they&#8217;re typically not useful to run by hand.</p></div>
+<div class="paragraph"><p>For command arguments, there are also some variables you can use:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>{url}</code> expands to the URL of the current page
+</p>
+</li>
+<li>
+<p>
+<code>{url:pretty}</code> expands to the URL in decoded format
+</p>
+</li>
+<li>
+<p>
+<code>{clipboard}</code> expands to the clipboard contents
+</p>
+</li>
+<li>
+<p>
+<code>{primary}</code> expands to the primary selection contents
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>It is possible to run or bind multiple commands by separating them with <code>;;</code>.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_normal_commands">Normal commands</h2>
+<div class="sectionbody">
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 1. Quick reference</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Command</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#adblock-update">adblock-update</a></p></td>
+<td align="left" valign="top"><p class="table">Update the adblock block lists.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#back">back</a></p></td>
+<td align="left" valign="top"><p class="table">Go back in the history of the current tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#bind">bind</a></p></td>
+<td align="left" valign="top"><p class="table">Bind a key to a command.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#bookmark-add">bookmark-add</a></p></td>
+<td align="left" valign="top"><p class="table">Save the current page as a bookmark, or a specific url.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#bookmark-del">bookmark-del</a></p></td>
+<td align="left" valign="top"><p class="table">Delete a bookmark.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#bookmark-load">bookmark-load</a></p></td>
+<td align="left" valign="top"><p class="table">Load a bookmark.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#buffer">buffer</a></p></td>
+<td align="left" valign="top"><p class="table">Select tab by index or url/title best match.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#close">close</a></p></td>
+<td align="left" valign="top"><p class="table">Close the current window.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#download">download</a></p></td>
+<td align="left" valign="top"><p class="table">Download a given URL, or current page if no URL given.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#download-cancel">download-cancel</a></p></td>
+<td align="left" valign="top"><p class="table">Cancel the last/[count]th download.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#download-clear">download-clear</a></p></td>
+<td align="left" valign="top"><p class="table">Remove all finished downloads from the list.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#download-delete">download-delete</a></p></td>
+<td align="left" valign="top"><p class="table">Delete the last/[count]th download from disk.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#download-open">download-open</a></p></td>
+<td align="left" valign="top"><p class="table">Open the last/[count]th download.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#download-remove">download-remove</a></p></td>
+<td align="left" valign="top"><p class="table">Remove the last/[count]th download from the list.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#download-retry">download-retry</a></p></td>
+<td align="left" valign="top"><p class="table">Retry the first failed/[count]th download.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#edit-url">edit-url</a></p></td>
+<td align="left" valign="top"><p class="table">Navigate to a url formed in an external editor.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fake-key">fake-key</a></p></td>
+<td align="left" valign="top"><p class="table">Send a fake keypress or key string to the website or qutebrowser.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#forward">forward</a></p></td>
+<td align="left" valign="top"><p class="table">Go forward in the history of the current tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fullscreen">fullscreen</a></p></td>
+<td align="left" valign="top"><p class="table">Toggle fullscreen mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#help">help</a></p></td>
+<td align="left" valign="top"><p class="table">Show help about a command or setting.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hint">hint</a></p></td>
+<td align="left" valign="top"><p class="table">Start hinting.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#history">history</a></p></td>
+<td align="left" valign="top"><p class="table">Show browsing history.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#history-clear">history-clear</a></p></td>
+<td align="left" valign="top"><p class="table">Clear all browsing history.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#home">home</a></p></td>
+<td align="left" valign="top"><p class="table">Open main startpage in current tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#insert-text">insert-text</a></p></td>
+<td align="left" valign="top"><p class="table">Insert text at cursor position.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#inspector">inspector</a></p></td>
+<td align="left" valign="top"><p class="table">Toggle the web inspector.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#jseval">jseval</a></p></td>
+<td align="left" valign="top"><p class="table">Evaluate a JavaScript string.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#later">later</a></p></td>
+<td align="left" valign="top"><p class="table">Execute a command after some time.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#messages">messages</a></p></td>
+<td align="left" valign="top"><p class="table">Show a log of past messages.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#navigate">navigate</a></p></td>
+<td align="left" valign="top"><p class="table">Open typical prev/next links or navigate using the URL path.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#open">open</a></p></td>
+<td align="left" valign="top"><p class="table">Open a URL in the current/[count]th tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#print">print</a></p></td>
+<td align="left" valign="top"><p class="table">Print the current/[count]th tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#quickmark-add">quickmark-add</a></p></td>
+<td align="left" valign="top"><p class="table">Add a new quickmark.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#quickmark-del">quickmark-del</a></p></td>
+<td align="left" valign="top"><p class="table">Delete a quickmark.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#quickmark-load">quickmark-load</a></p></td>
+<td align="left" valign="top"><p class="table">Load a quickmark.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#quickmark-save">quickmark-save</a></p></td>
+<td align="left" valign="top"><p class="table">Save the current page as a quickmark.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#quit">quit</a></p></td>
+<td align="left" valign="top"><p class="table">Quit qutebrowser.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#record-macro">record-macro</a></p></td>
+<td align="left" valign="top"><p class="table">Start or stop recording a macro.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#reload">reload</a></p></td>
+<td align="left" valign="top"><p class="table">Reload the current/[count]th tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#repeat">repeat</a></p></td>
+<td align="left" valign="top"><p class="table">Repeat a given command.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#report">report</a></p></td>
+<td align="left" valign="top"><p class="table">Report a bug in qutebrowser.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#restart">restart</a></p></td>
+<td align="left" valign="top"><p class="table">Restart qutebrowser while keeping existing tabs open.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#run-macro">run-macro</a></p></td>
+<td align="left" valign="top"><p class="table">Run a recorded macro.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#save">save</a></p></td>
+<td align="left" valign="top"><p class="table">Save configs and state.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#search">search</a></p></td>
+<td align="left" valign="top"><p class="table">Search for a text on the current page. With no text, clear results.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#session-delete">session-delete</a></p></td>
+<td align="left" valign="top"><p class="table">Delete a session.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#session-load">session-load</a></p></td>
+<td align="left" valign="top"><p class="table">Load a session.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#session-save">session-save</a></p></td>
+<td align="left" valign="top"><p class="table">Save a session.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#set">set</a></p></td>
+<td align="left" valign="top"><p class="table">Set an option.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#set-cmd-text">set-cmd-text</a></p></td>
+<td align="left" valign="top"><p class="table">Preset the statusbar to some text.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#spawn">spawn</a></p></td>
+<td align="left" valign="top"><p class="table">Spawn a command in a shell.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#stop">stop</a></p></td>
+<td align="left" valign="top"><p class="table">Stop loading in the current/[count]th tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tab-clone">tab-clone</a></p></td>
+<td align="left" valign="top"><p class="table">Duplicate the current tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tab-close">tab-close</a></p></td>
+<td align="left" valign="top"><p class="table">Close the current/[count]th tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tab-detach">tab-detach</a></p></td>
+<td align="left" valign="top"><p class="table">Detach the current tab to its own window.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tab-focus">tab-focus</a></p></td>
+<td align="left" valign="top"><p class="table">Select the tab given as argument/[count].</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tab-move">tab-move</a></p></td>
+<td align="left" valign="top"><p class="table">Move the current tab according to the argument and [count].</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tab-next">tab-next</a></p></td>
+<td align="left" valign="top"><p class="table">Switch to the next tab, or switch [count] tabs forward.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tab-only">tab-only</a></p></td>
+<td align="left" valign="top"><p class="table">Close all tabs except for the current one.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tab-pin">tab-pin</a></p></td>
+<td align="left" valign="top"><p class="table">Pin/Unpin the current/[count]th tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tab-prev">tab-prev</a></p></td>
+<td align="left" valign="top"><p class="table">Switch to the previous tab, or switch [count] tabs back.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#unbind">unbind</a></p></td>
+<td align="left" valign="top"><p class="table">Unbind a keychain.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#undo">undo</a></p></td>
+<td align="left" valign="top"><p class="table">Re-open a closed tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#view-source">view-source</a></p></td>
+<td align="left" valign="top"><p class="table">Show the source of the current page in a new tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#window-only">window-only</a></p></td>
+<td align="left" valign="top"><p class="table">Close all windows except for the current one.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#wq">wq</a></p></td>
+<td align="left" valign="top"><p class="table">Save open pages and quit.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#yank">yank</a></p></td>
+<td align="left" valign="top"><p class="table">Yank something to the clipboard or primary selection.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#zoom">zoom</a></p></td>
+<td align="left" valign="top"><p class="table">Set the zoom level for the current tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#zoom-in">zoom-in</a></p></td>
+<td align="left" valign="top"><p class="table">Increase the zoom level for the current tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#zoom-out">zoom-out</a></p></td>
+<td align="left" valign="top"><p class="table">Decrease the zoom level for the current tab.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="adblock-update">adblock-update</h3>
+<div class="paragraph"><p>Update the adblock block lists.</p></div>
+<div class="paragraph"><p>This updates <code>~/.local/share/qutebrowser/blocked-hosts</code> with downloaded host lists and re-reads <code>~/.config/qutebrowser/blocked-hosts</code>.</p></div>
+</div>
+<div class="sect2">
+<h3 id="back">back</h3>
+<div class="paragraph"><p>Syntax: <code>:back [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>]</code></p></div>
+<div class="paragraph"><p>Go back in the history of the current tab.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Go back in a new tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bg</strong></code>: Go back in a background tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Go back in a new window.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count">count</h4>
+<div class="paragraph"><p>How many pages to go back.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="bind">bind</h3>
+<div class="paragraph"><p>Syntax: <code>:bind [<strong>--mode</strong> <em>mode</em>] [<strong>--force</strong>] <em>key</em> [<em>command</em>]</code></p></div>
+<div class="paragraph"><p>Bind a key to a command.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>key</em></code>: The keychain or special key (inside <code>&lt;...&gt;</code>) to bind.
+</p>
+</li>
+<li>
+<p>
+<code><em>command</em></code>: The command to execute, with optional args, or not given to print the current binding.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_2">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-m</strong></code>, <code><strong>--mode</strong></code>: A comma-separated list of modes to bind the key in (default: <code>normal</code>).
+</p>
+</li>
+<li>
+<p>
+<code><strong>-f</strong></code>, <code><strong>--force</strong></code>: Rebind the key if it is already bound.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+<li>
+<p>
+With this command, <code>;;</code> is interpreted literally instead of splitting off a second command.
+</p>
+</li>
+<li>
+<p>
+This command does not replace variables like <code>{url}</code>.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="bookmark-add">bookmark-add</h3>
+<div class="paragraph"><p>Syntax: <code>:bookmark-add [<strong>--toggle</strong>] [<em>url</em>] [<em>title</em>]</code></p></div>
+<div class="paragraph"><p>Save the current page as a bookmark, or a specific url.</p></div>
+<div class="paragraph"><p>If no url and title are provided, then save the current page as a bookmark. If a url and title have been provided, then save the given url as a bookmark with the provided title. You can view all saved bookmarks on the <a href="qute://bookmarks">bookmarks page</a>.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_2">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>url</em></code>: url to save as a bookmark. If None, use url of current page.
+</p>
+</li>
+<li>
+<p>
+<code><em>title</em></code>: title of the new bookmark.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_3">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--toggle</strong></code>: remove the bookmark instead of raising an error if it already exists.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="bookmark-del">bookmark-del</h3>
+<div class="paragraph"><p>Syntax: <code>:bookmark-del [<em>url</em>]</code></p></div>
+<div class="paragraph"><p>Delete a bookmark.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_3">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>url</em></code>: The url of the bookmark to delete. If not given, use the current page&#8217;s url.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_2">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="bookmark-load">bookmark-load</h3>
+<div class="paragraph"><p>Syntax: <code>:bookmark-load [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>] [<strong>--delete</strong>] <em>url</em></code></p></div>
+<div class="paragraph"><p>Load a bookmark.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_4">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>url</em></code>: The url of the bookmark to load.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_4">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Load the bookmark in a new tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bg</strong></code>: Load the bookmark in a new background tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Load the bookmark in a new window.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-d</strong></code>, <code><strong>--delete</strong></code>: Whether to delete the bookmark afterwards.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_3">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="buffer">buffer</h3>
+<div class="paragraph"><p>Syntax: <code>:buffer <em>index</em></code></p></div>
+<div class="paragraph"><p>Select tab by index or url/title best match.</p></div>
+<div class="paragraph"><p>Focuses window if necessary.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_5">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>index</em></code>: The [win_id/]index of the tab to focus. Or a substring in which case the closest match will be focused.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="close">close</h3>
+<div class="paragraph"><p>Close the current window.</p></div>
+</div>
+<div class="sect2">
+<h3 id="download">download</h3>
+<div class="paragraph"><p>Syntax: <code>:download [<strong>--mhtml</strong>] [<strong>--dest</strong> <em>dest</em>] [<em>url</em>] [<em>dest-old</em>]</code></p></div>
+<div class="paragraph"><p>Download a given URL, or current page if no URL given.</p></div>
+<div class="paragraph"><p>The form <code>:download [url] [dest]</code> is deprecated, use <code>:download --dest [dest] [url]</code> instead.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_6">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>url</em></code>: The URL to download. If not given, download the current page.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_5">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-m</strong></code>, <code><strong>--mhtml</strong></code>: Download the current page and all assets as mhtml file.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-d</strong></code>, <code><strong>--dest</strong></code>: The file path to write the download to, or not given to ask.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="download-cancel">download-cancel</h3>
+<div class="paragraph"><p>Syntax: <code>:download-cancel [<strong>--all</strong>]</code></p></div>
+<div class="paragraph"><p>Cancel the last/[count]th download.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_6">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-a</strong></code>, <code><strong>--all</strong></code>: Cancel all running downloads
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_2">count</h4>
+<div class="paragraph"><p>The index of the download to cancel.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="download-clear">download-clear</h3>
+<div class="paragraph"><p>Remove all finished downloads from the list.</p></div>
+</div>
+<div class="sect2">
+<h3 id="download-delete">download-delete</h3>
+<div class="paragraph"><p>Delete the last/[count]th download from disk.</p></div>
+<div class="sect3">
+<h4 id="_count_3">count</h4>
+<div class="paragraph"><p>The index of the download to delete.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="download-open">download-open</h3>
+<div class="paragraph"><p>Syntax: <code>:download-open [<em>cmdline</em>]</code></p></div>
+<div class="paragraph"><p>Open the last/[count]th download.</p></div>
+<div class="paragraph"><p>If no specific command is given, this will use the system&#8217;s default application to open the file.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_7">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>cmdline</em></code>: The command which should be used to open the file. A <code>{}</code> is expanded to the temporary file name. If no <code>{}</code> is
+ present, the filename is automatically appended to the
+ cmdline.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_4">count</h4>
+<div class="paragraph"><p>The index of the download to open.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_note_4">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="download-remove">download-remove</h3>
+<div class="paragraph"><p>Syntax: <code>:download-remove [<strong>--all</strong>]</code></p></div>
+<div class="paragraph"><p>Remove the last/[count]th download from the list.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_7">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-a</strong></code>, <code><strong>--all</strong></code>: Remove all finished downloads.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_5">count</h4>
+<div class="paragraph"><p>The index of the download to remove.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="download-retry">download-retry</h3>
+<div class="paragraph"><p>Retry the first failed/[count]th download.</p></div>
+<div class="sect3">
+<h4 id="_count_6">count</h4>
+<div class="paragraph"><p>The index of the download to retry.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="edit-url">edit-url</h3>
+<div class="paragraph"><p>Syntax: <code>:edit-url [<strong>--bg</strong>] [<strong>--tab</strong>] [<strong>--window</strong>] [<em>url</em>]</code></p></div>
+<div class="paragraph"><p>Navigate to a url formed in an external editor.</p></div>
+<div class="paragraph"><p>The editor which should be launched can be configured via the <code>general -&gt; editor</code> config option.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_8">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>url</em></code>: URL to edit; defaults to the current page url.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_8">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bg</strong></code>: Open in a new background tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Open in a new tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Open in a new window.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="fake-key">fake-key</h3>
+<div class="paragraph"><p>Syntax: <code>:fake-key [<strong>--global</strong>] <em>keystring</em></code></p></div>
+<div class="paragraph"><p>Send a fake keypress or key string to the website or qutebrowser.</p></div>
+<div class="paragraph"><p>:fake-key xy - sends the keychain <em>xy</em> :fake-key &lt;Ctrl-x&gt; - sends Ctrl-x :fake-key &lt;Escape&gt; - sends the escape key</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_9">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>keystring</em></code>: The keystring to send.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_9">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-g</strong></code>, <code><strong>--global</strong></code>: If given, the keys are sent to the qutebrowser UI.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="forward">forward</h3>
+<div class="paragraph"><p>Syntax: <code>:forward [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>]</code></p></div>
+<div class="paragraph"><p>Go forward in the history of the current tab.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_10">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Go forward in a new tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bg</strong></code>: Go forward in a background tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Go forward in a new window.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_7">count</h4>
+<div class="paragraph"><p>How many pages to go forward.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="fullscreen">fullscreen</h3>
+<div class="paragraph"><p>Syntax: <code>:fullscreen [<strong>--leave</strong>]</code></p></div>
+<div class="paragraph"><p>Toggle fullscreen mode.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_11">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-l</strong></code>, <code><strong>--leave</strong></code>: Only leave fullscreen if it was entered by the page.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="help">help</h3>
+<div class="paragraph"><p>Syntax: <code>:help [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>] [<em>topic</em>]</code></p></div>
+<div class="paragraph"><p>Show help about a command or setting.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_10">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>topic</em></code>: The topic to show help for.
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+:<em>command</em> for commands.
+</p>
+</li>
+<li>
+<p>
+<em>section</em>-&gt;<em>option</em> for settings.
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_12">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Open in a new tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bg</strong></code>: Open in a background tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Open in a new window.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="hint">hint</h3>
+<div class="paragraph"><p>Syntax: <code>:hint [<strong>--rapid</strong>] [<strong>--mode</strong> <em>mode</em>] [<strong>--add-history</strong>]
+     [<em>group</em>] [<em>target</em>] [<em>args</em> [<em>args</em> &#8230;]]</code></p></div>
+<div class="paragraph"><p>Start hinting.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_11">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>group</em></code>: The element types to hint.
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>all</code>: All clickable elements.
+</p>
+</li>
+<li>
+<p>
+<code>links</code>: Only links.
+</p>
+</li>
+<li>
+<p>
+<code>images</code>: Only images.
+</p>
+</li>
+<li>
+<p>
+<code>inputs</code>: Only input fields.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+<code><em>target</em></code>: What to do with the selected element.
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>normal</code>: Open the link.
+</p>
+</li>
+<li>
+<p>
+<code>current</code>: Open the link in the current tab.
+</p>
+</li>
+<li>
+<p>
+<code>tab</code>: Open the link in a new tab (honoring the
+ background-tabs setting).
+</p>
+</li>
+<li>
+<p>
+<code>tab-fg</code>: Open the link in a new foreground tab.
+</p>
+</li>
+<li>
+<p>
+<code>tab-bg</code>: Open the link in a new background tab.
+</p>
+</li>
+<li>
+<p>
+<code>window</code>: Open the link in a new window.
+</p>
+</li>
+<li>
+<p>
+<code>hover</code> : Hover over the link.
+</p>
+</li>
+<li>
+<p>
+<code>yank</code>: Yank the link to the clipboard.
+</p>
+</li>
+<li>
+<p>
+<code>yank-primary</code>: Yank the link to the primary selection.
+</p>
+</li>
+<li>
+<p>
+<code>run</code>: Run the argument as command.
+</p>
+</li>
+<li>
+<p>
+<code>fill</code>: Fill the commandline with the command given as
+ argument.
+</p>
+</li>
+<li>
+<p>
+<code>download</code>: Download the link.
+</p>
+</li>
+<li>
+<p>
+<code>userscript</code>: Call a userscript with <code>$QUTE_URL</code> set to the
+ link.
+</p>
+</li>
+<li>
+<p>
+<code>spawn</code>: Spawn a command.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+<code><em>args</em></code>: Arguments for spawn/userscript/run/fill.
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+With <code>spawn</code>: The executable and arguments to spawn.
+ <code>{hint-url}</code> will get replaced by the selected
+ URL.
+</p>
+</li>
+<li>
+<p>
+With <code>userscript</code>: The userscript to execute. Either store
+ the userscript in
+ <code>~/.local/share/qutebrowser/userscripts</code>
+ (or <code>$XDG_DATA_DIR</code>), or use an absolute
+ path.
+</p>
+</li>
+<li>
+<p>
+With <code>fill</code>: The command to fill the statusbar with.
+ <code>{hint-url}</code> will get replaced by the selected
+ URL.
+</p>
+</li>
+<li>
+<p>
+With <code>run</code>: Same as <code>fill</code>.
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_13">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-r</strong></code>, <code><strong>--rapid</strong></code>: Whether to do rapid hinting. This is only possible with targets <code>tab</code> (with background-tabs=true), <code>tab-bg</code>,
+ <code>window</code>, <code>run</code>, <code>hover</code>, <code>userscript</code> and <code>spawn</code>.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-m</strong></code>, <code><strong>--mode</strong></code>: The hinting mode to use.
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>number</code>: Use numeric hints.
+</p>
+</li>
+<li>
+<p>
+<code>letter</code>: Use the chars in the hints&#8594;chars settings.
+</p>
+</li>
+<li>
+<p>
+<code>word</code>: Use hint words based on the html elements and the
+ extra words.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+<code><strong>-a</strong></code>, <code><strong>--add-history</strong></code>: Whether to add the spawned or yanked link to the browsing history.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_5">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="history">history</h3>
+<div class="paragraph"><p>Syntax: <code>:history [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>]</code></p></div>
+<div class="paragraph"><p>Show browsing history.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_14">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Open in a new tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bg</strong></code>: Open in a background tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Open in a new window.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="history-clear">history-clear</h3>
+<div class="paragraph"><p>Syntax: <code>:history-clear [<strong>--force</strong>]</code></p></div>
+<div class="paragraph"><p>Clear all browsing history.</p></div>
+<div class="paragraph"><p>Note this only clears the global history (e.g. <code>~/.local/share/qutebrowser/history</code> on Linux) but not cookies, the back/forward history of a tab, cache or other persistent data.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_15">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-f</strong></code>, <code><strong>--force</strong></code>: Don&#8217;t ask for confirmation.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="home">home</h3>
+<div class="paragraph"><p>Open main startpage in current tab.</p></div>
+</div>
+<div class="sect2">
+<h3 id="insert-text">insert-text</h3>
+<div class="paragraph"><p>Syntax: <code>:insert-text <em>text</em></code></p></div>
+<div class="paragraph"><p>Insert text at cursor position.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_12">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>text</em></code>: The text to insert.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_6">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="inspector">inspector</h3>
+<div class="paragraph"><p>Toggle the web inspector.</p></div>
+<div class="paragraph"><p>Note: Due a bug in Qt, the inspector will show incorrect request headers in the network tab.</p></div>
+</div>
+<div class="sect2">
+<h3 id="jseval">jseval</h3>
+<div class="paragraph"><p>Syntax: <code>:jseval [<strong>--file</strong>] [<strong>--quiet</strong>] [<strong>--world</strong> <em>world</em>] <em>js-code</em></code></p></div>
+<div class="paragraph"><p>Evaluate a JavaScript string.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_13">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>js-code</em></code>: The string/file to evaluate.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_16">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-f</strong></code>, <code><strong>--file</strong></code>: Interpret js-code as a path to a file.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-q</strong></code>, <code><strong>--quiet</strong></code>: Don&#8217;t show resulting JS object.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--world</strong></code>: Ignored on QtWebKit. On QtWebEngine, a world ID or name to run the snippet in.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_7">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+<li>
+<p>
+With this command, <code>;;</code> is interpreted literally instead of splitting off a second command.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="later">later</h3>
+<div class="paragraph"><p>Syntax: <code>:later <em>ms</em> <em>command</em></code></p></div>
+<div class="paragraph"><p>Execute a command after some time.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_14">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>ms</em></code>: How many milliseconds to wait.
+</p>
+</li>
+<li>
+<p>
+<code><em>command</em></code>: The command to run, with optional args.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_8">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+<li>
+<p>
+With this command, <code>;;</code> is interpreted literally instead of splitting off a second command.
+</p>
+</li>
+<li>
+<p>
+This command does not replace variables like <code>{url}</code>.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="messages">messages</h3>
+<div class="paragraph"><p>Syntax: <code>:messages [<strong>--plain</strong>] [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>] [<em>level</em>]</code></p></div>
+<div class="paragraph"><p>Show a log of past messages.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_15">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>level</em></code>: Include messages with <code>level</code> or higher severity. Valid values: vdebug, debug, info, warning, error, critical.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_17">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-p</strong></code>, <code><strong>--plain</strong></code>: Whether to show plaintext (as opposed to html).
+</p>
+</li>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Open in a new tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bg</strong></code>: Open in a background tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Open in a new window.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="navigate">navigate</h3>
+<div class="paragraph"><p>Syntax: <code>:navigate [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>] <em>where</em></code></p></div>
+<div class="paragraph"><p>Open typical prev/next links or navigate using the URL path.</p></div>
+<div class="paragraph"><p>This tries to automatically click on typical <em>Previous Page</em> or <em>Next Page</em> links using some heuristics. Alternatively it can navigate by changing the current URL.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_16">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>where</em></code>: What to open.
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>prev</code>: Open a <em>previous</em> link.
+</p>
+</li>
+<li>
+<p>
+<code>next</code>: Open a <em>next</em> link.
+</p>
+</li>
+<li>
+<p>
+<code>up</code>: Go up a level in the current URL.
+</p>
+</li>
+<li>
+<p>
+<code>increment</code>: Increment the last number in the URL.
+</p>
+</li>
+<li>
+<p>
+<code>decrement</code>: Decrement the last number in the URL.
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_18">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Open in a new tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bg</strong></code>: Open in a background tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Open in a new window.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_8">count</h4>
+<div class="paragraph"><p>For <code>increment</code> and <code>decrement</code>, the number to change the URL by. For <code>up</code>, the number of levels to go up in the URL.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="open">open</h3>
+<div class="paragraph"><p>Syntax: <code>:open [<strong>--implicit</strong>] [<strong>--bg</strong>] [<strong>--tab</strong>] [<strong>--window</strong>] [<strong>--secure</strong>] [<strong>--private</strong>]
+     [<em>url</em>]</code></p></div>
+<div class="paragraph"><p>Open a URL in the current/[count]th tab.</p></div>
+<div class="paragraph"><p>If the URL contains newlines, each line gets opened in its own tab.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_17">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>url</em></code>: The URL to open.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_19">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-i</strong></code>, <code><strong>--implicit</strong></code>: If opening a new tab, treat the tab as implicit (like clicking on a link).
+</p>
+</li>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bg</strong></code>: Open in a new background tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Open in a new tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Open in a new window.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-s</strong></code>, <code><strong>--secure</strong></code>: Force HTTPS.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-p</strong></code>, <code><strong>--private</strong></code>: Open a new window in private browsing mode.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_9">count</h4>
+<div class="paragraph"><p>The tab index to open the URL in.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_note_9">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="print">print</h3>
+<div class="paragraph"><p>Syntax: <code>:print [<strong>--preview</strong>] [<strong>--pdf</strong> <em>file</em>]</code></p></div>
+<div class="paragraph"><p>Print the current/[count]th tab.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_20">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-p</strong></code>, <code><strong>--preview</strong></code>: Show preview instead of printing.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-f</strong></code>, <code><strong>--pdf</strong></code>: The file path to write the PDF to.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_10">count</h4>
+<div class="paragraph"><p>The tab index to print.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="quickmark-add">quickmark-add</h3>
+<div class="paragraph"><p>Syntax: <code>:quickmark-add <em>url</em> <em>name</em></code></p></div>
+<div class="paragraph"><p>Add a new quickmark.</p></div>
+<div class="paragraph"><p>You can view all saved quickmarks on the <a href="qute://bookmarks">bookmarks page</a>.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_18">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>url</em></code>: The url to add as quickmark.
+</p>
+</li>
+<li>
+<p>
+<code><em>name</em></code>: The name for the new quickmark.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="quickmark-del">quickmark-del</h3>
+<div class="paragraph"><p>Syntax: <code>:quickmark-del [<em>name</em>]</code></p></div>
+<div class="paragraph"><p>Delete a quickmark.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_19">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>name</em></code>: The name of the quickmark to delete. If not given, delete the quickmark for the current page (choosing one arbitrarily
+ if there are more than one).
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_10">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="quickmark-load">quickmark-load</h3>
+<div class="paragraph"><p>Syntax: <code>:quickmark-load [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>] <em>name</em></code></p></div>
+<div class="paragraph"><p>Load a quickmark.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_20">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>name</em></code>: The name of the quickmark to load.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_21">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Load the quickmark in a new tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bg</strong></code>: Load the quickmark in a new background tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Load the quickmark in a new window.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_11">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="quickmark-save">quickmark-save</h3>
+<div class="paragraph"><p>Save the current page as a quickmark.</p></div>
+</div>
+<div class="sect2">
+<h3 id="quit">quit</h3>
+<div class="paragraph"><p>Quit qutebrowser.</p></div>
+</div>
+<div class="sect2">
+<h3 id="record-macro">record-macro</h3>
+<div class="paragraph"><p>Syntax: <code>:record-macro [<em>register</em>]</code></p></div>
+<div class="paragraph"><p>Start or stop recording a macro.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_21">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>register</em></code>: Which register to store the macro in.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="reload">reload</h3>
+<div class="paragraph"><p>Syntax: <code>:reload [<strong>--force</strong>]</code></p></div>
+<div class="paragraph"><p>Reload the current/[count]th tab.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_22">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-f</strong></code>, <code><strong>--force</strong></code>: Bypass the page cache.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_11">count</h4>
+<div class="paragraph"><p>The tab index to reload.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="repeat">repeat</h3>
+<div class="paragraph"><p>Syntax: <code>:repeat <em>times</em> <em>command</em></code></p></div>
+<div class="paragraph"><p>Repeat a given command.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_22">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>times</em></code>: How many times to repeat.
+</p>
+</li>
+<li>
+<p>
+<code><em>command</em></code>: The command to run, with optional args.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_12">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+<li>
+<p>
+With this command, <code>;;</code> is interpreted literally instead of splitting off a second command.
+</p>
+</li>
+<li>
+<p>
+This command does not replace variables like <code>{url}</code>.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="report">report</h3>
+<div class="paragraph"><p>Report a bug in qutebrowser.</p></div>
+</div>
+<div class="sect2">
+<h3 id="restart">restart</h3>
+<div class="paragraph"><p>Restart qutebrowser while keeping existing tabs open.</p></div>
+</div>
+<div class="sect2">
+<h3 id="run-macro">run-macro</h3>
+<div class="paragraph"><p>Syntax: <code>:run-macro [<em>register</em>]</code></p></div>
+<div class="paragraph"><p>Run a recorded macro.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_23">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>register</em></code>: Which macro to run.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_12">count</h4>
+<div class="paragraph"><p>How many times to run the macro.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="save">save</h3>
+<div class="paragraph"><p>Syntax: <code>:save [<em>what</em> [<em>what</em> &#8230;]]</code></p></div>
+<div class="paragraph"><p>Save configs and state.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_24">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>what</em></code>: What to save (<code>config</code>/<code>key-config</code>/<code>cookies</code>/&#8230;). If not given, everything is saved.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="search">search</h3>
+<div class="paragraph"><p>Syntax: <code>:search [<strong>--reverse</strong>] [<em>text</em>]</code></p></div>
+<div class="paragraph"><p>Search for a text on the current page. With no text, clear results.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_25">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>text</em></code>: The text to search for.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_23">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-r</strong></code>, <code><strong>--reverse</strong></code>: Reverse search direction.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_13">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="session-delete">session-delete</h3>
+<div class="paragraph"><p>Syntax: <code>:session-delete [<strong>--force</strong>] <em>name</em></code></p></div>
+<div class="paragraph"><p>Delete a session.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_26">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>name</em></code>: The name of the session.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_24">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-f</strong></code>, <code><strong>--force</strong></code>: Force deleting internal sessions (starting with an underline).
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="session-load">session-load</h3>
+<div class="paragraph"><p>Syntax: <code>:session-load [<strong>--clear</strong>] [<strong>--temp</strong>] [<strong>--force</strong>] <em>name</em></code></p></div>
+<div class="paragraph"><p>Load a session.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_27">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>name</em></code>: The name of the session.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_25">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-c</strong></code>, <code><strong>--clear</strong></code>: Close all existing windows.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--temp</strong></code>: Don&#8217;t set the current session for :session-save.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-f</strong></code>, <code><strong>--force</strong></code>: Force loading internal sessions (starting with an underline).
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="session-save">session-save</h3>
+<div class="paragraph"><p>Syntax: <code>:session-save [<strong>--current</strong>] [<strong>--quiet</strong>] [<strong>--force</strong>] [<strong>--only-active-window</strong>]
+             [<strong>--with-private</strong>]
+             [<em>name</em>]</code></p></div>
+<div class="paragraph"><p>Save a session.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_28">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>name</em></code>: The name of the session. If not given, the session configured in general &#8594; session-default-name is saved.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_26">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-c</strong></code>, <code><strong>--current</strong></code>: Save the current session instead of the default.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-q</strong></code>, <code><strong>--quiet</strong></code>: Don&#8217;t show confirmation message.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-f</strong></code>, <code><strong>--force</strong></code>: Force saving internal sessions (starting with an underline).
+</p>
+</li>
+<li>
+<p>
+<code><strong>-o</strong></code>, <code><strong>--only-active-window</strong></code>: Saves only tabs of the currently active window.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-p</strong></code>, <code><strong>--with-private</strong></code>: Include private windows.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="set">set</h3>
+<div class="paragraph"><p>Syntax: <code>:set [<strong>--temp</strong>] [<strong>--print</strong>] [<em>section</em>] [<em>option</em>] [<em>values</em> [<em>values</em> &#8230;]]</code></p></div>
+<div class="paragraph"><p>Set an option.</p></div>
+<div class="paragraph"><p>If the option name ends with <em>?</em>, the value of the option is shown instead. If the option name ends with <em>!</em> and it is a boolean value, toggle it.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_29">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>section</em></code>: The section where the option is in.
+</p>
+</li>
+<li>
+<p>
+<code><em>option</em></code>: The name of the option.
+</p>
+</li>
+<li>
+<p>
+<code><em>values</em></code>: The value to set, or the values to cycle through.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_27">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--temp</strong></code>: Set value temporarily.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-p</strong></code>, <code><strong>--print</strong></code>: Print the value after setting.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="set-cmd-text">set-cmd-text</h3>
+<div class="paragraph"><p>Syntax: <code>:set-cmd-text [<strong>--space</strong>] [<strong>--append</strong>] <em>text</em></code></p></div>
+<div class="paragraph"><p>Preset the statusbar to some text.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_30">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>text</em></code>: The commandline to set.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_28">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-s</strong></code>, <code><strong>--space</strong></code>: If given, a space is added to the end.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-a</strong></code>, <code><strong>--append</strong></code>: If given, the text is appended to the current text.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_14">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="spawn">spawn</h3>
+<div class="paragraph"><p>Syntax: <code>:spawn [<strong>--userscript</strong>] [<strong>--verbose</strong>] [<strong>--detach</strong>] <em>cmdline</em></code></p></div>
+<div class="paragraph"><p>Spawn a command in a shell.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_31">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>cmdline</em></code>: The commandline to execute.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_29">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-u</strong></code>, <code><strong>--userscript</strong></code>: Run the command as a userscript. You can use an absolute path, or store the userscript in one of those
+ locations:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>~/.local/share/qutebrowser/userscripts</code>
+ (or <code>$XDG_DATA_DIR</code>)
+</p>
+</li>
+<li>
+<p>
+<code>/usr/share/qutebrowser/userscripts</code>
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+<code><strong>-v</strong></code>, <code><strong>--verbose</strong></code>: Show notifications when the command started/exited.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-d</strong></code>, <code><strong>--detach</strong></code>: Whether the command should be detached from qutebrowser.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_15">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="stop">stop</h3>
+<div class="paragraph"><p>Stop loading in the current/[count]th tab.</p></div>
+<div class="sect3">
+<h4 id="_count_13">count</h4>
+<div class="paragraph"><p>The tab index to stop.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tab-clone">tab-clone</h3>
+<div class="paragraph"><p>Syntax: <code>:tab-clone [<strong>--bg</strong>] [<strong>--window</strong>]</code></p></div>
+<div class="paragraph"><p>Duplicate the current tab.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_30">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bg</strong></code>: Open in a background tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Open in a new window.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tab-close">tab-close</h3>
+<div class="paragraph"><p>Syntax: <code>:tab-close [<strong>--prev</strong>] [<strong>--next</strong>] [<strong>--opposite</strong>] [<strong>--force</strong>]</code></p></div>
+<div class="paragraph"><p>Close the current/[count]th tab.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_31">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-p</strong></code>, <code><strong>--prev</strong></code>: Force selecting the tab before the current tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-n</strong></code>, <code><strong>--next</strong></code>: Force selecting the tab after the current tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-o</strong></code>, <code><strong>--opposite</strong></code>: Force selecting the tab in the opposite direction of what&#8217;s configured in <em>tabs&#8594;select-on-remove</em>.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-f</strong></code>, <code><strong>--force</strong></code>: Avoid confirmation for pinned tabs.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_14">count</h4>
+<div class="paragraph"><p>The tab index to close</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tab-detach">tab-detach</h3>
+<div class="paragraph"><p>Detach the current tab to its own window.</p></div>
+</div>
+<div class="sect2">
+<h3 id="tab-focus">tab-focus</h3>
+<div class="paragraph"><p>Syntax: <code>:tab-focus [<em>index</em>]</code></p></div>
+<div class="paragraph"><p>Select the tab given as argument/[count].</p></div>
+<div class="paragraph"><p>If neither count nor index are given, it behaves like tab-next. If both are given, use count.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_32">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>index</em></code>: The tab index to focus, starting with 1. The special value <code>last</code> focuses the last focused tab (regardless of count).
+ Negative indices count from the end, such that -1 is the
+ last tab.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_15">count</h4>
+<div class="paragraph"><p>The tab index to focus, starting with 1.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tab-move">tab-move</h3>
+<div class="paragraph"><p>Syntax: <code>:tab-move [<em>index</em>]</code></p></div>
+<div class="paragraph"><p>Move the current tab according to the argument and [count].</p></div>
+<div class="paragraph"><p>If neither is given, move it to the first position.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_33">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>index</em></code>: <code>+</code> or <code>-</code> to move relative to the current tab by count, or a default of 1 space.
+ A tab index to move to that index.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_16">count</h4>
+<div class="paragraph"><p>If moving relatively: Offset. If moving absolutely: New position (default: 0). This
+ overrides the index argument, if given.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tab-next">tab-next</h3>
+<div class="paragraph"><p>Switch to the next tab, or switch [count] tabs forward.</p></div>
+<div class="sect3">
+<h4 id="_count_17">count</h4>
+<div class="paragraph"><p>How many tabs to switch forward.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tab-only">tab-only</h3>
+<div class="paragraph"><p>Syntax: <code>:tab-only [<strong>--prev</strong>] [<strong>--next</strong>] [<strong>--force</strong>]</code></p></div>
+<div class="paragraph"><p>Close all tabs except for the current one.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_32">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-p</strong></code>, <code><strong>--prev</strong></code>: Keep tabs before the current.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-n</strong></code>, <code><strong>--next</strong></code>: Keep tabs after the current.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-f</strong></code>, <code><strong>--force</strong></code>: Avoid confirmation for pinned tabs.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tab-pin">tab-pin</h3>
+<div class="paragraph"><p>Pin/Unpin the current/[count]th tab.</p></div>
+<div class="paragraph"><p>Pinning a tab shrinks it to tabs&#8594;pinned-width size. Attempting to close a pinned tab will cause a confirmation, unless --force is passed.</p></div>
+<div class="sect3">
+<h4 id="_count_18">count</h4>
+<div class="paragraph"><p>The tab index to pin or unpin</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tab-prev">tab-prev</h3>
+<div class="paragraph"><p>Switch to the previous tab, or switch [count] tabs back.</p></div>
+<div class="sect3">
+<h4 id="_count_19">count</h4>
+<div class="paragraph"><p>How many tabs to switch back.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="unbind">unbind</h3>
+<div class="paragraph"><p>Syntax: <code>:unbind <em>key</em> [<em>mode</em>]</code></p></div>
+<div class="paragraph"><p>Unbind a keychain.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_34">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>key</em></code>: The keychain or special key (inside &lt;&#8230;&gt;) to unbind.
+</p>
+</li>
+<li>
+<p>
+<code><em>mode</em></code>: A comma-separated list of modes to unbind the key in (default: <code>normal</code>).
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="undo">undo</h3>
+<div class="paragraph"><p>Re-open a closed tab.</p></div>
+</div>
+<div class="sect2">
+<h3 id="view-source">view-source</h3>
+<div class="paragraph"><p>Show the source of the current page in a new tab.</p></div>
+</div>
+<div class="sect2">
+<h3 id="window-only">window-only</h3>
+<div class="paragraph"><p>Close all windows except for the current one.</p></div>
+</div>
+<div class="sect2">
+<h3 id="wq">wq</h3>
+<div class="paragraph"><p>Syntax: <code>:wq [<em>name</em>]</code></p></div>
+<div class="paragraph"><p>Save open pages and quit.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_35">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>name</em></code>: The name of the session.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="yank">yank</h3>
+<div class="paragraph"><p>Syntax: <code>:yank [<strong>--sel</strong>] [<strong>--keep</strong>] [<em>what</em>]</code></p></div>
+<div class="paragraph"><p>Yank something to the clipboard or primary selection.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_36">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>what</em></code>: What to yank.
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>url</code>: The current URL.
+</p>
+</li>
+<li>
+<p>
+<code>pretty-url</code>: The URL in pretty decoded form.
+</p>
+</li>
+<li>
+<p>
+<code>title</code>: The current page&#8217;s title.
+</p>
+</li>
+<li>
+<p>
+<code>domain</code>: The current scheme, domain, and port number.
+</p>
+</li>
+<li>
+<p>
+<code>selection</code>: The selection under the cursor.
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_33">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-s</strong></code>, <code><strong>--sel</strong></code>: Use the primary selection instead of the clipboard.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-k</strong></code>, <code><strong>--keep</strong></code>: Stay in visual mode after yanking the selection.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="zoom">zoom</h3>
+<div class="paragraph"><p>Syntax: <code>:zoom [<em>zoom</em>]</code></p></div>
+<div class="paragraph"><p>Set the zoom level for the current tab.</p></div>
+<div class="paragraph"><p>The zoom can be given as argument or as [count]. If neither is given, the zoom is set to the default zoom. If both are given, use [count].</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_37">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>zoom</em></code>: The zoom percentage to set.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_20">count</h4>
+<div class="paragraph"><p>The zoom percentage to set.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="zoom-in">zoom-in</h3>
+<div class="paragraph"><p>Increase the zoom level for the current tab.</p></div>
+<div class="sect3">
+<h4 id="_count_21">count</h4>
+<div class="paragraph"><p>How many steps to zoom in.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="zoom-out">zoom-out</h3>
+<div class="paragraph"><p>Decrease the zoom level for the current tab.</p></div>
+<div class="sect3">
+<h4 id="_count_22">count</h4>
+<div class="paragraph"><p>How many steps to zoom out.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hidden_commands">Hidden commands</h2>
+<div class="sectionbody">
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 2. Quick reference</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Command</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#clear-keychain">clear-keychain</a></p></td>
+<td align="left" valign="top"><p class="table">Clear the currently entered key chain.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#clear-messages">clear-messages</a></p></td>
+<td align="left" valign="top"><p class="table">Clear all message notifications.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#click-element">click-element</a></p></td>
+<td align="left" valign="top"><p class="table">Click the element matching the given filter.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#command-accept">command-accept</a></p></td>
+<td align="left" valign="top"><p class="table">Execute the command currently in the commandline.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#command-history-next">command-history-next</a></p></td>
+<td align="left" valign="top"><p class="table">Go forward in the commandline history.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#command-history-prev">command-history-prev</a></p></td>
+<td align="left" valign="top"><p class="table">Go back in the commandline history.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion-item-del">completion-item-del</a></p></td>
+<td align="left" valign="top"><p class="table">Delete the current completion item.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion-item-focus">completion-item-focus</a></p></td>
+<td align="left" valign="top"><p class="table">Shift the focus of the completion menu to another item.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#drop-selection">drop-selection</a></p></td>
+<td align="left" valign="top"><p class="table">Drop selection and keep selection mode enabled.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#enter-mode">enter-mode</a></p></td>
+<td align="left" valign="top"><p class="table">Enter a key mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#follow-hint">follow-hint</a></p></td>
+<td align="left" valign="top"><p class="table">Follow a hint.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#follow-selected">follow-selected</a></p></td>
+<td align="left" valign="top"><p class="table">Follow the selected text.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#jump-mark">jump-mark</a></p></td>
+<td align="left" valign="top"><p class="table">Jump to the mark named by <code>key</code>.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#leave-mode">leave-mode</a></p></td>
+<td align="left" valign="top"><p class="table">Leave the mode we&#8217;re currently in.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#message-error">message-error</a></p></td>
+<td align="left" valign="top"><p class="table">Show an error message in the statusbar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#message-info">message-info</a></p></td>
+<td align="left" valign="top"><p class="table">Show an info message in the statusbar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#message-warning">message-warning</a></p></td>
+<td align="left" valign="top"><p class="table">Show a warning message in the statusbar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-end-of-document">move-to-end-of-document</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the end of the document.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-end-of-line">move-to-end-of-line</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the end of line.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-end-of-next-block">move-to-end-of-next-block</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the end of next block.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-end-of-prev-block">move-to-end-of-prev-block</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the end of previous block.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-end-of-word">move-to-end-of-word</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the end of the word.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-next-char">move-to-next-char</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the next char.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-next-line">move-to-next-line</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the next line.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-next-word">move-to-next-word</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the next word.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-prev-char">move-to-prev-char</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the previous char.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-prev-line">move-to-prev-line</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the prev line.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-prev-word">move-to-prev-word</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the previous word.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-start-of-document">move-to-start-of-document</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the start of the document.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-start-of-line">move-to-start-of-line</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the start of the line.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-start-of-next-block">move-to-start-of-next-block</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the start of next block.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#move-to-start-of-prev-block">move-to-start-of-prev-block</a></p></td>
+<td align="left" valign="top"><p class="table">Move the cursor or selection to the start of previous block.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#open-editor">open-editor</a></p></td>
+<td align="left" valign="top"><p class="table">Open an external editor with the currently selected form field.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#prompt-accept">prompt-accept</a></p></td>
+<td align="left" valign="top"><p class="table">Accept the current prompt.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#prompt-item-focus">prompt-item-focus</a></p></td>
+<td align="left" valign="top"><p class="table">Shift the focus of the prompt file completion menu to another item.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#prompt-open-download">prompt-open-download</a></p></td>
+<td align="left" valign="top"><p class="table">Immediately open a download.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#repeat-command">repeat-command</a></p></td>
+<td align="left" valign="top"><p class="table">Repeat the last executed command.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-backward-char">rl-backward-char</a></p></td>
+<td align="left" valign="top"><p class="table">Move back a character.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-backward-delete-char">rl-backward-delete-char</a></p></td>
+<td align="left" valign="top"><p class="table">Delete the character before the cursor.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-backward-kill-word">rl-backward-kill-word</a></p></td>
+<td align="left" valign="top"><p class="table">Remove chars from the cursor to the beginning of the word.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-backward-word">rl-backward-word</a></p></td>
+<td align="left" valign="top"><p class="table">Move back to the start of the current or previous word.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-beginning-of-line">rl-beginning-of-line</a></p></td>
+<td align="left" valign="top"><p class="table">Move to the start of the line.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-delete-char">rl-delete-char</a></p></td>
+<td align="left" valign="top"><p class="table">Delete the character after the cursor.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-end-of-line">rl-end-of-line</a></p></td>
+<td align="left" valign="top"><p class="table">Move to the end of the line.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-forward-char">rl-forward-char</a></p></td>
+<td align="left" valign="top"><p class="table">Move forward a character.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-forward-word">rl-forward-word</a></p></td>
+<td align="left" valign="top"><p class="table">Move forward to the end of the next word.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-kill-line">rl-kill-line</a></p></td>
+<td align="left" valign="top"><p class="table">Remove chars from the cursor to the end of the line.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-kill-word">rl-kill-word</a></p></td>
+<td align="left" valign="top"><p class="table">Remove chars from the cursor to the end of the current word.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-unix-filename-rubout">rl-unix-filename-rubout</a></p></td>
+<td align="left" valign="top"><p class="table">Remove chars from the cursor to the previous path separator.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-unix-line-discard">rl-unix-line-discard</a></p></td>
+<td align="left" valign="top"><p class="table">Remove chars backward from the cursor to the beginning of the line.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-unix-word-rubout">rl-unix-word-rubout</a></p></td>
+<td align="left" valign="top"><p class="table">Remove chars from the cursor to the beginning of the word.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-yank">rl-yank</a></p></td>
+<td align="left" valign="top"><p class="table">Paste the most recently deleted text.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#run-with-count">run-with-count</a></p></td>
+<td align="left" valign="top"><p class="table">Run a command with the given count.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#scroll">scroll</a></p></td>
+<td align="left" valign="top"><p class="table">Scroll the current tab in the given direction.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#scroll-page">scroll-page</a></p></td>
+<td align="left" valign="top"><p class="table">Scroll the frame page-wise.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#scroll-perc">scroll-perc</a></p></td>
+<td align="left" valign="top"><p class="table">Scroll to a specific percentage of the page.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#scroll-px">scroll-px</a></p></td>
+<td align="left" valign="top"><p class="table">Scroll the current tab by <em>count * dx/dy</em> pixels.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#search-next">search-next</a></p></td>
+<td align="left" valign="top"><p class="table">Continue the search to the ([count]th) next term.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#search-prev">search-prev</a></p></td>
+<td align="left" valign="top"><p class="table">Continue the search to the ([count]th) previous term.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#set-mark">set-mark</a></p></td>
+<td align="left" valign="top"><p class="table">Set a mark at the current scroll position in the current tab.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#toggle-selection">toggle-selection</a></p></td>
+<td align="left" valign="top"><p class="table">Toggle caret selection mode.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="clear-keychain">clear-keychain</h3>
+<div class="paragraph"><p>Clear the currently entered key chain.</p></div>
+</div>
+<div class="sect2">
+<h3 id="clear-messages">clear-messages</h3>
+<div class="paragraph"><p>Clear all message notifications.</p></div>
+</div>
+<div class="sect2">
+<h3 id="click-element">click-element</h3>
+<div class="paragraph"><p>Syntax: <code>:click-element [<strong>--target</strong> <em>target</em>] [<strong>--force-event</strong>] <em>filter</em> <em>value</em></code></p></div>
+<div class="paragraph"><p>Click the element matching the given filter.</p></div>
+<div class="paragraph"><p>The given filter needs to result in exactly one element, otherwise, an error is shown.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_38">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>filter</em></code>: How to filter the elements. id: Get an element based on its ID.
+</p>
+</li>
+<li>
+<p>
+<code><em>value</em></code>: The value to filter for.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_34">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--target</strong></code>: How to open the clicked element (normal/tab/tab-bg/window).
+</p>
+</li>
+<li>
+<p>
+<code><strong>-f</strong></code>, <code><strong>--force-event</strong></code>: Force generating a fake click event.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="command-accept">command-accept</h3>
+<div class="paragraph"><p>Execute the command currently in the commandline.</p></div>
+</div>
+<div class="sect2">
+<h3 id="command-history-next">command-history-next</h3>
+<div class="paragraph"><p>Go forward in the commandline history.</p></div>
+</div>
+<div class="sect2">
+<h3 id="command-history-prev">command-history-prev</h3>
+<div class="paragraph"><p>Go back in the commandline history.</p></div>
+</div>
+<div class="sect2">
+<h3 id="completion-item-del">completion-item-del</h3>
+<div class="paragraph"><p>Delete the current completion item.</p></div>
+</div>
+<div class="sect2">
+<h3 id="completion-item-focus">completion-item-focus</h3>
+<div class="paragraph"><p>Syntax: <code>:completion-item-focus <em>which</em></code></p></div>
+<div class="paragraph"><p>Shift the focus of the completion menu to another item.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_39">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>which</em></code>: <em>next</em>, <em>prev</em>, <em>next-category</em>, or <em>prev-category</em>.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="drop-selection">drop-selection</h3>
+<div class="paragraph"><p>Drop selection and keep selection mode enabled.</p></div>
+</div>
+<div class="sect2">
+<h3 id="enter-mode">enter-mode</h3>
+<div class="paragraph"><p>Syntax: <code>:enter-mode <em>mode</em></code></p></div>
+<div class="paragraph"><p>Enter a key mode.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_40">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>mode</em></code>: The mode to enter.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="follow-hint">follow-hint</h3>
+<div class="paragraph"><p>Syntax: <code>:follow-hint [<em>keystring</em>]</code></p></div>
+<div class="paragraph"><p>Follow a hint.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_41">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>keystring</em></code>: The hint to follow.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="follow-selected">follow-selected</h3>
+<div class="paragraph"><p>Syntax: <code>:follow-selected [<strong>--tab</strong>]</code></p></div>
+<div class="paragraph"><p>Follow the selected text.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_35">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Load the selected link in a new tab.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jump-mark">jump-mark</h3>
+<div class="paragraph"><p>Syntax: <code>:jump-mark <em>key</em></code></p></div>
+<div class="paragraph"><p>Jump to the mark named by <code>key</code>.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_42">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>key</em></code>: mark identifier; capital indicates a global mark
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="leave-mode">leave-mode</h3>
+<div class="paragraph"><p>Leave the mode we&#8217;re currently in.</p></div>
+</div>
+<div class="sect2">
+<h3 id="message-error">message-error</h3>
+<div class="paragraph"><p>Syntax: <code>:message-error <em>text</em></code></p></div>
+<div class="paragraph"><p>Show an error message in the statusbar.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_43">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>text</em></code>: The text to show.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="message-info">message-info</h3>
+<div class="paragraph"><p>Syntax: <code>:message-info <em>text</em></code></p></div>
+<div class="paragraph"><p>Show an info message in the statusbar.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_44">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>text</em></code>: The text to show.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_23">count</h4>
+<div class="paragraph"><p>How many times to show the message</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="message-warning">message-warning</h3>
+<div class="paragraph"><p>Syntax: <code>:message-warning <em>text</em></code></p></div>
+<div class="paragraph"><p>Show a warning message in the statusbar.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_45">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>text</em></code>: The text to show.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="move-to-end-of-document">move-to-end-of-document</h3>
+<div class="paragraph"><p>Move the cursor or selection to the end of the document.</p></div>
+</div>
+<div class="sect2">
+<h3 id="move-to-end-of-line">move-to-end-of-line</h3>
+<div class="paragraph"><p>Move the cursor or selection to the end of line.</p></div>
+</div>
+<div class="sect2">
+<h3 id="move-to-end-of-next-block">move-to-end-of-next-block</h3>
+<div class="paragraph"><p>Move the cursor or selection to the end of next block.</p></div>
+<div class="sect3">
+<h4 id="_count_24">count</h4>
+<div class="paragraph"><p>How many blocks to move.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="move-to-end-of-prev-block">move-to-end-of-prev-block</h3>
+<div class="paragraph"><p>Move the cursor or selection to the end of previous block.</p></div>
+<div class="sect3">
+<h4 id="_count_25">count</h4>
+<div class="paragraph"><p>How many blocks to move.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="move-to-end-of-word">move-to-end-of-word</h3>
+<div class="paragraph"><p>Move the cursor or selection to the end of the word.</p></div>
+<div class="sect3">
+<h4 id="_count_26">count</h4>
+<div class="paragraph"><p>How many words to move.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="move-to-next-char">move-to-next-char</h3>
+<div class="paragraph"><p>Move the cursor or selection to the next char.</p></div>
+<div class="sect3">
+<h4 id="_count_27">count</h4>
+<div class="paragraph"><p>How many lines to move.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="move-to-next-line">move-to-next-line</h3>
+<div class="paragraph"><p>Move the cursor or selection to the next line.</p></div>
+<div class="sect3">
+<h4 id="_count_28">count</h4>
+<div class="paragraph"><p>How many lines to move.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="move-to-next-word">move-to-next-word</h3>
+<div class="paragraph"><p>Move the cursor or selection to the next word.</p></div>
+<div class="sect3">
+<h4 id="_count_29">count</h4>
+<div class="paragraph"><p>How many words to move.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="move-to-prev-char">move-to-prev-char</h3>
+<div class="paragraph"><p>Move the cursor or selection to the previous char.</p></div>
+<div class="sect3">
+<h4 id="_count_30">count</h4>
+<div class="paragraph"><p>How many chars to move.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="move-to-prev-line">move-to-prev-line</h3>
+<div class="paragraph"><p>Move the cursor or selection to the prev line.</p></div>
+<div class="sect3">
+<h4 id="_count_31">count</h4>
+<div class="paragraph"><p>How many lines to move.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="move-to-prev-word">move-to-prev-word</h3>
+<div class="paragraph"><p>Move the cursor or selection to the previous word.</p></div>
+<div class="sect3">
+<h4 id="_count_32">count</h4>
+<div class="paragraph"><p>How many words to move.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="move-to-start-of-document">move-to-start-of-document</h3>
+<div class="paragraph"><p>Move the cursor or selection to the start of the document.</p></div>
+</div>
+<div class="sect2">
+<h3 id="move-to-start-of-line">move-to-start-of-line</h3>
+<div class="paragraph"><p>Move the cursor or selection to the start of the line.</p></div>
+</div>
+<div class="sect2">
+<h3 id="move-to-start-of-next-block">move-to-start-of-next-block</h3>
+<div class="paragraph"><p>Move the cursor or selection to the start of next block.</p></div>
+<div class="sect3">
+<h4 id="_count_33">count</h4>
+<div class="paragraph"><p>How many blocks to move.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="move-to-start-of-prev-block">move-to-start-of-prev-block</h3>
+<div class="paragraph"><p>Move the cursor or selection to the start of previous block.</p></div>
+<div class="sect3">
+<h4 id="_count_34">count</h4>
+<div class="paragraph"><p>How many blocks to move.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="open-editor">open-editor</h3>
+<div class="paragraph"><p>Open an external editor with the currently selected form field.</p></div>
+<div class="paragraph"><p>The editor which should be launched can be configured via the <code>general -&gt; editor</code> config option.</p></div>
+</div>
+<div class="sect2">
+<h3 id="prompt-accept">prompt-accept</h3>
+<div class="paragraph"><p>Syntax: <code>:prompt-accept [<em>value</em>]</code></p></div>
+<div class="paragraph"><p>Accept the current prompt.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_46">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>value</em></code>: If given, uses this value instead of the entered one. For boolean prompts, "yes"/"no" are accepted as value.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="prompt-item-focus">prompt-item-focus</h3>
+<div class="paragraph"><p>Syntax: <code>:prompt-item-focus <em>which</em></code></p></div>
+<div class="paragraph"><p>Shift the focus of the prompt file completion menu to another item.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_47">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>which</em></code>: <em>next</em>, <em>prev</em>
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="prompt-open-download">prompt-open-download</h3>
+<div class="paragraph"><p>Syntax: <code>:prompt-open-download [<em>cmdline</em>]</code></p></div>
+<div class="paragraph"><p>Immediately open a download.</p></div>
+<div class="paragraph"><p>If no specific command is given, this will use the system&#8217;s default application to open the file.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_48">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>cmdline</em></code>: The command which should be used to open the file. A <code>{}</code> is expanded to the temporary file name. If no <code>{}</code> is
+ present, the filename is automatically appended to the
+ cmdline.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_16">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="repeat-command">repeat-command</h3>
+<div class="paragraph"><p>Repeat the last executed command.</p></div>
+<div class="sect3">
+<h4 id="_count_35">count</h4>
+<div class="paragraph"><p>Which count to pass the command.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="rl-backward-char">rl-backward-char</h3>
+<div class="paragraph"><p>Move back a character.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s backward-char.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-backward-delete-char">rl-backward-delete-char</h3>
+<div class="paragraph"><p>Delete the character before the cursor.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s backward-delete-char.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-backward-kill-word">rl-backward-kill-word</h3>
+<div class="paragraph"><p>Remove chars from the cursor to the beginning of the word.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s backward-kill-word. Any non-alphanumeric character is considered a word delimiter.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-backward-word">rl-backward-word</h3>
+<div class="paragraph"><p>Move back to the start of the current or previous word.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s backward-word.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-beginning-of-line">rl-beginning-of-line</h3>
+<div class="paragraph"><p>Move to the start of the line.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s beginning-of-line.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-delete-char">rl-delete-char</h3>
+<div class="paragraph"><p>Delete the character after the cursor.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s delete-char.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-end-of-line">rl-end-of-line</h3>
+<div class="paragraph"><p>Move to the end of the line.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s end-of-line.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-forward-char">rl-forward-char</h3>
+<div class="paragraph"><p>Move forward a character.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s forward-char.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-forward-word">rl-forward-word</h3>
+<div class="paragraph"><p>Move forward to the end of the next word.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s forward-word.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-kill-line">rl-kill-line</h3>
+<div class="paragraph"><p>Remove chars from the cursor to the end of the line.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s kill-line.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-kill-word">rl-kill-word</h3>
+<div class="paragraph"><p>Remove chars from the cursor to the end of the current word.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s kill-word.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-unix-filename-rubout">rl-unix-filename-rubout</h3>
+<div class="paragraph"><p>Remove chars from the cursor to the previous path separator.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s unix-filename-rubout.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-unix-line-discard">rl-unix-line-discard</h3>
+<div class="paragraph"><p>Remove chars backward from the cursor to the beginning of the line.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s unix-line-discard.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-unix-word-rubout">rl-unix-word-rubout</h3>
+<div class="paragraph"><p>Remove chars from the cursor to the beginning of the word.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s unix-word-rubout. Whitespace is used as a word delimiter.</p></div>
+</div>
+<div class="sect2">
+<h3 id="rl-yank">rl-yank</h3>
+<div class="paragraph"><p>Paste the most recently deleted text.</p></div>
+<div class="paragraph"><p>This acts like readline&#8217;s yank.</p></div>
+</div>
+<div class="sect2">
+<h3 id="run-with-count">run-with-count</h3>
+<div class="paragraph"><p>Syntax: <code>:run-with-count <em>count-arg</em> <em>command</em></code></p></div>
+<div class="paragraph"><p>Run a command with the given count.</p></div>
+<div class="paragraph"><p>If run_with_count itself is run with a count, it multiplies count_arg.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_49">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>count-arg</em></code>: The count to pass to the command.
+</p>
+</li>
+<li>
+<p>
+<code><em>command</em></code>: The command to run, with optional args.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_36">count</h4>
+<div class="paragraph"><p>The count that run_with_count itself received.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_note_17">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+<li>
+<p>
+With this command, <code>;;</code> is interpreted literally instead of splitting off a second command.
+</p>
+</li>
+<li>
+<p>
+This command does not replace variables like <code>{url}</code>.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="scroll">scroll</h3>
+<div class="paragraph"><p>Syntax: <code>:scroll <em>direction</em></code></p></div>
+<div class="paragraph"><p>Scroll the current tab in the given direction.</p></div>
+<div class="paragraph"><p>Note you can use <code>:run-with-count</code> to have a keybinding with a bigger scroll increment.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_50">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>direction</em></code>: In which direction to scroll (up/down/left/right/top/bottom).
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_37">count</h4>
+<div class="paragraph"><p>multiplier</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="scroll-page">scroll-page</h3>
+<div class="paragraph"><p>Syntax: <code>:scroll-page [<strong>--top-navigate</strong> <em>ACTION</em>] [<strong>--bottom-navigate</strong> <em>ACTION</em>] <em>x</em> <em>y</em></code></p></div>
+<div class="paragraph"><p>Scroll the frame page-wise.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_51">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>x</em></code>: How many pages to scroll to the right.
+</p>
+</li>
+<li>
+<p>
+<code><em>y</em></code>: How many pages to scroll down.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_36">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--top-navigate</strong></code>: :navigate action (prev, decrement) to run when scrolling up at the top of the page.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bottom-navigate</strong></code>: :navigate action (next, increment) to run when scrolling down at the bottom of the page.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_38">count</h4>
+<div class="paragraph"><p>multiplier</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="scroll-perc">scroll-perc</h3>
+<div class="paragraph"><p>Syntax: <code>:scroll-perc [<strong>--horizontal</strong>] [<em>perc</em>]</code></p></div>
+<div class="paragraph"><p>Scroll to a specific percentage of the page.</p></div>
+<div class="paragraph"><p>The percentage can be given either as argument or as count. If no percentage is given, the page is scrolled to the end.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_52">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>perc</em></code>: Percentage to scroll.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_37">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-x</strong></code>, <code><strong>--horizontal</strong></code>: Scroll horizontally instead of vertically.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_39">count</h4>
+<div class="paragraph"><p>Percentage to scroll.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="scroll-px">scroll-px</h3>
+<div class="paragraph"><p>Syntax: <code>:scroll-px <em>dx</em> <em>dy</em></code></p></div>
+<div class="paragraph"><p>Scroll the current tab by <em>count * dx/dy</em> pixels.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_53">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>dx</em></code>: How much to scroll in x-direction.
+</p>
+</li>
+<li>
+<p>
+<code><em>dy</em></code>: How much to scroll in y-direction.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_40">count</h4>
+<div class="paragraph"><p>multiplier</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="search-next">search-next</h3>
+<div class="paragraph"><p>Continue the search to the ([count]th) next term.</p></div>
+<div class="sect3">
+<h4 id="_count_41">count</h4>
+<div class="paragraph"><p>How many elements to ignore.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="search-prev">search-prev</h3>
+<div class="paragraph"><p>Continue the search to the ([count]th) previous term.</p></div>
+<div class="sect3">
+<h4 id="_count_42">count</h4>
+<div class="paragraph"><p>How many elements to ignore.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="set-mark">set-mark</h3>
+<div class="paragraph"><p>Syntax: <code>:set-mark <em>key</em></code></p></div>
+<div class="paragraph"><p>Set a mark at the current scroll position in the current tab.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_54">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>key</em></code>: mark identifier; capital indicates a global mark
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="toggle-selection">toggle-selection</h3>
+<div class="paragraph"><p>Toggle caret selection mode.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_debugging_commands">Debugging commands</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>These commands are mainly intended for debugging. They are hidden if qutebrowser was started without the <code>--debug</code>-flag.</p></div>
+<div class="tableblock">
+<table rules="all"
+width="75%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 3. Quick reference</caption>
+<col width="25%" />
+<col width="75%" />
+<thead>
+<tr>
+<th align="left" valign="top">Command</th>
+<th align="left" valign="top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-all-objects">debug-all-objects</a></p></td>
+<td align="left" valign="top"><p class="table">Print a list of  all objects to the debug log.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-cache-stats">debug-cache-stats</a></p></td>
+<td align="left" valign="top"><p class="table">Print LRU cache stats.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-clear-ssl-errors">debug-clear-ssl-errors</a></p></td>
+<td align="left" valign="top"><p class="table">Clear remembered SSL error answers.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-console">debug-console</a></p></td>
+<td align="left" valign="top"><p class="table">Show the debugging console.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-crash">debug-crash</a></p></td>
+<td align="left" valign="top"><p class="table">Crash for debugging purposes.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-dump-page">debug-dump-page</a></p></td>
+<td align="left" valign="top"><p class="table">Dump the current page&#8217;s content to a file.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-log-capacity">debug-log-capacity</a></p></td>
+<td align="left" valign="top"><p class="table">Change the number of log lines to be stored in RAM.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-log-filter">debug-log-filter</a></p></td>
+<td align="left" valign="top"><p class="table">Change the log filter for console logging.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-log-level">debug-log-level</a></p></td>
+<td align="left" valign="top"><p class="table">Change the log level for console logging.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-pyeval">debug-pyeval</a></p></td>
+<td align="left" valign="top"><p class="table">Evaluate a python string and display the results as a web page.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-set-fake-clipboard">debug-set-fake-clipboard</a></p></td>
+<td align="left" valign="top"><p class="table">Put data into the fake clipboard and enable logging, used for tests.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-trace">debug-trace</a></p></td>
+<td align="left" valign="top"><p class="table">Trace executed code via hunter.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#debug-webaction">debug-webaction</a></p></td>
+<td align="left" valign="top"><p class="table">Execute a webaction.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="debug-all-objects">debug-all-objects</h3>
+<div class="paragraph"><p>Print a list of  all objects to the debug log.</p></div>
+</div>
+<div class="sect2">
+<h3 id="debug-cache-stats">debug-cache-stats</h3>
+<div class="paragraph"><p>Print LRU cache stats.</p></div>
+</div>
+<div class="sect2">
+<h3 id="debug-clear-ssl-errors">debug-clear-ssl-errors</h3>
+<div class="paragraph"><p>Clear remembered SSL error answers.</p></div>
+</div>
+<div class="sect2">
+<h3 id="debug-console">debug-console</h3>
+<div class="paragraph"><p>Show the debugging console.</p></div>
+</div>
+<div class="sect2">
+<h3 id="debug-crash">debug-crash</h3>
+<div class="paragraph"><p>Syntax: <code>:debug-crash [<em>typ</em>]</code></p></div>
+<div class="paragraph"><p>Crash for debugging purposes.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_55">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>typ</em></code>: either <em>exception</em> or <em>segfault</em>.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="debug-dump-page">debug-dump-page</h3>
+<div class="paragraph"><p>Syntax: <code>:debug-dump-page [<strong>--plain</strong>] <em>dest</em></code></p></div>
+<div class="paragraph"><p>Dump the current page&#8217;s content to a file.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_56">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>dest</em></code>: Where to write the file to.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_38">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-p</strong></code>, <code><strong>--plain</strong></code>: Write plain text instead of HTML.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="debug-log-capacity">debug-log-capacity</h3>
+<div class="paragraph"><p>Syntax: <code>:debug-log-capacity <em>capacity</em></code></p></div>
+<div class="paragraph"><p>Change the number of log lines to be stored in RAM.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_57">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>capacity</em></code>: Number of lines for the log.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="debug-log-filter">debug-log-filter</h3>
+<div class="paragraph"><p>Syntax: <code>:debug-log-filter <em>filters</em></code></p></div>
+<div class="paragraph"><p>Change the log filter for console logging.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_58">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>filters</em></code>: A comma separated list of logger names. Can also be "none" to clear any existing filters.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="debug-log-level">debug-log-level</h3>
+<div class="paragraph"><p>Syntax: <code>:debug-log-level <em>level</em></code></p></div>
+<div class="paragraph"><p>Change the log level for console logging.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_59">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>level</em></code>: The log level to set.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="debug-pyeval">debug-pyeval</h3>
+<div class="paragraph"><p>Syntax: <code>:debug-pyeval [<strong>--quiet</strong>] <em>s</em></code></p></div>
+<div class="paragraph"><p>Evaluate a python string and display the results as a web page.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_60">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>s</em></code>: The string to evaluate.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_39">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-q</strong></code>, <code><strong>--quiet</strong></code>: Don&#8217;t show the output in a new tab.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_18">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+<li>
+<p>
+With this command, <code>;;</code> is interpreted literally instead of splitting off a second command.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="debug-set-fake-clipboard">debug-set-fake-clipboard</h3>
+<div class="paragraph"><p>Syntax: <code>:debug-set-fake-clipboard [<em>s</em>]</code></p></div>
+<div class="paragraph"><p>Put data into the fake clipboard and enable logging, used for tests.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_61">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>s</em></code>: The text to put into the fake clipboard, or unset to enable logging.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="debug-trace">debug-trace</h3>
+<div class="paragraph"><p>Syntax: <code>:debug-trace [<em>expr</em>]</code></p></div>
+<div class="paragraph"><p>Trace executed code via hunter.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_62">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>expr</em></code>: What to trace, passed to hunter.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_19">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+<li>
+<p>
+With this command, <code>;;</code> is interpreted literally instead of splitting off a second command.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="debug-webaction">debug-webaction</h3>
+<div class="paragraph"><p>Syntax: <code>:debug-webaction <em>action</em></code></p></div>
+<div class="paragraph"><p>Execute a webaction.</p></div>
+<div class="paragraph"><p>Available actions: <a href="http://doc.qt.io/archives/qt-5.5/qwebpage.html#WebAction-enum">http://doc.qt.io/archives/qt-5.5/qwebpage.html#WebAction-enum</a> (WebKit) <a href="http://doc.qt.io/qt-5/qwebenginepage.html#WebAction-enum">http://doc.qt.io/qt-5/qwebenginepage.html#WebAction-enum</a> (WebEngine)</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_63">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>action</em></code>: The action to execute, e.g. MoveToNextChar.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_43">count</h4>
+<div class="paragraph"><p>How many times to repeat the action.</p></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2017-07-04 17:14:00 CEST
+</div>
+</div>
+</body>
+</html>
