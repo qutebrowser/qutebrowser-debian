@@ -1,0 +1,37 @@
+Source: qutebrowser
+Section: web
+Priority: optional
+Maintainer: Fritz Reichwald <reichwald@b1-systems.de>
+Build-Depends: asciidoc,
+               debhelper (>= 9.0),
+               docbook-xml,
+               docbook-xsl,
+               libxml2-utils,
+               python-setuptools,
+               python3 (>= 3.4),
+               python3-setuptools,
+               source-highlight,
+               xsltproc
+X-Python3-Version: >= 3.4
+Standards-Version: 4.0.0
+Homepage: https://qutebrowser.org
+
+Package: qutebrowser
+Architecture: all
+Depends: python,
+         python3-pyqt5,
+         python3-pyqt5.qtopengl,
+         python3-pyqt5.qtquick,
+         python3-pyqt5.qtwebengine | python3-pyqt5.qtwebkit,
+         python3-opengl,
+         python3-pypeg2,
+         python3-sip,
+         ${misc:Depends},
+         ${python3:Depends}
+Suggests: libjs-pdf,
+          python3-colorlog
+Description: Keyboard-focused web browser written in Python using PyQt5 and
+ QtWebKit.
+ .
+ It was inspired by other keyboard-focused web browsers or browser addons like
+ dwb and Vimperator/Pentadactyl.

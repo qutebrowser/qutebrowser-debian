@@ -1,0 +1,3 @@
+version=3
+opts="filenamemangle=s/(?:.*)?qutebrowser-?(\d[\d\.]*)\.tar\.gz/qutebrowser-$1.tar.gz/" \
+         https://github.com/The-Compiler/qutebrowser/releases/ (?:.*/)?qutebrowser-?(\d[\d\.]*)\.tar\.gz

@@ -1,0 +1,5 @@
+qutebrowser (0.11.0-1) unstable; urgency=medium
+
+  * Initial release. (Closes: #832159)  
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Tue, 04 Jul 2017 23:06:42 +0200
