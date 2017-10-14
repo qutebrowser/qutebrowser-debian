@@ -20,11 +20,12 @@
 """Command dispatcher for TabbedBrowser."""
 
 import os
+import sys
 import os.path
 import shlex
 import functools
 
-from PyQt5.QtWidgets import QApplication, QTabBar
+from PyQt5.QtWidgets import QApplication, QTabBar, QDialog
 from PyQt5.QtCore import Qt, QUrl, QEvent, QUrlQuery
 from PyQt5.QtGui import QKeyEvent
 from PyQt5.QtPrintSupport import QPrintDialog, QPrintPreviewDialog
@@ -227,19 +228,6 @@ class CommandDispatcher:
             self._tabbed_browser.close_tab(tab)
             tabbar.setSelectionBehaviorOnRemove(old_selection_behavior)
 
-    def _tab_close_prompt_if_pinned(self, tab, force, yes_action):
-        """Helper method for tab_close.
-
-        If tab is pinned, prompt. If everything is good, run yes_action.
-        """
-        if tab.data.pinned and not force:
-            message.confirm_async(
-                title='Pinned Tab',
-                text="Are you sure you want to close a pinned tab?",
-                yes_action=yes_action, default=False)
-        else:
-            yes_action()
-
     @cmdutils.register(instance='command-dispatcher', scope='window')
     @cmdutils.argument('count', count=True)
     def tab_close(self, prev=False, next_=False, opposite=False,
@@ -260,7 +248,7 @@ class CommandDispatcher:
         close = functools.partial(self._tab_close, tab, prev,
                                   next_, opposite)
 
-        self._tab_close_prompt_if_pinned(tab, force, close)
+        self._tabbed_browser.tab_close_prompt_if_pinned(tab, force, close)
 
     @cmdutils.register(instance='command-dispatcher', scope='window',
                        name='tab-pin')
@@ -436,9 +424,18 @@ class CommandDispatcher:
                 message.error("Printing failed!")
             diag.deleteLater()
 
+        def do_print():
+            """Called when the dialog was closed."""
+            tab.printing.to_printer(diag.printer(), print_callback)
+
         diag = QPrintDialog(tab)
-        diag.open(lambda: tab.printing.to_printer(diag.printer(),
-                                                  print_callback))
+        if sys.platform == 'darwin':
+            # For some reason we get a segfault when using open() on macOS
+            ret = diag.exec_()
+            if ret == QDialog.Accepted:
+                do_print()
+        else:
+            diag.open(do_print)
 
     @cmdutils.register(instance='command-dispatcher', name='print',
                        scope='window')
@@ -918,8 +915,9 @@ class CommandDispatcher:
         if not force:
             for i, tab in enumerate(self._tabbed_browser.widgets()):
                 if _to_close(i) and tab.data.pinned:
-                    self._tab_close_prompt_if_pinned(
-                        tab, force,
+                    self._tabbed_browser.tab_close_prompt_if_pinned(
+                        tab,
+                        force,
                         lambda: self.tab_only(
                             prev=prev, next_=next_, force=True))
                     return
@@ -1165,6 +1163,7 @@ class CommandDispatcher:
             detach: Whether the command should be detached from qutebrowser.
             cmdline: The commandline to execute.
         """
+        cmdutils.check_exclusive((userscript, detach), 'ud')
         try:
             cmd, *args = shlex.split(cmdline)
         except ValueError as e:

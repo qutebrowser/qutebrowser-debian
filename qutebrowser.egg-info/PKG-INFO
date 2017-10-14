@@ -1,11 +1,12 @@
 Metadata-Version: 1.1
 Name: qutebrowser
-Version: 0.11.0
+Version: 0.11.1
 Summary: A keyboard-driven, vim-like browser based on PyQt5.
 Home-page: https://www.qutebrowser.org/
 Author: Florian Bruhin
 Author-email: mail@qutebrowser.org
 License: GPL
+Description-Content-Type: UNKNOWN
 Description: // If you are reading this in plaintext or on PyPi:
         //
         // A rendered version is available at:
@@ -116,7 +117,6 @@ Description: // If you are reading this in plaintext or on PyPi:
         * http://jinja.pocoo.org/[jinja2]
         * http://pygments.org/[pygments]
         * http://pyyaml.org/wiki/PyYAML[PyYAML]
-        * http://pyopengl.sourceforge.net/[PyOpenGL] when using QtWebEngine
         
         The following libraries are optional and provide a better user experience:
         
@@ -201,6 +201,7 @@ Description: // If you are reading this in plaintext or on PyPi:
         * knaggita
         * Oliver Caldwell
         * Nikolay Amiantov
+        * Marius
         * Julian Weigt
         * Tomasz Kramkowski
         * Sebastian Frysztak
@@ -225,7 +226,6 @@ Description: // If you are reading this in plaintext or on PyPi:
         * Michał Góral
         * Michael Ilsaas
         * Martin Zimmermann
-        * Marius
         * Link
         * Jussi Timperi
         * Cosmin Popescu

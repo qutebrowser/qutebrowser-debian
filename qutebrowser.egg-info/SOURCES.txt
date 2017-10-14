@@ -10,6 +10,7 @@ qutebrowser.py
 requirements.txt
 setup.py
 tox.ini
+doc/contributing.html
 doc/qutebrowser.1.asciidoc
 doc/img/cheatsheet-big.png
 doc/img/cheatsheet-small.png
@@ -33,6 +34,7 @@ icons/qutebrowser.ico
 icons/qutebrowser.svg
 icons/qutebrowser.xpm
 misc/cheatsheet.svg
+misc/qutebrowser.rcc
 misc/apparmor/usr.bin.qutebrowser
 misc/userscripts/cast
 misc/userscripts/dmenu_qutebrowser
@@ -158,10 +160,11 @@ qutebrowser/html/settings.html
 qutebrowser/html/styled.html
 qutebrowser/html/undef_error.html
 qutebrowser/html/version.html
-qutebrowser/html/doc/CHANGELOG.html
-qutebrowser/html/doc/CONTRIBUTING.html
-qutebrowser/html/doc/FAQ.html
+qutebrowser/html/doc/changelog.html
 qutebrowser/html/doc/commands.html
+qutebrowser/html/doc/configuring.html
+qutebrowser/html/doc/contributing.html
+qutebrowser/html/doc/faq.html
 qutebrowser/html/doc/index.html
 qutebrowser/html/doc/quickstart.html
 qutebrowser/html/doc/settings.html
