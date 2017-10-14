@@ -790,8 +790,7 @@ be easy to solve</a>
 </li>
 <li>
 <p>
-<a href="https://github.com/qutebrowser/qutebrowser/labels/not%20code">Issues which
-require little/no coding</a>
+<a href="https://github.com/qutebrowser/qutebrowser/labels/component%3A%20docs">Documentation issues which require little/no coding</a>
 </p>
 </li>
 </ul></div>
@@ -890,22 +889,17 @@ Tests using <a href="https://www.pytest.org">pytest</a>:
 <div class="ulist"><ul>
 <li>
 <p>
-<code>py34</code>: Run pytest for python-3.4.
+<code>py35</code>, <code>py36</code>: Run pytest for python 3.5/3.6 with the system-wide PyQt.
 </p>
 </li>
 <li>
 <p>
-<code>py35</code>: Run pytest for python-3.5.
+<code>py36-pyqt57</code>, &#8230;, <code>py36-pyqt59</code>: Run pytest with the given PyQt version (<code>py35-*</code> also works).
 </p>
 </li>
 <li>
 <p>
-<code>py34-cov</code>: Run pytest for python-3.4 with code coverage report.
-</p>
-</li>
-<li>
-<p>
-<code>py35-cov</code>: Run pytest for python-3.5 with code coverage report.
+<code>py36-pyqt59-cov</code>: Run with coverage support (other Python/PyQt versions work too).
 </p>
 </li>
 </ul></div>
@@ -915,7 +909,7 @@ Tests using <a href="https://www.pytest.org">pytest</a>:
 <code>flake8</code>: Run <a href="https://pypi.python.org/pypi/flake8">flake8</a> checks:
                 <a href="https://pypi.python.org/pypi/pyflakes">pyflakes</a>,
                 <a href="https://pypi.python.org/pypi/pep8">pep8</a>,
-                <a href="https://pypi.python.org/pypi/mccabe">mccabe</a>
+                <a href="https://pypi.python.org/pypi/mccabe">mccabe</a>.
 </p>
 </li>
 <li>
@@ -933,13 +927,13 @@ Tests using <a href="https://www.pytest.org">pytest</a>:
 <p>
 <code>pydocstyle</code>: Check
   <a href="https://www.python.org/dev/peps/pep-0257/">PEP257</a> compliance with
-  <a href="https://github.com/PyCQA/pydocstyle">pydocstyle</a>
+  <a href="https://github.com/PyCQA/pydocstyle">pydocstyle</a>.
 </p>
 </li>
 <li>
 <p>
 <code>pyroma</code>: Check packaging practices with
-  <a href="https://pypi.python.org/pypi/pyroma/">pyroma</a>
+  <a href="https://pypi.python.org/pypi/pyroma/">pyroma</a>.
 </p>
 </li>
 <li>
@@ -950,7 +944,7 @@ Tests using <a href="https://www.pytest.org">pytest</a>:
 <li>
 <p>
 <code>check-manifest</code>: Check MANIFEST.in completeness with
-  <a href="https://github.com/mgedmin/check-manifest">check-manifest</a>
+  <a href="https://github.com/mgedmin/check-manifest">check-manifest</a>.
 </p>
 </li>
 <li>
@@ -1041,7 +1035,7 @@ tox -e py35-cov -- tests/unit/browser/test_webelem.py</code></pre>
 <div class="paragraph"><p>In the <em>scripts/</em> subfolder there&#8217;s a <code>run_profile.py</code> which profiles the code
 and shows a graphical representation of what takes how much time.</p></div>
 <div class="paragraph"><p>It uses the built-in Python
-<a href="https://docs.python.org/3.4/library/profile.html">cProfile</a> module and can show
+<a href="https://docs.python.org/3.6/library/profile.html">cProfile</a> module and can show
 the output in four different ways:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -1291,7 +1285,7 @@ slots.
 </li>
 <li>
 <p>
-<code>QProcess</code> is used instead of Python&#8217;s <code>subprocess</code>
+<code>QProcess</code> is used instead of Python&#8217;s <code>subprocess</code>.
 </p>
 </li>
 <li>
@@ -1336,7 +1330,7 @@ dictionaries which map object names to the actual long-living objects.</p></div>
 <li>
 <p>
 The <code>global</code> scope, with objects which are used globally (<code>config</code>,
-<code>cookie-jar</code>, etc.)
+<code>cookie-jar</code>, etc.).
 </p>
 </li>
 <li>
@@ -1458,12 +1452,25 @@ http://www.gnu.org/software/src-highlite -->
 <pre><tt>@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">register</span></span><span style="color: #990000">(...)</span>
 <span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">foo</span></span><span style="color: #990000">(</span>bar<span style="color: #990000">:</span> int<span style="color: #990000">,</span> baz<span style="color: #990000">=</span>True<span style="color: #990000">):</span>
     <span style="color: #990000">...</span></tt></pre></div></div>
-<div class="paragraph"><p>Possible values:
-    - A callable (<code>int</code>, <code>float</code>, etc.): Gets called to validate/convert the
-      value.
-    - A python enum type: All members of the enum are possible values.
-    - A <code>typing.Union</code> of multiple types above: Any of these types are valid
-      values, e.g., <code>typing.Union[str, int]</code></p></div>
+<div class="paragraph"><p>Possible values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+A callable (<code>int</code>, <code>float</code>, etc.): Gets called to validate/convert the value.
+</p>
+</li>
+<li>
+<p>
+A python enum type: All members of the enum are possible values.
+</p>
+</li>
+<li>
+<p>
+A <code>typing.Union</code> of multiple types above: Any of these types are valid
+  values, e.g., <code>typing.Union[str, int]</code>.
+</p>
+</li>
+</ul></div>
 <div class="paragraph"><p>You can customize how an argument is handled using the <code>@cmdutils.argument</code>
 decorator <strong>after</strong> <code>@cmdutils.register</code>. This can, for example, be used to
 customize the flag an argument should get:</p></div>
@@ -1497,22 +1504,23 @@ http://www.gnu.org/software/src-highlite -->
 </li>
 <li>
 <p>
-<code>win_id=True</code>: Mark the argument as special window ID argument
+<code>win_id=True</code>: Mark the argument as special window ID argument.
 </p>
 </li>
 <li>
 <p>
-<code>count=True</code>: Mark the argument as special count argument
+<code>count=True</code>: Mark the argument as special count argument.
 </p>
 </li>
 <li>
 <p>
-<code>hide=True</code>: Hide the argument from the documentation
+<code>hide=True</code>: Hide the argument from the documentation.
 </p>
 </li>
 <li>
 <p>
-<code>completion</code>: A <code>usertypes.Completion</code> member to use as completion.
+<code>completion</code>: A completion function (see <code>qutebrowser.completions.models.*</code>)
+  to use when completing arguments for the given command.
 </p>
 </li>
 <li>
@@ -1618,24 +1626,24 @@ will slow Valgrind down noticeably.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Install <a href="https://www.python.org/downloads/release/python-344/">Python 3.4</a>
+Install <a href="https://www.python.org/downloads/release/python-362/">Python 3.6</a>.
 </p>
 </li>
 <li>
 <p>
-Install <a href="https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.5.1/">PyQt 5.5</a>
+Install PyQt via <code>pip install PyQt5</code>.
 </p>
 </li>
 <li>
 <p>
-Create a file at <code>C:\Windows\system32\python3.bat</code> with the following content:
-  <code>@C:\Python34\python %*</code>
-  This will make the Python 3.4 interpreter available as <code>python3</code>, which is used by various development scripts.
+Create a file at <code>C:\Windows\system32\python3.bat</code> with the following content (adjust the path as necessary):
+  <code>@C:\Python36\python %*</code>.
+  This will make the Python 3.6 interpreter available as <code>python3</code>, which is used by various development scripts.
 </p>
 </li>
 <li>
 <p>
-Install git from the <a href="https://git-scm.com/download/win">git-scm downloads page</a>
+Install git from the <a href="https://git-scm.com/download/win">git-scm downloads page</a>.
   Try not to enable <code>core.autocrlf</code>, since that will cause <code>flake8</code> to complain a lot. Use an editor that can deal with plain line feeds instead.
 </p>
 </li>
@@ -1935,7 +1943,7 @@ Update own PKGBUILDs based on upstream Archlinux updates and rebuild.
 </li>
 <li>
 <p>
-Update recommended Qt version in <code>README</code>
+Update recommended Qt version in <code>README</code>.
 </p>
 </li>
 <li>
@@ -1958,12 +1966,12 @@ bugs</a> and check if they&#8217;re fixed.
 <div class="ulist"><ul>
 <li>
 <p>
-See above
+See above.
 </p>
 </li>
 <li>
 <p>
-Install new PyQt in Windows VM (32- and 64-bit)
+Install new PyQt in Windows VM (32- and 64-bit).
 </p>
 </li>
 <li>
@@ -1973,7 +1981,7 @@ Download new installer and update PyQt installer path in <code>ci_install.py</co
 </li>
 <li>
 <p>
-Update <code>tox.ini</code>/<code>.travis.yml</code>/<code>.appveyor.yml</code> to test new versions
+Update <code>tox.ini</code>/<code>.travis.yml</code>/<code>.appveyor.yml</code> to test new versions.
 </p>
 </li>
 </ul></div>
@@ -1988,12 +1996,12 @@ Make sure there are no unstaged changes and the tests are green.
 </li>
 <li>
 <p>
-Run <code>x=... y=...</code> to set the respective shell variables
+Run <code>x=... y=...</code> to set the respective shell variables.
 </p>
 </li>
 <li>
 <p>
-Add newest config to <code>tests/unit/config/old_configs</code> and update <code>test_upgrade_version</code>
+Add newest config to <code>tests/unit/config/old_configs</code> and update <code>test_upgrade_version</code>:
 </p>
 <div class="ulist"><ul>
 <li>
@@ -2003,12 +2011,17 @@ Add newest config to <code>tests/unit/config/old_configs</code> and update <code
 </li>
 <li>
 <p>
-<code>sed '/^#/d'  conf/config/qutebrowser.conf &gt; tests/unit/config/old_configs/qutebrowser-v0.x.y.conf</code>
+<code>sed '/^#/d'  conf/config/qutebrowser.conf &gt; tests/unit/config/old_configs/qutebrowser-v0.$x.$y.conf</code>
 </p>
 </li>
 <li>
 <p>
 <code>rm -r conf</code>
+</p>
+</li>
+<li>
+<p>
+git add
 </p>
 </li>
 <li>
@@ -2025,27 +2038,27 @@ Adjust <code>__version_info__</code> in <code>qutebrowser/__init__.py</code>.
 </li>
 <li>
 <p>
-Update changelog (remove <strong>(unreleased)</strong>)
+Update changelog (remove <strong>(unreleased)</strong>).
 </p>
 </li>
 <li>
 <p>
-Run tests again
+Run tests again.
 </p>
 </li>
 <li>
 <p>
-Commit
+Commit.
 </p>
 </li>
 <li>
 <p>
-Create annotated git tag (<code>git tag -s "v0.$x.$y" -m "Release v0.$x.$y"</code>)
+Create annotated git tag (<code>git tag -s "v0.$x.$y" -m "Release v0.$x.$y"</code>).
 </p>
 </li>
 <li>
 <p>
-<code>git push origin</code>; <code>git push origin v0.$x.$y</code>
+<code>git push origin</code>; <code>git push origin v0.$x.$y</code>.
 </p>
 </li>
 <li>
@@ -2055,7 +2068,7 @@ If committing on minor branch, cherry-pick release commit to master.
 </li>
 <li>
 <p>
-Create release on github
+Create release on github.
 </p>
 </li>
 <li>
@@ -2066,32 +2079,32 @@ as closed.
 </li>
 <li>
 <p>
-Linux: Run <code>python3 scripts/dev/build_release.py --upload v0.$x.$y</code>
+Linux: Run <code>python3 scripts/dev/build_release.py --upload v0.$x.$y</code>.
 </p>
 </li>
 <li>
 <p>
-Windows: Run <code>C:\Python34_x32\python scripts\dev\build_release.py --asciidoc C:\Python27\python C:\asciidoc-8.6.9\asciidoc.py --upload v0.X.Y</code> (replace X/Y by hand)
+Windows: Run <code>C:\Python36-32\python scripts\dev\build_release.py --asciidoc C:\Python27\python C:\asciidoc-8.6.9\asciidoc.py --upload v0.X.Y</code> (replace X/Y by hand).
 </p>
 </li>
 <li>
 <p>
-OS X: Run <code>python3 scripts/dev/build_release.py --upload v0.X.Y</code> (replace X/Y by hand)
+macOS: Run <code>python3 scripts/dev/build_release.py --upload v0.X.Y</code> (replace X/Y by hand).
 </p>
 </li>
 <li>
 <p>
-On server: Run <code>python3 scripts/dev/download_release.py v0.X.Y</code> (replace X/Y by hand)
+On server: Run <code>python3 scripts/dev/download_release.py v0.X.Y</code> (replace X/Y by hand).
 </p>
 </li>
 <li>
 <p>
-Update <code>qutebrowser-git</code> PKGBUILD if dependencies/install changed
+Update <code>qutebrowser-git</code> PKGBUILD if dependencies/install changed.
 </p>
 </li>
 <li>
 <p>
-Announce to qutebrowser and qutebrowser-announce mailinglist
+Announce to qutebrowser and qutebrowser-announce mailinglist.
 </p>
 </li>
 </ul></div>
@@ -2102,7 +2115,7 @@ Announce to qutebrowser and qutebrowser-announce mailinglist
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-07-04 17:13:59 CEST
+Last updated 2017-10-08 14:49:40 CEST
 </div>
 </div>
 </body>
