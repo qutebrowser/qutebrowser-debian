@@ -19,6 +19,7 @@
 
 """Other utilities which don't fit anywhere else."""
 
+import os
 import io
 import re
 import sys
@@ -26,23 +27,37 @@ import enum
 import json
 import os.path
 import collections
+import datetime
+import traceback
 import functools
 import contextlib
-import itertools
 import socket
 import shlex
 
+import attr
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QKeySequence, QColor, QClipboard, QDesktopServices
 from PyQt5.QtWidgets import QApplication
 import pkg_resources
+import yaml
+try:
+    from yaml import CSafeLoader as YamlLoader, CSafeDumper as YamlDumper
+    YAML_C_EXT = True
+except ImportError:  # pragma: no cover
+    from yaml import SafeLoader as YamlLoader, SafeDumper as YamlDumper
+    YAML_C_EXT = False
 
 import qutebrowser
-from qutebrowser.utils import qtutils, log
+from qutebrowser.utils import qtutils, log, debug
 
 
 fake_clipboard = None
 log_clipboard = False
+
+is_mac = sys.platform.startswith('darwin')
+is_linux = sys.platform.startswith('linux')
+is_windows = sys.platform.startswith('win')
+is_posix = os.name == 'posix'
 
 
 class ClipboardError(Exception):
@@ -372,9 +387,9 @@ def keyevent_to_string(e):
         A name of the key (combination) as a string or
         None if only modifiers are pressed..
     """
-    if sys.platform == 'darwin':
-        # Qt swaps Ctrl/Meta on OS X, so we switch it back here so the user can
-        # use it in the config as expected. See:
+    if is_mac:
+        # Qt swaps Ctrl/Meta on macOS, so we switch it back here so the user
+        # can use it in the config as expected. See:
         # https://github.com/qutebrowser/qutebrowser/issues/110
         # http://doc.qt.io/qt-5.4/osx-issues.html#special-keys
         modmask2str = collections.OrderedDict([
@@ -402,9 +417,10 @@ def keyevent_to_string(e):
         if mod & mask and s not in parts:
             parts.append(s)
     parts.append(key_to_string(e.key()))
-    return '+'.join(parts)
+    return normalize_keystr('+'.join(parts))
 
 
+@attr.s(repr=False)
 class KeyInfo:
 
     """Stores information about a key, like used in a QKeyEvent.
@@ -415,25 +431,19 @@ class KeyInfo:
         text: str
     """
 
-    def __init__(self, key, modifiers, text):
-        self.key = key
-        self.modifiers = modifiers
-        self.text = text
+    key = attr.ib()
+    modifiers = attr.ib()
+    text = attr.ib()
 
     def __repr__(self):
-        # Meh, dependency cycle...
-        from qutebrowser.utils.debug import qenum_key
         if self.modifiers is None:
             modifiers = None
         else:
             #modifiers = qflags_key(Qt, self.modifiers)
             modifiers = hex(int(self.modifiers))
-        return get_repr(self, constructor=True, key=qenum_key(Qt, self.key),
+        return get_repr(self, constructor=True,
+                        key=debug.qenum_key(Qt, self.key),
                         modifiers=modifiers, text=self.text)
-
-    def __eq__(self, other):
-        return (self.key == other.key and self.modifiers == other.modifiers and
-                self.text == other.text)
 
 
 class KeyParseError(Exception):
@@ -737,25 +747,6 @@ def sanitize_filename(name, replacement='_'):
     return name
 
 
-def newest_slice(iterable, count):
-    """Get an iterable for the n newest items of the given iterable.
-
-    Args:
-        count: How many elements to get.
-               0: get no items:
-               n: get the n newest items
-              -1: get all items
-    """
-    if count < -1:
-        raise ValueError("count can't be smaller than -1!")
-    elif count == 0:
-        return []
-    elif count == -1 or len(iterable) < count:
-        return iterable
-    else:
-        return itertools.islice(iterable, len(iterable) - count, len(iterable))
-
-
 def set_clipboard(data, selection=False):
     """Set the clipboard to some given data."""
     if selection and not supports_selection():
@@ -818,27 +809,28 @@ def random_port():
 def open_file(filename, cmdline=None):
     """Open the given file.
 
-    If cmdline is not given, general->default-open-dispatcher is used.
-    If default-open-dispatcher is unset, the system's default application is
-    used.
+    If cmdline is not given, downloads.open_dispatcher is used.
+    If open_dispatcher is unset, the system's default application is used.
 
     Args:
         filename: The filename to open.
         cmdline: The command to use as string. A `{}` is expanded to the
                  filename. None means to use the system's default application
-                 or `default-open-dispatcher` if set. If no `{}` is found, the
-                 filename is appended to the cmdline.
+                 or `downloads.open_dispatcher` if set. If no `{}` is found,
+                 the filename is appended to the cmdline.
     """
     # Import late to avoid circular imports:
-    # utils -> config -> configdata -> configtypes -> cmdutils -> command ->
-    # utils
-    from qutebrowser.misc import guiprocess
+    # - usertypes -> utils -> guiprocess -> message -> usertypes
+    # - usertypes -> utils -> config -> configdata -> configtypes ->
+    #   cmdutils -> command -> message -> usertypes
     from qutebrowser.config import config
+    from qutebrowser.misc import guiprocess
+
     # the default program to open downloads with - will be empty string
     # if we want to use the default
-    override = config.get('general', 'default-open-dispatcher')
+    override = config.val.downloads.open_dispatcher
 
-    # precedence order: cmdline > default-open-dispatcher > openUrl
+    # precedence order: cmdline > downloads.open_dispatcher > openUrl
 
     if cmdline is None and not override:
         log.misc.debug("Opening {} with the system application"
@@ -860,6 +852,11 @@ def open_file(filename, cmdline=None):
     proc.start_detached(cmd, args)
 
 
+def unused(_arg):
+    """Function which does nothing to avoid pylint complaining."""
+    pass
+
+
 def expand_windows_drive(path):
     r"""Expand a drive-path like E: into E:\.
 
@@ -876,3 +873,39 @@ def expand_windows_drive(path):
         return path + "\\"
     else:
         return path
+
+
+def yaml_load(f):
+    """Wrapper over yaml.load using the C loader if possible."""
+    start = datetime.datetime.now()
+    data = yaml.load(f, Loader=YamlLoader)
+    end = datetime.datetime.now()
+
+    delta = (end - start).total_seconds()
+    deadline = 3 if 'CI' in os.environ else 1
+    if delta > deadline:  # pragma: no cover
+        log.misc.warning(
+            "YAML load took unusually long, please report this at "
+            "https://github.com/qutebrowser/qutebrowser/issues/2777\n"
+            "duration: {}s\n"
+            "PyYAML version: {}\n"
+            "C extension: {}\n"
+            "Stack:\n\n"
+            "{}".format(
+                delta, yaml.__version__, YAML_C_EXT,
+                ''.join(traceback.format_stack())))
+
+    return data
+
+
+def yaml_dump(data, f=None):
+    """Wrapper over yaml.dump using the C dumper if possible.
+
+    Also returns a str instead of bytes.
+    """
+    yaml_data = yaml.dump(data, f, Dumper=YamlDumper, default_flow_style=False,
+                          encoding='utf-8', allow_unicode=True)
+    if yaml_data is None:
+        return None
+    else:
+        return yaml_data.decode('utf-8')

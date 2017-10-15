@@ -23,8 +23,12 @@ window.loadHistory = (function() {
     // Date of last seen item.
     var lastItemDate = null;
 
-    // The time to load next.
+    // Each request for new items includes the time of the last item and an
+    // offset. The offset is equal to the number of items from the previous
+    // request that had time=nextTime, and causes the next request to skip
+    // those items to avoid duplicates.
     var nextTime = null;
+    var nextOffset = 0;
 
     // The URL to fetch data from.
     var DATA_URL = "qute://history/data";
@@ -75,9 +79,9 @@ window.loadHistory = (function() {
 
         // Create session-separator and new tbody if necessary
         if (tbody.lastChild !== null && lastItemDate !== null &&
-                window.SESSION_INTERVAL > 0) {
+                window.GAP_INTERVAL > 0) {
             var interval = lastItemDate.getTime() - date.getTime();
-            if (interval > window.SESSION_INTERVAL) {
+            if (interval > window.GAP_INTERVAL) {
                 // Add session-separator
                 var sessionSeparator = document.createElement("td");
                 sessionSeparator.className = "session-separator";
@@ -157,23 +161,28 @@ window.loadHistory = (function() {
             return;
         }
 
-        for (var i = 0, len = history.length - 1; i < len; i++) {
-            var item = history[i];
-            var currentItemDate = new Date(item.time);
-            getSessionNode(currentItemDate).appendChild(makeHistoryRow(
-                item.url, item.title, currentItemDate.toLocaleTimeString()
-            ));
-            lastItemDate = currentItemDate;
-        }
-
-        var next = history[history.length - 1].next;
-        if (next === -1) {
+        if (history.length === 0) {
             // Reached end of history
             window.onscroll = null;
             EOF_MESSAGE.style.display = "block";
             LOAD_LINK.style.display = "none";
-        } else {
-            nextTime = next;
+            return;
+        }
+
+        nextTime = history[history.length - 1].time;
+        nextOffset = 0;
+
+        for (var i = 0, len = history.length; i < len; i++) {
+            var item = history[i];
+            // python's time.time returns seconds, but js Date expects ms
+            var currentItemDate = new Date(item.time * 1000);
+            getSessionNode(currentItemDate).appendChild(makeHistoryRow(
+                item.url, item.title, currentItemDate.toLocaleTimeString()
+            ));
+            lastItemDate = currentItemDate;
+            if (item.time === nextTime) {
+                nextOffset++;
+            }
         }
     }
 
@@ -182,10 +191,11 @@ window.loadHistory = (function() {
      * @return {void}
      */
     function loadHistory() {
+        var url = DATA_URL.concat("?offset=", nextOffset.toString());
         if (nextTime === null) {
-            getJSON(DATA_URL, receiveHistory);
+            getJSON(url, receiveHistory);
         } else {
-            var url = DATA_URL.concat("?start_time=", nextTime.toString());
+            url = url.concat("&start_time=", nextTime.toString());
             getJSON(url, receiveHistory);
         }
     }

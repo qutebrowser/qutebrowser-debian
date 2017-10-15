@@ -19,7 +19,6 @@
 
 """Wrapper over our (QtWebKit) WebView."""
 
-import sys
 import functools
 import xml.etree.ElementTree
 
@@ -27,23 +26,13 @@ import sip
 from PyQt5.QtCore import (pyqtSlot, Qt, QEvent, QUrl, QPoint, QTimer, QSizeF,
                           QSize)
 from PyQt5.QtGui import QKeyEvent
-from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWebKitWidgets import QWebPage, QWebFrame
 from PyQt5.QtWebKit import QWebSettings
 from PyQt5.QtPrintSupport import QPrinter
 
 from qutebrowser.browser import browsertab
 from qutebrowser.browser.webkit import webview, tabhistory, webkitelem
-from qutebrowser.browser.webkit.network import webkitqutescheme
 from qutebrowser.utils import qtutils, objreg, usertypes, utils, log, debug
-
-
-def init():
-    """Initialize QtWebKit-specific modules."""
-    qapp = QApplication.instance()
-    log.init.debug("Initializing js-bridge...")
-    js_bridge = webkitqutescheme.JSBridge(qapp)
-    objreg.register('js-bridge', js_bridge)
 
 
 class WebKitAction(browsertab.AbstractAction):
@@ -65,20 +54,14 @@ class WebKitPrinting(browsertab.AbstractPrinting):
 
     """QtWebKit implementations related to printing."""
 
-    def _do_check(self):
-        if not qtutils.check_print_compat():
-            # WORKAROUND (remove this when we bump the requirements to 5.3.0)
-            raise browsertab.WebTabError(
-                "Printing on Qt < 5.3.0 on Windows is broken, please upgrade!")
-
     def check_pdf_support(self):
-        self._do_check()
+        pass
 
     def check_printer_support(self):
-        self._do_check()
+        pass
 
     def check_preview_support(self):
-        self._do_check()
+        pass
 
     def to_pdf(self, filename):
         printer = QPrinter()
@@ -133,24 +116,21 @@ class WebKitSearch(browsertab.AbstractSearch):
         self._widget.findText('')
         self._widget.findText('', QWebPage.HighlightAllOccurrences)
 
-    def search(self, text, *, ignore_case=False, reverse=False,
+    def search(self, text, *, ignore_case='never', reverse=False,
                result_cb=None):
         self.search_displayed = True
-        flags = QWebPage.FindWrapsAroundDocument
-        if ignore_case == 'smart':
-            if not text.islower():
-                flags |= QWebPage.FindCaseSensitively
-        elif not ignore_case:
-            flags |= QWebPage.FindCaseSensitively
+        self.text = text
+        self._flags = QWebPage.FindWrapsAroundDocument
+        if self._is_case_sensitive(ignore_case):
+            self._flags |= QWebPage.FindCaseSensitively
         if reverse:
-            flags |= QWebPage.FindBackward
+            self._flags |= QWebPage.FindBackward
         # We actually search *twice* - once to highlight everything, then again
         # to get a mark so we can navigate.
-        found = self._widget.findText(text, flags)
-        self._widget.findText(text, flags | QWebPage.HighlightAllOccurrences)
-        self.text = text
-        self._flags = flags
-        self._call_cb(result_cb, found, text, flags, 'search')
+        found = self._widget.findText(text, self._flags)
+        self._widget.findText(text,
+                              self._flags | QWebPage.HighlightAllOccurrences)
+        self._call_cb(result_cb, found, text, self._flags, 'search')
 
     def next_result(self, *, result_cb=None):
         self.search_displayed = True
@@ -242,11 +222,11 @@ class WebKitCaret(browsertab.AbstractCaret):
     def move_to_end_of_word(self, count=1):
         if not self.selection_enabled:
             act = [QWebPage.MoveToNextWord]
-            if sys.platform == 'win32':  # pragma: no cover
+            if utils.is_windows:  # pragma: no cover
                 act.append(QWebPage.MoveToPreviousChar)
         else:
             act = [QWebPage.SelectNextWord]
-            if sys.platform == 'win32':  # pragma: no cover
+            if utils.is_windows:  # pragma: no cover
                 act.append(QWebPage.SelectPreviousChar)
         for _ in range(count):
             for a in act:
@@ -255,11 +235,11 @@ class WebKitCaret(browsertab.AbstractCaret):
     def move_to_next_word(self, count=1):
         if not self.selection_enabled:
             act = [QWebPage.MoveToNextWord]
-            if sys.platform != 'win32':  # pragma: no branch
+            if not utils.is_windows:  # pragma: no branch
                 act.append(QWebPage.MoveToNextChar)
         else:
             act = [QWebPage.SelectNextWord]
-            if sys.platform != 'win32':  # pragma: no branch
+            if not utils.is_windows:  # pragma: no branch
                 act.append(QWebPage.SelectNextChar)
         for _ in range(count):
             for a in act:
@@ -398,9 +378,6 @@ class WebKitZoom(browsertab.AbstractZoom):
     def _set_factor_internal(self, factor):
         self._widget.setZoomFactor(factor)
 
-    def factor(self):
-        return self._widget.zoomFactor()
-
 
 class WebKitScroller(browsertab.AbstractScroller):
 
@@ -506,17 +483,17 @@ class WebKitHistory(browsertab.AbstractHistory):
     def current_idx(self):
         return self._history.currentItemIndex()
 
-    def back(self):
-        self._history.back()
-
-    def forward(self):
-        self._history.forward()
-
     def can_go_back(self):
         return self._history.canGoBack()
 
     def can_go_forward(self):
         return self._history.canGoForward()
+
+    def _item_at(self, i):
+        return self._history.itemAt(i)
+
+    def _go_to_item(self, item):
+        return self._history.goToItem(item)
 
     def serialize(self):
         return qtutils.serialize(self._history)

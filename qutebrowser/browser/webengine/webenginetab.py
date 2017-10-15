@@ -19,9 +19,9 @@
 
 """Wrapper over a QWebEngineView."""
 
-import os
 import math
 import functools
+import html as html_utils
 
 import sip
 from PyQt5.QtCore import pyqtSlot, Qt, QEvent, QPoint, QUrl, QTimer
@@ -37,7 +37,7 @@ from qutebrowser.browser.webengine import (webview, webengineelem, tabhistory,
                                            webenginesettings)
 from qutebrowser.misc import miscwidgets
 from qutebrowser.utils import (usertypes, qtutils, log, javascript, utils,
-                               objreg, jinja, debug, version)
+                               message, objreg, jinja, debug)
 
 
 _qute_scheme_handler = None
@@ -49,16 +49,8 @@ def init():
     # won't work...
     # https://www.riverbankcomputing.com/pipermail/pyqt/2016-September/038075.html
     global _qute_scheme_handler
+
     app = QApplication.instance()
-
-    software_rendering = (os.environ.get('LIBGL_ALWAYS_SOFTWARE') == '1' or
-                          'QT_XCB_FORCE_SOFTWARE_OPENGL' in os.environ)
-    if version.opengl_vendor() == 'nouveau' and not software_rendering:
-        # FIXME:qtwebengine display something more sophisticated here
-        raise browsertab.WebTabError(
-            "QtWebEngine is not supported with Nouveau graphics (unless "
-            "QT_XCB_FORCE_SOFTWARE_OPENGL is set as environment variable).")
-
     log.init.debug("Initializing qute://* handler...")
     _qute_scheme_handler = webenginequtescheme.QuteSchemeHandler(parent=app)
     _qute_scheme_handler.install(webenginesettings.default_profile)
@@ -153,20 +145,16 @@ class WebEngineSearch(browsertab.AbstractSearch):
                 callback(found)
         self._widget.findText(text, flags, wrapped_callback)
 
-    def search(self, text, *, ignore_case=False, reverse=False,
+    def search(self, text, *, ignore_case='never', reverse=False,
                result_cb=None):
-        flags = QWebEnginePage.FindFlags(0)
-        if ignore_case == 'smart':
-            if not text.islower():
-                flags |= QWebEnginePage.FindCaseSensitively
-        elif not ignore_case:
-            flags |= QWebEnginePage.FindCaseSensitively
-        if reverse:
-            flags |= QWebEnginePage.FindBackward
-
         self.text = text
-        self._flags = flags
-        self._find(text, flags, result_cb, 'search')
+        self._flags = QWebEnginePage.FindFlags(0)
+        if self._is_case_sensitive(ignore_case):
+            self._flags |= QWebEnginePage.FindCaseSensitively
+        if reverse:
+            self._flags |= QWebEnginePage.FindBackward
+
+        self._find(text, self._flags, result_cb, 'search')
 
     def clear(self):
         self.search_displayed = False
@@ -411,20 +399,20 @@ class WebEngineHistory(browsertab.AbstractHistory):
     def current_idx(self):
         return self._history.currentItemIndex()
 
-    def back(self):
-        self._history.back()
-
-    def forward(self):
-        self._history.forward()
-
     def can_go_back(self):
         return self._history.canGoBack()
 
     def can_go_forward(self):
         return self._history.canGoForward()
 
+    def _item_at(self, i):
+        return self._history.itemAt(i)
+
+    def _go_to_item(self, item):
+        return self._history.goToItem(item)
+
     def serialize(self):
-        if not qtutils.version_check('5.9'):
+        if not qtutils.version_check('5.9', compiled=False):
             # WORKAROUND for
             # https://github.com/qutebrowser/qutebrowser/issues/2289
             # Don't use the history's currentItem here, because of
@@ -456,9 +444,6 @@ class WebEngineZoom(browsertab.AbstractZoom):
 
     def _set_factor_internal(self, factor):
         self._widget.setZoomFactor(factor)
-
-    def factor(self):
-        return self._widget.zoomFactor()
 
 
 class WebEngineElements(browsertab.AbstractElements):
@@ -616,7 +601,8 @@ class WebEngineTab(browsertab.AbstractTab):
 
     def shutdown(self):
         self.shutting_down.emit()
-        if qtutils.version_check('5.8', exact=True):
+        self.action.exit_fullscreen()
+        if qtutils.version_check('5.8', exact=True, compiled=False):
             # WORKAROUND for
             # https://bugreports.qt.io/browse/QTBUG-58563
             self.search.clear()
@@ -664,6 +650,15 @@ class WebEngineTab(browsertab.AbstractTab):
 
     @pyqtSlot()
     def _on_history_trigger(self):
+        try:
+            self._widget.page()
+        except RuntimeError:
+            # Looks like this slot can be triggered on destroyed tabs:
+            # https://crashes.qutebrowser.org/view/3abffbed (Qt 5.9.1)
+            # wrapped C/C++ object of type WebEngineView has been deleted
+            log.misc.debug("Ignoring history trigger for destroyed tab")
+            return
+
         url = self.url()
         requested_url = self.url(requested=True)
 
@@ -680,6 +675,32 @@ class WebEngineTab(browsertab.AbstractTab):
             return
 
         self.add_history_item.emit(url, requested_url, title)
+
+    @pyqtSlot(QUrl, 'QAuthenticator*', 'QString')
+    def _on_proxy_authentication_required(self, url, authenticator,
+                                          proxy_host):
+        """Called when a proxy needs authentication."""
+        msg = "<b>{}</b> requires a username and password.".format(
+            html_utils.escape(proxy_host))
+        answer = message.ask(
+            title="Proxy authentication required", text=msg,
+            mode=usertypes.PromptMode.user_pwd,
+            abort_on=[self.shutting_down, self.load_started])
+        if answer is not None:
+            authenticator.setUser(answer.user)
+            authenticator.setPassword(answer.password)
+        else:
+            try:
+                # pylint: disable=no-member, useless-suppression
+                sip.assign(authenticator, QAuthenticator())
+            except AttributeError:
+                url_string = url.toDisplayString()
+                error_page = jinja.render(
+                    'error.html',
+                    title="Error loading page: {}".format(url_string),
+                    url=url_string, error="Proxy authentication required",
+                    icon='')
+                self.set_html(error_page)
 
     @pyqtSlot(QUrl, 'QAuthenticator*')
     def _on_authentication_required(self, url, authenticator):
@@ -698,7 +719,7 @@ class WebEngineTab(browsertab.AbstractTab):
                 error_page = jinja.render(
                     'error.html',
                     title="Error loading page: {}".format(url_string),
-                    url=url_string, error="Authentication required", icon='')
+                    url=url_string, error="Authentication required")
                 self.set_html(error_page)
 
     @pyqtSlot('QWebEngineFullScreenRequest')
@@ -716,7 +737,8 @@ class WebEngineTab(browsertab.AbstractTab):
     @pyqtSlot()
     def _on_load_started(self):
         """Clear search when a new load is started if needed."""
-        if qtutils.version_check('5.9'):
+        if (qtutils.version_check('5.9', compiled=False) and
+                not qtutils.version_check('5.9.2', compiled=False)):
             # WORKAROUND for
             # https://bugreports.qt.io/browse/QTBUG-61506
             self.search.clear()
@@ -757,6 +779,8 @@ class WebEngineTab(browsertab.AbstractTab):
         page.loadFinished.connect(self._on_load_finished)
         page.certificate_error.connect(self._on_ssl_errors)
         page.authenticationRequired.connect(self._on_authentication_required)
+        page.proxyAuthenticationRequired.connect(
+            self._on_proxy_authentication_required)
         page.fullScreenRequested.connect(self._on_fullscreen_requested)
         page.contentsSizeChanged.connect(self.contents_size_changed)
 
