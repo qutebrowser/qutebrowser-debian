@@ -910,9 +910,9 @@ without having to remember the exact website title or address.</p></div>
 How do I use spell checking?
 </em></p>
 <p>
-    Qutebrowser&#8217;s support for spell checking is somewhat limited at the moment
-    (see <a href="https://github.com/qutebrowser/qutebrowser/issues/700">#700</a>), but it
-    can be done.
+        Configuring spell checking in qutebrowser depends on the backend in use
+    (see <a href="https://github.com/qutebrowser/qutebrowser/issues/700">#700</a> for
+        a more detailed discussion).
 </p>
 <div class="paragraph"><p>For QtWebKit:</p></div>
 <div class="olist arabic"><ol class="arabic">
@@ -947,12 +947,19 @@ Remember to install the hunspell dictionaries if you don&#8217;t have them alrea
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
-Not yet supported unfortunately :-(<br />
-  Adding it shouldn&#8217;t be too hard though, since QtWebEngine 5.8 added an API for
-  this (see
-  <a href="https://github.com/qutebrowser/qutebrowser/issues/700#issuecomment-290780706">this
-  comment for a basic example</a>), so what are you waiting for and why aren&#8217;t you
-  hacking qutebrowser yet?
+Make sure your versions of PyQt and Qt are 5.8 or higher.
+</p>
+</li>
+<li>
+<p>
+Use <code>install_dict.py</code> script to install dictionaries.
+  Run the script with <code>-h</code> for the parameter description.
+</p>
+</li>
+<li>
+<p>
+Set <code>spellcheck.languages</code> to the desired list of languages, e.g.:
+  <code>:set spellcheck.languages "['en-US', 'pl-PL']"</code>
 </p>
 </li>
 </ol></div>
@@ -1090,7 +1097,7 @@ My issue is not listed.
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-08 14:49:39 CEST
+Last updated 2017-10-12 10:15:41 CEST
 </div>
 </div>
 </body>

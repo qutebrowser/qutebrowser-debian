@@ -1128,7 +1128,7 @@ cellspacing="0" cellpadding="4">
 </div>
 <div class="sect2">
 <h3 id="bind">bind</h3>
-<div class="paragraph"><p>Syntax: <code>:bind [<strong>--mode</strong> <em>mode</em>] <em>key</em> [<em>command</em>]</code></p></div>
+<div class="paragraph"><p>Syntax: <code>:bind [<strong>--mode</strong> <em>mode</em>] [<strong>--default</strong>] <em>key</em> [<em>command</em>]</code></p></div>
 <div class="paragraph"><p>Bind a key to a command.</p></div>
 <div class="sect3">
 <h4 id="_positional_arguments">positional arguments</h4>
@@ -1152,6 +1152,11 @@ cellspacing="0" cellpadding="4">
 <p>
 <code><strong>-m</strong></code>, <code><strong>--mode</strong></code>: A comma-separated list of modes to bind the key in (default: <code>normal</code>). See <code>:help bindings.commands</code> for the
  available modes.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-d</strong></code>, <code><strong>--default</strong></code>: If given, restore a default binding.
 </p>
 </li>
 </ul></div>
@@ -4325,7 +4330,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-08 14:49:42 CEST
+Last updated 2017-10-12 10:15:43 CEST
 </div>
 </div>
 </body>

@@ -927,7 +927,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.messages.warning.border">colors.messages.warning.border</a></p></td>
-<td align="left" valign="top"><p class="table">Border color of an error message.</p></td>
+<td align="left" valign="top"><p class="table">Border color of a warning message.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.messages.warning.fg">colors.messages.warning.fg</a></p></td>
@@ -1434,10 +1434,6 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">The minimum logical font size that is applied when zooming out.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#force_software_rendering">force_software_rendering</a></p></td>
-<td align="left" valign="top"><p class="table">Force software rendering for QtWebEngine.</p></td>
-</tr>
-<tr>
 <td align="left" valign="top"><p class="table"><a href="#hints.auto_follow">hints.auto_follow</a></p></td>
 <td align="left" valign="top"><p class="table">Controls when a hint can be automatically followed without pressing Enter.</p></td>
 </tr>
@@ -1562,8 +1558,16 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">The rounding radius for the edges of prompts.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#qt_args">qt_args</a></p></td>
+<td align="left" valign="top"><p class="table"><a href="#qt.args">qt.args</a></p></td>
 <td align="left" valign="top"><p class="table">Additional arguments to pass to Qt, without leading <code>--</code>.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#qt.force_platform">qt.force_platform</a></p></td>
+<td align="left" valign="top"><p class="table">Force a Qt platform to use.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#qt.force_software_rendering">qt.force_software_rendering</a></p></td>
+<td align="left" valign="top"><p class="table">Force software rendering for QtWebEngine.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#scrolling.bar">scrolling.bar</a></p></td>
@@ -1576,6 +1580,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#session_default_name">session_default_name</a></p></td>
 <td align="left" valign="top"><p class="table">The name of the session to save by default.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#spellcheck.languages">spellcheck.languages</a></p></td>
+<td align="left" valign="top"><p class="table">Spell checking languages.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#statusbar.hide">statusbar.hide</a></p></td>
@@ -2601,6 +2609,21 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>Sb</code>: <code>open qute://bookmarks#bookmarks</code>
+</p>
+</li>
+<li>
+<p>
+<code>Sh</code>: <code>open qute://history</code>
+</p>
+</li>
+<li>
+<p>
+<code>Sq</code>: <code>open qute://bookmarks</code>
+</p>
+</li>
+<li>
+<p>
 <code>Ss</code>: <code>open qute://settings</code>
 </p>
 </li>
@@ -2911,7 +2934,22 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>xb</code>: <code>config-cycle statusbar.hide</code>
+</p>
+</li>
+<li>
+<p>
 <code>xo</code>: <code>set-cmd-text -s :open -b</code>
+</p>
+</li>
+<li>
+<p>
+<code>xt</code>: <code>config-cycle tabs.show always switching</code>
+</p>
+</li>
+<li>
+<p>
+<code>xx</code>: <code>config-cycle statusbar.hide ;; config-cycle tabs.show always switching</code>
 </p>
 </li>
 <li>
@@ -3430,7 +3468,7 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.messages.warning.border">colors.messages.warning.border</h3>
-<div class="paragraph"><p>Border color of an error message.</p></div>
+<div class="paragraph"><p>Border color of a warning message.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
 <div class="paragraph"><p>Default: <code>#d47300</code></p></div>
 </div>
@@ -4550,14 +4588,6 @@ Whenever "monospace" is used in a font setting, it&#8217;s replaced with the fon
 <div class="paragraph"><p>Default: <code>6</code></p></div>
 </div>
 <div class="sect2">
-<h3 id="force_software_rendering">force_software_rendering</h3>
-<div class="paragraph"><p>Force software rendering for QtWebEngine.
-This is needed for QtWebEngine to work with Nouveau drivers. This setting requires a restart.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
-</div>
-<div class="sect2">
 <h3 id="hints.auto_follow">hints.auto_follow</h3>
 <div class="paragraph"><p>Controls when a hint can be automatically followed without pressing Enter.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
@@ -4955,12 +4985,27 @@ When <code>new_instance_open_target</code> is not set to <code>window</code>, th
 <div class="paragraph"><p>Default: <code>8</code></p></div>
 </div>
 <div class="sect2">
-<h3 id="qt_args">qt_args</h3>
+<h3 id="qt.args">qt.args</h3>
 <div class="paragraph"><p>Additional arguments to pass to Qt, without leading <code>--</code>.
 With QtWebEngine, some Chromium arguments (see <a href="https://peter.sh/experiments/chromium-command-line-switches/">https://peter.sh/experiments/chromium-command-line-switches/</a> for a list) will work.
 This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">List of String</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="qt.force_platform">qt.force_platform</h3>
+<div class="paragraph"><p>Force a Qt platform to use.
+This sets the <code>QT_QPA_PLATFORM</code> environment variable and is useful to force using the XCB plugin when running QtWebEngine on Wayland.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="qt.force_software_rendering">qt.force_software_rendering</h3>
+<div class="paragraph"><p>Force software rendering for QtWebEngine.
+This is needed for QtWebEngine to work with Nouveau drivers. This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="scrolling.bar">scrolling.bar</h3>
@@ -4981,6 +5026,228 @@ Note smooth scrolling does not work with the <code>:scroll-px</code> command.</p
 If this is set to null, the session which was last loaded is saved.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">SessionName</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="spellcheck.languages">spellcheck.languages</h3>
+<div class="paragraph"><p>Spell checking languages.
+You can check for available languages and install dictionaries using scripts/install_dict.py. Run the script with -h/--help for instructions.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">List of String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>af-ZA</code>: Afrikaans (South Africa)
+</p>
+</li>
+<li>
+<p>
+<code>bg-BG</code>: Bulgarian (Bulgaria)
+</p>
+</li>
+<li>
+<p>
+<code>ca-ES</code>: Catalan (Spain)
+</p>
+</li>
+<li>
+<p>
+<code>cs-CZ</code>: Czech (Czech Republic)
+</p>
+</li>
+<li>
+<p>
+<code>da-DK</code>: Danish (Denmark)
+</p>
+</li>
+<li>
+<p>
+<code>de-DE</code>: German (Germany)
+</p>
+</li>
+<li>
+<p>
+<code>el-GR</code>: Greek (Greece)
+</p>
+</li>
+<li>
+<p>
+<code>en-CA</code>: English (Canada)
+</p>
+</li>
+<li>
+<p>
+<code>en-GB</code>: English (United Kingdom)
+</p>
+</li>
+<li>
+<p>
+<code>en-US</code>: English (United States)
+</p>
+</li>
+<li>
+<p>
+<code>es-ES</code>: Spanish (Spain)
+</p>
+</li>
+<li>
+<p>
+<code>et-EE</code>: Estonian (Estonia)
+</p>
+</li>
+<li>
+<p>
+<code>fa-IR</code>: Farsi (Iran)
+</p>
+</li>
+<li>
+<p>
+<code>fo-FO</code>: Faroese (Faroe Islands)
+</p>
+</li>
+<li>
+<p>
+<code>fr-FR</code>: French (France)
+</p>
+</li>
+<li>
+<p>
+<code>he-IL</code>: Hebrew (Israel)
+</p>
+</li>
+<li>
+<p>
+<code>hi-IN</code>: Hindi (India)
+</p>
+</li>
+<li>
+<p>
+<code>hr-HR</code>: Croatian (Croatia)
+</p>
+</li>
+<li>
+<p>
+<code>hu-HU</code>: Hungarian (Hungary)
+</p>
+</li>
+<li>
+<p>
+<code>id-ID</code>: Indonesian (Indonesia)
+</p>
+</li>
+<li>
+<p>
+<code>it-IT</code>: Italian (Italy)
+</p>
+</li>
+<li>
+<p>
+<code>ko</code>: Korean
+</p>
+</li>
+<li>
+<p>
+<code>lt-LT</code>: Lithuanian (Lithuania)
+</p>
+</li>
+<li>
+<p>
+<code>lv-LV</code>: Latvian (Latvia)
+</p>
+</li>
+<li>
+<p>
+<code>nb-NO</code>: Norwegian (Norway)
+</p>
+</li>
+<li>
+<p>
+<code>nl-NL</code>: Dutch (Netherlands)
+</p>
+</li>
+<li>
+<p>
+<code>pl-PL</code>: Polish (Poland)
+</p>
+</li>
+<li>
+<p>
+<code>pt-BR</code>: Portuguese (Brazil)
+</p>
+</li>
+<li>
+<p>
+<code>pt-PT</code>: Portuguese (Portugal)
+</p>
+</li>
+<li>
+<p>
+<code>ro-RO</code>: Romanian (Romania)
+</p>
+</li>
+<li>
+<p>
+<code>ru-RU</code>: Russian (Russia)
+</p>
+</li>
+<li>
+<p>
+<code>sh</code>: Serbo-Croatian
+</p>
+</li>
+<li>
+<p>
+<code>sk-SK</code>: Slovak (Slovakia)
+</p>
+</li>
+<li>
+<p>
+<code>sl-SI</code>: Slovenian (Slovenia)
+</p>
+</li>
+<li>
+<p>
+<code>sq</code>: Albanian
+</p>
+</li>
+<li>
+<p>
+<code>sr</code>: Serbian
+</p>
+</li>
+<li>
+<p>
+<code>sv-SE</code>: Swedish (Sweden)
+</p>
+</li>
+<li>
+<p>
+<code>ta-IN</code>: Tamil (India)
+</p>
+</li>
+<li>
+<p>
+<code>tg-TG</code>: Tajik (Tajikistan)
+</p>
+</li>
+<li>
+<p>
+<code>tr-TR</code>: Turkish (Turkey)
+</p>
+</li>
+<li>
+<p>
+<code>uk-UA</code>: Ukrainian (Ukraine)
+</p>
+</li>
+<li>
+<p>
+<code>vi-VN</code>: Vietnamese (Viet Nam)
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: empty</p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.8 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 </div>
 <div class="sect2">
 <h3 id="statusbar.hide">statusbar.hide</h3>
@@ -5927,7 +6194,7 @@ cellspacing="0" cellpadding="4">
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-08 14:49:44 CEST
+Last updated 2017-10-12 10:15:46 CEST
 </div>
 </div>
 </body>

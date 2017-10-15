@@ -37,7 +37,7 @@ from PyQt5.QtWidgets import QApplication  # pylint: disable=unused-import
 from qutebrowser.browser import qutescheme
 from qutebrowser.utils import log, objreg, usertypes, message, debug, utils
 from qutebrowser.commands import cmdutils, runners, cmdexc
-from qutebrowser.config import style
+from qutebrowser.config import config, configdata
 from qutebrowser.misc import consolewidget
 
 
@@ -168,10 +168,22 @@ def debug_all_objects():
 @cmdutils.register(debug=True)
 def debug_cache_stats():
     """Print LRU cache stats."""
-    config_info = objreg.get('config').get.cache_info()
-    style_info = style.get_stylesheet.cache_info()
-    log.misc.debug('config: {}'.format(config_info))
-    log.misc.debug('style: {}'.format(style_info))
+    prefix_info = configdata.is_valid_prefix.cache_info()
+    # pylint: disable=protected-access
+    render_stylesheet_info = config._render_stylesheet.cache_info()
+
+    history_info = None
+    try:
+        from PyQt5.QtWebKit import QWebHistoryInterface
+        interface = QWebHistoryInterface.defaultInterface()
+        if interface is not None:
+            history_info = interface.historyContains.cache_info()
+    except ImportError:
+        pass
+
+    log.misc.debug('is_valid_prefix: {}'.format(prefix_info))
+    log.misc.debug('_render_stylesheet: {}'.format(render_stylesheet_info))
+    log.misc.debug('history: {}'.format(history_info))
 
 
 @cmdutils.register(debug=True)
@@ -324,3 +336,18 @@ def window_only(current_win_id):
 
         if win_id != current_win_id:
             window.close()
+
+
+@cmdutils.register(hide=True)
+def nop():
+    """Do nothing."""
+    return
+
+
+@cmdutils.register()
+@cmdutils.argument('win_id', win_id=True)
+def version(win_id):
+    """Show version information."""
+    tabbed_browser = objreg.get('tabbed-browser', scope='window',
+                                window=win_id)
+    tabbed_browser.openurl(QUrl('qute://version'), newtab=True)

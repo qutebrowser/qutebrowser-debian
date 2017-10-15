@@ -2001,38 +2001,6 @@ Run <code>x=... y=...</code> to set the respective shell variables.
 </li>
 <li>
 <p>
-Add newest config to <code>tests/unit/config/old_configs</code> and update <code>test_upgrade_version</code>:
-</p>
-<div class="ulist"><ul>
-<li>
-<p>
-<code>python -m qutebrowser --basedir conf :quit</code>
-</p>
-</li>
-<li>
-<p>
-<code>sed '/^#/d'  conf/config/qutebrowser.conf &gt; tests/unit/config/old_configs/qutebrowser-v0.$x.$y.conf</code>
-</p>
-</li>
-<li>
-<p>
-<code>rm -r conf</code>
-</p>
-</li>
-<li>
-<p>
-git add
-</p>
-</li>
-<li>
-<p>
-commit
-</p>
-</li>
-</ul></div>
-</li>
-<li>
-<p>
 Adjust <code>__version_info__</code> in <code>qutebrowser/__init__.py</code>.
 </p>
 </li>
@@ -2053,12 +2021,12 @@ Commit.
 </li>
 <li>
 <p>
-Create annotated git tag (<code>git tag -s "v0.$x.$y" -m "Release v0.$x.$y"</code>).
+Create annotated git tag (<code>git tag -s "v1.$x.$y" -m "Release v1.$x.$y"</code>).
 </p>
 </li>
 <li>
 <p>
-<code>git push origin</code>; <code>git push origin v0.$x.$y</code>.
+<code>git push origin</code>; <code>git push origin v1.$x.$y</code>.
 </p>
 </li>
 <li>
@@ -2079,22 +2047,22 @@ as closed.
 </li>
 <li>
 <p>
-Linux: Run <code>python3 scripts/dev/build_release.py --upload v0.$x.$y</code>.
+Linux: Run <code>python3 scripts/dev/build_release.py --upload v1.$x.$y</code>.
 </p>
 </li>
 <li>
 <p>
-Windows: Run <code>C:\Python36-32\python scripts\dev\build_release.py --asciidoc C:\Python27\python C:\asciidoc-8.6.9\asciidoc.py --upload v0.X.Y</code> (replace X/Y by hand).
+Windows: Run <code>C:\Python36-32\python scripts\dev\build_release.py --asciidoc C:\Python27\python C:\asciidoc-8.6.9\asciidoc.py --upload v1.X.Y</code> (replace X/Y by hand).
 </p>
 </li>
 <li>
 <p>
-macOS: Run <code>python3 scripts/dev/build_release.py --upload v0.X.Y</code> (replace X/Y by hand).
+macOS: Run <code>python3 scripts/dev/build_release.py --upload v1.X.Y</code> (replace X/Y by hand).
 </p>
 </li>
 <li>
 <p>
-On server: Run <code>python3 scripts/dev/download_release.py v0.X.Y</code> (replace X/Y by hand).
+On server: Run <code>python3 scripts/dev/download_release.py v1.X.Y</code> (replace X/Y by hand).
 </p>
 </li>
 <li>
@@ -2115,7 +2083,7 @@ Announce to qutebrowser and qutebrowser-announce mailinglist.
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-08 14:49:40 CEST
+Last updated 2017-10-12 10:15:42 CEST
 </div>
 </div>
 </body>

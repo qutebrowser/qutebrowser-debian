@@ -26,12 +26,14 @@ It is intended to help discoverability of keybindings.
 
 import html
 import fnmatch
+import re
 
 from PyQt5.QtWidgets import QLabel, QSizePolicy
 from PyQt5.QtCore import pyqtSlot, pyqtSignal, Qt
 
-from qutebrowser.config import config, style
-from qutebrowser.utils import objreg, utils, usertypes
+from qutebrowser.config import config
+from qutebrowser.utils import utils, usertypes
+from qutebrowser.commands import cmdutils
 
 
 class KeyHintView(QLabel):
@@ -47,11 +49,11 @@ class KeyHintView(QLabel):
 
     STYLESHEET = """
         QLabel {
-            font: {{ font['keyhint'] }};
-            color: {{ color['keyhint.fg'] }};
-            background-color: {{ color['keyhint.bg'] }};
+            font: {{ conf.fonts.keyhint }};
+            color: {{ conf.colors.keyhint.fg }};
+            background-color: {{ conf.colors.keyhint.bg }};
             padding: 6px;
-            {% if config.get('ui', 'status-position') == 'top' %}
+            {% if conf.statusbar.position == 'top' %}
                 border-bottom-right-radius: 6px;
             {% else %}
                 border-top-right-radius: 6px;
@@ -68,7 +70,7 @@ class KeyHintView(QLabel):
         self.hide()
         self._show_timer = usertypes.Timer(self, 'keyhint_show')
         self._show_timer.timeout.connect(self.show)
-        style.set_register_stylesheet(self)
+        config.set_register_stylesheet(self)
 
     def __repr__(self):
         return utils.get_repr(self, win_id=self._win_id)
@@ -85,31 +87,37 @@ class KeyHintView(QLabel):
         Args:
             prefix: The current partial keystring.
         """
+        countstr, prefix = re.match(r'^(\d*)(.*)', prefix).groups()
         if not prefix:
             self._show_timer.stop()
             self.hide()
             return
 
-        blacklist = config.get('ui', 'keyhint-blacklist') or []
-        keyconf = objreg.get('key-config')
-
         def blacklisted(keychain):
             return any(fnmatch.fnmatchcase(keychain, glob)
-                       for glob in blacklist)
+                       for glob in config.val.keyhint.blacklist)
 
-        bindings = [(k, v) for (k, v)
-                    in keyconf.get_bindings_for(modename).items()
-                    if k.startswith(prefix) and not utils.is_special_key(k) and
-                    not blacklisted(k)]
+        def takes_count(cmdstr):
+            """Return true iff this command can take a count argument."""
+            cmdname = cmdstr.split(' ')[0]
+            cmd = cmdutils.cmd_dict.get(cmdname)
+            return cmd and cmd.takes_count()
+
+        bindings_dict = config.key_instance.get_bindings_for(modename)
+        bindings = [(k, v) for (k, v) in sorted(bindings_dict.items())
+                    if k.startswith(prefix) and
+                    not utils.is_special_key(k) and
+                    not blacklisted(k) and
+                    (takes_count(v) or not countstr)]
 
         if not bindings:
             self._show_timer.stop()
             return
 
         # delay so a quickly typed keychain doesn't display hints
-        self._show_timer.setInterval(config.get('ui', 'keyhint-delay'))
+        self._show_timer.setInterval(config.val.keyhint.delay)
         self._show_timer.start()
-        suffix_color = html.escape(config.get('colors', 'keyhint.fg.suffix'))
+        suffix_color = html.escape(config.val.colors.keyhint.suffix.fg)
 
         text = ''
         for key, cmd in bindings:
