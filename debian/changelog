@@ -1,3 +1,19 @@
+qutebrowser (1.0.0-1) unstable; urgency=medium
+
+  * New upstream release
+  * Support for legacy QtWebKit (before 5.212 which is distributed
+    independently from Qt) is dropped.
+  * Support for Python 3.4 is dropped.
+  * Support for Qt before 5.7.1 and PyQt before 5.7 is dropped.
+  * New dependency on the QtSql module and Qt sqlite support.
+  * New dependency on the attrs Python module.
+  * The dependency on PyOpenGL (when using QtWebEngine) got removed. Note
+    that PyQt5.QtOpenGL is still a dependency.
+  * PyQt5.QtOpenGL is now always required, even with QtWebKit.
+  * The QtWebEngine backend is now used by default.
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Thu, 12 Oct 2017 18:02:43 +0200
+
 qutebrowser (0.11.1-1) unstable; urgency=medium
 
   * New upstream release
@@ -6,6 +22,6 @@ qutebrowser (0.11.1-1) unstable; urgency=medium
 
 qutebrowser (0.11.0-1) unstable; urgency=medium
 
-  * Initial release. (Closes: #832159)  
+  * Initial release. (Closes: #832159)
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Tue, 04 Jul 2017 23:06:42 +0200

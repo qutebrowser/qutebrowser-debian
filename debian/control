@@ -3,28 +3,31 @@ Section: web
 Priority: optional
 Maintainer: Fritz Reichwald <reichwald@b1-systems.de>
 Build-Depends: asciidoc,
-               debhelper (>= 9.0),
+               debhelper (>= 10.0),
                docbook-xml,
                docbook-xsl,
                libxml2-utils,
                python-setuptools,
-               python3 (>= 3.4),
+               python3 (>= 3.5),
                python3-setuptools,
                source-highlight,
                xsltproc
-X-Python3-Version: >= 3.4
-Standards-Version: 4.0.0
+X-Python3-Version: >= 3.5
+Standards-Version: 4.1.1
 Homepage: https://qutebrowser.org
 
 Package: qutebrowser
 Architecture: all
 Depends: python,
+         python3-attr,
          python3-pyqt5,
+         python3-pyqt5.qtsql,
          python3-pyqt5.qtopengl,
          python3-pyqt5.qtquick,
-         python3-pyqt5.qtwebengine | python3-pyqt5.qtwebkit,
-         python3-opengl,
+         python3-pyqt5.qtwebengine (>=5.7),
+         libqt5webenginecore5 (>=5.7.1),
          python3-pypeg2,
+         python3-ruamel.yaml,
          python3-sip,
          ${misc:Depends},
          ${python3:Depends}

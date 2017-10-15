@@ -13,4 +13,4 @@ override_dh_auto_install:
 	rm -f debian/qutebrowser/usr/lib/python3/dist-packages/qutebrowser/html/COPYING.html
 
 override_dh_installchangelogs:
-	dh_installchangelogs CHANGELOG.asciidoc
+	dh_installchangelogs doc/changelog.asciidoc

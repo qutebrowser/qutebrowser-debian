@@ -1,4 +1,4 @@
-qutebrowser.desktop /usr/share/applications
+misc/qutebrowser.desktop /usr/share/applications
 qutebrowser/img/broken_qutebrowser_logo.png /usr/share/qutebrowser/img
 doc/img/cheatsheet-big.png /usr/share/qutebrowser/img/
 doc/img/cheatsheet-small.png /usr/share/qutebrowser/img/
