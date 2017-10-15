@@ -1,3 +1,9 @@
+qutebrowser (1.0.1-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Fri, 13 Oct 2017 10:11:07 +0200
+
 qutebrowser (1.0.0-1) unstable; urgency=medium
 
   * New upstream release
