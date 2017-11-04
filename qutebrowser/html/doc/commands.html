@@ -934,6 +934,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Open a URL in the current/[count]th tab.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#open-editor">open-editor</a></p></td>
+<td align="left" valign="top"><p class="table">Open an external editor with the currently selected form field.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#print">print</a></p></td>
 <td align="left" valign="top"><p class="table">Print the current/[count]th tab.</p></td>
 </tr>
@@ -2273,6 +2277,11 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 </div>
 <div class="sect2">
+<h3 id="open-editor">open-editor</h3>
+<div class="paragraph"><p>Open an external editor with the currently selected form field.</p></div>
+<div class="paragraph"><p>The editor which should be launched can be configured via the <code>editor.command</code> config option.</p></div>
+</div>
+<div class="sect2">
 <h3 id="print">print</h3>
 <div class="paragraph"><p>Syntax: <code>:print [<strong>--preview</strong>] [<strong>--pdf</strong> <em>file</em>]</code></p></div>
 <div class="paragraph"><p>Print the current/[count]th tab.</p></div>
@@ -3266,10 +3275,6 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Do nothing.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#open-editor">open-editor</a></p></td>
-<td align="left" valign="top"><p class="table">Open an external editor with the currently selected form field.</p></td>
-</tr>
-<tr>
 <td align="left" valign="top"><p class="table"><a href="#prompt-accept">prompt-accept</a></p></td>
 <td align="left" valign="top"><p class="table">Accept the current prompt.</p></td>
 </tr>
@@ -3683,11 +3688,6 @@ cellspacing="0" cellpadding="4">
 <div class="sect2">
 <h3 id="nop">nop</h3>
 <div class="paragraph"><p>Do nothing.</p></div>
-</div>
-<div class="sect2">
-<h3 id="open-editor">open-editor</h3>
-<div class="paragraph"><p>Open an external editor with the currently selected form field.</p></div>
-<div class="paragraph"><p>The editor which should be launched can be configured via the <code>editor.command</code> config option.</p></div>
 </div>
 <div class="sect2">
 <h3 id="prompt-accept">prompt-accept</h3>
@@ -4330,7 +4330,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-17 07:48:50 CEST
+Last updated 2017-11-04 17:03:26 CET
 </div>
 </div>
 </body>

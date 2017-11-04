@@ -1364,20 +1364,10 @@ instead it uses custom-named loggers.</p></div>
 <div class="paragraph"><p>The existing loggers are defined in <code>qutebrowser.utils.log</code>. If your feature
 doesn&#8217;t fit in any of the logging categories, simply add a new line like this:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>foo <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">getLogger</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'foo'</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="content"></div></div>
 <div class="paragraph"><p>Then in your source files, do this:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">from</span></span> qutebrowser<span style="color: #990000">.</span>utils <span style="font-weight: bold"><span style="color: #000080">import</span></span> log
-<span style="color: #990000">...</span>
-log<span style="color: #990000">.</span>foo<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">debug</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Hello World"</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="content"></div></div>
 <div class="paragraph"><p>The following logging levels are available for every logger:</p></div>
 <div class="tableblock">
 <table rules="all"
@@ -1417,17 +1407,7 @@ cellspacing="0" cellpadding="4">
 commands.</p></div>
 <div class="paragraph"><p>Creating a new command is straightforward:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> qutebrowser<span style="color: #990000">.</span>commands<span style="color: #990000">.</span>cmdutils
-
-<span style="color: #990000">...</span>
-
-@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">register</span></span><span style="color: #990000">(...)</span>
-<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">foo</span></span><span style="color: #990000">():</span>
-    <span style="color: #990000">...</span></tt></pre></div></div>
+<div class="content"></div></div>
 <div class="paragraph"><p>The commands arguments are automatically deduced by inspecting your function.</p></div>
 <div class="paragraph"><p>If the function is a method of a class, the <code>@cmdutils.register</code> decorator
 needs to have an <code>instance=...</code> parameter which points to the (single/main)
@@ -1445,13 +1425,7 @@ qutebrowser&#8217;s commandline.</p></div>
 <div class="paragraph"><p>The type can be overridden using Python&#8217;s
 <a href="http://legacy.python.org/dev/peps/pep-3107/">function annotations</a>:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">register</span></span><span style="color: #990000">(...)</span>
-<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">foo</span></span><span style="color: #990000">(</span>bar<span style="color: #990000">:</span> int<span style="color: #990000">,</span> baz<span style="color: #990000">=</span>True<span style="color: #990000">):</span>
-    <span style="color: #990000">...</span></tt></pre></div></div>
+<div class="content"></div></div>
 <div class="paragraph"><p>Possible values:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -1475,24 +1449,10 @@ A <code>typing.Union</code> of multiple types above: Any of these types are vali
 decorator <strong>after</strong> <code>@cmdutils.register</code>. This can, for example, be used to
 customize the flag an argument should get:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">register</span></span><span style="color: #990000">(...)</span>
-@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">argument</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'bar'</span><span style="color: #990000">,</span> flag<span style="color: #990000">=</span><span style="color: #FF0000">'c'</span><span style="color: #990000">)</span>
-<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">foo</span></span><span style="color: #990000">(</span>bar<span style="color: #990000">):</span>
-    <span style="color: #990000">...</span></tt></pre></div></div>
+<div class="content"></div></div>
 <div class="paragraph"><p>For a <code>str</code> argument, you can restrict the allowed strings using <code>choices</code>:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">register</span></span><span style="color: #990000">(...)</span>
-@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">argument</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'bar'</span><span style="color: #990000">,</span> choices<span style="color: #990000">=[</span><span style="color: #FF0000">'val1'</span><span style="color: #990000">,</span> <span style="color: #FF0000">'val2'</span><span style="color: #990000">])</span>
-<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">foo</span></span><span style="color: #990000">(</span>bar<span style="color: #990000">:</span> str<span style="color: #990000">):</span>
-    <span style="color: #990000">...</span></tt></pre></div></div>
+<div class="content"></div></div>
 <div class="paragraph"><p>For <code>typing.Union</code> types, the given <code>choices</code> are only checked if other types
 (like <code>int</code>) don&#8217;t match.</p></div>
 <div class="paragraph"><p>The following arguments are supported for <code>@cmdutils.argument</code>:</p></div>
@@ -1796,39 +1756,10 @@ sourcecode.
 </p>
 <div class="paragraph"><p>Example for a class docstring:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">"""Some object.</span></span>
-
-<span style="font-style: italic"><span style="color: #9A1900">Attributes:</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">    blub: The current thing to handle.</span></span>
-
-<span style="font-style: italic"><span style="color: #9A1900">Signals:</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">    valueChanged: Emitted when a value changed.</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">                  arg: The new value</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">"""</span></span></tt></pre></div></div>
+<div class="content"></div></div>
 <div class="paragraph"><p>Example for a method/function docstring:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">"""Do something special.</span></span>
-
-<span style="font-style: italic"><span style="color: #9A1900">This will do something.</span></span>
-
-<span style="font-style: italic"><span style="color: #9A1900">//</span></span>
-
-<span style="font-style: italic"><span style="color: #9A1900">It is based on http://example.com/.</span></span>
-
-<span style="font-style: italic"><span style="color: #9A1900">Args:</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">    foo: ...</span></span>
-
-<span style="font-style: italic"><span style="color: #9A1900">Return:</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">    True if something, False if something else.</span></span>
-<span style="font-style: italic"><span style="color: #9A1900">"""</span></span></tt></pre></div></div>
+<div class="content"></div></div>
 </li>
 <li>
 <p>
@@ -2083,7 +2014,7 @@ Announce to qutebrowser and qutebrowser-announce mailinglist.
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-17 07:48:49 CEST
+Last updated 2017-11-04 17:03:24 CET
 </div>
 </div>
 </body>

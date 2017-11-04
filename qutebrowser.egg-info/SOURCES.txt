@@ -8,6 +8,7 @@ tox.ini
 doc/changelog.asciidoc
 doc/changelog.html
 doc/contributing.html
+doc/install.html
 doc/qutebrowser.1.asciidoc
 doc/img/cheatsheet-big.png
 doc/img/cheatsheet-small.png
@@ -162,6 +163,8 @@ qutebrowser/html/doc/commands.html
 qutebrowser/html/doc/configuring.html
 qutebrowser/html/doc/contributing.html
 qutebrowser/html/doc/faq.html
+qutebrowser/html/doc/foo.mp3
+qutebrowser/html/doc/icon.png
 qutebrowser/html/doc/index.html
 qutebrowser/html/doc/quickstart.html
 qutebrowser/html/doc/settings.html
