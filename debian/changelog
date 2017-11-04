@@ -1,3 +1,9 @@
+qutebrowser (1.0.3-2) unstable; urgency=medium
+
+  * Remove bogus foo.mp3
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Sat, 04 Nov 2017 23:47:27 +0100
+
 qutebrowser (1.0.3-1) unstable; urgency=medium
 
   * New upstream release
