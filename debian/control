@@ -33,8 +33,7 @@ Depends: python,
          ${python3:Depends}
 Suggests: libjs-pdf,
           python3-colorlog
-Description: Keyboard-focused web browser written in Python using PyQt5 and
- QtWebKit.
+Description: Keyboard-driven, vim-like browser based on PyQt5
  .
  It was inspired by other keyboard-focused web browsers or browser addons like
  dwb and Vimperator/Pentadactyl.
