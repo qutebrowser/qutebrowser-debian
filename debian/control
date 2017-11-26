@@ -34,6 +34,6 @@ Depends: python,
 Suggests: libjs-pdf,
           python3-colorlog
 Description: Keyboard-driven, vim-like browser based on PyQt5
- .
- It was inspired by other keyboard-focused web browsers or browser addons like
- dwb and Vimperator/Pentadactyl.
+ qutebrowser is a keyboard-focused browser with a minimal GUI. It's
+ based on Python and PyQt5 and was inspired by other browsers/addons
+ like dwb and Vimperator/Pentadactyl.
