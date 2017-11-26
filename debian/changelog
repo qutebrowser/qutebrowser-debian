@@ -1,7 +1,6 @@
 qutebrowser (1.0.3-3) unstable; urgency=medium
 
-  * Fix one-line description
-  * Closes: #882345
+  * Fix one-line description (Closes: #882345)
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Wed, 22 Nov 2017 08:21:03 +0100
 
