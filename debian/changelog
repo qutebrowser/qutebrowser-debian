@@ -1,3 +1,16 @@
+qutebrowser (1.0.3-1-1) UNRELEASED; urgency=medium
+
+  * New upstream release
+  * Fix watchfile to support upstream versions ending with -1
+  * use dh_auto_build instead of custom build command
+  * Fix long description
+  * Use wildcard in path for deleted files to be independent of python minor version
+  * Fix upstream url in copyright
+  * Remove license text for MPL in copyright and add reference to common-licenses
+  * really push compat level to 10
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Mon, 27 Nov 2017 20:34:43 +0100
+
 qutebrowser (1.0.3-3) unstable; urgency=medium
 
   * Fix one-line description (Closes: #882345)
