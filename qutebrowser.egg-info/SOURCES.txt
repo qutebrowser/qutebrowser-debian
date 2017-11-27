@@ -163,7 +163,6 @@ qutebrowser/html/doc/commands.html
 qutebrowser/html/doc/configuring.html
 qutebrowser/html/doc/contributing.html
 qutebrowser/html/doc/faq.html
-qutebrowser/html/doc/foo.mp3
 qutebrowser/html/doc/icon.png
 qutebrowser/html/doc/index.html
 qutebrowser/html/doc/quickstart.html
