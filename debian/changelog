@@ -1,4 +1,4 @@
-qutebrowser (1.0.3-1-1) UNRELEASED; urgency=medium
+qutebrowser (1.0.3-1-1) unstable; urgency=medium
 
   * New upstream release
   * Fix watchfile to support upstream versions ending with -1
@@ -44,16 +44,18 @@ qutebrowser (1.0.1-1) unstable; urgency=medium
 qutebrowser (1.0.0-1) unstable; urgency=medium
 
   * New upstream release
-  * Support for legacy QtWebKit (before 5.212 which is distributed
-    independently from Qt) is dropped.
-  * Support for Python 3.4 is dropped.
-  * Support for Qt before 5.7.1 and PyQt before 5.7 is dropped.
-  * New dependency on the QtSql module and Qt sqlite support.
-  * New dependency on the attrs Python module.
-  * The dependency on PyOpenGL (when using QtWebEngine) got removed. Note
-    that PyQt5.QtOpenGL is still a dependency.
-  * PyQt5.QtOpenGL is now always required, even with QtWebKit.
-  * The QtWebEngine backend is now used by default.
+    + Support for legacy QtWebKit (before 5.212 which is distributed
+      independently from Qt) is dropped.
+    + Support for Python 3.4 is dropped.
+    + Support for Qt before 5.7.1 and PyQt before 5.7 is dropped.
+    + New dependency on the QtSql module and Qt sqlite support.
+    + New dependency on the attrs Python module.
+    + The dependency on PyOpenGL (when using QtWebEngine) got removed. Note
+      that PyQt5.QtOpenGL is still a dependency.
+    + PyQt5.QtOpenGL is now always required, even with QtWebKit.
+    + The QtWebEngine backend is now used by default.
+  * Bump debhelper dependency to 10.
+  * Declare complpiance with Debian Policy 4.1.1 (no changes needed)
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Thu, 12 Oct 2017 18:02:43 +0200
 
