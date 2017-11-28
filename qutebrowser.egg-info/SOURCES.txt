@@ -8,6 +8,7 @@ tox.ini
 doc/changelog.asciidoc
 doc/changelog.html
 doc/contributing.html
+doc/faq.html
 doc/install.html
 doc/qutebrowser.1.asciidoc
 doc/img/cheatsheet-big.png
@@ -145,12 +146,12 @@ qutebrowser/config/configfiles.py
 qutebrowser/config/configinit.py
 qutebrowser/config/configtypes.py
 qutebrowser/config/websettings.py
-qutebrowser/html/COPYING.html
 qutebrowser/html/base.html
 qutebrowser/html/bookmarks.html
 qutebrowser/html/dirbrowser.html
 qutebrowser/html/error.html
 qutebrowser/html/history.html
+qutebrowser/html/license.html
 qutebrowser/html/log.html
 qutebrowser/html/no_pdfjs.html
 qutebrowser/html/pre.html
@@ -158,6 +159,9 @@ qutebrowser/html/settings.html
 qutebrowser/html/styled.html
 qutebrowser/html/undef_error.html
 qutebrowser/html/version.html
+qutebrowser/html/doc/CHANGELOG.html
+qutebrowser/html/doc/CONTRIBUTING.html
+qutebrowser/html/doc/FAQ.html
 qutebrowser/html/doc/changelog.html
 qutebrowser/html/doc/commands.html
 qutebrowser/html/doc/configuring.html

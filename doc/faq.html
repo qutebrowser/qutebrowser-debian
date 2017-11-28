@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.9" />
-<title>Writing qutebrowser userscripts</title>
+<title>Frequently asked questions</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -733,182 +733,366 @@ asciidoc.install();
 </head>
 <body class="article">
 <div id="header">
-<h1>Writing qutebrowser userscripts</h1>
+<h1>Frequently asked questions</h1>
 <span id="author">The Compiler</span><br />
 <span id="email"><code>&lt;<a href="mailto:mail@qutebrowser.org">mail@qutebrowser.org</a>&gt;</code></span><br />
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph"><p>qutebrowser is extensible by writing userscripts which can be called via the
-<code>:spawn --userscript</code> command, or via a key binding.</p></div>
-<div class="paragraph"><p>You can also call a userscript via hints so they get the selected hint URL by
-calling <code>:hint links userscript ...</code>.</p></div>
-<div class="paragraph"><p>These userscripts are similar to the (non-javascript) dwb userscripts. They can
-be written in any language which can read environment variables and write to a
-FIFO. Note they are <strong>not</strong> related to Greasemonkey userscripts.</p></div>
-<div class="paragraph"><p>Note for simple things such as opening the current page with another browser or
-mpv, a simple key binding to something like <code>:spawn mpv {url}</code> should suffice.</p></div>
-<div class="paragraph"><p>Also note userscripts need to have the executable bit set (<code>chmod +x</code>) for
-qutebrowser to run them.</p></div>
-<div class="paragraph"><p>To call a userscript, it needs to be stored in your data directory under
-<code>userscripts</code> (for example: <code>~/.local/share/qutebrowser/userscripts/myscript</code>),
-or just use an absolute path.</p></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">On Windows, only userscripts with <code>com</code>, <code>bat</code>, or <code>exe</code> extensions will be launched.</td>
-</tr></table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_getting_information">Getting information</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>The following environment variables will be set when a userscript is launched:</p></div>
-<div class="ulist"><ul>
+<div class="qlist qanda"><ol>
 <li>
+<p><em>
+What is qutebrowser based on?
+</em></p>
 <p>
-<code>QUTE_MODE</code>: Either <code>hints</code> (started via hints) or <code>command</code> (started via
-  command or key binding).
+    qutebrowser uses <a href="http://www.python.org/">Python</a>, <a href="http://qt.io/">Qt</a> and
+    <a href="http://www.riverbankcomputing.com/software/pyqt/intro">PyQt</a>.
+</p>
+<div class="paragraph"><p>The concept of it is largely inspired by <a href="http://portix.bitbucket.org/dwb/">dwb</a>
+and <a href="http://www.vimperator.org/vimperator">Vimperator</a>. Many actions and
+key bindings are similar to dwb.</p></div>
+</li>
+<li>
+<p><em>
+Why another browser?
+</em></p>
+<p>
+    It might be hard to believe, but I didn&#8217;t find any browser which I was
+    happy with, so I started to write my own. Also, I needed a project to get
+    into writing GUI applications with Python and
+    <a href="http://qt.io/">Qt</a>/<a href="http://www.riverbankcomputing.com/software/pyqt/intro">PyQt</a>.
+</p>
+<div class="paragraph"><p>Read the next few questions to find out why I was unhappy with existing
+software.</p></div>
+</li>
+<li>
+<p><em>
+What&#8217;s wrong with <a href="http://portix.bitbucket.org/dwb/">dwb</a>/<a href="http://sourceforge.net/projects/vimprobable/">vimprobable</a>/<a href="https://mason-larobina.github.io/luakit/">luakit</a>/<a href="http://pwmt.org/projects/jumanji/">jumanji</a>/&#8230; (projects based on WebKitGTK)?
+</em></p>
+<p>
+    Most of them are based on the <a href="http://webkitgtk.org/">WebKitGTK+</a>
+    <a href="http://webkitgtk.org/reference/webkitgtk/stable/index.html">WebKit1</a> API,
+    which causes a lot of crashes. As the GTK API using WebKit1 is
+    <a href="https://lists.webkit.org/pipermail/webkit-gtk/2014-March/001821.html">deprecated</a>,
+    these bugs are never going to be fixed.
+</p>
+<div class="paragraph"><p>When qutebrowser was created, the newer
+<a href="http://webkitgtk.org/reference/webkit2gtk/stable/index.html">WebKit2 API</a> lacked
+basic features like proxy support, and almost no projects have started porting
+to WebKit2. In the meantime, this situation has improved a bit, but there are
+stil only a few project which have some kind of WebKit2 support (see the
+<a href="https://github.com/qutebrowser/qutebrowser#similar-projects">list of
+alternatives</a>).</p></div>
+<div class="paragraph"><p>qutebrowser uses <a href="http://qt.io/">Qt</a> and
+<a href="http://wiki.qt.io/QtWebEngine">QtWebEngine</a> by default (and supports
+<a href="http://wiki.qt.io/QtWebKit">QtWebKit</a> optionally). QtWebEngine is based on
+Google&#8217;s <a href="https://www.chromium.org/Home">Chromium</a>. With an up-to-date Qt, it has
+much more man-power behind it than WebKitGTK+ has, and thus supports more modern
+web features - it&#8217;s also arguably more secure.</p></div>
+</li>
+<li>
+<p><em>
+What&#8217;s wrong with <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a> and <a href="http://5digits.org/pentadactyl/">Pentadactyl</a>/<a href="http://www.vimperator.org/vimperator">Vimperator</a>?
+</em></p>
+<p>
+    Firefox likes to break compatibility with addons on each upgrade, gets
+    slower and more bloated with every upgrade, and has some
+    <a href="https://blog.mozilla.org/advancingcontent/2014/02/11/publisher-transformation-with-users-at-the-center/">horrible
+    ideas</a> lately.
+</p>
+<div class="paragraph"><p>Also, developing addons for it is a nightmare.</p></div>
+</li>
+<li>
+<p><em>
+What&#8217;s wrong with <a href="http://www.chromium.org/Home">Chromium</a> and <a href="https://vimium.github.io/">Vimium</a>?
+</em></p>
+<p>
+    The Chrome plugin API doesn&#8217;t seem to allow much freedom for plugin
+    writers, which results in Vimium not really having all the features you&#8217;d
+    expect from a proper minimal, vim-like browser.
 </p>
 </li>
 <li>
+<p><em>
+Why Python?
+</em></p>
 <p>
-<code>QUTE_USER_AGENT</code>: The currently set user agent.
+    I enjoy writing Python since 2011, which made it one of the possible
+    choices. I wanted to use <a href="http://qt.io/">Qt</a> because of
+    <a href="http://wiki.qt.io/QtWebKit">QtWebKit</a> so I didn&#8217;t have
+    <a href="http://wiki.qt.io/Category:LanguageBindings">many other choices</a>. I don&#8217;t
+    like C++ and can&#8217;t write it very well, so that wasn&#8217;t an alternative.
 </p>
 </li>
 <li>
+<p><em>
+But isn&#8217;t Python too slow for a browser?
+</em></p>
 <p>
-<code>QUTE_FIFO</code>: The FIFO or file to write commands to.
+    <a href="http://www.infoworld.com/d/application-development/van-rossum-python-not-too-slow-188715">No.</a>
+    I believe efficiency while coding is a lot more important than efficiency
+    while running. Also, most of the heavy lifting of qutebrowser is done by Qt
+    and WebKit in C++, with the
+    <a href="https://wiki.python.org/moin/GlobalInterpreterLock">GIL</a> released.
 </p>
 </li>
 <li>
+<p><em>
+Is there an adblocker?
+</em></p>
 <p>
-<code>QUTE_HTML</code>: Path of a file containing the HTML source of the current page.
+    There is a host-based adblocker which takes /etc/hosts-like lists. A "real"
+    adblocker has a
+    <a href="http://www.reddit.com/r/programming/comments/25j41u/adblock_pluss_effect_on_firefoxs_memory_usage/chhpomw">big
+    impact</a> on browsing speed and
+    <a href="https://blog.mozilla.org/nnethercote/2014/05/14/adblock-pluss-effect-on-firefoxs-memory-usage/">RAM
+    usage</a>, so implementing support for AdBlockPlus-like lists is currently not
+    a priority.
 </p>
 </li>
 <li>
+<p><em>
+How do I play Youtube videos with mpv?
+</em></p>
 <p>
-<code>QUTE_TEXT</code>: Path of a file containing the plaintext of the current page.
+    You can easily add a key binding to play youtube videos inside a real video
+    player - optionally even with hinting for links:
 </p>
-</li>
-<li>
-<p>
-<code>QUTE_CONFIG_DIR</code>: Path of the directory containing qutebrowser&#8217;s configuration.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_DATA_DIR</code>: Path of the directory containing qutebrowser&#8217;s data.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_DOWNLOAD_DIR</code>: Path of the downloads directory.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_COMMANDLINE_TEXT</code>: Text currently in qutebrowser&#8217;s command line.
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>In <code>command</code> mode:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<code>QUTE_URL</code>: The current URL.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_TITLE</code>: The title of the current page.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_SELECTED_TEXT</code>: The text currently selected on the page.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_SELECTED_HTML</code> The HTML currently selected on the page (not supported
-  with QtWebEngine).
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>In <code>hints</code> mode:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<code>QUTE_URL</code>: The URL selected via hints.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_SELECTED_TEXT</code>: The plain text of the element selected via hints.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_SELECTED_HTML</code> The HTML of the element selected via hints.
-</p>
-</li>
-</ul></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_sending_commands">Sending commands</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Normal qutebrowser commands can be written to <code>$QUTE_FIFO</code> and will be
-executed.</p></div>
-<div class="paragraph"><p>On Unix/macOS, this is a named pipe and commands written to it will get executed
-immediately.</p></div>
-<div class="paragraph"><p>On Windows, this is a regular file, and the commands in it will be executed as
-soon as your userscript terminates. This means when writing multiple commands,
-you should append to the file (<code>&gt;&gt;</code> in bash) rather than overwrite it (<code>&gt;</code>).</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_examples">Examples</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Opening the currently selected word on <a href="http://www.dict.cc/">dict.cc</a>:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900">#!/bin/bash</span></span>
-
-echo <span style="color: #FF0000">"open -t http://www.dict.cc/?s=$QUTE_SELECTED_TEXT"</span> <span style="color: #990000">&gt;&gt;</span> <span style="color: #FF0000">"$QUTE_FIFO"</span></tt></pre></div></div>
+<div class="content">
+<pre><code>:bind m spawn mpv {url}
+:bind M hint links spawn mpv {hint-url}</code></pre>
+</div></div>
+<div class="paragraph"><p>Note that you might need an additional package (e.g.
+<a href="https://www.archlinux.org/packages/community/any/youtube-dl/">youtube-dl</a> on
+Archlinux) to play web videos with mpv.</p></div>
+<div class="paragraph"><p>There is a very useful script for mpv, which emulates "unique application"
+functionality. This way you can add links to the mpv playlist instead of
+playing them all at once.</p></div>
+<div class="paragraph"><p>You can find the script here: <a href="https://github.com/mpv-player/mpv/blob/master/TOOLS/umpv">https://github.com/mpv-player/mpv/blob/master/TOOLS/umpv</a></p></div>
+<div class="paragraph"><p>It also works nicely with rapid hints:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>:bind m spawn umpv {url}
+:bind M hint links spawn umpv {hint-url}
+:bind ;M hint --rapid links spawn umpv {hint-url}</code></pre>
+</div></div>
+</li>
+<li>
+<p><em>
+How do I use qutebrowser with mutt?
+</em></p>
+<p>
+    Due to a Qt limitation, local files without <code>.html</code> extensions are
+    "downloaded" instead of displayed, see
+    <a href="https://github.com/qutebrowser/qutebrowser/issues/566">#566</a>. You can work
+    around this by using this in your <code>mailcap</code>:
+</p>
+<div class="listingblock">
+<div class="content">
+<pre><code>    text/html; mv %s %s.html &amp;&amp; qutebrowser %s.html &gt;/dev/null 2&gt;/dev/null; needsterminal;</code></pre>
+</div></div>
+</li>
+<li>
+<p><em>
+What is the difference between bookmarks and quickmarks?
+</em></p>
+<p>
+    Bookmarks will always use the title of the website as their name, but with quickmarks
+    you can set your own title.
+</p>
+<div class="paragraph"><p>For example, if you bookmark multiple food recipe websites and use <code>:open</code>,
+you have to type the title or address of the website.</p></div>
+<div class="paragraph"><p>When using quickmark, you can give them all names, like
+<code>foodrecipes1</code>, <code>foodrecipes2</code> and so on. When you type
+<code>:open foodrecipes</code>, you will see a list of all the food recipe sites,
+without having to remember the exact website title or address.</p></div>
+</li>
+<li>
+<p><em>
+How do I use spell checking?
+</em></p>
+<p>
+        Configuring spell checking in qutebrowser depends on the backend in use
+    (see <a href="https://github.com/qutebrowser/qutebrowser/issues/700">#700</a> for
+        a more detailed discussion).
+</p>
+<div class="paragraph"><p>For QtWebKit:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Install <a href="https://github.com/QupZilla/qtwebkit-plugins">qtwebkit-plugins</a>.
+</p>
+</li>
+<li>
+<p>
+Note: with QtWebKit reloaded you may experience some issues. See
+    <a href="https://github.com/QupZilla/qtwebkit-plugins/issues/10">#10</a>.
+</p>
+</li>
+<li>
+<p>
+The dictionary to use is taken from the <code>DICTIONARY</code> environment variable.
+  The default is <code>en_US</code>. For example to use Dutch spell check set <code>DICTIONARY</code>
+  to <code>nl_NL</code>; you can&#8217;t use multiple dictionaries or change them at runtime at
+  the moment.
+  (also see the README file for <code>qtwebkit-plugins</code>).
+</p>
+</li>
+<li>
+<p>
+Remember to install the hunspell dictionaries if you don&#8217;t have them already
+  (most distros should have packages for this).
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>For QtWebEngine:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Make sure your versions of PyQt and Qt are 5.8 or higher.
+</p>
+</li>
+<li>
+<p>
+Use <code>dictcli.py</code> script to install dictionaries.
+  Run the script with <code>-h</code> for the parameter description.
+</p>
+</li>
+<li>
+<p>
+Set <code>spellcheck.languages</code> to the desired list of languages, e.g.:
+  <code>:set spellcheck.languages "['en-US', 'pl-PL']"</code>
+</p>
+</li>
+</ol></div>
+</li>
+<li>
+<p><em>
+How do I use Tor with qutebrowser?
+</em></p>
+<p>
+    Start tor on your machine, and do <code>:set content.proxy socks://localhost:9050/</code>
+    in qutebrowser. Note this won&#8217;t give you the same amount of fingerprinting
+    protection that the Tor Browser does, but it&#8217;s useful to be able to access
+    <code>.onion</code> sites.
+</p>
+</li>
+<li>
+<p><em>
+Why does J move to the next (right) tab, and K to the previous (left) one?
+</em></p>
+<p>
+    One reason is because <a href="https://bitbucket.org/portix/dwb">dwb</a> did it that way,
+    and qutebrowser&#8217;s keybindings are designed to be compatible with dwb&#8217;s.
+    The rationale behind it is that J is "down" in vim, and K is "up", which
+    corresponds nicely to "next"/"previous". It also makes much more sense with
+    vertical tabs (e.g. <code>:set tabs.position left</code>).
+</p>
+</li>
+<li>
+<p><em>
+What&#8217;s the difference between insert and passthrough mode?
+</em></p>
+<p>
+    They are quite similar, but insert mode has some bindings (like <code>Ctrl-e</code> to
+    open an editor) while passthrough mode only has escape bound. It might also
+    be useful to rebind escape to something else in passthrough mode only, to be
+    able to send an escape keypress to the website.
+</p>
+</li>
+<li>
+<p><em>
+Why takes it longer to open an URL in qutebrowser than in chromium?
+</em></p>
+<p>
+    When opening an URL in an existing instance the normal qutebrowser
+    Python script is started and a few PyQt libraries need to be
+    loaded until it is detected that there is an instance running
+    where the URL is then passed to. This takes some time.
+    One workaround is to use this
+    <a href="https://github.com/qutebrowser/qutebrowser/blob/master/scripts/open_url_in_instance.sh">script</a>
+    and place it in your $PATH with the name "qutebrowser". This
+    script passes the URL via an unix socket to qutebrowser (if its
+    running already) using socat which is much faster and starts a new
+    qutebrowser if it is not running already. Also check if you want
+    to use webengine as backend in line 17 and change it to your
+    needs.
+</p>
+</li>
+</ol></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_libraries">Libraries</h2>
+<h2 id="_troubleshooting">Troubleshooting</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Some third-party libraries are available to make writing userscripts easier:</p></div>
-<div class="ulist"><ul>
-<li>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Unable to view flash content.
+</dt>
+<dd>
 <p>
-Python: <a href="https://github.com/hiway/python-qutescript">python-qutescript</a>
+    If you have flash installed for on your system, it&#8217;s necessary to enable plugins
+    to use the flash plugin. Using the command <code>:set content.plugins true</code>
+    in qutebrowser will enable plugins. Packages for flash should
+    be provided for your platform or it can be obtained from
+    <a href="http://get.adobe.com/flashplayer/">Adobe</a>.
 </p>
-</li>
-<li>
+</dd>
+<dt class="hdlist1">
+Experiencing freezing on sites like duckduckgo and youtube.
+</dt>
+<dd>
 <p>
-Node.js: <a href="https://www.npmjs.com/package/qutejs">qutejs</a>
+    This issue could be caused by stale plugin files installed by <code>mozplugger</code>
+    if mozplugger was subsequently removed.
+    Try exiting qutebrowser and removing <code>~/.mozilla/plugins/mozplugger*.so</code>.
+    See <a href="https://github.com/qutebrowser/qutebrowser/issues/357">Issue #357</a>
+    for more details.
 </p>
-</li>
-</ul></div>
+</dd>
+<dt class="hdlist1">
+When using QtWebEngine, qutebrowser reports "Render Process Crashed" and the console prints a traceback on Gentoo Linux or another Source-Based Distro
+</dt>
+<dd>
+<p>
+    As stated in <a href="https://gcc.gnu.org/gcc-6/changes.html">GCC&#8217;s Website</a> GCC 6 has introduced some optimizations that could break non-conforming codebases, like QtWebEngine.<br />
+    As a workaround, you can disable the nullpointer check optimization by adding the -fno-delete-null-pointer-checks flag while compiling.<br />
+    On gentoo, you just need to add it into your make.conf, like this:<br />
+</p>
+<div class="literalblock">
+<div class="content">
+<pre><code>CFLAGS="... -fno-delete-null-pointer-checks"
+CXXFLAGS="... -fno-delete-null-pointer-checks"</code></pre>
+</div></div>
+<div class="paragraph"><p>And then re-emerging qtwebengine with:<br /></p></div>
+<div class="literalblock">
+<div class="content">
+<pre><code>emerge -1 qtwebengine</code></pre>
+</div></div>
+</dd>
+<dt class="hdlist1">
+My issue is not listed.
+</dt>
+<dd>
+<p>
+    If you experience any segfaults or crashes, you can report the issue in
+    <a href="https://github.com/qutebrowser/qutebrowser/issues">the issue tracker</a> or
+    using the <code>:report</code> command.
+    If you are reporting a segfault, make sure you read the
+    <a href="doc/stacktrace.asciidoc">guide</a> on how to report them with all needed
+    information.
+</p>
+</dd>
+</dl></div>
 </div>
 </div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-28 11:02:31 CET
+Last updated 2017-11-08 16:43:21 CET
 </div>
 </div>
 </body>
