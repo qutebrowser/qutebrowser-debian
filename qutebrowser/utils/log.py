@@ -327,7 +327,8 @@ def change_console_formatter(level):
     console_handler.setFormatter(console_formatter)
 
 
-def qt_message_handler(msg_type, context, msg):
+def qt_message_handler(msg_type, context,  # pylint: disable=too-many-branches
+                       msg):
     """Qt message handler to redirect qWarning etc. to the logging system.
 
     Args:
@@ -420,6 +421,9 @@ def qt_message_handler(msg_type, context, msg):
             'virtual void QSslSocketBackendPrivate::transmit() SSLRead failed '
                 'with: -9805',  # flake8: disable=E131
         ]
+
+    if not msg:
+        msg = "Logged empty message!"
 
     if any(msg.strip().startswith(pattern) for pattern in suppressed_msgs):
         level = logging.DEBUG

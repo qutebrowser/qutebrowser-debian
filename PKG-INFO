@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: qutebrowser
-Version: 1.0.3
+Version: 1.0.4
 Summary: A keyboard-driven, vim-like browser based on PyQt5.
 Home-page: https://www.qutebrowser.org/
 Author: Florian Bruhin
@@ -118,7 +118,7 @@ Description: // If you are reading this in plaintext or on PyPi:
             link:https://github.com/annulen/webkit/wiki[updated fork] (5.212) is
             supported
         * http://www.riverbankcomputing.com/software/pyqt/intro[PyQt] 5.7.0 or newer
-          (5.9 recommended) for Python 3
+          (5.9.2 recommended) for Python 3
         * https://pypi.python.org/pypi/setuptools/[pkg_resources/setuptools]
         * http://fdik.org/pyPEG/[pyPEG2]
         * http://jinja.pocoo.org/[jinja2]
