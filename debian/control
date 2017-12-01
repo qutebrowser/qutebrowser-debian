@@ -22,8 +22,7 @@ Rules-Requires-Root: no
 
 Package: qutebrowser
 Architecture: all
-Depends: python,
-         python3-attr,
+Depends: python3-attr,
          python3-pyqt5,
          python3-pyqt5.qtsql,
          python3-pyqt5.qtopengl,
