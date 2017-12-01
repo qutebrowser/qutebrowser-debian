@@ -1,0 +1,2 @@
+# Override disputed lintian tag based on disputed tech-ctte decision
+qutebrowser: command-in-menu-file-and-desktop-file qutebrowser usr/share/menu/qutebrowser:*
