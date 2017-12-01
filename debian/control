@@ -18,6 +18,7 @@ Standards-Version: 4.1.2
 Homepage: https://qutebrowser.org
 Vcs-Git: https://github.com/qutebrowser/qutebrowser-debian.git
 Vcs-Browser: https://github.com/qutebrowser/qutebrowser-debian
+Rules-Requires-Root: no
 
 Package: qutebrowser
 Architecture: all
