@@ -8,6 +8,8 @@ qutebrowser (1.0.4-2) UNRELEASED; urgency=medium
   * Set "Rules-Requires-Root: no".
   * Drop dependency on python (2.7). The last userscripts were made Python
     3 compatible by upstream. Thanks Lintian for nagging!
+    + Patch those userscripts which are compatible with Python 2 as well
+      as with Python 3 to sport an explicit python3 shebang line.
 
  -- Axel Beckert <abe@debian.org>  Fri, 01 Dec 2017 17:34:17 +0100
 
