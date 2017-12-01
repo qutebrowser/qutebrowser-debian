@@ -34,6 +34,7 @@ Depends: python,
          ${python3:Depends}
 Suggests: libjs-pdf,
           python3-colorlog
+Provides: x-www-browser
 Description: Keyboard-driven, vim-like browser based on PyQt5
  qutebrowser is a keyboard-focused browser with a minimal GUI. It's
  based on Python and PyQt5 and was inspired by other browsers/addons
