@@ -1,3 +1,10 @@
+qutebrowser (1.0.4-3) UNRELEASED; urgency=high
+
+  * Add missing runtime dependencies python3-pkg-resources and
+    libqt5sql5-sqlite. Thanks Christoph Biedl! (Closes: #884583)
+
+ -- Axel Beckert <abe@debian.org>  Sun, 17 Dec 2017 23:33:24 +0100
+
 qutebrowser (1.0.4-2) unstable; urgency=medium
 
   * Add myself to Uploaders.
