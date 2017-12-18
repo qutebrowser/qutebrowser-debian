@@ -1,3 +1,11 @@
+qutebrowser (1.0.4-4) UNRELEASED; urgency=medium
+
+  * Add python3-pyqt5.qtwebkit as alternative to
+    python3-pyqt5.qtwebengine, now that the former is known to work with
+    qutebrowser in Debian, too.
+
+ -- Axel Beckert <abe@debian.org>  Mon, 18 Dec 2017 23:49:14 +0100
+
 qutebrowser (1.0.4-3) unstable; urgency=high
 
   * Add missing runtime dependencies python3-pkg-resources and
