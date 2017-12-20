@@ -45,7 +45,7 @@ Description: Keyboard-driven, vim-like browser based on PyQt5
  like dwb and Vimperator/Pentadactyl.
  .
  qutebrowser supports two different rendering engine backends:
- QtWebKit and QtWebEngne.
+ QtWebKit and QtWebEngine.
 
 Package: qutebrowser-qtwebengine
 Architecture: all
