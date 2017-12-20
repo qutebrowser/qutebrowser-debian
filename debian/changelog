@@ -2,9 +2,12 @@ qutebrowser (1.0.4-4) UNRELEASED; urgency=medium
 
   * Add explicit dependency on libqt5core5a (>= 5.7.1). libqt5core5a was
     already an implicit dependency, but without that version restriction.
-  * Add python3-pyqt5.qtwebkit as alternative to
-    python3-pyqt5.qtwebengine, now that the former is known to work with
-    qutebrowser in Debian, too.
+  * Support the QtWebKit backend as alternative to QtWebEngine, now that
+    the former is known to work with qutebrowser in Debian, too.
+  * Create two new packages qutebrowser-qtwebengine and
+    qutebrowser-qtwebkit to be able to specify dependencies of the type
+    "(a & b) | (c & d)" and to have packages which install qutebrowser
+    with the preferred backend.
 
  -- Axel Beckert <abe@debian.org>  Mon, 18 Dec 2017 23:49:14 +0100
 
