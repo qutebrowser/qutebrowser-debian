@@ -1,12 +1,13 @@
-qutebrowser (1.0.4-4) UNRELEASED; urgency=medium
+qutebrowser (1.1.0-1) UNRELEASED; urgency=medium
 
+  * New upstream release
   * Add explicit dependency on libqt5core5a (>= 5.7.1). libqt5core5a was
     already an implicit dependency, but without that version restriction.
   * Add python3-pyqt5.qtwebkit as alternative to
     python3-pyqt5.qtwebengine, now that the former is known to work with
     qutebrowser in Debian, too.
 
- -- Axel Beckert <abe@debian.org>  Mon, 18 Dec 2017 23:49:14 +0100
+ -- Axel Beckert <abe@debian.org>  Mon, 15 Jan 2018 22:53:57 +0100
 
 qutebrowser (1.0.4-3) unstable; urgency=high
 
