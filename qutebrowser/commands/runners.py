@@ -95,7 +95,6 @@ class CommandParser:
     """Parse qutebrowser commandline commands.
 
     Attributes:
-
         _partial_match: Whether to allow partial command matches.
     """
 
@@ -127,7 +126,7 @@ class CommandParser:
             new_cmd += ' '
         return new_cmd
 
-    def _parse_all_gen(self, text, aliases=True, *args, **kwargs):
+    def _parse_all_gen(self, text, *args, aliases=True, **kwargs):
         """Split a command on ;; and parse all parts.
 
         If the first command in the commandline is a non-split one, it only
@@ -214,11 +213,11 @@ class CommandParser:
         Return:
             cmdstr modified to the matching completion or unmodified
         """
-        matches = []
-        for valid_command in cmdutils.cmd_dict:
-            if valid_command.find(cmdstr) == 0:
-                matches.append(valid_command)
+        matches = [cmd for cmd in sorted(cmdutils.cmd_dict, key=len)
+                   if cmdstr in cmd]
         if len(matches) == 1:
+            cmdstr = matches[0]
+        elif len(matches) > 1 and config.val.completion.use_best_match:
             cmdstr = matches[0]
         return cmdstr
 

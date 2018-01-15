@@ -27,6 +27,7 @@ import collections
 import functools
 import pathlib
 import tempfile
+import enum
 
 import sip
 from PyQt5.QtCore import (pyqtSlot, pyqtSignal, Qt, QObject, QModelIndex,
@@ -38,8 +39,7 @@ from qutebrowser.utils import (usertypes, standarddir, utils, message, log,
                                qtutils)
 
 
-ModelRole = usertypes.enum('ModelRole', ['item'], start=Qt.UserRole,
-                           is_int=True)
+ModelRole = enum.IntEnum('ModelRole', ['item'], start=Qt.UserRole)
 
 
 # Remember the last used directory
@@ -103,6 +103,8 @@ def immediate_download_path(prompt_download_directory=None):
     if not prompt_download_directory:
         return download_dir()
 
+    return None
+
 
 def _path_suggestion(filename):
     """Get the suggested file path.
@@ -137,7 +139,8 @@ def create_full_filename(basename, filename):
     encoding = sys.getfilesystemencoding()
     filename = utils.force_encoding(filename, encoding)
     basename = utils.force_encoding(basename, encoding)
-    if os.path.isabs(filename) and os.path.isdir(filename):
+    if os.path.isabs(filename) and (os.path.isdir(filename) or
+                                    filename.endswith(os.sep)):
         # We got an absolute directory from the user, so we save it under
         # the default filename in that directory.
         return os.path.join(filename, basename)
@@ -179,7 +182,7 @@ def transform_path(path):
     path = utils.expand_windows_drive(path)
     # Drive dependent working directories are not supported, e.g.
     # E:filename is invalid
-    if re.match(r'[A-Z]:[^\\]', path, re.IGNORECASE):
+    if re.search(r'^[A-Z]:[^\\]', path, re.IGNORECASE):
         return None
     # Paths like COM1, ...
     # See https://github.com/qutebrowser/qutebrowser/issues/82
@@ -604,6 +607,11 @@ class AbstractDownloadItem(QObject):
         """Ask a confirmation question for the download."""
         raise NotImplementedError
 
+    def _ask_create_parent_question(self, title, msg,
+                                    force_overwrite, remember_directory):
+        """Ask a confirmation question for the parent directory."""
+        raise NotImplementedError
+
     def _set_fileobj(self, fileobj, *, autoclose=True):
         """Set a file object to save the download to.
 
@@ -630,7 +638,6 @@ class AbstractDownloadItem(QObject):
             remember_directory: If True, remember the directory for future
                                 downloads.
         """
-        global last_used_directory
         filename = os.path.expanduser(filename)
         self._ensure_can_set_filename(filename)
 
@@ -657,11 +664,41 @@ class AbstractDownloadItem(QObject):
             self._filename = create_full_filename(self.basename,
                                                   os.path.expanduser('~'))
 
+        dirname = os.path.dirname(self._filename)
+        if not os.path.exists(dirname):
+            txt = ("<b>{}</b> does not exist. Create it?".
+                   format(html.escape(
+                       os.path.join(dirname, ""))))
+            self._ask_create_parent_question("Create directory?", txt,
+                                             force_overwrite,
+                                             remember_directory)
+        else:
+            self._after_create_parent_question(force_overwrite,
+                                               remember_directory)
+
+    def _after_create_parent_question(self,
+                                      force_overwrite, remember_directory):
+        """After asking about parent directory.
+
+        Args:
+            force_overwrite: Force overwriting existing files.
+            remember_directory: If True, remember the directory for future
+                                downloads.
+        """
+        global last_used_directory
+
+        try:
+            os.makedirs(os.path.dirname(self._filename))
+        except FileExistsError:
+            pass
+        except OSError as e:
+            self._die(e.strerror)
+
         self.basename = os.path.basename(self._filename)
         if remember_directory:
             last_used_directory = os.path.dirname(self._filename)
 
-        log.downloads.debug("Setting filename to {}".format(filename))
+        log.downloads.debug("Setting filename to {}".format(self._filename))
         if force_overwrite:
             self._after_set_filename()
         elif os.path.isfile(self._filename):
@@ -955,7 +992,7 @@ class DownloadModel(QAbstractListModel):
                 if not count:
                     count = len(self)
                 raise cmdexc.CommandError("Download {} is already done!"
-                                        .format(count))
+                                          .format(count))
             download.cancel()
 
     @cmdutils.register(instance='download-model', scope='window')

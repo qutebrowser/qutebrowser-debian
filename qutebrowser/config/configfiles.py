@@ -136,7 +136,7 @@ class YamlConfig(QObject):
             with open(self._filename, 'r', encoding='utf-8') as f:
                 yaml_data = utils.yaml_load(f)
         except FileNotFoundError:
-            return {}
+            return
         except OSError as e:
             desc = configexc.ConfigErrorDesc("While reading", e)
             raise configexc.ConfigFileErrors('autoconfig.yml', [desc])
@@ -259,6 +259,16 @@ class ConfigAPI:
         with self._handle_error('unbinding', key):
             self._keyconfig.unbind(key, mode=mode)
 
+    def source(self, filename):
+        """Read the given config file from disk."""
+        if not os.path.isabs(filename):
+            filename = str(self.configdir / filename)
+
+        try:
+            read_config_py(filename)
+        except configexc.ConfigFileErrors as e:
+            self.errors += e.errors
+
 
 class ConfigPyWriter:
 
@@ -344,15 +354,17 @@ class ConfigPyWriter:
         normal_bindings = self._bindings.pop('normal', {})
         if normal_bindings:
             yield self._line('# Bindings for normal mode')
-        for key, command in sorted(normal_bindings.items()):
-            yield self._line('config.bind({!r}, {!r})'.format(key, command))
+            for key, command in sorted(normal_bindings.items()):
+                yield self._line('config.bind({!r}, {!r})'.format(
+                    key, command))
+            yield ''
 
         for mode, mode_bindings in sorted(self._bindings.items()):
-            yield ''
             yield self._line('# Bindings for {} mode'.format(mode))
             for key, command in sorted(mode_bindings.items()):
                 yield self._line('config.bind({!r}, {!r}, mode={!r})'.format(
                     key, command, mode))
+            yield ''
 
 
 def read_config_py(filename, raising=False):

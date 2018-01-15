@@ -1,6 +1,6 @@
-Metadata-Version: 1.1
+Metadata-Version: 1.2
 Name: qutebrowser
-Version: 1.0.4
+Version: 1.1.0
 Summary: A keyboard-driven, vim-like browser based on PyQt5.
 Home-page: https://www.qutebrowser.org/
 Author: Florian Bruhin
@@ -24,7 +24,7 @@ Description: // If you are reading this in plaintext or on PyPi:
         image:https://ci.appveyor.com/api/projects/status/5pyauww2k68bbow2/branch/master?svg=true["AppVeyor build status", link="https://ci.appveyor.com/project/qutebrowser/qutebrowser"]
         image:https://codecov.io/github/qutebrowser/qutebrowser/coverage.svg?branch=master["coverage badge",link="https://codecov.io/github/qutebrowser/qutebrowser?branch=master"]
         
-        link:https://www.qutebrowser.org[website] | link:https://blog.qutebrowser.org[blog] | link:https://github.com/qutebrowser/qutebrowser/releases[releases]
+        link:https://www.qutebrowser.org[website] | link:https://blog.qutebrowser.org[blog] | https://github.com/qutebrowser/qutebrowser/blob/master/doc/faq.asciidoc[FAQ] | https://www.qutebrowser.org/doc/contributing.html[contributing] | link:https://github.com/qutebrowser/qutebrowser/releases[releases] | https://github.com/qutebrowser/qutebrowser/blob/master/doc/install.asciidoc[installing]
         // QUTE_WEB_HIDE_END
         
         qutebrowser is a keyboard-focused browser with a minimal GUI. It's based
@@ -191,7 +191,9 @@ Description: // If you are reading this in plaintext or on PyPi:
         * Firefox addons (based on WebExtensions):
           https://addons.mozilla.org/en-GB/firefox/addon/vimium-ff/[Vimium-FF] (experimental),
           https://key.saka.io[Saka Key],
-          https://github.com/cmcaine/tridactyl[Tridactyl] (in early development, working
+          https://github.com/ueokande/vim-vixen[Vim Vixen],
+          https://github.com/shinglyu/QuantumVim[QuantumVim],
+          https://github.com/cmcaine/tridactyl[Tridactyl] (working
           on a https://bugzilla.mozilla.org/show_bug.cgi?id=1215061[better API] for
           keyboard integration in Firefox).
         
@@ -209,7 +211,6 @@ Description: // If you are reading this in plaintext or on PyPi:
           http://www.vimperator.org/[Vimperator],
           http://5digits.org/pentadactyl/[Pentadactyl],
           https://github.com/akhodakivskiy/VimFx[VimFx],
-          https://github.com/shinglyu/QuantumVim[QuantumVim]
         * Chrome/Chromium addons:
           https://chrome.google.com/webstore/detail/vichrome/gghkfhpblkcmlkmpcpgaajbbiikbhpdi?hl=en[ViChrome],
           https://github.com/jinzhu/vrome[Vrome]
@@ -258,3 +259,4 @@ Classifier: Programming Language :: Python :: 3.6
 Classifier: Topic :: Internet
 Classifier: Topic :: Internet :: WWW/HTTP
 Classifier: Topic :: Internet :: WWW/HTTP :: Browsers
+Requires-Python: >=3.5

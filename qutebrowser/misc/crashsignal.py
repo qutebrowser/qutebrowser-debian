@@ -20,13 +20,13 @@
 """Handlers for crashes and OS signals."""
 
 import os
+import os.path
 import sys
 import bdb
-import pdb  # flake8: disable=T002
+import pdb  # noqa: T002
 import signal
 import functools
 import faulthandler
-import os.path
 try:
     # WORKAROUND for segfaults when using pdb in pytest for some reason...
     import readline  # pylint: disable=unused-import
@@ -323,6 +323,7 @@ class SignalHandler(QObject):
                                              self)
             self._notifier.activated.connect(self.handle_signal_wakeup)
             self._orig_wakeup_fd = signal.set_wakeup_fd(write_fd)
+            # pylint: enable=import-error,no-member,useless-suppression
         else:
             self._timer.start(1000)
             self._timer.timeout.connect(lambda: None)

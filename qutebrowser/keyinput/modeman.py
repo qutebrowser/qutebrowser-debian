@@ -62,7 +62,7 @@ class NotInModeError(Exception):
 
 def init(win_id, parent):
     """Initialize the mode manager and the keyparsers for the given win_id."""
-    KM = usertypes.KeyMode  # pylint: disable=invalid-name
+    KM = usertypes.KeyMode  # noqa: N801,N806 pylint: disable=invalid-name
     modeman = ModeManager(win_id, parent)
     objreg.register('mode-manager', modeman, scope='window', window=win_id)
     keyparsers = {
@@ -251,7 +251,7 @@ class ModeManager(QObject):
         self.mode = mode
         self.entered.emit(mode, self._win_id)
 
-    @cmdutils.register(instance='mode-manager', hide=True, scope='window')
+    @cmdutils.register(instance='mode-manager', scope='window')
     def enter_mode(self, mode):
         """Enter a key mode.
 
@@ -301,8 +301,7 @@ class ModeManager(QObject):
         self.left.emit(mode, self.mode, self._win_id)
 
     @cmdutils.register(instance='mode-manager', name='leave-mode',
-                       not_modes=[usertypes.KeyMode.normal], hide=True,
-                       scope='window')
+                       not_modes=[usertypes.KeyMode.normal], scope='window')
     def leave_current_mode(self):
         """Leave the mode we're currently in."""
         if self.mode == usertypes.KeyMode.normal:
@@ -323,12 +322,15 @@ class ModeManager(QObject):
         if self.mode is None:
             # We got events before mode is set, so just pass them through.
             return False
-        if event.type() == QEvent.KeyPress:
-            return self._eventFilter_keypress(event)
-        else:
-            return self._eventFilter_keyrelease(event)
 
-    @cmdutils.register(instance='mode-manager', scope='window', hide=True)
+        handlers = {
+            QEvent.KeyPress: self._eventFilter_keypress,
+            QEvent.KeyRelease: self._eventFilter_keyrelease,
+        }
+        handler = handlers[event.type()]
+        return handler(event)
+
+    @cmdutils.register(instance='mode-manager', scope='window')
     def clear_keychain(self):
         """Clear the currently entered key chain."""
         self._parsers[self.mode].clear_keystring()

@@ -241,7 +241,7 @@ class WrapperLayout(QLayout):
         self._widget = None
 
     def addItem(self, _widget):
-        raise AssertionError("Should never be called!")
+        raise utils.Unreachable
 
     def sizeHint(self):
         return self._widget.sizeHint()
@@ -250,7 +250,7 @@ class WrapperLayout(QLayout):
         return None
 
     def takeAt(self, _index):
-        raise AssertionError("Should never be called!")
+        raise utils.Unreachable
 
     def setGeometry(self, rect):
         self._widget.setGeometry(rect)
@@ -300,7 +300,10 @@ class FullscreenNotification(QLabel):
             self.setText("Page is now fullscreen.")
 
         self.resize(self.sizeHint())
-        geom = QApplication.desktop().screenGeometry(self)
+        if config.val.content.windowed_fullscreen:
+            geom = self.parentWidget().geometry()
+        else:
+            geom = QApplication.desktop().screenGeometry(self)
         self.move((geom.width() - self.sizeHint().width()) / 2, 30)
 
     def set_timeout(self, timeout):

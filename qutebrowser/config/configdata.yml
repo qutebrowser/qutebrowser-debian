@@ -21,27 +21,35 @@ aliases:
 confirm_quit:
   type: ConfirmQuit
   default: [never]
-  desc: Whether quitting the application requires a confirmation.
+  desc: Require a confirmation before quitting the application.
 
 history_gap_interval:
   type: Int
   default: 30
   desc: >-
-    The maximum time in minutes between two history items for them to be
+    Maximum time (in minutes) between two history items for them to be
     considered being from the same browsing session.
 
-    Items with less time between them are grouped when being displayed in `:history`.
-    Use -1 to disable separation.
+    Items with less time between them are grouped when being displayed in
+    `:history`. Use -1 to disable separation.
 
 ignore_case:
+  renamed: search.ignore_case
+
+search.ignore_case:
   type:
     name: String
     valid_values:
-      - always: Search case-insensitively
-      - never: Search case-sensitively
-      - smart: Search case-sensitively if there are capital chars
+      - always: Search case-insensitively.
+      - never: Search case-sensitively.
+      - smart: Search case-sensitively if there are capital characters.
   default: smart
-  desc: Find text on a page case-insensitively.
+  desc: When to find text on a page case-insensitively.
+
+search.incremental:
+  type: Bool
+  default: True
+  desc: Find text on a page incrementally, renewing the search for each typed character.
 
 new_instance_open_target:
   type:
@@ -50,8 +58,8 @@ new_instance_open_target:
       - tab: Open a new tab in the existing window and activate the window.
       - tab-bg: Open a new background tab in the existing window and activate
           the window.
-      - tab-silent: Open a new tab in the existing window without activating the
-          window.
+      - tab-silent: Open a new tab in the existing window without activating
+          the window.
       - tab-bg-silent: Open a new background tab in the existing window without
           activating the window.
       - window: Open in a new window.
@@ -79,24 +87,33 @@ new_instance_open_target_window:
     When `new_instance_open_target` is not set to `window`, this is ignored.
 
 session_default_name:
+  renamed: session.default_name
+
+session.default_name:
   type:
     name: SessionName
     none_ok: true
   default: null
   desc: >-
-    The name of the session to save by default.
+    Name of the session to save by default.
 
     If this is set to null, the session which was last loaded is saved.
+
+session.lazy_restore:
+  type: Bool
+  default: false
+  desc: Load a restored tab as soon as it takes focus.
 
 backend:
   type:
     name: String
     valid_values:
-      - webengine: Use QtWebEngine (based on Chromium)
-      - webkit: Use QtWebKit (based on WebKit, similar to Safari)
+      - webengine: Use QtWebEngine (based on Chromium).
+      - webkit: Use QtWebKit (based on WebKit, similar to Safari).
   default: webengine
+  restart: true
   desc: >-
-    The backend to use to display websites.
+    Backend to use to display websites.
 
     qutebrowser supports two different web rendering engines / backends,
     QtWebKit and QtWebEngine.
@@ -106,10 +123,8 @@ backend:
     only supports the fork.
 
     QtWebEngine is Qt's official successor to QtWebKit. It's slightly more
-    resource hungry that QtWebKit and has a couple of missing features in
+    resource hungry than QtWebKit and has a couple of missing features in
     qutebrowser, but is generally the preferred choice.
-
-    This setting requires a restart.
 
 
 ## qt
@@ -123,14 +138,13 @@ qt.args:
     valtype: String
     none_ok: true
   default: []
+  restart: true
   desc: >-
     Additional arguments to pass to Qt, without leading `--`.
 
     With QtWebEngine, some Chromium arguments (see
     https://peter.sh/experiments/chromium-command-line-switches/ for a list)
     will work.
-
-    This setting requires a restart.
 
 force_software_rendering:
   renamed: qt.force_software_rendering
@@ -139,23 +153,38 @@ qt.force_software_rendering:
   type: Bool
   default: false
   backend: QtWebEngine
+  restart: true
   desc: >-
     Force software rendering for QtWebEngine.
 
     This is needed for QtWebEngine to work with Nouveau drivers.
-    This setting requires a restart.
 
 qt.force_platform:
   type:
     name: String
     none_ok: true
   default: null
+  restart: true
   desc: >-
     Force a Qt platform to use.
 
     This sets the `QT_QPA_PLATFORM` environment variable and is useful to force
     using the XCB plugin when running QtWebEngine on Wayland.
 
+
+qt.highdpi:
+  type: Bool
+  default: false
+  restart: true
+  desc: >-
+    Turn on Qt HighDPI scaling.
+
+    This is equivalent to setting QT_AUTO_SCREEN_SCALE_FACTOR=1 in the
+    environment.
+
+    It's off by default as it can cause issues with some bitmap fonts.
+    As an alternative to this, it's possible to set font sizes and the
+    `zoom.default` setting.
 
 ## auto_save
 
@@ -165,7 +194,8 @@ auto_save.interval:
     minval: 0
     maxval: maxint
   default: 15000
-  desc: How often (in milliseconds) to auto-save config/cookies/etc.
+  desc: Time interval (in milliseconds) between auto-saves of
+    config/cookies/etc.
 
 auto_save.session:
   type: Bool
@@ -182,7 +212,7 @@ content.cache.size:
     minval: 0
     maxval: maxint64
   desc: >-
-    Size of the HTTP network cache. Null to use the default value.
+    Size (in bytes) of the HTTP network cache. Null to use the default value.
 
     With QtWebEngine, the maximum supported value is 2147483647 (~2 GB).
 
@@ -197,23 +227,25 @@ content.cache.maximum_pages:
     maxval: maxint
   backend: QtWebKit
   desc: >-
-    The maximum number of pages to hold in the global memory page cache.
+    Maximum number of pages to hold in the global memory page cache.
 
-    The Page Cache allows for a nicer user experience when navigating forth or back
-    to pages in the forward/back history, by pausing and resuming up to _n_ pages.
+    The page cache allows for a nicer user experience when navigating forth or
+    back to pages in the forward/back history, by pausing and resuming up to
+    _n_ pages.
 
-    For more information about the feature, please refer to: http://webkit.org/blog/427/webkit-page-cache-i-the-basics/
+    For more information about the feature, please refer to:
+    http://webkit.org/blog/427/webkit-page-cache-i-the-basics/
 
 content.cache.appcache:
   default: true
   type: Bool
   backend: QtWebKit
   desc: >-
-    Whether support for the HTML 5 web application cache feature is enabled.
+    Enable support for the HTML 5 web application cache feature.
 
-    An application cache acts like an HTTP cache in some sense. For documents that
-    use the application cache via JavaScript, the loader engine will first ask the
-    application cache for the contents, before hitting the network.
+    An application cache acts like an HTTP cache in some sense. For documents
+    that use the application cache via JavaScript, the loader engine will first
+    ask the application cache for the contents, before hitting the network.
 
 content.cookies.accept:
   default: no-3rdparty
@@ -223,10 +255,10 @@ content.cookies.accept:
     valid_values:
       - all: "Accept all cookies."
       - no-3rdparty: "Accept cookies from the same origin only."
-      - no-unknown-3rdparty: "Accept cookies from the same origin only, unless a
-          cookie is already set for the domain."
+      - no-unknown-3rdparty: "Accept cookies from the same origin only, unless
+          a cookie is already set for the domain."
       - never: "Don't accept cookies at all."
-  desc: Control which cookies to accept.
+  desc: Which cookies to accept.
 
 content.cookies.store:
   default: true
@@ -245,6 +277,12 @@ content.default_encoding:
     The encoding must be a string describing an encoding such as _utf-8_,
     _iso-8859-1_, etc.
 
+content.windowed_fullscreen:
+  type: Bool
+  default: false
+  desc: >-
+    Limit fullscreen to the browser window (does not expand to fill the screen).
+
 content.developer_extras:
   type: Bool
   default: false
@@ -252,8 +290,8 @@ content.developer_extras:
   desc: >-
     Enable extra tools for Web developers.
 
-    This needs to be enabled for `:inspector` to work and also adds an _Inspect_
-    entry to the context menu. For QtWebEngine, see
+    This needs to be enabled for `:inspector` to work and also adds an
+    _Inspect_ entry to the context menu. For QtWebEngine, see
     `--enable-webengine-inspector` in `qutebrowser --help` instead.
 
 content.dns_prefetch:
@@ -294,7 +332,7 @@ content.headers.custom:
       name: String
       encoding: ascii
     none_ok: true
-  desc: Set custom headers for qutebrowser HTTP requests.
+  desc: Custom headers for qutebrowser HTTP requests.
 
 content.headers.do_not_track:
   type:
@@ -315,11 +353,11 @@ content.headers.referer:
       - always: "Always send the Referer."
       - never: "Never send the Referer. This is not recommended, as some sites
           may break."
-      - same-domain: "Only send the Referer for the same domain. This will still
-          protect your privacy, but shouldn't break any sites."
+      - same-domain: "Only send the Referer for the same domain. This will
+          still protect your privacy, but shouldn't break any sites."
   backend: QtWebKit
   desc: >-
-    Send the Referer header.
+    When to send the Referer header.
 
     The Referer header tells websites from which website you were coming from
     when visting them.
@@ -330,7 +368,8 @@ content.headers.user_agent:
     name: String
     none_ok: true
     completions:
-      # To update the following list of user agents, run the script 'ua_fetch.py'
+      # To update the following list of user agents, run the script
+      # 'ua_fetch.py'
       # Vim-protip: Place your cursor below this comment and run
       # :r!python scripts/dev/ua_fetch.py
       - - "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:53.0) Gecko/20100101
@@ -339,8 +378,8 @@ content.headers.user_agent:
       - - "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:53.0) Gecko/20100101
           Firefox/53.0"
         - Firefox 53.0 Linux
-      - - "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:53.0) Gecko/20100101
-          Firefox/53.0"
+      - - "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:53.0)
+          Gecko/20100101 Firefox/53.0"
         - Firefox 53.0 MacOSX
 
       - - "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4
@@ -367,10 +406,11 @@ content.headers.user_agent:
         - wget 1.16.1
       - - "curl/7.40.0"
         - curl 7.40.0
-      - - "Mozilla/5.0 (Linux; U; Android 7.1.2) AppleWebKit/534.30 (KHTML, like
-          Gecko) Version/4.0 Mobile Safari/534.30"
+      - - "Mozilla/5.0 (Linux; U; Android 7.1.2) AppleWebKit/534.30 (KHTML,
+          like Gecko) Version/4.0 Mobile Safari/534.30"
         - Mobile Generic Android
-      - - "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko"
+      - - "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like
+          Gecko"
         - IE 11.0 for Desktop Win7 64-bit
 
   desc: User agent to send. Unset to send the default.
@@ -378,7 +418,7 @@ content.headers.user_agent:
 content.host_blocking.enabled:
   default: true
   type: Bool
-  desc: Whether host blocking is enabled.
+  desc: Enable host blocking.
 
 content.host_blocking.lists:
   default:
@@ -398,8 +438,8 @@ content.host_blocking.lists:
 
     - An `/etc/hosts`-like file
     - One host per line
-    - A zip-file of any of the above, with either only one file, or a file named
-      `hosts` (with any extension).
+    - A zip-file of any of the above, with either only one file, or a file
+      named `hosts` (with any extension).
 
 content.host_blocking.whitelist:
   default:
@@ -411,20 +451,20 @@ content.host_blocking.whitelist:
   desc: >-
     List of domains that should always be loaded, despite being ad-blocked.
 
-    Domains may contain * and ? wildcards and are otherwise required to exactly match
-    the requested domain.
+    Domains may contain * and ? wildcards and are otherwise required to exactly
+    match the requested domain.
 
     Local domains are always exempt from hostblocking.
 
 content.hyperlink_auditing:
   default: false
   type: Bool
-  desc: Enable or disable hyperlink auditing (`<a ping>`).
+  desc: Enable hyperlink auditing (`<a ping>`).
 
 content.images:
   default: true
   type: Bool
-  desc: Whether images are automatically loaded in web pages.
+  desc: Load images automatically in web pages.
 
 content.javascript.alert:
   default: true
@@ -435,26 +475,26 @@ content.javascript.can_access_clipboard:
   default: false
   type: Bool
   desc: >-
-    Whether JavaScript can read from or write to the clipboard.
+    Allow JavaScript to read from or write to the clipboard.
 
-    With QtWebEngine, writing the clipboard as response to a user interaction is
-    always allowed.
+    With QtWebEngine, writing the clipboard as response to a user interaction
+    is always allowed.
 
 content.javascript.can_close_tabs:
   default: false
   type: Bool
   backend: QtWebKit
-  desc: Whether JavaScript can close tabs.
+  desc: Allow JavaScript to close tabs.
 
 content.javascript.can_open_tabs_automatically:
   default: false
   type: Bool
-  desc: Whether JavaScript can open new tabs without user interaction.
+  desc: Allow JavaScript to open new tabs without user interaction.
 
 content.javascript.enabled:
   default: true
   type: Bool
-  desc: Enables or disables JavaScript.
+  desc: Enable JavaScript.
 
 content.javascript.log:
   type:
@@ -478,15 +518,15 @@ content.javascript.log:
     Log levels to use for JavaScript console logging messages.
 
     When a JavaScript message with the level given in the dictionary key is
-    logged, the corresponding dictionary value selects the qutebrowser logger to
-    use.
+    logged, the corresponding dictionary value selects the qutebrowser logger
+    to use.
 
     On QtWebKit, the "unknown" setting is always used.
 
 content.javascript.modal_dialog:
   type: Bool
   default: false
-  desc: Use the standard JavaScript modal dialog for `alert()` and `confirm()`
+  desc: Use the standard JavaScript modal dialog for `alert()` and `confirm()`.
 
 content.javascript.prompt:
   default: true
@@ -496,17 +536,17 @@ content.javascript.prompt:
 content.local_content_can_access_remote_urls:
   default: false
   type: Bool
-  desc: Whether locally loaded documents are allowed to access remote urls.
+  desc: Allow locally loaded documents to access remote URLs.
 
 content.local_content_can_access_file_urls:
   default: true
   type: Bool
-  desc: Whether locally loaded documents are allowed to access other local urls.
+  desc: Allow locally loaded documents to access other local URLs.
 
 content.local_storage:
   default: true
   type: Bool
-  desc: Whether support for HTML 5 local storage and Web SQL is enabled.
+  desc: Enable support for HTML 5 local storage and Web SQL.
 
 content.media_capture:
   default: ask
@@ -520,7 +560,7 @@ content.netrc_file:
     name: File
     none_ok: true
   desc: >-
-    Location of a netrc-file for HTTP authentication.
+    Netrc-file for HTTP authentication.
 
     If unset, `~/.netrc` is used.
 
@@ -535,15 +575,15 @@ content.pdfjs:
   type: Bool
   backend: QtWebKit
   desc: >-
-    Enable pdf.js to view PDF files in the browser.
+    Allow pdf.js to view PDF files in the browser.
 
-    Note that the files can still be downloaded by clicking the download button in
-    the pdf.js viewer.
+    Note that the files can still be downloaded by clicking the download button
+    in the pdf.js viewer.
 
 content.plugins:
   default: false
   type: Bool
-  desc: Enables or disables plugins in Web pages.
+  desc: Enable plugins in Web pages.
 
 content.print_element_backgrounds:
   type: Bool
@@ -552,8 +592,7 @@ content.print_element_backgrounds:
     QtWebKit: true
     QtWebEngine: Qt 5.8
   desc: >-
-    Whether the background color and images are also drawn when the page is
-    printed.
+    Draw the background color and images also when the page is printed.
 
 content.private_browsing:
   type: Bool
@@ -565,10 +604,10 @@ content.proxy:
   default: system
   type: Proxy
   desc: >-
-    The proxy to use.
+    Proxy to use.
 
-    In addition to the listed values, you can use a `socks://...` or `http://...`
-    URL.
+    In addition to the listed values, you can use a `socks://...` or
+    `http://...` URL.
 
 content.proxy_dns_requests:
   default: true
@@ -587,18 +626,18 @@ content.user_stylesheets:
     valtype: File
     none_ok: True
   default: []
-  desc: A list of user stylesheet filenames to use.
+  desc: List of user stylesheet filenames to use.
 
 content.webgl:
   default: true
   type: Bool
-  desc: Enables or disables WebGL.
+  desc: Enable WebGL.
 
 content.xss_auditing:
   type: Bool
   default: false
   desc: >-
-    Whether load requests should be monitored for cross-site scripting attempts.
+    Monitor load requests for cross-site scripting attempts.
 
     Suspicious scripts will be blocked and reported in the inspector's
     JavaScript console. Enabling this feature might have an impact on
@@ -614,7 +653,7 @@ completion.cmd_history_max_items:
     name: Int
     minval: -1
   desc: >-
-    How many commands to save in the command history.
+    Number of commands to save in the command history.
 
     0: no history / -1: unlimited
 
@@ -625,7 +664,7 @@ completion.height:
     maxperc: 100
     minint: 1
   default: 50%
-  desc: The height of the completion, in px or as percentage of the window.
+  desc: Height (in pixels or as percentage of the window) of the completion.
 
 completion.quick:
   default: true
@@ -654,21 +693,21 @@ completion.scrollbar.width:
   type:
     name: Int
     minval: 0
-  desc: Width of the scrollbar in the completion window (in px).
+  desc: Width (in pixels) of the scrollbar in the completion window.
 
 completion.scrollbar.padding:
   default: 2
   type:
     name: Int
     minval: 0
-  desc: Padding of scrollbar handle in the completion window (in px).
+  desc: Padding (in pixels) of the scrollbar handle in the completion window.
 
 completion.timestamp_format:
   type:
     name: TimestampTemplate
     none_ok: true
   default: '%Y-%m-%d'
-  desc: How to format timestamps (e.g. for the history completion).
+  desc: Format of timestamps (e.g. for the history completion).
 
 completion.web_history_max_items:
   default: -1
@@ -677,9 +716,29 @@ completion.web_history_max_items:
     minval: -1
     maxval: maxint64
   desc: >-
-    How many URLs to show in the web history.
+    Number of URLs to show in the web history.
 
     0: no history / -1: unlimited
+
+completion.delay:
+  default: 0
+  type:
+    name: Int
+    minval: 0
+  desc: Delay (in milliseconds) before updating completions after typing a
+    character.
+
+completion.min_chars:
+  default: 1
+  type:
+    name: Int
+    minval: 1
+  desc: Minimum amount of characters needed to update completions.
+
+completion.use_best_match:
+  type: Bool
+  default: false
+  desc: Execute the best-matching command on a partial match.
 
 ## downloads
 
@@ -689,9 +748,9 @@ downloads.location.directory:
     name: Directory
     none_ok: true
   desc: >-
-    The directory to save downloads to.
+    Directory to save downloads to.
 
-    If unset, a sensible os-specific default is used.
+    If unset, a sensible OS-specific default is used.
 
 downloads.location.prompt:
   default: true
@@ -722,7 +781,7 @@ downloads.open_dispatcher:
     none_ok: true
   default: null
   desc: >-
-    The default program used to open downloads.
+    Default program used to open downloads.
 
     If null, the default internal handler is used.
 
@@ -740,7 +799,7 @@ downloads.remove_finished:
     name: Int
     minval: -1
   desc: >-
-    Number of milliseconds to wait before removing finished downloads.
+    Duration (in milliseconds) to wait before removing finished downloads.
 
     If set to -1, downloads are never removed.
 
@@ -750,16 +809,22 @@ editor.command:
   type:
     name: ShellCommand
     placeholder: true
-  default: ["gvim", "-f", "{}"]
+  default: ["gvim", "-f", "{file}", "-c", "normal {line}G{column0}l"]
   desc: >-
-    The editor (and arguments) to use for the `open-editor` command.
+    Editor (and arguments) to use for the `open-editor` command.
+    The following placeholders are defined:
 
-    `{}` gets replaced by the filename of the file to be edited.
+    * `{file}`: Filename of the file to be edited.
+    * `{line}`: Line in which the caret is found in the text.
+    * `{column}`: Column in which the caret is found in the text.
+    * `{line0}`: Same as `{line}`, but starting from index 0.
+    * `{column0}`: Same as `{column}`, but starting from index 0.
+
 
 editor.encoding:
   type: Encoding
   default: utf-8
-  desc : Encoding to use for the editor.
+  desc: Encoding to use for the editor.
 
 ## hints
 
@@ -769,18 +834,18 @@ hints.auto_follow:
     name: String
     valid_values:
       - always: "Auto-follow whenever there is only a single hint on a page."
-      - unique-match: "Auto-follow whenever there is a unique non-empty match in
-          either the hint string (word mode) or filter (number mode)."
-      - full-match: "Follow the hint when the user typed the whole hint (letter,
-          word or number mode) or the element's text (only in number mode)."
+      - unique-match: "Auto-follow whenever there is a unique non-empty match
+          in either the hint string (word mode) or filter (number mode)."
+      - full-match: "Follow the hint when the user typed the whole hint
+          (letter, word or number mode) or the element's text (only in number
+          mode)."
       - never: "The user will always need to press Enter to follow a hint."
-  desc: Controls when a hint can be automatically followed without pressing
-    Enter.
+  desc: When a hint can be automatically followed without pressing Enter.
 
 hints.auto_follow_timeout:
   default: 0
   type: Int
-  desc: A timeout (in milliseconds) to ignore normal-mode key bindings after a
+  desc: Duration (in milliseconds) to ignore normal-mode key bindings after a
     successful auto-follow.
 
 hints.border:
@@ -797,14 +862,14 @@ hints.chars:
       - ['asdfghjkl', "Home row"]
       - ['aoeuidnths', "Home row (Dvorak)"]
       - ['abcdefghijklmnopqrstuvwxyz', "All letters"]
-  desc: Chars used for hint strings.
+  desc: Characters used for hint strings.
 
 hints.dictionary:
   default: /usr/share/dict/words
   type:
     name: File
     required: false
-  desc: The dictionary file to be used by the word hints.
+  desc: Dictionary file to be used by the word hints.
 
 hints.find_implementation:
   default: python
@@ -826,7 +891,7 @@ hints.min_chars:
   type:
     name: Int
     minval: 1
-  desc: Minimum number of chars used for hint strings.
+  desc: Minimum number of characters used for hint strings.
 
 hints.mode:
   default: letter
@@ -836,7 +901,7 @@ hints.mode:
       - number: Use numeric hints. (In this mode you can also type letters from
           the hinted element to filter and reduce the number of elements that
           are hinted.)
-      - letter: Use the chars in the `hints.chars` setting.
+      - letter: Use the characters in the `hints.chars` setting.
       - word: Use hints words based on the html elements and the extra words.
   desc: Mode to use for hints.
 
@@ -853,7 +918,7 @@ hints.next_regexes:
     valtype:
       name: Regex
       flags: IGNORECASE
-  desc: A comma-separated list of regexes to use for 'next' links.
+  desc: Comma-separated list of regular expressions to use for 'next' links.
 
 hints.prev_regexes:
   default:
@@ -867,7 +932,7 @@ hints.prev_regexes:
     valtype:
       name: Regex
       flags: IGNORECASE
-  desc: A comma-separated list of regexes to use for 'prev' links.
+  desc: Comma-separated list of regular expressions to use for 'prev' links.
 
 hints.scatter:
   default: true
@@ -880,7 +945,7 @@ hints.scatter:
 hints.uppercase:
   default: false
   type: Bool
-  desc: Make chars in hint strings uppercase.
+  desc: Make characters in hint strings uppercase.
 
 ## input
 
@@ -892,7 +957,7 @@ input.forward_unbound_keys:
     - all: "Forward all unbound keys."
     - auto: "Forward unbound non-alphanumeric keys."
     - none: "Don't forward any keys."
-  desc: Forward unbound keys to the webview in normal mode.
+  desc: Which unbound keys to forward to the webview in normal mode.
 
 input.insert_mode.auto_load:
   default: false
@@ -924,8 +989,8 @@ input.partial_timeout:
   desc: >-
     Timeout (in milliseconds) for partially typed key bindings.
 
-    If the current input forms only partial matches, the keystring will be cleared
-    after this time.
+    If the current input forms only partial matches, the keystring will be
+    cleared after this time.
 
 input.rocker_gestures:
   default: false
@@ -939,13 +1004,13 @@ input.spatial_navigation:
   default: false
   type: Bool
   desc: >-
-    Enable Spatial Navigation.
+    Enable spatial navigation.
 
-    Spatial navigation consists in the ability to navigate between focusable elements
-    in a Web page, such as hyperlinks and form controls, by using Left, Right, Up
-    and Down arrow keys. For example, if a user presses the Right key, heuristics
-    determine whether there is an element he might be trying to reach towards the
-    right and which element he probably wants.
+    Spatial navigation consists in the ability to navigate between focusable
+    elements in a Web page, such as hyperlinks and form controls, by using
+    Left, Right, Up and Down arrow keys. For example, if the user presses the
+    Right key, heuristics determine whether there is an element he might be
+    trying to reach towards the right and which element he probably wants.
 
 ## keyhint
 
@@ -959,8 +1024,15 @@ keyhint.blacklist:
   desc: >-
     Keychains that shouldn't be shown in the keyhint dialog.
 
-    Globs are supported, so `;*` will blacklist all keychains starting with `;`.
-    Use `*` to disable keyhints.
+    Globs are supported, so `;*` will blacklist all keychains starting with
+    `;`. Use `*` to disable keyhints.
+
+keyhint.radius:
+  type:
+    name: Int
+    minval: 0
+  default: 6
+  desc: Rounding radius (in pixels) for the edges of the keyhint dialog.
 
 # emacs: '
 
@@ -969,7 +1041,8 @@ keyhint.delay:
     name: Int
     minval: 0
   default: 500
-  desc: Time from pressing a key to seeing the keyhint dialog (ms).
+  desc: Time (in milliseconds) from pressing a key to seeing the keyhint
+    dialog.
 
 ## messages
 
@@ -979,14 +1052,12 @@ messages.timeout:
     minval: 0
   default: 2000
   desc: >-
-    Time (in ms) to show messages in the statusbar for.
+    Duration (in milliseconds) to show messages in the statusbar for.
 
     Set to 0 to never clear messages.
 
 messages.unfocused:
-  type: Bool
-  default: false
-  desc: Show messages in unfocused windows.
+  deleted: true
 
 ## prompt
 
@@ -1000,7 +1071,7 @@ prompt.radius:
     name: Int
     minval: 0
   default: 8
-  desc: The rounding radius for the edges of prompts.
+  desc: Rounding radius (in pixels) for the edges of prompts.
 
 ## scrolling
 
@@ -1032,6 +1103,7 @@ spellcheck.languages:
         - da-DK: Danish (Denmark)
         - de-DE: German (Germany)
         - el-GR: Greek (Greece)
+        - en-AU: English (Australia)
         - en-CA: English (Canada)
         - en-GB: English (United Kingdom)
         - en-US: English (United States)
@@ -1070,10 +1142,10 @@ spellcheck.languages:
     none_ok: true
   default: []
   desc: >-
-    Spell checking languages.
+    Languages to use for spell checking.
 
     You can check for available languages and install dictionaries using
-    scripts/install_dict.py. Run the script with -h/--help for instructions.
+    scripts/dictcli.py. Run the script with -h/--help for instructions.
   backend:
     QtWebKit: false
     QtWebEngine: Qt 5.8
@@ -1092,12 +1164,12 @@ statusbar.padding:
     bottom: 1
     left: 0
     right: 0
-  desc: Padding for the statusbar.
+  desc: Padding (in pixels) for the statusbar.
 
 statusbar.position:
   type: VerticalPosition
   default: bottom
-  desc: The position of the status bar.
+  desc: Position of the status bar.
 
 ## tabs
 
@@ -1114,7 +1186,18 @@ tabs.close_mouse_button:
       - right: "Close tabs on right-click."
       - middle: "Close tabs on middle-click."
       - none: "Don't close tabs using the mouse."
-  desc: On which mouse button to close tabs.
+  desc: Mouse button with which to close tabs.
+
+tabs.close_mouse_button_on_bar:
+  default: new-tab
+  type:
+    name: String
+    valid_values:
+      - new-tab: "Open a new tab."
+      - close-current: "Close the current tab."
+      - close-last: "Close the last tab."
+      - ignore: "Don't do anything."
+  desc: How to behave when the close mouse button is pressed on the tab bar.
 
 tabs.favicons.scale:
   default: 1.0
@@ -1122,23 +1205,15 @@ tabs.favicons.scale:
     name: Float
     minval: 0.0
   desc: >-
-    Scaling for favicons in the tab bar.
+    Scaling factor for favicons in the tab bar.
 
-    The tab size is unchanged, so big favicons also require extra `tabs.padding`.
+    The tab size is unchanged, so big favicons also require extra
+    `tabs.padding`.
 
 tabs.favicons.show:
   default: true
-  desc: Show favicons in the tab bar.
   type: Bool
-
-tabs.indicator_padding:
-  default:
-    top: 2
-    bottom: 2
-    left: 0
-    right: 4
-  type: Padding
-  desc: Padding for tab indicators
+  desc: Show favicons in the tab bar.
 
 tabs.last_close:
   default: ignore
@@ -1150,7 +1225,7 @@ tabs.last_close:
       - startpage: "Load the start page."
       - default-page: "Load the default page."
       - close: "Close the window."
-  desc: Behavior when the last tab is closed.
+  desc: How to behave when the last tab is closed.
 
 tabs.mousewheel_switching:
   default: true
@@ -1160,12 +1235,12 @@ tabs.mousewheel_switching:
 tabs.new_position.related:
   default: next
   type: NewTabPosition
-  desc: How new tabs opened from another tab are positioned.
+  desc: Position of new tabs opened from another tab.
 
 tabs.new_position.unrelated:
   default: last
   type: NewTabPosition
-  desc: "How new tabs which aren't opened from another tab are positioned."
+  desc: "Position of new tabs which aren't opened from another tab."
 
 tabs.padding:
   default:
@@ -1174,12 +1249,17 @@ tabs.padding:
     left: 5
     right: 5
   type: Padding
-  desc: Padding around text for tabs
+  desc: Padding (in pixels) around text for tabs.
+
+tabs.persist_mode_on_change:
+  default: false
+  type: Bool
+  desc: Stay in insert/passthrough mode when switching tabs.
 
 tabs.position:
   default: top
   type: Position
-  desc: The position of the tab bar.
+  desc: Position of the tab bar.
 
 tabs.select_on_remove:
   default: 'next'
@@ -1200,8 +1280,8 @@ tabs.show:
 tabs.show_switching_delay:
   default: 800
   type: Int
-  desc: "Time to show the tab bar before hiding it when tabs.show is set to
-    'switching'."
+  desc: "Duration (in milliseconds) to show the tab bar before hiding it when
+    tabs.show is set to 'switching'."
 
 tabs.tabs_are_windows:
   default: false
@@ -1227,21 +1307,25 @@ tabs.title.format:
       - scroll_pos
       - host
       - private
+      - current_url
+      - protocol
     none_ok: true
   desc: |
-    The format to use for the tab title.
+    Format to use for the tab title.
     The following placeholders are defined:
 
-    * `{perc}`: The percentage as a string like `[10%]`.
-    * `{perc_raw}`: The raw percentage, e.g. `10`
-    * `{title}`: The title of the current web page
+    * `{perc}`: Percentage as a string like `[10%]`.
+    * `{perc_raw}`: Raw percentage, e.g. `10`.
+    * `{title}`: Title of the current web page.
     * `{title_sep}`: The string ` - ` if a title is set, empty otherwise.
-    * `{index}`: The index of this tab.
-    * `{id}`: The internal tab ID of this tab.
-    * `{scroll_pos}`: The page scroll position.
-    * `{host}`: The host of the current web page.
+    * `{index}`: Index of this tab.
+    * `{id}`: Internal tab ID of this tab.
+    * `{scroll_pos}`: Page scroll position.
+    * `{host}`: Host of the current web page.
     * `{backend}`: Either ''webkit'' or ''webengine''
-    * `{private}` : Indicates when private mode is enabled.
+    * `{private}`: Indicates when private mode is enabled.
+    * `{current_url}`: URL of the current web page.
+    * `{protocol}`: Protocol (http/https/...) of the current web page.
 
 tabs.title.format_pinned:
   default: '{index}'
@@ -1257,33 +1341,59 @@ tabs.title.format_pinned:
       - scroll_pos
       - host
       - private
+      - current_url
+      - protocol
     none_ok: true
-  desc: The format to use for the tab title for pinned tabs. The same placeholders
+  desc: Format to use for the tab title for pinned tabs. The same placeholders
     like for `tabs.title.format` are defined.
 
 tabs.width.bar:
+  renamed: tabs.width
+
+tabs.width:
   default: 20%
   type:
     name: PercOrInt
     minperc: 0
     maxperc: 100
     minint: 1
-  desc: "The width of the tab bar if it's vertical, in px or as percentage of the window."
+  desc: "Width (in pixels or as percentage of the window) of the tab bar if
+    it's vertical."
 
 tabs.width.indicator:
+  renamed: tabs.indicator.width
+
+tabs.indicator.width:
   default: 3
   type:
     name: Int
     minval: 0
-  desc: Width of the progress indicator (0 to disable).
+  desc: Width (in pixels) of the progress indicator (0 to disable).
+
+tabs.indicator_padding:
+  renamed: tabs.indicator.padding
+
+tabs.indicator.padding:
+  default:
+    top: 2
+    bottom: 2
+    left: 0
+    right: 4
+  type: Padding
+  desc: Padding (in pixels) for tab indicators.
 
 tabs.width.pinned:
   deleted: true
 
+tabs.pinned.shrink:
+  default: true
+  type: Bool
+  desc: Shrink pinned tabs down to their contents.
+
 tabs.wrap:
   default: true
   type: Bool
-  desc: Whether to wrap when changing tabs.
+  desc: Wrap when changing tabs.
 
 ## url
 
@@ -1295,13 +1405,13 @@ url.auto_search:
       - dns: Use DNS requests (might be slow!).
       - never: Never search automatically.
   default: naive
-  desc: Whether to start a search when something else than a URL is entered.
+  desc: What search to start when something else than a URL is entered.
 
 url.default_page:
   type: FuzzyUrl
   default: https://start.duckduckgo.com/
   desc: >-
-    The page to open if :open -t/-b/-w is used without URL.
+    Page to open if :open -t/-b/-w is used without URL.
 
     Use `about:blank` for a blank page.
 
@@ -1310,8 +1420,8 @@ url.incdec_segments:
     name: FlagList
     valid_values: [host, path, query, anchor]
   default: [path, query]
-  desc: The URL segments where `:navigate increment/decrement` will search for a
-    number.
+  desc: URL segments where `:navigate increment/decrement` will search for
+    a number.
 
 url.searchengines:
   default:
@@ -1322,23 +1432,23 @@ url.searchengines:
     keytype: String
     valtype: SearchEngineUrl
   desc: >-
-    Definitions of search engines which can be used via the address bar.
+    Search engines which can be used via the address bar.
 
-    Maps a searchengine name (such as `DEFAULT`, or `ddg`) to a URL with a `{}`
-    placeholder. The placeholder will be replaced by the search term, use `{{`
-    and `}}` for literal `{`/`}` signs.
+    Maps a search engine name (such as `DEFAULT`, or `ddg`) to a URL with a
+    `{}` placeholder. The placeholder will be replaced by the search term, use
+    `{{` and `}}` for literal `{`/`}` signs.
 
-    The searchengine named `DEFAULT` is used when `url.auto_search` is turned on
-    and something else than a URL was entered to be opened. Other search engines
-    can be used by prepending the search engine name to the search term, e.g.
-    `:open google qutebrowser`.
+    The search engine named `DEFAULT` is used when `url.auto_search` is turned
+    on and something else than a URL was entered to be opened. Other search
+    engines can be used by prepending the search engine name to the search
+    term, e.g.  `:open google qutebrowser`.
 
 url.start_pages:
   type:
     name: ListOrValue
     valtype: FuzzyUrl
   default: ["https://start.duckduckgo.com"]
-  desc: The page(s) to open at the start.
+  desc: Page(s) to open at the start.
 
 url.yank_ignored_parameters:
   type:
@@ -1352,14 +1462,15 @@ url.yank_ignored_parameters:
     - utm_campaign
     - utm_term
     - utm_content
-  desc: The URL parameters to strip with `:yank url`.
+  desc: URL parameters to strip with `:yank url`.
 
 ## window
 
 window.hide_wayland_decoration:
   type: Bool
   default: false
-  desc: Hide the window decoration when using wayland (requires restart)
+  restart: true
+  desc: Hide the window decoration when using wayland.
 
 window.title_format:
   type:
@@ -1374,27 +1485,19 @@ window.title_format:
       - host
       - backend
       - private
+      - current_url
+      - protocol
   default: '{perc}{title}{title_sep}qutebrowser'
   desc: |
-    The format to use for the window title.
-    The following placeholders are defined:
-
-    * `{perc}`: The percentage as a string like `[10%]`.
-    * `{perc_raw}`: The raw percentage, e.g. `10`
-    * `{title}`: The title of the current web page
-    * `{title_sep}`: The string ` - ` if a title is set, empty otherwise.
-    * `{id}`: The internal window ID of this window.
-    * `{scroll_pos}`: The page scroll position.
-    * `{host}`: The host of the current web page.
-    * `{backend}`: Either ''webkit'' or ''webengine''
-    * `{private}` : Indicates when private mode is enabled.
+    Format to use for the window title. The same placeholders like for
+    `tabs.title.format` are defined.
 
 ## zoom
 
 zoom.default:
   type: Perc
   default: 100%
-  desc: The default zoom level.
+  desc: Default zoom level.
 
 zoom.levels:
   type:
@@ -1419,28 +1522,33 @@ zoom.levels:
     - 300%
     - 400%
     - 500%
-  desc: The available zoom levels.
+  desc: Available zoom levels.
 
 zoom.mouse_divider:
   default: 512
   type:
     name: Int
     minval: 0
-  desc: How much to divide the mouse wheel movements to translate them into zoom increments.
+  desc: Number of zoom increments to divide the mouse wheel movements to.
 
 zoom.text_only:
   type: Bool
   default: false
   backend: QtWebKit
-  desc: Whether the zoom factor on a frame applies only to the text or to all
-    content.
+  desc: Apply the zoom factor on a frame only to the text or to all content.
 
 ## colors
 
 colors.completion.fg:
-  default: white
-  type: QtColor
-  desc: Text color of the completion widget.
+  default: ["white", "white", "white"]
+  type:
+    name: ListOrValue
+    valtype: QtColor
+  desc: >-
+    Text color of the completion widget.
+
+    May be a single color to use for all columns or a list of three colors,
+    one for each column.
 
 colors.completion.odd.bg:
   default: '#444444'
@@ -1458,7 +1566,8 @@ colors.completion.category.fg:
   desc: Foreground color of completion widget category headers.
 
 colors.completion.category.bg:
-  default: 'qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #888888, stop:1 #505050)'
+  default: 'qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #888888,
+    stop:1 #505050)'
   type: QssColor
   desc: Background color of the completion widget category headers.
 
@@ -1471,16 +1580,6 @@ colors.completion.category.border.bottom:
   default: black
   type: QssColor
   desc: Bottom border color of the completion widget category headers.
-
-colors.statusbar.insert.fg:
-  default: white
-  type: QssColor
-  desc: Foreground color of the statusbar in insert mode.
-
-colors.statusbar.insert.bg:
-  default: darkgreen
-  type: QssColor
-  desc: Background color of the statusbar in insert mode.
 
 colors.completion.item.selected.fg:
   default: black
@@ -1510,12 +1609,12 @@ colors.completion.match.fg:
 colors.completion.scrollbar.fg:
   default: white
   type: QssColor
-  desc: Color of the scrollbar handle in completion view.
+  desc: Color of the scrollbar handle in the completion view.
 
 colors.completion.scrollbar.bg:
   default: '#333333'
   type: QssColor
-  desc: Color of the scrollbar in completion view
+  desc: Color of the scrollbar in the completion view.
 
 colors.downloads.bar.bg:
   default: black
@@ -1568,8 +1667,8 @@ colors.hints.fg:
   desc: Font color for hints.
 
 colors.hints.bg:
-  default: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 rgba(255, 247, 133, 0.8),
-    stop:1 rgba(255, 197, 66, 0.8))
+  default: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+    stop:0 rgba(255, 247, 133, 0.8), stop:1 rgba(255, 197, 66, 0.8))
   type: QssColor
   desc: >-
     Background color for hints.
@@ -1614,7 +1713,7 @@ colors.messages.error.border:
 colors.messages.warning.fg:
   default: white
   type: QssColor
-  desc: Foreground color a warning message.
+  desc: Foreground color of a warning message.
 
 colors.messages.warning.bg:
   default: darkorange
@@ -1629,7 +1728,7 @@ colors.messages.warning.border:
 colors.messages.info.fg:
   default: white
   type: QssColor
-  desc: Foreground color an info message.
+  desc: Foreground color of an info message.
 
 colors.messages.info.bg:
   default: black
@@ -1670,6 +1769,26 @@ colors.statusbar.normal.bg:
   default: black
   type: QssColor
   desc: Background color of the statusbar.
+
+colors.statusbar.insert.fg:
+  default: white
+  type: QssColor
+  desc: Foreground color of the statusbar in insert mode.
+
+colors.statusbar.insert.bg:
+  default: darkgreen
+  type: QssColor
+  desc: Background color of the statusbar in insert mode.
+
+colors.statusbar.passthrough.fg:
+  default: white
+  type: QssColor
+  desc: Foreground color of the statusbar in passthrough mode.
+
+colors.statusbar.passthrough.bg:
+  default: darkblue
+  type: QssColor
+  desc: Background color of the statusbar in passthrough mode.
 
 colors.statusbar.private.fg:
   default: white
@@ -1738,8 +1857,8 @@ colors.statusbar.url.error.fg:
 
 colors.statusbar.url.hover.fg:
   default: aqua
-  desc: Foreground color of the URL in the statusbar for hovered links.
   type: QssColor
+  desc: Foreground color of the URL in the statusbar for hovered links.
 
 colors.statusbar.url.success.http.fg:
   default: white
@@ -1749,7 +1868,8 @@ colors.statusbar.url.success.http.fg:
 colors.statusbar.url.success.https.fg:
   default: lime
   type: QssColor
-  desc: Foreground color of the URL in the statusbar on successful load (https).
+  desc: Foreground color of the URL in the statusbar on successful load
+    (https).
 
 colors.statusbar.url.warn.fg:
   default: yellow
@@ -1826,14 +1946,15 @@ colors.webpage.bg:
   type:
     name: QtColor
     none_ok: true
-  desc: "Background color for webpages if unset (or empty to use the theme's color)"
+  desc: "Background color for webpages if unset (or empty to use the theme's
+    color)."
 
 ## fonts
 
 fonts.monospace:
-  default: '"xos4 Terminus", Terminus, Monospace, "DejaVu Sans Mono", Monaco, "Bitstream
-    Vera Sans Mono", "Andale Mono", "Courier New", Courier, "Liberation Mono", monospace,
-    Fixed, Consolas, Terminal'
+  default: '"xos4 Terminus", Terminus, Monospace, "DejaVu Sans Mono", Monaco,
+    "Bitstream Vera Sans Mono", "Andale Mono", "Courier New", Courier,
+    "Liberation Mono", monospace, Fixed, Consolas, Terminal'
   type: Font
   desc: >-
     Default monospace fonts.
@@ -1844,22 +1965,22 @@ fonts.monospace:
 # emacs: '
 
 fonts.completion.entry:
-  default: 8pt monospace
+  default: 10pt monospace
   type: Font
   desc: Font used in the completion widget.
 
 fonts.completion.category:
-  default: bold 8pt monospace
+  default: bold 10pt monospace
   type: Font
   desc: Font used in the completion categories.
 
 fonts.debug_console:
-  default: 8pt monospace
+  default: 10pt monospace
   type: QtFont
   desc: Font used for the debugging console.
 
 fonts.downloads:
-  default: 8pt monospace
+  default: 10pt monospace
   type: Font
   desc: Font used for the downloadbar.
 
@@ -1869,37 +1990,37 @@ fonts.hints:
   desc: Font used for the hints.
 
 fonts.keyhint:
-  default: 8pt monospace
+  default: 10pt monospace
   type: Font
   desc: Font used in the keyhint widget.
 
 fonts.messages.error:
-  default: 8pt monospace
+  default: 10pt monospace
   type: Font
   desc: Font used for error messages.
 
 fonts.messages.info:
-  default: 8pt monospace
+  default: 10pt monospace
   type: Font
   desc: Font used for info messages.
 
 fonts.messages.warning:
-  default: 8pt monospace
+  default: 10pt monospace
   type: Font
   desc: Font used for warning messages.
 
 fonts.prompts:
-  default: 8pt sans-serif
+  default: 10pt sans-serif
   type: Font
   desc: Font used for prompts.
 
 fonts.statusbar:
-  default: 8pt monospace
+  default: 10pt monospace
   type: Font
   desc: Font used in the statusbar.
 
 fonts.tabs:
-  default: 8pt monospace
+  default: 10pt monospace
   type: QtFont
   desc: Font used in the tab bar.
 
@@ -1956,7 +2077,7 @@ fonts.web.size.default:
     name: Int
     minval: 1
     maxval: maxint
-  desc: The default font size for regular text.
+  desc: Default font size (in pixels) for regular text.
 
 fonts.web.size.default_fixed:
   default: 13
@@ -1964,7 +2085,7 @@ fonts.web.size.default_fixed:
     name: Int
     minval: 1
     maxval: maxint
-  desc: The default font size for fixed-pitch text.
+  desc: Default font size (in pixels) for fixed-pitch text.
 
 fonts.web.size.minimum:
   default: 0
@@ -1972,7 +2093,7 @@ fonts.web.size.minimum:
     name: Int
     minval: 0
     maxval: maxint
-  desc: The hard minimum font size.
+  desc: Hard minimum font size (in pixels).
 
 fonts.web.size.minimum_logical:
   # This is 0 as default on QtWebKit, and 6 on QtWebEngine - so let's
@@ -1982,7 +2103,7 @@ fonts.web.size.minimum_logical:
     name: Int
     minval: 0
     maxval: maxint
-  desc: The minimum logical font size that is applied when zooming out.
+  desc: Minimum logical font size (in pixels) that is applied when zooming out.
 
 ## keybindings
 
@@ -2003,8 +2124,8 @@ bindings.key_mappings:
   desc: >-
     This setting can be used to map keys to other keys.
 
-    When the key used as dictionary-key is pressed, the binding for the key used
-    as dictionary-value is invoked instead.
+    When the key used as dictionary-key is pressed, the binding for the key
+    used as dictionary-value is invoked instead.
 
     This is useful for global remappings of keys, for example to map Ctrl-[ to
     Escape.
@@ -2160,9 +2281,6 @@ bindings.default:
       Sb: open qute://bookmarks#bookmarks
       Sq: open qute://bookmarks
       Sh: open qute://history
-      xx: config-cycle statusbar.hide ;; config-cycle tabs.show always switching
-      xt: config-cycle tabs.show always switching
-      xb: config-cycle statusbar.hide
       <Return>: follow-selected
       <Ctrl-Return>: follow-selected -t
       .: repeat-command
@@ -2184,15 +2302,18 @@ bindings.default:
     command:
       <Ctrl-P>: command-history-prev
       <Ctrl-N>: command-history-next
-      <Up>: command-history-prev
-      <Down>: command-history-next
+      <Up>: completion-item-focus --history prev
+      <Down>: completion-item-focus --history next
       <Shift-Tab>: completion-item-focus prev
       <Tab>: completion-item-focus next
       <Ctrl-Tab>: completion-item-focus next-category
       <Ctrl-Shift-Tab>: completion-item-focus prev-category
       <Ctrl-D>: completion-item-del
       <Shift-Delete>: completion-item-del
+      <Ctrl-C>: completion-item-yank
+      <Ctrl-Shift-C>: completion-item-yank --sel
       <Return>: command-accept
+      <Ctrl-Return>: command-accept --rapid
       <Ctrl-B>: rl-backward-char
       <Ctrl-F>: rl-forward-char
       <Alt-B>: rl-backward-word
@@ -2277,12 +2398,12 @@ bindings.default:
     Default keybindings. If you want to add bindings, modify
     `bindings.commands` instead.
 
-    The main purpose of this setting is that you can set it to an empty dictionary if you
-    want to load no default keybindings at all.
+    The main purpose of this setting is that you can set it to an empty
+    dictionary if you want to load no default keybindings at all.
 
-    If you want to preserve default bindings (and get new bindings when there is
-    an update), use `config.bind()` in `config.py` or the `:bind` command, and
-    leave this setting alone.
+    If you want to preserve default bindings (and get new bindings when there
+    is an update), use `config.bind()` in `config.py` or the `:bind` command,
+    and leave this setting alone.
 
 bindings.commands:
   default: {}
@@ -2315,7 +2436,8 @@ bindings.commands:
     setting instead.
 
     For special keys (can't be part of a keychain), enclose them in `<`...`>`.
-    For modifiers, you can use either `-` or `+` as delimiters, and these names:
+    For modifiers, you can use either `-` or `+` as delimiters, and these
+    names:
 
       * Control: `Control`, `Ctrl`
 
@@ -2340,22 +2462,22 @@ bindings.commands:
     The following modes are available:
 
 
-    * normal: The default mode, where most commands are invoked.
+    * normal: Default mode, where most commands are invoked.
 
 
     * insert: Entered when an input field is focused on a website, or by
       pressing `i` in normal mode. Passes through almost all keypresses to the
-      website, but has some bindings like `<Ctrl-e>` to open an external editor.
-      Note that single keys can't be bound in this mode.
+      website, but has some bindings like `<Ctrl-e>` to open an external
+      editor. Note that single keys can't be bound in this mode.
 
     * hint: Entered when `f` is pressed to select links with the keyboard. Note
       that single keys can't be bound in this mode.
 
     * passthrough: Similar to insert mode, but passes through all keypresses
-      except `<Escape>` to leave the mode. It might be useful to bind `<Escape>`
-      to some other key in this mode if you want to be able to send an Escape
-      key to the website as well. Note that single keys can't be bound in this
-      mode.
+      except `<Escape>` to leave the mode. It might be useful to bind
+      `<Escape>` to some other key in this mode if you want to be able to send
+      an Escape key to the website as well. Note that single keys can't be
+      bound in this mode.
 
     * command: Entered when pressing the `:` key in order to enter a command.
       Note that single keys can't be bound in this mode.
@@ -2363,9 +2485,9 @@ bindings.commands:
     * prompt: Entered when there's a prompt to display, like for download
       locations or when invoked from JavaScript.
       +
-      You can bind normal keys in this mode, but they will be only active when a
-      yes/no-prompt is asked. For other prompt modes, you can only bind special
-      keys.
+      You can bind normal keys in this mode, but they will be only active when
+      a yes/no-prompt is asked. For other prompt modes, you can only bind
+      special keys.
 
     * caret: Entered when pressing the `v` mode, used to select text using the
       keyboard.

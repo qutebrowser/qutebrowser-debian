@@ -127,7 +127,11 @@ class FileSchemeHandler(schemehandler.SchemeHandler):
             A QNetworkReply for directories, None for files.
         """
         path = request.url().toLocalFile()
-        if os.path.isdir(path):
-            data = dirbrowser_html(path)
-            return networkreply.FixedDataNetworkReply(
-                request, data, 'text/html', self.parent())
+        try:
+            if os.path.isdir(path):
+                data = dirbrowser_html(path)
+                return networkreply.FixedDataNetworkReply(
+                    request, data, 'text/html', self.parent())
+            return None
+        except UnicodeEncodeError:
+            return None
