@@ -7,6 +7,8 @@ qutebrowser (1.1.0-1) UNRELEASED; urgency=medium
     python3-pyqt5.qtwebengine, now that the former is known to work with
     qutebrowser in Debian, too.
   * Declare compliance with Debian Policy 4.1.3. (No changes needed.)
+  * Bump debhelper compatibility level to 11.
+    + Update versioned debhelper build-dependency accordingly.
 
  -- Axel Beckert <abe@debian.org>  Mon, 15 Jan 2018 22:53:57 +0100
 
