@@ -24,6 +24,7 @@ import functools
 import math
 import re
 import html
+import enum
 from string import ascii_lowercase
 
 import attr
@@ -37,10 +38,9 @@ from qutebrowser.commands import userscripts, cmdexc, cmdutils, runners
 from qutebrowser.utils import usertypes, log, qtutils, message, objreg, utils
 
 
-Target = usertypes.enum('Target', ['normal', 'current', 'tab', 'tab_fg',
-                                   'tab_bg', 'window', 'yank', 'yank_primary',
-                                   'run', 'fill', 'hover', 'download',
-                                   'userscript', 'spawn'])
+Target = enum.Enum('Target', ['normal', 'current', 'tab', 'tab_fg', 'tab_bg',
+                              'window', 'yank', 'yank_primary', 'run', 'fill',
+                              'hover', 'download', 'userscript', 'spawn'])
 
 
 class HintingError(Exception):
@@ -390,7 +390,6 @@ class HintManager(QObject):
 
     def _cleanup(self):
         """Clean up after hinting."""
-        # pylint: disable=not-an-iterable
         for label in self._context.all_labels:
             label.cleanup()
 
@@ -445,8 +444,17 @@ class HintManager(QObject):
         # Short hints are the number of hints we can possibly show which are
         # (needed - 1) digits in length.
         if needed > min_chars:
-            short_count = math.floor((len(chars) ** needed - len(elems)) /
+            total_space = len(chars) ** needed
+            # Calculate short_count naively, by finding the avaiable space and
+            # dividing by the number of spots we would loose by adding a
+            # short element
+            short_count = math.floor((total_space - len(elems)) /
                                      len(chars))
+            # Check if we double counted above to warrant another short_count
+            # https://github.com/qutebrowser/qutebrowser/issues/3242
+            if total_space - (short_count * len(chars) +
+                              (len(elems) - short_count)) >= len(chars) - 1:
+                short_count += 1
         else:
             short_count = 0
 
@@ -611,8 +619,9 @@ class HintManager(QObject):
     @cmdutils.register(instance='hintmanager', scope='tab', name='hint',
                        star_args_optional=True, maxsplit=2)
     @cmdutils.argument('win_id', win_id=True)
-    def start(self, rapid=False, group=webelem.Group.all, target=Target.normal,
-              *args, win_id, mode=None, add_history=False):
+    def start(self,  # pylint: disable=keyword-arg-before-vararg
+              group=webelem.Group.all, target=Target.normal,
+              *args, win_id, mode=None, add_history=False, rapid=False):
         """Start hinting.
 
         Args:
@@ -799,7 +808,6 @@ class HintManager(QObject):
         log.hints.debug("Filtering hints on {!r}".format(filterstr))
 
         visible = []
-        # pylint: disable=not-an-iterable
         for label in self._context.all_labels:
             try:
                 if self._filter_matches(filterstr, str(label.elem)):
@@ -900,7 +908,7 @@ class HintManager(QObject):
         except HintingError as e:
             message.error(str(e))
 
-    @cmdutils.register(instance='hintmanager', scope='tab', hide=True,
+    @cmdutils.register(instance='hintmanager', scope='tab',
                        modes=[usertypes.KeyMode.hint])
     def follow_hint(self, keystring=None):
         """Follow a hint.

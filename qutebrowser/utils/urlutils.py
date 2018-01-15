@@ -26,7 +26,7 @@ import ipaddress
 import posixpath
 import urllib.parse
 
-from PyQt5.QtCore import QUrl
+from PyQt5.QtCore import QUrl, QUrlQuery
 from PyQt5.QtNetwork import QHostInfo, QHostAddress, QNetworkProxy
 
 from qutebrowser.config import config
@@ -192,7 +192,7 @@ def fuzzy_url(urlstr, cwd=None, relative=False, do_search=True,
         log.url.debug("URL is a fuzzy address")
         url = qurl_from_user_input(urlstr)
     log.url.debug("Converting fuzzy term {!r} to URL -> {}".format(
-                  urlstr, url.toDisplayString()))
+        urlstr, url.toDisplayString()))
     if do_search and config.val.url.auto_search != 'never' and urlstr:
         qtutils.ensure_valid(url)
     else:
@@ -241,7 +241,7 @@ def is_url(urlstr):
     autosearch = config.val.url.auto_search
 
     log.url.debug("Checking if {!r} is a URL (autosearch={}).".format(
-                  urlstr, autosearch))
+        urlstr, autosearch))
 
     urlstr = urlstr.strip()
     qurl = QUrl(urlstr)
@@ -306,7 +306,7 @@ def qurl_from_user_input(urlstr):
     """
     # First we try very liberally to separate something like an IPv6 from the
     # rest (e.g. path info or parameters)
-    match = re.match(r'\[?([0-9a-fA-F:.]+)\]?(.*)', urlstr.strip())
+    match = re.fullmatch(r'\[?([0-9a-fA-F:.]+)\]?(.*)', urlstr.strip())
     if match:
         ipstr, rest = match.groups()
     else:
@@ -372,10 +372,17 @@ def get_path_if_valid(pathstr, cwd=None, relative=False, check_exists=False):
         path = None
 
     if check_exists:
-        if path is not None and os.path.exists(path):
-            log.url.debug("URL is a local file")
-        else:
-            path = None
+        if path is not None:
+            try:
+                if os.path.exists(path):
+                    log.url.debug("URL is a local file")
+                else:
+                    path = None
+            except UnicodeEncodeError:
+                log.url.debug(
+                    "URL contains characters which are not present in the "
+                    "current locale")
+                path = None
 
     return path
 
@@ -564,7 +571,7 @@ def incdec_number(url, incdec, count=1, segments=None):
             continue
 
         # Get the last number in a string
-        match = re.match(r'(.*\D|^)(0*)(\d+)(.*)', getter())
+        match = re.fullmatch(r'(.*\D|^)(0*)(\d+)(.*)', getter())
         if not match:
             continue
 
@@ -613,6 +620,18 @@ def safe_display_string(qurl):
             return '({}) {}'.format(host, qurl.toDisplayString())
 
     return qurl.toDisplayString()
+
+
+def query_string(qurl):
+    """Get a query string for the given URL.
+
+    This is a WORKAROUND for:
+    https://www.riverbankcomputing.com/pipermail/pyqt/2017-November/039702.html
+    """
+    try:
+        return qurl.query()
+    except AttributeError:  # pragma: no cover
+        return QUrlQuery(qurl).query()
 
 
 class InvalidProxyTypeError(Exception):

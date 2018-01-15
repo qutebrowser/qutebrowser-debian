@@ -21,9 +21,9 @@
 """Symlink PyQt into a given virtualenv."""
 
 import os
+import os.path
 import argparse
 import shutil
-import os.path
 import sys
 import subprocess
 import tempfile
@@ -46,12 +46,14 @@ def run_py(executable, *code):
             f.write('\n'.join(code))
         cmd = [executable, filename]
         try:
-            ret = subprocess.check_output(cmd, universal_newlines=True)
+            ret = subprocess.run(cmd, universal_newlines=True, check=True,
+                                 stdout=subprocess.PIPE).stdout
         finally:
             os.remove(filename)
     else:
         cmd = [executable, '-c', '\n'.join(code)]
-        ret = subprocess.check_output(cmd, universal_newlines=True)
+        ret = subprocess.run(cmd, universal_newlines=True, check=True,
+                             stdout=subprocess.PIPE).stdout
     return ret.rstrip()
 
 
@@ -203,6 +205,10 @@ def main():
     args = parser.parse_args()
 
     if args.tox:
+        # Workaround for the lack of negative factors in tox.ini
+        if 'LINK_PYQT_SKIP' in os.environ:
+            print('LINK_PYQT_SKIP set, exiting...')
+            sys.exit(0)
         executable = get_tox_syspython(args.path)
     else:
         executable = sys.executable

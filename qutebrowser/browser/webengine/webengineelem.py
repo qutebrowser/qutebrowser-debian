@@ -47,6 +47,7 @@ class WebEngineElement(webelem.AbstractWebElement):
             'class_name': str,
             'rects': list,
             'attributes': dict,
+            'caret_position': (int, type(None)),
         }
         assert set(js_dict.keys()).issubset(js_dict_types.keys())
         for name, typ in js_dict_types.items():
@@ -99,6 +100,8 @@ class WebEngineElement(webelem.AbstractWebElement):
 
     def _js_call(self, name, *args, callback=None):
         """Wrapper to run stuff from webelem.js."""
+        if self._tab.is_deleted():
+            raise webelem.OrphanedError("Tab containing element vanished")
         js_code = javascript.assemble('webelem', name, self._id, *args)
         self._tab.run_js_async(js_code, callback=callback)
 
@@ -131,6 +134,13 @@ class WebEngineElement(webelem.AbstractWebElement):
 
     def set_value(self, value):
         self._js_call('set_value', value)
+
+    def caret_position(self):
+        """Get the text caret position for the current element.
+
+        If the element is not a text element, None is returned.
+        """
+        return self._js_dict.get('caret_position', None)
 
     def insert_text(self, text):
         if not self.is_editable(strict=True):
@@ -201,11 +211,11 @@ class WebEngineElement(webelem.AbstractWebElement):
     def _click_js(self, _click_target):
         # FIXME:qtwebengine Have a proper API for this
         # pylint: disable=protected-access
-        settings = self._tab._widget.settings()
+        view = self._tab._widget
         # pylint: enable=protected-access
         attribute = QWebEngineSettings.JavascriptCanOpenWindows
-        could_open_windows = settings.testAttribute(attribute)
-        settings.setAttribute(attribute, True)
+        could_open_windows = view.settings().testAttribute(attribute)
+        view.settings().setAttribute(attribute, True)
 
         # Get QtWebEngine do apply the settings
         # (it does so with a 0ms QTimer...)
@@ -216,6 +226,12 @@ class WebEngineElement(webelem.AbstractWebElement):
                            QEventLoop.ExcludeUserInputEvents)
 
         def reset_setting(_arg):
-            settings.setAttribute(attribute, could_open_windows)
+            """Set the JavascriptCanOpenWindows setting to its old value."""
+            try:
+                view.settings().setAttribute(attribute, could_open_windows)
+            except RuntimeError:
+                # Happens if this callback gets called during QWebEnginePage
+                # destruction, i.e. if the tab was closed in the meantime.
+                pass
 
         self._js_call('click', callback=reset_setting)

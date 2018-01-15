@@ -20,22 +20,24 @@
 """Utilities to get and initialize data/config paths."""
 
 import os
-import shutil
 import os.path
+import sys
+import shutil
 import contextlib
+import enum
 
 from PyQt5.QtCore import QStandardPaths
 from PyQt5.QtWidgets import QApplication
 
-from qutebrowser.utils import log, debug, usertypes, message, utils
+from qutebrowser.utils import log, debug, message, utils
 
 # The cached locations
 _locations = {}
 
 
-Location = usertypes.enum('Location', ['config', 'auto_config',
-                                       'data', 'system_data',
-                                       'cache', 'download', 'runtime'])
+Location = enum.Enum('Location', ['config', 'auto_config',
+                                  'data', 'system_data',
+                                  'cache', 'download', 'runtime'])
 
 
 APPNAME = 'qutebrowser'
@@ -106,6 +108,10 @@ def _init_data(args):
         if utils.is_windows:
             app_data_path = _writable_location(QStandardPaths.AppDataLocation)
             path = os.path.join(app_data_path, 'data')
+        elif sys.platform.startswith('haiku'):
+            # HaikuOS returns an empty value for AppDataLocation
+            config_path = _writable_location(QStandardPaths.ConfigLocation)
+            path = os.path.join(config_path, 'data')
         else:
             path = _writable_location(typ)
     _create(path)

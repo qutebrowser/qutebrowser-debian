@@ -24,6 +24,7 @@ Module attributes:
     SELECTORS: CSS selectors for different groups of elements.
 """
 
+import enum
 import collections.abc
 
 from PyQt5.QtCore import QUrl, Qt, QEvent, QTimer
@@ -35,7 +36,7 @@ from qutebrowser.mainwindow import mainwindow
 from qutebrowser.utils import log, usertypes, utils, qtutils, objreg
 
 
-Group = usertypes.enum('Group', ['all', 'links', 'images', 'url', 'inputs'])
+Group = enum.Enum('Group', ['all', 'links', 'images', 'url', 'inputs'])
 
 
 SELECTORS = {
@@ -55,6 +56,13 @@ SELECTORS = {
 class Error(Exception):
 
     """Base class for WebElement errors."""
+
+    pass
+
+
+class OrphanedError(Error):
+
+    """Raised when a webelement's parent has vanished."""
 
     pass
 
@@ -220,7 +228,7 @@ class AbstractWebElement(collections.abc.MutableMapping):
         }
         relevant_classes = classes[self.tag_name()]
         for klass in self.classes():
-            if any([klass.strip().startswith(e) for e in relevant_classes]):
+            if any(klass.strip().startswith(e) for e in relevant_classes):
                 return True
         return False
 

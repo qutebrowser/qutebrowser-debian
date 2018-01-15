@@ -499,7 +499,7 @@ class ListOrValue(BaseType):
 
     _show_valtype = True
 
-    def __init__(self, valtype, none_ok=False, *args, **kwargs):
+    def __init__(self, valtype, *args, none_ok=False, **kwargs):
         super().__init__(none_ok)
         assert not isinstance(valtype, (List, ListOrValue)), valtype
         self.listtype = List(valtype, none_ok=none_ok, *args, **kwargs)
@@ -963,7 +963,7 @@ class Font(BaseType):
     # Gets set when the config is initialized.
     monospace_fonts = None
     font_regex = re.compile(r"""
-        ^(
+        (
             (
                 # style
                 (?P<style>normal|italic|oblique) |
@@ -976,14 +976,14 @@ class Font(BaseType):
                 (?P<size>[0-9]+((\.[0-9]+)?[pP][tT]|[pP][xX]))
             )\           # size/weight/style are space-separated
         )*               # 0-inf size/weight/style tags
-        (?P<family>.+)$  # mandatory font family""", re.VERBOSE)
+        (?P<family>.+)  # mandatory font family""", re.VERBOSE)
 
     def to_py(self, value):
         self._basic_py_validation(value, str)
         if not value:
             return None
 
-        if not self.font_regex.match(value):  # pragma: no cover
+        if not self.font_regex.fullmatch(value):  # pragma: no cover
             # This should never happen, as the regex always matches everything
             # as family.
             raise configexc.ValidationError(value, "must be a valid font")
@@ -1002,7 +1002,7 @@ class FontFamily(Font):
         if not value:
             return None
 
-        match = self.font_regex.match(value)
+        match = self.font_regex.fullmatch(value)
         if not match:  # pragma: no cover
             # This should never happen, as the regex always matches everything
             # as family.
@@ -1039,7 +1039,7 @@ class QtFont(Font):
         font.setStyle(QFont.StyleNormal)
         font.setWeight(QFont.Normal)
 
-        match = self.font_regex.match(value)
+        match = self.font_regex.fullmatch(value)
         if not match:  # pragma: no cover
             # This should never happen, as the regex always matches everything
             # as family.
@@ -1261,12 +1261,12 @@ class File(BaseType):
         try:
             if not os.path.isabs(value):
                 value = os.path.join(standarddir.config(), value)
-                not_isfile_message = ("must be a valid path relative to the "
-                                      "config directory!")
-            else:
-                not_isfile_message = "must be a valid file!"
+
             if self.required and not os.path.isfile(value):
-                raise configexc.ValidationError(value, not_isfile_message)
+                raise configexc.ValidationError(
+                    value,
+                    "Must be an existing file (absolute or relative to the "
+                    "config directory)!")
         except UnicodeEncodeError as e:
             raise configexc.ValidationError(value, e)
 
@@ -1341,9 +1341,12 @@ class ShellCommand(List):
         if not value:
             return value
 
-        if self.placeholder and '{}' not in ' '.join(value):
+        if (self.placeholder and
+                '{}' not in ' '.join(value) and
+                '{file}' not in ' '.join(value)):
             raise configexc.ValidationError(value, "needs to contain a "
-                                            "{}-placeholder.")
+                                            "{}-placeholder or a "
+                                            "{file}-placeholder.")
         return value
 
 

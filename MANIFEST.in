@@ -13,6 +13,8 @@ include qutebrowser/utils/testfile
 include qutebrowser/git-commit-id
 include LICENSE doc/* README.asciidoc
 include misc/qutebrowser.desktop
+include misc/qutebrowser.appdata.xml
+include misc/Makefile
 include requirements.txt
 include tox.ini
 include qutebrowser.py
@@ -21,7 +23,7 @@ include qutebrowser/config/configdata.yml
 
 prune www
 prune scripts/dev
-prune scripts/testbrowser_cpp
+prune scripts/testbrowser/cpp
 prune .github
 exclude scripts/asciidoc2html.py
 exclude doc/notes

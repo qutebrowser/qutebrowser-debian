@@ -27,20 +27,22 @@ Module attributes:
 import json
 import os
 import time
-import urllib.parse
 import textwrap
-import pkg_resources
+import mimetypes
+import urllib
 
+import pkg_resources
 from PyQt5.QtCore import QUrlQuery, QUrl
 
 import qutebrowser
 from qutebrowser.config import config, configdata, configexc, configdiff
 from qutebrowser.utils import (version, utils, jinja, log, message, docutils,
-                               objreg)
+                               objreg, urlutils)
 from qutebrowser.misc import objects
 
 
 pyeval_output = ":pyeval was never called"
+spawn_output = ":spawn was never called"
 
 
 _HANDLERS = {}
@@ -91,7 +93,7 @@ class Redirect(Exception):
         self.url = url
 
 
-class add_handler:  # pylint: disable=invalid-name
+class add_handler:  # noqa: N801,N806 pylint: disable=invalid-name
 
     """Decorator to register a qute://* URL handler.
 
@@ -111,6 +113,7 @@ class add_handler:  # pylint: disable=invalid-name
         return function
 
     def wrapper(self, *args, **kwargs):
+        """Call the underlying function."""
         if self._backend is not None and objects.backend != self._backend:
             return self.wrong_backend_handler(*args, **kwargs)
         else:
@@ -135,16 +138,30 @@ def data_for_url(url):
     Return:
         A (mimetype, data) tuple.
     """
+    norm_url = url.adjusted(QUrl.NormalizePathSegments |
+                            QUrl.StripTrailingSlash)
+    if norm_url != url:
+        raise Redirect(norm_url)
+
     path = url.path()
     host = url.host()
+    query = urlutils.query_string(url)
     # A url like "qute:foo" is split as "scheme:path", not "scheme:host".
     log.misc.debug("url: {}, path: {}, host {}".format(
         url.toDisplayString(), path, host))
-    if path and not host:
+    if not path or not host:
         new_url = QUrl()
         new_url.setScheme('qute')
-        new_url.setHost(path)
+        # When path is absent, e.g. qute://help (with no trailing slash)
+        if host:
+            new_url.setHost(host)
+        # When host is absent, e.g. qute:help
+        else:
+            new_url.setHost(path)
+
         new_url.setPath('/')
+        if query:
+            new_url.setQuery(query)
         if new_url.host():  # path was a valid host
             raise Redirect(new_url)
 
@@ -253,6 +270,13 @@ def qute_pyeval(_url):
     return 'text/html', html
 
 
+@add_handler('spawn-output')
+def qute_spawn_output(_url):
+    """Handler for qute://spawn-output."""
+    html = jinja.render('pre.html', title='spawn output', content=spawn_output)
+    return 'text/html', html
+
+
 @add_handler('version')
 @add_handler('verizon')
 def qute_version(_url):
@@ -274,9 +298,8 @@ def qute_plainlog(url):
     if log.ram_handler is None:
         text = "Log output was disabled."
     else:
-        try:
-            level = urllib.parse.parse_qs(url.query())['level'][0]
-        except KeyError:
+        level = QUrlQuery(url).queryItemValue('level')
+        if not level:
             level = 'vdebug'
         text = log.ram_handler.dump_log(html=False, level=level)
     html = jinja.render('pre.html', title='log', content=text)
@@ -294,9 +317,8 @@ def qute_log(url):
     if log.ram_handler is None:
         html_log = None
     else:
-        try:
-            level = urllib.parse.parse_qs(url.query())['level'][0]
-        except KeyError:
+        level = QUrlQuery(url).queryItemValue('level')
+        if not level:
             level = 'vdebug'
         html_log = log.ram_handler.dump_log(html=True, level=level)
 
@@ -323,8 +345,14 @@ def qute_help(url):
                       "scripts/asciidoc2html.py.")
 
     path = 'html/doc/{}'.format(urlpath)
-    if urlpath.endswith('.png'):
-        return 'image/png', utils.read_file(path, binary=True)
+    if not urlpath.endswith('.html'):
+        try:
+            bdata = utils.read_file(path, binary=True)
+        except OSError as e:
+            raise QuteSchemeOSError(e)
+        mimetype, _encoding = mimetypes.guess_type(urlpath)
+        assert mimetype is not None, url
+        return mimetype, bdata
 
     try:
         data = utils.read_file(path)
@@ -407,6 +435,18 @@ def qute_settings(url):
     return 'text/html', html
 
 
+@add_handler('back')
+def qute_back(url):
+    """Handler for qute://back.
+
+    Simple page to free ram / lazy load a site, goes back on focusing the tab.
+    """
+    html = jinja.render(
+        'back.html',
+        title='Suspended: ' + urllib.parse.unquote(url.fragment()))
+    return 'text/html', html
+
+
 @add_handler('configdiff')
 def qute_configdiff(url):
     """Handler for qute://configdiff."""
@@ -415,7 +455,7 @@ def qute_configdiff(url):
             return 'text/html', configdiff.get_diff()
         except OSError as e:
             error = (b'Failed to read old config: ' +
-                    str(e.strerror).encode('utf-8'))
+                     str(e.strerror).encode('utf-8'))
             return 'text/plain', error
     else:
         data = config.instance.dump_userconfig().encode('utf-8')

@@ -32,7 +32,9 @@ icons/qutebrowser.icns
 icons/qutebrowser.ico
 icons/qutebrowser.svg
 icons/qutebrowser.xpm
+misc/Makefile
 misc/cheatsheet.svg
+misc/qutebrowser.appdata.xml
 misc/qutebrowser.desktop
 misc/qutebrowser.rcc
 misc/apparmor/usr.bin.qutebrowser
@@ -42,6 +44,7 @@ misc/userscripts/format_json
 misc/userscripts/open_download
 misc/userscripts/openfeeds
 misc/userscripts/password_fill
+misc/userscripts/qute-pass
 misc/userscripts/qutebrowser_viewsource
 misc/userscripts/qutedmenu
 misc/userscripts/readability
@@ -68,6 +71,7 @@ qutebrowser/browser/browsertab.py
 qutebrowser/browser/commands.py
 qutebrowser/browser/downloads.py
 qutebrowser/browser/downloadview.py
+qutebrowser/browser/greasemonkey.py
 qutebrowser/browser/hints.py
 qutebrowser/browser/history.py
 qutebrowser/browser/inspector.py
@@ -146,6 +150,7 @@ qutebrowser/config/configfiles.py
 qutebrowser/config/configinit.py
 qutebrowser/config/configtypes.py
 qutebrowser/config/websettings.py
+qutebrowser/html/back.html
 qutebrowser/html/base.html
 qutebrowser/html/bookmarks.html
 qutebrowser/html/dirbrowser.html
@@ -177,10 +182,12 @@ qutebrowser/html/doc/img/cheatsheet-small.png
 qutebrowser/img/broken_qutebrowser_logo.png
 qutebrowser/img/file.svg
 qutebrowser/img/folder.svg
+qutebrowser/javascript/greasemonkey_wrapper.js
 qutebrowser/javascript/history.js
 qutebrowser/javascript/pac_utils.js
 qutebrowser/javascript/position_caret.js
 qutebrowser/javascript/scroll.js
+qutebrowser/javascript/stylesheet.js
 qutebrowser/javascript/webelem.js
 qutebrowser/keyinput/__init__.py
 qutebrowser/keyinput/basekeyparser.py
@@ -247,11 +254,13 @@ qutebrowser/utils/usertypes.py
 qutebrowser/utils/utils.py
 qutebrowser/utils/version.py
 scripts/__init__.py
+scripts/dictcli.py
+scripts/hist_importer.py
 scripts/importer.py
-scripts/install_dict.py
 scripts/keytester.py
 scripts/link_pyqt.py
 scripts/open_url_in_instance.sh
 scripts/setupcommon.py
-scripts/testbrowser.py
 scripts/utils.py
+scripts/testbrowser/testbrowser_webengine.py
+scripts/testbrowser/testbrowser_webkit.py

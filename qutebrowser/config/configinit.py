@@ -66,13 +66,13 @@ def early_init(args):
 
     configfiles.init()
 
-    objects.backend = get_backend(args)
-
     for opt, val in args.temp_settings:
         try:
             config.instance.set_str(opt, val)
         except configexc.Error as e:
             message.error("set: {} - {}".format(e.__class__.__name__, e))
+
+    objects.backend = get_backend(args)
 
     configtypes.Font.monospace_fonts = config.val.fonts.monospace
     config.instance.changed.connect(_update_monospace_fonts)
@@ -91,8 +91,9 @@ def _init_envvars():
 
     if config.val.window.hide_wayland_decoration:
         os.environ['QT_WAYLAND_DISABLE_WINDOWDECORATION'] = '1'
-    else:
-        os.environ.pop('QT_WAYLAND_DISABLE_WINDOWDECORATION', None)
+
+    if config.val.qt.highdpi:
+        os.environ['QT_AUTO_SCREEN_SCALE_FACTOR'] = '1'
 
 
 @config.change_filter('fonts.monospace', function=True)

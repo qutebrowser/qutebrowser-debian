@@ -71,7 +71,7 @@ class TabbedBrowser(tabwidget.TabWidget):
         _tab_insert_idx_left: Where to insert a new tab with
                               tabs.new_tab_position set to 'prev'.
         _tab_insert_idx_right: Same as above, for 'next'.
-        _undo_stack: List of UndoEntry objects of closed tabs.
+        _undo_stack: List of lists of UndoEntry objects of closed tabs.
         shutting_down: Whether we're currently shutting down.
         _local_marks: Jump markers local to each page
         _global_marks: Jump markers used across all pages
@@ -116,6 +116,7 @@ class TabbedBrowser(tabwidget.TabWidget):
         self._tab_insert_idx_right = -1
         self.shutting_down = False
         self.tabCloseRequested.connect(self.on_tab_close_requested)
+        self.new_tab_requested.connect(self.tabopen)
         self.currentChanged.connect(self.on_current_changed)
         self.cur_load_started.connect(self.on_cur_load_started)
         self.cur_fullscreen_requested.connect(self.tabBar().maybe_hide)
@@ -173,8 +174,18 @@ class TabbedBrowser(tabwidget.TabWidget):
                 widgets.append(widget)
         return widgets
 
-    def _update_window_title(self):
-        """Change the window title to match the current tab."""
+    def _update_window_title(self, field=None):
+        """Change the window title to match the current tab.
+
+        Args:
+            idx: The tab index to update.
+            field: A field name which was updated. If given, the title
+                   is only set if the given field is in the template.
+        """
+        title_format = config.val.window.title_format
+        if field is not None and ('{' + field + '}') not in title_format:
+            return
+
         idx = self.currentIndex()
         if idx == -1:
             # (e.g. last tab removed)
@@ -183,7 +194,6 @@ class TabbedBrowser(tabwidget.TabWidget):
         fields = self.get_tab_fields(idx)
         fields['id'] = self._win_id
 
-        title_format = config.val.window.title_format
         title = title_format.format(**fields)
         self.window().setWindowTitle(title)
 
@@ -260,12 +270,13 @@ class TabbedBrowser(tabwidget.TabWidget):
         else:
             yes_action()
 
-    def close_tab(self, tab, *, add_undo=True):
+    def close_tab(self, tab, *, add_undo=True, new_undo=True):
         """Close a tab.
 
         Args:
             tab: The QWebView to be closed.
             add_undo: Whether the tab close can be undone.
+            new_undo: Whether the undo entry should be a new item in the stack.
         """
         last_close = config.val.tabs.last_close
         count = self.count()
@@ -273,7 +284,7 @@ class TabbedBrowser(tabwidget.TabWidget):
         if last_close == 'ignore' and count == 1:
             return
 
-        self._remove_tab(tab, add_undo=add_undo)
+        self._remove_tab(tab, add_undo=add_undo, new_undo=new_undo)
 
         if count == 1:  # We just closed the last tab above.
             if last_close == 'close':
@@ -286,12 +297,13 @@ class TabbedBrowser(tabwidget.TabWidget):
             elif last_close == 'default-page':
                 self.openurl(config.val.url.default_page, newtab=True)
 
-    def _remove_tab(self, tab, *, add_undo=True, crashed=False):
+    def _remove_tab(self, tab, *, add_undo=True, new_undo=True, crashed=False):
         """Remove a tab from the tab list and delete it properly.
 
         Args:
             tab: The QWebView to be closed.
             add_undo: Whether the tab close can be undone.
+            new_undo: Whether the undo entry should be a new item in the stack.
             crashed: Whether we're closing a tab with crashed renderer process.
         """
         idx = self.indexOf(tab)
@@ -326,7 +338,10 @@ class TabbedBrowser(tabwidget.TabWidget):
             else:
                 entry = UndoEntry(tab.url(), history_data, idx,
                                   tab.data.pinned)
-                self._undo_stack.append(entry)
+                if new_undo or not self._undo_stack:
+                    self._undo_stack.append([entry])
+                else:
+                    self._undo_stack[-1].append(entry)
 
         tab.shutdown()
         self.removeTab(idx)
@@ -337,7 +352,7 @@ class TabbedBrowser(tabwidget.TabWidget):
             tab.deleteLater()
 
     def undo(self):
-        """Undo removing of a tab."""
+        """Undo removing of a tab or tabs."""
         # Remove unused tab which may be created after the last tab is closed
         last_close = config.val.tabs.last_close
         use_current_tab = False
@@ -356,16 +371,17 @@ class TabbedBrowser(tabwidget.TabWidget):
             use_current_tab = (only_one_tab_open and no_history and
                                last_close_url_used)
 
-        entry = self._undo_stack.pop()
+        for entry in reversed(self._undo_stack.pop()):
+            if use_current_tab:
+                self.openurl(entry.url, newtab=False)
+                newtab = self.widget(0)
+                use_current_tab = False
+            else:
+                newtab = self.tabopen(entry.url, background=False,
+                                      idx=entry.index)
 
-        if use_current_tab:
-            self.openurl(entry.url, newtab=False)
-            newtab = self.widget(0)
-        else:
-            newtab = self.tabopen(entry.url, background=False, idx=entry.index)
-
-        newtab.history.deserialize(entry.history)
-        self.set_tab_pinned(newtab, entry.pinned)
+            newtab.history.deserialize(entry.history)
+            self.set_tab_pinned(newtab, entry.pinned)
 
     @pyqtSlot('QUrl', bool)
     def openurl(self, url, newtab):
@@ -403,6 +419,7 @@ class TabbedBrowser(tabwidget.TabWidget):
 
     @pyqtSlot('QUrl')
     @pyqtSlot('QUrl', bool)
+    @pyqtSlot('QUrl', bool, bool)
     def tabopen(self, url=None, background=None, related=True, idx=None, *,
                 ignore_tabs_are_windows=False):
         """Open a new tab with a given URL.
@@ -635,9 +652,14 @@ class TabbedBrowser(tabwidget.TabWidget):
 
         log.modes.debug("Current tab changed, focusing {!r}".format(tab))
         tab.setFocus()
-        for mode in [usertypes.KeyMode.hint, usertypes.KeyMode.insert,
-                     usertypes.KeyMode.caret, usertypes.KeyMode.passthrough]:
+
+        modes_to_leave = [usertypes.KeyMode.hint, usertypes.KeyMode.caret]
+        if not config.val.tabs.persist_mode_on_change:
+            modes_to_leave += [usertypes.KeyMode.insert,
+                               usertypes.KeyMode.passthrough]
+        for mode in modes_to_leave:
             modeman.leave(self._win_id, mode, 'tab changed', maybe=True)
+
         if self._now_focused is not None:
             objreg.register('last-focused-tab', self._now_focused, update=True,
                             scope='window', window=self._win_id)
@@ -697,8 +719,8 @@ class TabbedBrowser(tabwidget.TabWidget):
             log.webview.debug("Not updating scroll position because index is "
                               "-1")
             return
-        self._update_window_title()
-        self._update_tab_title(idx)
+        self._update_window_title('scroll_pos')
+        self._update_tab_title(idx, 'scroll_pos')
 
     def _on_renderer_process_terminated(self, tab, status, code):
         """Show an error when a renderer process terminated."""
@@ -796,6 +818,7 @@ class TabbedBrowser(tabwidget.TabWidget):
                 point, url = self._global_marks[key]
 
                 def callback(ok):
+                    """Scroll once loading finished."""
                     if ok:
                         self.cur_load_finished.disconnect(callback)
                         tab.scroller.to_point(point)
