@@ -1,4 +1,4 @@
-qutebrowser (1.1.0-1) UNRELEASED; urgency=medium
+qutebrowser (1.1.0-1) unstable; urgency=medium
 
   * New upstream release
   * Add explicit dependency on libqt5core5a (>= 5.7.1). libqt5core5a was
@@ -10,7 +10,7 @@ qutebrowser (1.1.0-1) UNRELEASED; urgency=medium
   * Bump debhelper compatibility level to 11.
     + Update versioned debhelper build-dependency accordingly.
 
- -- Axel Beckert <abe@debian.org>  Mon, 15 Jan 2018 22:53:57 +0100
+ -- Axel Beckert <abe@debian.org>  Tue, 16 Jan 2018 00:36:51 +0100
 
 qutebrowser (1.0.4-3) unstable; urgency=high
 
