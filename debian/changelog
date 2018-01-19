@@ -3,7 +3,9 @@ qutebrowser (1.1.0-2) UNRELEASED; urgency=medium
   * Create two new packages qutebrowser-qtwebengine and
     qutebrowser-qtwebkit to be able to specify dependencies of the type
     "(a & b) | (c & d)" and to have packages which install qutebrowser
-    with the preferred backend.
+    with the preferred backend. Hopefully allows qutebrowser to be
+    installable on more architectures as QtWebEngine is not available on
+    all architectures.
 
  -- Axel Beckert <abe@debian.org>  Fri, 19 Jan 2018 01:47:55 +0100
 
