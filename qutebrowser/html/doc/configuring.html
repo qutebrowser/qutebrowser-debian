@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.10" />
 <title>Configuring qutebrowser</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -533,6 +534,68 @@ body.manpage div.sectionbody {
 @media print {
   body.manpage div#toc { display: none; }
 }
+.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #808080 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0040D0 } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
 
 
 </style>
@@ -756,21 +819,30 @@ later time, use the <code>:help</code> command.</td>
 <h2 id="_migrating_older_configurations">Migrating older configurations</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>qutebrowser does no automatic migration for the new configuration. However,
-there&#8217;s a special <a href="qute://configdiff/old">configdiff</a> page in qutebrowser,
-which will show you the changes you did in your old configuration, compared to
-the old defaults.</p></div>
+there&#8217;s a special <a href="qute://configdiff/old">configdiff</a> page
+(<code>qute://configdiff/old</code>) in qutebrowser, which will show you the changes you
+did in your old configuration, compared to the old defaults.</p></div>
 <div class="paragraph"><p>Other changes in default settings:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<code>&lt;Up&gt;</code> and <code>&lt;Down&gt;</code> in the completion now navigate through command history
-  instead of selecting completion items. You can get back the old behavior by
-  doing:
+In v1.1.x and newer, <code>&lt;Up&gt;</code> and <code>&lt;Down&gt;</code> navigate through command history
+  if no text was entered yet.
+  With v1.0.x, they always navigate through command history instead of selecting
+  completion items. Use <code>&lt;Tab&gt;</code>/<code>&lt;Shift-Tab&gt;</code> to cycle through the completion
+  instead.
+  You can get back the old behavior by doing:
 </p>
 <div class="listingblock">
 <div class="content">
 <pre><code>:bind -m command &lt;Up&gt; completion-item-focus prev
 :bind -m command &lt;Down&gt; completion-item-focus next</code></pre>
+</div></div>
+<div class="paragraph"><p>or always navigate through command history with</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>:bind -m command &lt;Up&gt; command-history-prev
+:bind -m command &lt;Down&gt; command-history-next</code></pre>
 </div></div>
 </li>
 <li>
@@ -851,12 +923,9 @@ in the next section), it&#8217;s easier to use the <code>c</code> shorthand obje
 settings like this:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>c<span style="color: #990000">.</span>tabs<span style="color: #990000">.</span>position <span style="color: #990000">=</span> <span style="color: #FF0000">"left"</span>
-c<span style="color: #990000">.</span>completion<span style="color: #990000">.</span>shrink <span style="color: #990000">=</span> True</tt></pre></div></div>
+<div class="content"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">tabs</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span>
+<span class="n">c</span><span class="o">.</span><span class="n">completion</span><span class="o">.</span><span class="n">shrink</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div></div></div>
 <div class="paragraph"><p>Note that qutebrowser does some Python magic so it&#8217;s able to warn you about
 mistyped config settings. As an example, if you do <code>c.tabs.possition = "left"</code>,
 you&#8217;ll get an error when starting.</p></div>
@@ -939,22 +1008,16 @@ prefix to preserve backslashes) or a Python regex object:</p></div>
 <code>config.set</code> method:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># Equivalent to:</span></span>
-<span style="font-style: italic"><span style="color: #9A1900"># c.content.javascript.enabled = False</span></span>
-config<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">set</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'content.javascript.enabled'</span><span style="color: #990000">,</span> False<span style="color: #990000">)</span></tt></pre></div></div>
+<div class="content"><div class="highlight"><pre><span></span><span class="c1"># Equivalent to:</span>
+<span class="c1"># c.content.javascript.enabled = False</span>
+<span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;content.javascript.enabled&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+</pre></div></div></div>
 <div class="paragraph"><p>To read a setting, use the <code>config.get</code> method:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-style: italic"><span style="color: #9A1900"># Equivalent to:</span></span>
-<span style="font-style: italic"><span style="color: #9A1900"># color = c.colors.completion.fg</span></span>
-color <span style="color: #990000">=</span> config<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">get</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'colors.completion.fg'</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="content"><div class="highlight"><pre><span></span><span class="c1"># Equivalent to:</span>
+<span class="c1"># color = c.colors.completion.fg</span>
+<span class="n">color</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;colors.completion.fg&#39;</span><span class="p">)</span>
+</pre></div></div></div>
 </div>
 <div class="sect2">
 <h3 id="_binding_keys">Binding keys</h3>
@@ -967,34 +1030,22 @@ setting.</p></div>
 <div class="paragraph"><p>To bind a key:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>config<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">bind</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'&lt;Ctrl-v&gt;'</span><span style="color: #990000">,</span> <span style="color: #FF0000">'spawn mpv {url}'</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Ctrl-v&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;spawn mpv {url}&#39;</span><span class="p">)</span>
+</pre></div></div></div>
 <div class="paragraph"><p>To bind a key in a mode other than <code>'normal'</code>, add a <code>mode</code> argument:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>config<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">bind</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'&lt;Ctrl-y&gt;'</span><span style="color: #990000">,</span> <span style="color: #FF0000">'prompt-yes'</span><span style="color: #990000">,</span> mode<span style="color: #990000">=</span><span style="color: #FF0000">'prompt'</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Ctrl-y&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;prompt-yes&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;prompt&#39;</span><span class="p">)</span>
+</pre></div></div></div>
 <div class="paragraph"><p>To unbind a key (either a key which has been bound before, or a default binding):</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>config<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">unbind</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'&lt;Ctrl-v&gt;'</span><span style="color: #990000">,</span> mode<span style="color: #990000">=</span><span style="color: #FF0000">'normal'</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">unbind</span><span class="p">(</span><span class="s1">&#39;&lt;Ctrl-v&gt;&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+</pre></div></div></div>
 <div class="paragraph"><p>To bind keys without modifiers, specify a key chain to bind as a string. Key
 chains starting with a comma are ideal for custom bindings, as the comma key
 will never be used in a default keybinding.</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>config<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">bind</span></span><span style="color: #990000">(</span><span style="color: #FF0000">',v'</span><span style="color: #990000">,</span> <span style="color: #FF0000">'spawn mpv {url}'</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;,v&#39;</span><span class="p">,</span> <span class="s1">&#39;spawn mpv {url}&#39;</span><span class="p">)</span>
+</pre></div></div></div>
 <div class="paragraph"><p>To suppress loading of any default keybindings, you can set
 <code>c.bindings.default = {}</code>.</p></div>
 </div>
@@ -1006,11 +1057,8 @@ saved in the <code>autoconfig.yml</code> file, but you&#8217;ll need to explicit
 your <code>config.py</code> by doing:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>config<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">load_autoconfig</span></span><span style="color: #990000">()</span></tt></pre></div></div>
+<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">load_autoconfig</span><span class="p">()</span>
+</pre></div></div></div>
 <div class="paragraph"><p>If you do so at the top of your file, your <code>config.py</code> settings will take
 precedence as they overwrite the settings done in <code>autoconfig.yml</code>.</p></div>
 </div>
@@ -1024,6 +1072,8 @@ qutebrowser is run with.</p></div>
 that via <code>import utils</code> as well.</p></div>
 <div class="paragraph"><p>While it&#8217;s in some cases possible to import code from the qutebrowser
 installation, doing so is unsupported and discouraged.</p></div>
+<div class="paragraph"><p>To read config data from a different file with <code>c</code> and <code>config</code> available, you
+can use <code>config.source('otherfile.py')</code> in your <code>config.py</code>.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_getting_the_config_directory">Getting the config directory</h3>
@@ -1035,11 +1085,8 @@ object</a>, on which you can use <code>/</code> to add more directory parts, or 
 get a string:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">print</span></span><span style="color: #990000">(</span><span style="font-weight: bold"><span style="color: #000000">str</span></span><span style="color: #990000">(</span>config<span style="color: #990000">.</span>configdir <span style="color: #990000">/</span> <span style="color: #FF0000">'config.py'</span><span style="color: #990000">)</span></tt></pre></div></div>
+<div class="content"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">configdir</span> <span class="o">/</span> <span class="s1">&#39;config.py&#39;</span><span class="p">))</span>
+</pre></div></div></div>
 </div>
 <div class="sect2">
 <h3 id="_handling_errors">Handling errors</h3>
@@ -1064,17 +1111,14 @@ tabs.show: switching</code></pre>
 <div class="paragraph"><p>You can use:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> yaml
+<div class="content"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">yaml</span>
 
-<span style="font-weight: bold"><span style="color: #000000">with</span></span> <span style="color: #990000">(</span>config<span style="color: #990000">.</span>configdir <span style="color: #990000">/</span> <span style="color: #FF0000">'config.yml'</span><span style="color: #990000">).</span><span style="font-weight: bold"><span style="color: #000000">open</span></span><span style="color: #990000">()</span> as f<span style="color: #990000">:</span>
-    yaml_data <span style="color: #990000">=</span> yaml<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">load</span></span><span style="color: #990000">(</span>f<span style="color: #990000">)</span>
+<span class="k">with</span> <span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">configdir</span> <span class="o">/</span> <span class="s1">&#39;config.yml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">yaml_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-<span style="font-weight: bold"><span style="color: #0000FF">for</span></span> k<span style="color: #990000">,</span> v <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> yaml_data<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">items</span></span><span style="color: #990000">():</span>
-    config<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">set</span></span><span style="color: #990000">(</span>k<span style="color: #990000">,</span> v<span style="color: #990000">)</span></tt></pre></div></div>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">yaml_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</pre></div></div></div>
 </div>
 <div class="sect3">
 <h4 id="_reading_a_nested_yaml_file">Reading a nested YAML file</h4>
@@ -1093,24 +1137,21 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>You can use:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">import</span></span> yaml
+<div class="content"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">yaml</span>
 
-<span style="font-weight: bold"><span style="color: #000000">with</span></span> <span style="color: #990000">(</span>config<span style="color: #990000">.</span>configdir <span style="color: #990000">/</span> <span style="color: #FF0000">'colors.yml'</span><span style="color: #990000">).</span><span style="font-weight: bold"><span style="color: #000000">open</span></span><span style="color: #990000">()</span> as f<span style="color: #990000">:</span>
-    yaml_data <span style="color: #990000">=</span> yaml<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">load</span></span><span style="color: #990000">(</span>f<span style="color: #990000">)</span>
+<span class="k">with</span> <span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">configdir</span> <span class="o">/</span> <span class="s1">&#39;colors.yml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">yaml_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">dict_attrs</span></span><span style="color: #990000">(</span>obj<span style="color: #990000">,</span> path<span style="color: #990000">=</span><span style="color: #FF0000">''</span><span style="color: #990000">):</span>
-    <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> <span style="font-weight: bold"><span style="color: #000000">isinstance</span></span><span style="color: #990000">(</span>obj<span style="color: #990000">,</span> dict<span style="color: #990000">):</span>
-        <span style="font-weight: bold"><span style="color: #0000FF">for</span></span> k<span style="color: #990000">,</span> v <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> obj<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">items</span></span><span style="color: #990000">():</span>
-            yield <span style="font-weight: bold"><span style="color: #000080">from</span></span> <span style="font-weight: bold"><span style="color: #000000">dict_attrs</span></span><span style="color: #990000">(</span>v<span style="color: #990000">,</span> <span style="color: #FF0000">'{}.{}'</span><span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">format</span></span><span style="color: #990000">(</span>path<span style="color: #990000">,</span> k<span style="color: #990000">)</span> <span style="font-weight: bold"><span style="color: #0000FF">if</span></span> path <span style="font-weight: bold"><span style="color: #0000FF">else</span></span> k<span style="color: #990000">)</span>
-    <span style="font-weight: bold"><span style="color: #0000FF">else</span></span><span style="color: #990000">:</span>
-        yield path<span style="color: #990000">,</span> obj
+<span class="k">def</span> <span class="nf">dict_attrs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">yield from</span> <span class="n">dict_attrs</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;{}.{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">k</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">path</span><span class="p">,</span> <span class="n">obj</span>
 
-<span style="font-weight: bold"><span style="color: #0000FF">for</span></span> k<span style="color: #990000">,</span> v <span style="font-weight: bold"><span style="color: #0000FF">in</span></span> <span style="font-weight: bold"><span style="color: #000000">dict_attrs</span></span><span style="color: #990000">(</span>yaml_data<span style="color: #990000">):</span>
-    config<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">set</span></span><span style="color: #990000">(</span>k<span style="color: #990000">,</span> v<span style="color: #990000">)</span></tt></pre></div></div>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dict_attrs</span><span class="p">(</span><span class="n">yaml_data</span><span class="p">):</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</pre></div></div></div>
 <div class="paragraph"><p>Note that this won&#8217;t work for values which are dictionaries.</p></div>
 </div>
 <div class="sect3">
@@ -1118,36 +1159,48 @@ http://www.gnu.org/software/src-highlite -->
 <div class="paragraph"><p>If you have a lot of chained commands you want to bind, you can write a helper
 to do so:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">bind_chained</span></span><span style="color: #990000">(</span>key<span style="color: #990000">,</span> <span style="color: #990000">*</span>commands<span style="color: #990000">):</span>
-    config<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">bind</span></span><span style="color: #990000">(</span>key<span style="color: #990000">,</span> <span style="color: #FF0000">' ;; '</span><span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">join</span></span><span style="color: #990000">(</span>commands<span style="color: #990000">))</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bind_chained</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">commands</span><span class="p">):</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s1">&#39; ;; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">commands</span><span class="p">))</span>
 
-<span style="font-weight: bold"><span style="color: #000000">bind_chained</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'&lt;Escape&gt;'</span><span style="color: #990000">,</span> <span style="color: #FF0000">'clear-keychain'</span><span style="color: #990000">,</span> <span style="color: #FF0000">'search'</span><span style="color: #990000">)</span></tt></pre></div></div>
+<span class="n">bind_chained</span><span class="p">(</span><span class="s1">&#39;&lt;Escape&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;clear-keychain&#39;</span><span class="p">,</span> <span class="s1">&#39;search&#39;</span><span class="p">)</span>
+</pre></div></div></div>
+</div>
+<div class="sect3">
+<h4 id="_reading_colors_from_xresources">Reading colors from Xresources</h4>
+<div class="paragraph"><p>You can use something like this to read colors from an <code>~/.Xresources</code> file:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">read_xresources</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
+    <span class="n">props</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;xrdb&#39;</span><span class="p">,</span> <span class="s1">&#39;-query&#39;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">l</span> <span class="p">:</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">),</span> <span class="n">lines</span><span class="p">):</span>
+        <span class="n">prop</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39;:</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">props</span><span class="p">[</span><span class="n">prop</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">props</span>
+
+<span class="n">xresources</span> <span class="o">=</span> <span class="n">read_xresources</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">statusbar</span><span class="o">.</span><span class="n">normal</span><span class="o">.</span><span class="n">bg</span> <span class="o">=</span> <span class="n">xresources</span><span class="p">[</span><span class="s1">&#39;*background&#39;</span><span class="p">]</span>
+</pre></div></div></div>
 </div>
 <div class="sect3">
 <h4 id="_avoiding_flake8_errors">Avoiding flake8 errors</h4>
-<div class="paragraph"><p>If you use an editor with flake8 integration which complains about <code>c</code> and <code>config</code> being undefined, you can use:</p></div>
+<div class="paragraph"><p>If you use an editor with flake8 and pylint integration, it may have some
+complaints about invalid names, undefined variables, or missing docstrings.
+You can silence those with:</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt>c <span style="color: #990000">=</span> c  <span style="font-style: italic"><span style="color: #9A1900"># noqa: F821</span></span>
-config <span style="color: #990000">=</span> config  <span style="font-style: italic"><span style="color: #9A1900"># noqa: F821</span></span></tt></pre></div></div>
+<div class="content"><div class="highlight"><pre><span></span><span class="c1"># pylint: disable=C0111</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">c</span>  <span class="c1"># noqa: F821 pylint: disable=E0602,C0103</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">config</span>  <span class="c1"># noqa: F821 pylint: disable=E0602,C0103</span>
+</pre></div></div></div>
 <div class="paragraph"><p>For type annotation support (note that those imports aren&#8217;t guaranteed to be
 stable across qutebrowser versions):</p></div>
 <div class="listingblock">
-<div class="content"><!-- Generator: GNU source-highlight 3.1.8
-by Lorenzo Bettini
-http://www.lorenzobettini.it
-http://www.gnu.org/software/src-highlite -->
-<pre><tt><span style="font-weight: bold"><span style="color: #000080">from</span></span> qutebrowser<span style="color: #990000">.</span>config<span style="color: #990000">.</span>configfiles <span style="font-weight: bold"><span style="color: #000080">import</span></span> ConfigAPI  <span style="font-style: italic"><span style="color: #9A1900"># noqa: F401</span></span>
-<span style="font-weight: bold"><span style="color: #000080">from</span></span> qutebrowser<span style="color: #990000">.</span>config<span style="color: #990000">.</span>config <span style="font-weight: bold"><span style="color: #000080">import</span></span> ConfigContainer  <span style="font-style: italic"><span style="color: #9A1900"># noqa: F401</span></span>
-config <span style="color: #990000">=</span> config  <span style="font-style: italic"><span style="color: #9A1900"># type: ConfigAPI # noqa: F821</span></span>
-c <span style="color: #990000">=</span> c  <span style="font-style: italic"><span style="color: #9A1900"># type: ConfigContainer # noqa: F821</span></span></tt></pre></div></div>
+<div class="content"><div class="highlight"><pre><span></span><span class="c1"># pylint: disable=C0111</span>
+<span class="kn">from</span> <span class="nn">qutebrowser.config.configfiles</span> <span class="kn">import</span> <span class="n">ConfigAPI</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">qutebrowser.config.config</span> <span class="kn">import</span> <span class="n">ConfigContainer</span>  <span class="c1"># noqa: F401</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">config</span>  <span class="c1"># type: ConfigAPI # noqa: F821 pylint: disable=E0602,C0103</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">c</span>  <span class="c1"># type: ConfigContainer # noqa: F821 pylint: disable=E0602,C0103</span>
+</pre></div></div></div>
 </div>
 </div>
 </div>
@@ -1156,7 +1209,8 @@ c <span style="color: #990000">=</span> c  <span style="font-style: italic"><spa
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-28 11:02:33 CET
+Last updated
+ 2018-01-15 19:42:46 CET
 </div>
 </div>
 </body>

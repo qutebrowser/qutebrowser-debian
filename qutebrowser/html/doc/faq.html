@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.10" />
 <title>Frequently asked questions</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -533,6 +534,68 @@ body.manpage div.sectionbody {
 @media print {
   body.manpage div#toc { display: none; }
 }
+.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #808080 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0040D0 } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
 
 
 </style>
@@ -777,15 +840,19 @@ What&#8217;s wrong with <a href="http://portix.bitbucket.org/dwb/">dwb</a>/<a hr
     <a href="https://lists.webkit.org/pipermail/webkit-gtk/2014-March/001821.html">deprecated</a>,
     these bugs are never going to be fixed.
 </p>
-<div class="paragraph"><p>The newer <a href="http://webkitgtk.org/reference/webkit2gtk/stable/index.html">WebKit2
-API</a> seems to lack basic features like proxy support, and almost no projects
-seem to have started porting to WebKit2 (I only know of
-<a href="http://www.uzbl.org/">uzbl</a>).</p></div>
-<div class="paragraph"><p>qutebrowser uses <a href="http://qt.io/">Qt</a> and <a href="http://wiki.qt.io/QtWebKit">QtWebKit</a>
-instead, which suffers from far less such crashes. It might switch to
-<a href="http://wiki.qt.io/QtWebEngine">QtWebEngine</a> in the future, which is based on
-Google&#8217;s <a href="https://en.wikipedia.org/wiki/Blink_(layout_engine)">Blink</a> rendering
-engine.</p></div>
+<div class="paragraph"><p>When qutebrowser was created, the newer
+<a href="http://webkitgtk.org/reference/webkit2gtk/stable/index.html">WebKit2 API</a> lacked
+basic features like proxy support, and almost no projects have started porting
+to WebKit2. In the meantime, this situation has improved a bit, but there are
+stil only a few project which have some kind of WebKit2 support (see the
+<a href="https://github.com/qutebrowser/qutebrowser#similar-projects">list of
+alternatives</a>).</p></div>
+<div class="paragraph"><p>qutebrowser uses <a href="http://qt.io/">Qt</a> and
+<a href="http://wiki.qt.io/QtWebEngine">QtWebEngine</a> by default (and supports
+<a href="http://wiki.qt.io/QtWebKit">QtWebKit</a> optionally). QtWebEngine is based on
+Google&#8217;s <a href="https://www.chromium.org/Home">Chromium</a>. With an up-to-date Qt, it has
+much more man-power behind it than WebKitGTK+ has, and thus supports more modern
+web features - it&#8217;s also arguably more secure.</p></div>
 </li>
 <li>
 <p><em>
@@ -952,7 +1019,7 @@ Make sure your versions of PyQt and Qt are 5.8 or higher.
 </li>
 <li>
 <p>
-Use <code>install_dict.py</code> script to install dictionaries.
+Use <code>dictcli.py</code> script to install dictionaries.
   Run the script with <code>-h</code> for the parameter description.
 </p>
 </li>
@@ -969,7 +1036,7 @@ Set <code>spellcheck.languages</code> to the desired list of languages, e.g.:
 How do I use Tor with qutebrowser?
 </em></p>
 <p>
-    Start tor on your machine, and do <code>:set network proxy socks://localhost:9050/</code>
+    Start tor on your machine, and do <code>:set content.proxy socks://localhost:9050/</code>
     in qutebrowser. Note this won&#8217;t give you the same amount of fingerprinting
     protection that the Tor Browser does, but it&#8217;s useful to be able to access
     <code>.onion</code> sites.
@@ -984,7 +1051,7 @@ Why does J move to the next (right) tab, and K to the previous (left) one?
     and qutebrowser&#8217;s keybindings are designed to be compatible with dwb&#8217;s.
     The rationale behind it is that J is "down" in vim, and K is "up", which
     corresponds nicely to "next"/"previous". It also makes much more sense with
-    vertical tabs (e.g. <code>:set tabs position left</code>).
+    vertical tabs (e.g. <code>:set tabs.position left</code>).
 </p>
 </li>
 <li>
@@ -1024,15 +1091,6 @@ Why takes it longer to open an URL in qutebrowser than in chromium?
 <h2 id="_troubleshooting">Troubleshooting</h2>
 <div class="sectionbody">
 <div class="dlist"><dl>
-<dt class="hdlist1">
-Configuration not saved after modifying config.
-</dt>
-<dd>
-<p>
-    When editing your config file manually, qutebrowser must be exited completely.
-    This can be done by issuing the command <code>:quit</code> or by pressing <code>Ctrl+q</code>.
-</p>
-</dd>
 <dt class="hdlist1">
 Unable to view flash content.
 </dt>
@@ -1086,7 +1144,7 @@ My issue is not listed.
     <a href="https://github.com/qutebrowser/qutebrowser/issues">the issue tracker</a> or
     using the <code>:report</code> command.
     If you are reporting a segfault, make sure you read the
-    <a href="doc/stacktrace.asciidoc">guide</a> on how to report them with all needed
+    <a href="stacktrace.asciidoc">guide</a> on how to report them with all needed
     information.
 </p>
 </dd>
@@ -1097,7 +1155,8 @@ My issue is not listed.
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-28 11:02:29 CET
+Last updated
+ 2018-01-15 19:42:39 CET
 </div>
 </div>
 </body>

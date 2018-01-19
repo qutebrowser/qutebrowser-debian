@@ -171,7 +171,7 @@ class PromptQueue(QObject):
             # just queue it up for later.
             log.prompt.debug("Adding {} to queue.".format(question))
             self._queue.append(question)
-            return
+            return None
 
         if blocking:
             # If we're blocking we save the old question on the stack, so we
@@ -207,6 +207,7 @@ class PromptQueue(QObject):
             return question.answer
         else:
             question.completed.connect(self._pop_later)
+            return None
 
     @pyqtSlot(usertypes.KeyMode)
     def _on_mode_left(self, mode):
@@ -364,7 +365,7 @@ class PromptContainer(QWidget):
             widget.hide()
             widget.deleteLater()
 
-    @cmdutils.register(instance='prompt-container', hide=True, scope='window',
+    @cmdutils.register(instance='prompt-container', scope='window',
                        modes=[usertypes.KeyMode.prompt,
                               usertypes.KeyMode.yesno])
     def prompt_accept(self, value=None):
@@ -388,21 +389,7 @@ class PromptContainer(QWidget):
             message.global_bridge.prompt_done.emit(self._prompt.KEY_MODE)
             question.done()
 
-    @cmdutils.register(instance='prompt-container', hide=True, scope='window',
-                       modes=[usertypes.KeyMode.yesno],
-                       deprecated='Use :prompt-accept yes instead!')
-    def prompt_yes(self):
-        """Answer yes to a yes/no prompt."""
-        self.prompt_accept('yes')
-
-    @cmdutils.register(instance='prompt-container', hide=True, scope='window',
-                       modes=[usertypes.KeyMode.yesno],
-                       deprecated='Use :prompt-accept no instead!')
-    def prompt_no(self):
-        """Answer no to a yes/no prompt."""
-        self.prompt_accept('no')
-
-    @cmdutils.register(instance='prompt-container', hide=True, scope='window',
+    @cmdutils.register(instance='prompt-container', scope='window',
                        modes=[usertypes.KeyMode.prompt], maxsplit=0)
     def prompt_open_download(self, cmdline: str = None):
         """Immediately open a download.
@@ -421,7 +408,7 @@ class PromptContainer(QWidget):
         except UnsupportedOperationError:
             pass
 
-    @cmdutils.register(instance='prompt-container', hide=True, scope='window',
+    @cmdutils.register(instance='prompt-container', scope='window',
                        modes=[usertypes.KeyMode.prompt])
     @cmdutils.argument('which', choices=['next', 'prev'])
     def prompt_item_focus(self, which):

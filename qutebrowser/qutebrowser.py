@@ -74,7 +74,8 @@ def get_argparser():
                         "session even if one would be restored.",
                         action='store_true')
     parser.add_argument('--target', choices=['auto', 'tab', 'tab-bg',
-                        'tab-silent', 'tab-bg-silent', 'window'],
+                                             'tab-silent', 'tab-bg-silent',
+                                             'window'],
                         help="How URLs should be opened if there is already a "
                              "qutebrowser instance running.")
     parser.add_argument('--backend', choices=['webkit', 'webengine'],
@@ -159,7 +160,8 @@ def debug_flag_error(flag):
         debug-exit: Turn on debugging of late exit.
         pdb-postmortem: Drop into pdb on exceptions.
     """
-    valid_flags = ['debug-exit', 'pdb-postmortem', 'no-sql-history']
+    valid_flags = ['debug-exit', 'pdb-postmortem', 'no-sql-history',
+                   'no-scroll-filtering']
 
     if flag in valid_flags:
         return flag

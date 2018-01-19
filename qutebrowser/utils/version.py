@@ -27,9 +27,11 @@ import platform
 import subprocess
 import importlib
 import collections
-import pkg_resources
+import enum
+import datetime
 
 import attr
+import pkg_resources
 from PyQt5.QtCore import PYQT_VERSION_STR, QLibraryInfo
 from PyQt5.QtNetwork import QSslSocket
 from PyQt5.QtGui import (QOpenGLContext, QOpenGLVersionProfile,
@@ -63,7 +65,7 @@ class DistributionInfo:
     pretty = attr.ib()
 
 
-Distribution = usertypes.enum(
+Distribution = enum.Enum(
     'Distribution', ['unknown', 'ubuntu', 'debian', 'void', 'arch',
                      'gentoo', 'fedora', 'opensuse', 'linuxmint', 'manjaro'])
 
@@ -150,13 +152,16 @@ def _git_str_subprocess(gitpath):
     if not os.path.isdir(os.path.join(gitpath, ".git")):
         return None
     try:
-        cid = subprocess.check_output(
-            ['git', 'describe', '--tags', '--dirty', '--always'],
-            cwd=gitpath).decode('UTF-8').strip()
-        date = subprocess.check_output(
+        # https://stackoverflow.com/questions/21017300/21017394#21017394
+        commit_hash = subprocess.run(
+            ['git', 'describe', '--match=NeVeRmAtCh', '--always', '--dirty'],
+            cwd=gitpath, check=True,
+            stdout=subprocess.PIPE).stdout.decode('UTF-8').strip()
+        date = subprocess.run(
             ['git', 'show', '-s', '--format=%ci', 'HEAD'],
-            cwd=gitpath).decode('UTF-8').strip()
-        return '{} ({})'.format(cid, date)
+            cwd=gitpath, check=True,
+            stdout=subprocess.PIPE).stdout.decode('UTF-8').strip()
+        return '{} ({})'.format(commit_hash, date)
     except (subprocess.CalledProcessError, OSError):
         return None
 
@@ -321,6 +326,14 @@ def _backend():
         return 'QtWebEngine (Chromium {})'.format(_chromium_version())
 
 
+def _uptime() -> datetime.timedelta:
+    launch_time = QApplication.instance().launch_time
+    time_delta = datetime.datetime.now() - launch_time
+    # Round off microseconds
+    time_delta -= datetime.timedelta(microseconds=time_delta.microseconds)
+    return time_delta
+
+
 def version():
     """Return a string with various version informations."""
     lines = ["qutebrowser v{}".format(qutebrowser.__version__)]
@@ -383,6 +396,11 @@ def version():
     ]
     for name, path in sorted(_path_info().items()):
         lines += ['{}: {}'.format(name, path)]
+
+    lines += [
+        '',
+        'Uptime: {}'.format(_uptime()),
+    ]
 
     return '\n'.join(lines)
 

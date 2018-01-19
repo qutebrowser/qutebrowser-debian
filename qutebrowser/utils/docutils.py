@@ -24,9 +24,10 @@ import sys
 import inspect
 import os.path
 import collections
+import enum
 
 import qutebrowser
-from qutebrowser.utils import usertypes, log, utils
+from qutebrowser.utils import log, utils
 
 
 def is_git_repo():
@@ -75,8 +76,8 @@ class DocstringParser:
         arg_descs: A dict of argument names to their descriptions
     """
 
-    State = usertypes.enum('State', ['short', 'desc', 'desc_hidden',
-                                     'arg_start', 'arg_inside', 'misc'])
+    State = enum.Enum('State', ['short', 'desc', 'desc_hidden',
+                                'arg_start', 'arg_inside', 'misc'])
 
     def __init__(self, func):
         """Constructor.
@@ -155,7 +156,7 @@ class DocstringParser:
     def _parse_arg_inside(self, line):
         """Parse subsequent argument lines."""
         argname = self._cur_arg_name
-        if re.match(r'^[A-Z][a-z]+:$', line):
+        if re.fullmatch(r'[A-Z][a-z]+:', line):
             if not self.arg_descs[argname][-1].strip():
                 self.arg_descs[argname] = self.arg_descs[argname][:-1]
                 return True

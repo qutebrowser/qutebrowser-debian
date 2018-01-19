@@ -50,13 +50,16 @@ def _git_str():
     if not os.path.isdir(os.path.join(BASEDIR, ".git")):
         return None
     try:
-        cid = subprocess.check_output(
-            ['git', 'describe', '--tags', '--dirty', '--always'],
-            cwd=BASEDIR).decode('UTF-8').strip()
-        date = subprocess.check_output(
+        # https://stackoverflow.com/questions/21017300/21017394#21017394
+        commit_hash = subprocess.run(
+            ['git', 'describe', '--match=NeVeRmAtCh', '--always', '--dirty'],
+            cwd=BASEDIR, check=True,
+            stdout=subprocess.PIPE).stdout.decode('UTF-8').strip()
+        date = subprocess.run(
             ['git', 'show', '-s', '--format=%ci', 'HEAD'],
-            cwd=BASEDIR).decode('UTF-8').strip()
-        return '{} ({})'.format(cid, date)
+            cwd=BASEDIR, check=True,
+            stdout=subprocess.PIPE).stdout.decode('UTF-8').strip()
+        return '{} ({})'.format(commit_hash, date)
     except (subprocess.CalledProcessError, OSError):
         return None
 

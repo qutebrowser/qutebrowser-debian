@@ -127,6 +127,7 @@ def init_faulthandler(fileobj=sys.__stderr__):
         # If available, we also want a traceback on SIGUSR1.
         # pylint: disable=no-member,useless-suppression
         faulthandler.register(signal.SIGUSR1)
+        # pylint: enable=no-member,useless-suppression
 
 
 def check_pyqt_core():
@@ -201,14 +202,14 @@ def _check_modules(modules):
             messages = ['invalid escape sequence',
                         'Flags not at the start of the expression']
             with log.ignore_py_warnings(
-                    category=DeprecationWarning,
-                    message=r'({})'.format('|'.join(messages))
+                category=DeprecationWarning,
+                message=r'({})'.format('|'.join(messages))
             ), log.ignore_py_warnings(
-                    category=PendingDeprecationWarning,
-                    module='imp'
+                category=PendingDeprecationWarning,
+                module='imp'
             ), log.ignore_py_warnings(
-                    category=ImportWarning,
-                    message=r'Not importing directory .*: missing __init__'
+                category=ImportWarning,
+                message=r'Not importing directory .*: missing __init__'
             ):
                 importlib.import_module(name)
         except ImportError as e:
@@ -260,6 +261,7 @@ def init_log(args):
 
 
 def check_optimize_flag():
+    """Check whether qutebrowser is running with -OO."""
     from qutebrowser.utils import log
     if sys.flags.optimize >= 2:
         log.init.warning("Running on optimize level higher than 1, "

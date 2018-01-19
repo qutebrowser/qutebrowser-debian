@@ -54,9 +54,9 @@ class KeyHintView(QLabel):
             background-color: {{ conf.colors.keyhint.bg }};
             padding: 6px;
             {% if conf.statusbar.position == 'top' %}
-                border-bottom-right-radius: 6px;
+                border-bottom-right-radius: {{ conf.keyhint.radius }}px;
             {% else %}
-                border-top-right-radius: 6px;
+                border-top-right-radius: {{ conf.keyhint.radius }}px;
             {% endif %}
         }
     """
@@ -87,7 +87,7 @@ class KeyHintView(QLabel):
         Args:
             prefix: The current partial keystring.
         """
-        countstr, prefix = re.match(r'^(\d*)(.*)', prefix).groups()
+        countstr, prefix = re.fullmatch(r'(\d*)(.*)', prefix).groups()
         if not prefix:
             self._show_timer.stop()
             self.hide()
