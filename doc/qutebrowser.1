@@ -1,0 +1,313 @@
+'\" t
+.\"     Title: qutebrowser
+.\"    Author: [see the "AUTHOR" section]
+.\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
+.\"      Date: 01/20/2018
+.\"    Manual: qutebrowser manpage
+.\"    Source: qutebrowser
+.\"  Language: English
+.\"
+.TH "QUTEBROWSER" "1" "01/20/2018" "qutebrowser" "qutebrowser manpage"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+qutebrowser \- a keyboard\-driven, vim\-like browser based on PyQt5\&.
+.SH "SYNOPSIS"
+.sp
+\fBqutebrowser\fR [\fI\-OPTION\fR [\fI\&...\fR]] [\fI:COMMAND\fR [\fI\&...\fR]] [\fIURL\fR [\fI\&...\fR]]
+.SH "DESCRIPTION"
+.sp
+qutebrowser is a keyboard\-focused browser with a minimal GUI\&. It\(cqs based on Python and Qt5 and is free software, licensed under the GPL\&.
+.sp
+It was inspired by other browsers/addons like dwb and Vimperator/Pentadactyl\&.
+.sp
+Note the commands and settings of qutebrowser are not described in this manpage, but in the help integrated in qutebrowser \- use the ":help" command to show it\&.
+.SH "OPTIONS"
+.SS "positional arguments"
+.PP
+\fB\fI:command\fR\fR
+.RS 4
+Commands to execute on startup\&.
+.RE
+.PP
+\fB\fIURL\fR\fR
+.RS 4
+URLs to open on startup (empty as a window separator)\&.
+.RE
+.SS "optional arguments"
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+show this help message and exit
+.RE
+.PP
+\fB\-\-basedir\fR \fIBASEDIR\fR
+.RS 4
+Base directory for all storage\&.
+.RE
+.PP
+\fB\-V\fR, \fB\-\-version\fR
+.RS 4
+Show version and quit\&.
+.RE
+.PP
+\fB\-s\fR \fIOPTION\fR \fIVALUE\fR, \fB\-\-set\fR \fIOPTION\fR \fIVALUE\fR
+.RS 4
+Set a temporary setting for this session\&.
+.RE
+.PP
+\fB\-r\fR \fISESSION\fR, \fB\-\-restore\fR \fISESSION\fR
+.RS 4
+Restore a named session\&.
+.RE
+.PP
+\fB\-R\fR, \fB\-\-override\-restore\fR
+.RS 4
+Don\(cqt restore a session even if one would be restored\&.
+.RE
+.PP
+\fB\-\-target\fR \fI{auto,tab,tab\-bg,tab\-silent,tab\-bg\-silent,window}\fR
+.RS 4
+How URLs should be opened if there is already a qutebrowser instance running\&.
+.RE
+.PP
+\fB\-\-backend\fR \fI{webkit,webengine}\fR
+.RS 4
+Which backend to use\&.
+.RE
+.PP
+\fB\-\-enable\-webengine\-inspector\fR
+.RS 4
+Enable the web inspector for QtWebEngine\&. Note that this is a SECURITY RISK and you should not visit untrusted websites with the inspector turned on\&. See
+https://bugreports\&.qt\&.io/browse/QTBUG\-50725
+for more details\&.
+.RE
+.SS "debug arguments"
+.PP
+\fB\-l\fR \fI{critical,error,warning,info,debug,vdebug}\fR, \fB\-\-loglevel\fR \fI{critical,error,warning,info,debug,vdebug}\fR
+.RS 4
+Set loglevel
+.RE
+.PP
+\fB\-\-logfilter\fR \fILOGFILTER\fR
+.RS 4
+Comma\-separated list of things to be logged to the debug log on stdout\&.
+.RE
+.PP
+\fB\-\-loglines\fR \fILOGLINES\fR
+.RS 4
+How many lines of the debug log to keep in RAM (\-1: unlimited)\&.
+.RE
+.PP
+\fB\-\-debug\fR
+.RS 4
+Turn on debugging options\&.
+.RE
+.PP
+\fB\-\-json\-logging\fR
+.RS 4
+Output log lines in JSON format (one object per line)\&.
+.RE
+.PP
+\fB\-\-nocolor\fR
+.RS 4
+Turn off colored logging\&.
+.RE
+.PP
+\fB\-\-force\-color\fR
+.RS 4
+Force colored logging
+.RE
+.PP
+\fB\-\-nowindow\fR
+.RS 4
+Don\(cqt show the main window\&.
+.RE
+.PP
+\fB\-\-temp\-basedir\fR
+.RS 4
+Use a temporary basedir\&.
+.RE
+.PP
+\fB\-\-no\-err\-windows\fR
+.RS 4
+Don\(cqt show any error windows (used for tests/smoke\&.py)\&.
+.RE
+.PP
+\fB\-\-qt\-arg\fR \fINAME\fR \fIVALUE\fR
+.RS 4
+Pass an argument with a value to Qt\&. For example, you can do
+\-\-qt\-arg geometry 650x555+200+300
+to set the window geometry\&.
+.RE
+.PP
+\fB\-\-qt\-flag\fR \fIQT_FLAG\fR
+.RS 4
+Pass an argument to Qt as flag\&.
+.RE
+.PP
+\fB\-\-debug\-flag\fR \fIDEBUG_FLAGS\fR
+.RS 4
+Pass name of debugging feature to be turned on\&.
+.RE
+.SH "FILES"
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI~/\&.config/qutebrowser/config\&.py\fR: Configuration file\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI~/\&.config/qutebrowser/autoconfig\&.yml\fR: Configuration done via the GUI\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI~/\&.config/qutebrowser/quickmarks\fR: Saved quickmarks\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI~/\&.local/share/qutebrowser/\fR: Various state information\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI~/\&.cache/qutebrowser/\fR: Temporary data\&.
+.RE
+.sp
+Note qutebrowser conforms to the XDG basedir specification \- if \fIXDG_CONFIG_HOME\fR, \fIXDG_DATA_HOME\fR or \fIXDG_CACHE_HOME\fR are set in the environment, the directories configured there are used instead of the above defaults\&.
+.SH "BUGS"
+.sp
+Bugs are tracked in the Github issue tracker at https://github\&.com/qutebrowser/qutebrowser/issues\&.
+.sp
+If you found a bug, use the built\-in \fI:report\fR command to create a bug report with all information needed\&.
+.sp
+If you prefer, you can also write to the mailinglist at qutebrowser@lists\&.qutebrowser\&.org instead\&.
+.sp
+For security bugs, please contact me directly at me@the\-compiler\&.org, GPG ID 0xFD55A072\&.
+.SH "COPYRIGHT"
+.sp
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version\&.
+.sp
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE\&. See the GNU General Public License for more details\&.
+.sp
+You should have received a copy of the GNU General Public License along with this program\&. If not, see http://www\&.gnu\&.org/licenses/\&.
+.SH "RESOURCES"
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Website:
+https://www\&.qutebrowser\&.org/
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Mailinglist:
+qutebrowser@lists\&.qutebrowser\&.org
+/
+https://lists\&.schokokeks\&.org/mailman/listinfo\&.cgi/qutebrowser
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Announce\-only mailinglist:
+qutebrowser\-announce@lists\&.qutebrowser\&.org
+/
+https://lists\&.schokokeks\&.org/mailman/listinfo\&.cgi/qutebrowser\-announce
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+IRC:
+#qutebrowser
+on
+Freenode
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Github:
+https://github\&.com/qutebrowser/qutebrowser
+.RE
+.SH "AUTHOR"
+.sp
+\fBqutebrowser\fR was written by Florian Bruhin\&. All contributors can be found in the README file distributed with qutebrowser\&.
