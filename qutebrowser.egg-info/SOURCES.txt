@@ -10,6 +10,7 @@ doc/changelog.html
 doc/contributing.html
 doc/faq.html
 doc/install.html
+doc/qutebrowser.1
 doc/qutebrowser.1.asciidoc
 doc/img/cheatsheet-big.png
 doc/img/cheatsheet-small.png
@@ -182,6 +183,7 @@ qutebrowser/html/doc/img/cheatsheet-small.png
 qutebrowser/img/broken_qutebrowser_logo.png
 qutebrowser/img/file.svg
 qutebrowser/img/folder.svg
+qutebrowser/javascript/cycle-inputs.js
 qutebrowser/javascript/greasemonkey_wrapper.js
 qutebrowser/javascript/history.js
 qutebrowser/javascript/pac_utils.js
