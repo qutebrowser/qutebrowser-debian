@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.10" />
-<title>Writing qutebrowser userscripts</title>
+<title>Crowdfunding backers</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -534,68 +534,6 @@ body.manpage div.sectionbody {
 @media print {
   body.manpage div#toc { display: none; }
 }
-.highlight .hll { background-color: #ffffcc }
-.highlight  { background: #f8f8f8; }
-.highlight .c { color: #408080; font-style: italic } /* Comment */
-.highlight .err { border: 1px solid #FF0000 } /* Error */
-.highlight .k { color: #008000; font-weight: bold } /* Keyword */
-.highlight .o { color: #666666 } /* Operator */
-.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
-.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
-.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
-.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
-.highlight .gd { color: #A00000 } /* Generic.Deleted */
-.highlight .ge { font-style: italic } /* Generic.Emph */
-.highlight .gr { color: #FF0000 } /* Generic.Error */
-.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
-.highlight .gi { color: #00A000 } /* Generic.Inserted */
-.highlight .go { color: #808080 } /* Generic.Output */
-.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
-.highlight .gs { font-weight: bold } /* Generic.Strong */
-.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
-.highlight .gt { color: #0040D0 } /* Generic.Traceback */
-.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
-.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
-.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
-.highlight .kp { color: #008000 } /* Keyword.Pseudo */
-.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
-.highlight .kt { color: #B00040 } /* Keyword.Type */
-.highlight .m { color: #666666 } /* Literal.Number */
-.highlight .s { color: #BA2121 } /* Literal.String */
-.highlight .na { color: #7D9029 } /* Name.Attribute */
-.highlight .nb { color: #008000 } /* Name.Builtin */
-.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
-.highlight .no { color: #880000 } /* Name.Constant */
-.highlight .nd { color: #AA22FF } /* Name.Decorator */
-.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
-.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
-.highlight .nf { color: #0000FF } /* Name.Function */
-.highlight .nl { color: #A0A000 } /* Name.Label */
-.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
-.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
-.highlight .nv { color: #19177C } /* Name.Variable */
-.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
-.highlight .w { color: #bbbbbb } /* Text.Whitespace */
-.highlight .mf { color: #666666 } /* Literal.Number.Float */
-.highlight .mh { color: #666666 } /* Literal.Number.Hex */
-.highlight .mi { color: #666666 } /* Literal.Number.Integer */
-.highlight .mo { color: #666666 } /* Literal.Number.Oct */
-.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
-.highlight .sc { color: #BA2121 } /* Literal.String.Char */
-.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
-.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
-.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
-.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
-.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
-.highlight .sx { color: #008000 } /* Literal.String.Other */
-.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
-.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
-.highlight .ss { color: #19177C } /* Literal.String.Symbol */
-.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
-.highlight .vc { color: #19177C } /* Name.Variable.Class */
-.highlight .vg { color: #19177C } /* Name.Variable.Global */
-.highlight .vi { color: #19177C } /* Name.Variable.Instance */
-.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
 
 
 </style>
@@ -796,172 +734,1569 @@ asciidoc.install();
 </head>
 <body class="article">
 <div id="header">
-<h1>Writing qutebrowser userscripts</h1>
-<span id="author">The Compiler</span><br />
-<span id="email"><code>&lt;<a href="mailto:mail@qutebrowser.org">mail@qutebrowser.org</a>&gt;</code></span><br />
+<h1>Crowdfunding backers</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph"><p>qutebrowser is extensible by writing userscripts which can be called via the
-<code>:spawn --userscript</code> command, or via a key binding.</p></div>
-<div class="paragraph"><p>You can also call a userscript via hints so they get the selected hint URL by
-calling <code>:hint links userscript ...</code>.</p></div>
-<div class="paragraph"><p>These userscripts are similar to the (non-javascript) dwb userscripts. They can
-be written in any language which can read environment variables and write to a
-FIFO. Note they are <strong>not</strong> related to Greasemonkey userscripts.</p></div>
-<div class="paragraph"><p>Note for simple things such as opening the current page with another browser or
-mpv, a simple key binding to something like <code>:spawn mpv {url}</code> should suffice.</p></div>
-<div class="paragraph"><p>Also note userscripts need to have the executable bit set (<code>chmod +x</code>) for
-qutebrowser to run them.</p></div>
-<div class="paragraph"><p>To call a userscript, it needs to be stored in your data directory under
-<code>userscripts</code> (for example: <code>~/.local/share/qutebrowser/userscripts/myscript</code>),
-or just use an absolute path.</p></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">On Windows, only userscripts with <code>com</code>, <code>bat</code>, or <code>exe</code> extensions will be launched.</td>
-</tr></table>
-</div>
-</div>
-</div>
 <div class="sect1">
-<h2 id="_getting_information">Getting information</h2>
+<h2 id="_2017">2017</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>The following environment variables will be set when a userscript is launched:</p></div>
+<div class="paragraph"><p>Mid-2017, qutebrowser had its
+<a href="https://www.kickstarter.com/projects/the-compiler/qutebrowser-v10-with-per-domain-settings">second crowdfunding</a>
+with the goal of implementing the new config system and releasing v1.0.</p></div>
+<div class="paragraph"><p>Thanks a lot to the following people who contributed to it:</p></div>
+<div class="sect2">
+<h3 id="_gold_sponsors">Gold sponsors</h3>
 <div class="ulist"><ul>
 <li>
 <p>
-<code>QUTE_MODE</code>: Either <code>hints</code> (started via hints) or <code>command</code> (started via
-  command or key binding).
+Iggy
 </p>
 </li>
 <li>
 <p>
-<code>QUTE_USER_AGENT</code>: The currently set user agent, if customized.
+zwitschi
 </p>
 </li>
 <li>
 <p>
-<code>QUTE_FIFO</code>: The FIFO or file to write commands to.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_HTML</code>: Path of a file containing the HTML source of the current page.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_TEXT</code>: Path of a file containing the plaintext of the current page.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_CONFIG_DIR</code>: Path of the directory containing qutebrowser&#8217;s configuration.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_DATA_DIR</code>: Path of the directory containing qutebrowser&#8217;s data.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_DOWNLOAD_DIR</code>: Path of the downloads directory.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_COMMANDLINE_TEXT</code>: Text currently in qutebrowser&#8217;s command line.
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>In <code>command</code> mode:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<code>QUTE_URL</code>: The current URL.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_TITLE</code>: The title of the current page.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_SELECTED_TEXT</code>: The text currently selected on the page.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_SELECTED_HTML</code> The HTML currently selected on the page (not supported
-  with QtWebEngine).
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>In <code>hints</code> mode:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<code>QUTE_URL</code>: The URL selected via hints.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_SELECTED_TEXT</code>: The plain text of the element selected via hints.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_SELECTED_HTML</code> The HTML of the element selected via hints.
+2x Anonymous
 </p>
 </li>
 </ul></div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_sending_commands">Sending commands</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Normal qutebrowser commands can be written to <code>$QUTE_FIFO</code> and will be
-executed.</p></div>
-<div class="paragraph"><p>On Unix/macOS, this is a named pipe and commands written to it will get executed
-immediately.</p></div>
-<div class="paragraph"><p>On Windows, this is a regular file, and the commands in it will be executed as
-soon as your userscript terminates. This means when writing multiple commands,
-you should append to the file (<code>&gt;&gt;</code> in bash) rather than overwrite it (<code>&gt;</code>).</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_examples">Examples</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Opening the currently selected word on <a href="http://www.dict.cc/">dict.cc</a>:</p></div>
-<div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="nb">echo</span> <span class="s2">&quot;open -t http://www.dict.cc/?s=</span><span class="nv">$QUTE_SELECTED_TEXT</span><span class="s2">&quot;</span> &gt;&gt; <span class="s2">&quot;</span><span class="nv">$QUTE_FIFO</span><span class="s2">&quot;</span>
-</pre></div></div></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_libraries">Libraries</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Some third-party libraries are available to make writing userscripts easier:</p></div>
+<div class="sect2">
+<h3 id="_silver_sponsors">Silver sponsors</h3>
 <div class="ulist"><ul>
 <li>
 <p>
-Python: <a href="https://github.com/hiway/python-qutescript">python-qutescript</a>
+<a href="https://benary.org">benaryorg</a>
 </p>
 </li>
 <li>
 <p>
-Node.js: <a href="https://www.npmjs.com/package/qutejs">qutejs</a>
+<a href="https://scratchbook.ch">Claude</a>
+</p>
+</li>
+<li>
+<p>
+Martin Tournoij
+</p>
+</li>
+<li>
+<p>
+<a href="http://supported.elsensohn.ch">Thomas Elsensohn</a>
+</p>
+</li>
+<li>
+<p>
+Christian Helbling
+</p>
+</li>
+<li>
+<p>
+Gavin Troy
+</p>
+</li>
+<li>
+<p>
+Chris King-Parra
+</p>
+</li>
+<li>
+<p>
+Tim Das Mool Wegener
 </p>
 </li>
 </ul></div>
+</div>
+<div class="sect2">
+<h3 id="_other_sponsors">Other sponsors</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+7scan
+</p>
+</li>
+<li>
+<p>
+AMD1212
+</p>
+</li>
+<li>
+<p>
+Alex
+</p>
+</li>
+<li>
+<p>
+Alex Suykov
+</p>
+</li>
+<li>
+<p>
+Alexey Zhikhartsev
+</p>
+</li>
+<li>
+<p>
+Allan Nordhøy
+</p>
+</li>
+<li>
+<p>
+Anirudh Sanjeev
+</p>
+</li>
+<li>
+<p>
+Anssi Puustinen
+</p>
+</li>
+<li>
+<p>
+Anton Grensjö
+</p>
+</li>
+<li>
+<p>
+Aristaeus
+</p>
+</li>
+<li>
+<p>
+Armin Fisslthaler
+</p>
+</li>
+<li>
+<p>
+Ashley Hauck
+</p>
+</li>
+<li>
+<p>
+Benedikt Steindorf
+</p>
+</li>
+<li>
+<p>
+Bernardo Kuri
+</p>
+</li>
+<li>
+<p>
+Blaise Duszynski
+</p>
+</li>
+<li>
+<p>
+Bostan
+</p>
+</li>
+<li>
+<p>
+Bruno Oliveira
+</p>
+</li>
+<li>
+<p>
+BunnyApocalypse
+</p>
+</li>
+<li>
+<p>
+Christian Kellermann
+</p>
+</li>
+<li>
+<p>
+Colin Jacobs
+</p>
+</li>
+<li>
+<p>
+Daniel Andersson
+</p>
+</li>
+<li>
+<p>
+Daniel Nelson
+</p>
+</li>
+<li>
+<p>
+Daniel P. Schmidt
+</p>
+</li>
+<li>
+<p>
+Daniel Salby
+</p>
+</li>
+<li>
+<p>
+Danilo
+</p>
+</li>
+<li>
+<p>
+David Beley
+</p>
+</li>
+<li>
+<p>
+David Hollings
+</p>
+</li>
+<li>
+<p>
+David Keijser
+</p>
+</li>
+<li>
+<p>
+David Parrish
+</p>
+</li>
+<li>
+<p>
+Derin Yarsuvat
+</p>
+</li>
+<li>
+<p>
+Dmytro Kostiuchenko
+</p>
+</li>
+<li>
+<p>
+Eero Kari
+</p>
+</li>
+<li>
+<p>
+Epictek
+</p>
+</li>
+<li>
+<p>
+Eric
+</p>
+</li>
+<li>
+<p>
+Faure Hu
+</p>
+</li>
+<li>
+<p>
+Ferus
+</p>
+</li>
+<li>
+<p>
+Frederik Thorøe
+</p>
+</li>
+<li>
+<p>
+G4v4g4i
+</p>
+</li>
+<li>
+<p>
+Granitosaurus
+</p>
+</li>
+<li>
+<p>
+Gyula Teleki
+</p>
+</li>
+<li>
+<p>
+H
+</p>
+</li>
+<li>
+<p>
+Heinz Bruhin
+</p>
+</li>
+<li>
+<p>
+Hosaka
+</p>
+</li>
+<li>
+<p>
+Ihor Radchenko
+</p>
+</li>
+<li>
+<p>
+Iordanis Grigoriou
+</p>
+</li>
+<li>
+<p>
+Isaac Sandaljian
+</p>
+</li>
+<li>
+<p>
+Jakub Podeszwik
+</p>
+</li>
+<li>
+<p>
+Jamie Anderson
+</p>
+</li>
+<li>
+<p>
+Jasper Woudenberg
+</p>
+</li>
+<li>
+<p>
+Jay Kamat
+</p>
+</li>
+<li>
+<p>
+Jens Højgaard
+</p>
+</li>
+<li>
+<p>
+Johannes
+</p>
+</li>
+<li>
+<p>
+John Baber-Lucero
+</p>
+</li>
+<li>
+<p>
+Jonas Schürmann
+</p>
+</li>
+<li>
+<p>
+Kenichiro Ito
+</p>
+</li>
+<li>
+<p>
+Kenny Low
+</p>
+</li>
+<li>
+<p>
+Lars Ivar Igesund
+</p>
+</li>
+<li>
+<p>
+Leulas
+</p>
+</li>
+<li>
+<p>
+Lucas Aride Moulin
+</p>
+</li>
+<li>
+<p>
+Ludovic Chabant
+</p>
+</li>
+<li>
+<p>
+Lukas Gierth
+</p>
+</li>
+<li>
+<p>
+Magnus Lindström
+</p>
+</li>
+<li>
+<p>
+Marulkan
+</p>
+</li>
+<li>
+<p>
+Matthew Chun-Lum
+</p>
+</li>
+<li>
+<p>
+Matthew Cronen
+</p>
+</li>
+<li>
+<p>
+Matthew Quigley
+</p>
+</li>
+<li>
+<p>
+Michael Schönwälder
+</p>
+</li>
+<li>
+<p>
+Mika Kutila
+</p>
+</li>
+<li>
+<p>
+Mitchell Stokes
+</p>
+</li>
+<li>
+<p>
+Nathan Howell
+</p>
+</li>
+<li>
+<p>
+Nathan Schlehlein
+</p>
+</li>
+<li>
+<p>
+Noël Zindel
+</p>
+</li>
+<li>
+<p>
+Obri
+</p>
+</li>
+<li>
+<p>
+Patrik Peng
+</p>
+</li>
+<li>
+<p>
+Peter DiMarco
+</p>
+</li>
+<li>
+<p>
+Peter Rice
+</p>
+</li>
+<li>
+<p>
+Philipp Middendorf
+</p>
+</li>
+<li>
+<p>
+Pkill9
+</p>
+</li>
+<li>
+<p>
+PluMGMK
+</p>
+</li>
+<li>
+<p>
+Prescott
+</p>
+</li>
+<li>
+<p>
+ProXicT
+</p>
+</li>
+<li>
+<p>
+Ram-Z
+</p>
+</li>
+<li>
+<p>
+Robotichead
+</p>
+</li>
+<li>
+<p>
+Roshless
+</p>
+</li>
+<li>
+<p>
+Ryan Ellis
+</p>
+</li>
+<li>
+<p>
+Ryan P Deslandes
+</p>
+</li>
+<li>
+<p>
+Sam Doshi
+</p>
+</li>
+<li>
+<p>
+Sam Stone
+</p>
+</li>
+<li>
+<p>
+Sean Herman
+</p>
+</li>
+<li>
+<p>
+Sebastian Frysztak
+</p>
+</li>
+<li>
+<p>
+Shelby Cruver
+</p>
+</li>
+<li>
+<p>
+Simon Désaulniers
+</p>
+</li>
+<li>
+<p>
+SirCmpwn
+</p>
+</li>
+<li>
+<p>
+Soham Pal
+</p>
+</li>
+<li>
+<p>
+Stephan Jauernick
+</p>
+</li>
+<li>
+<p>
+Stewart Webb
+</p>
+</li>
+<li>
+<p>
+Sven Reinecke
+</p>
+</li>
+<li>
+<p>
+Timothée Floure
+</p>
+</li>
+<li>
+<p>
+Tom Bass
+</p>
+</li>
+<li>
+<p>
+Tom Kirchner
+</p>
+</li>
+<li>
+<p>
+Tomas Slusny
+</p>
+</li>
+<li>
+<p>
+Tomasz Kramkowski
+</p>
+</li>
+<li>
+<p>
+Tommy Thomas
+</p>
+</li>
+<li>
+<p>
+Tuscan
+</p>
+</li>
+<li>
+<p>
+Ulrich Pötter
+</p>
+</li>
+<li>
+<p>
+Vasilij Schneidermann
+</p>
+</li>
+<li>
+<p>
+Vlaaaaaaad
+</p>
+</li>
+<li>
+<p>
+XTaran
+</p>
+</li>
+<li>
+<p>
+Z2h-A6n
+</p>
+</li>
+<li>
+<p>
+ayekat
+</p>
+</li>
+<li>
+<p>
+beanieuptop
+</p>
+</li>
+<li>
+<p>
+cee
+</p>
+</li>
+<li>
+<p>
+craftyguy
+</p>
+</li>
+<li>
+<p>
+demure
+</p>
+</li>
+<li>
+<p>
+dlangevi
+</p>
+</li>
+<li>
+<p>
+epon
+</p>
+</li>
+<li>
+<p>
+evenorbert
+</p>
+</li>
+<li>
+<p>
+fishss
+</p>
+</li>
+<li>
+<p>
+gsnewmark
+</p>
+</li>
+<li>
+<p>
+guillermohs9
+</p>
+</li>
+<li>
+<p>
+hernani
+</p>
+</li>
+<li>
+<p>
+hubcaps
+</p>
+</li>
+<li>
+<p>
+jnphilipp
+</p>
+</li>
+<li>
+<p>
+lobachevsky
+</p>
+</li>
+<li>
+<p>
+neodarz
+</p>
+</li>
+<li>
+<p>
+nihlaeth
+</p>
+</li>
+<li>
+<p>
+notbenh
+</p>
+</li>
+<li>
+<p>
+nyctea
+</p>
+</li>
+<li>
+<p>
+ongy
+</p>
+</li>
+<li>
+<p>
+patrick suwanvithaya
+</p>
+</li>
+<li>
+<p>
+pyratebeard
+</p>
+</li>
+<li>
+<p>
+p≡p foundation
+</p>
+</li>
+<li>
+<p>
+randm_dave
+</p>
+</li>
+<li>
+<p>
+sabreman
+</p>
+</li>
+<li>
+<p>
+toml
+</p>
+</li>
+<li>
+<p>
+vimja
+</p>
+</li>
+<li>
+<p>
+wiz
+</p>
+</li>
+<li>
+<p>
+48 Anonymous
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2016">2016</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Mid-2016, qutebrowser did run a <a href="http://igg.me/at/qutebrowser">crowdfunding</a> for
+QtWebEngine support in qutebrowser.</p></div>
+<div class="paragraph"><p>Thanks a lot to the following people who contributed to it:</p></div>
+<div class="sect2">
+<h3 id="_gold_sponsors_2">Gold sponsors</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+Chris Salzberg
+</p>
+</li>
+<li>
+<p>
+Clayton Craft
+</p>
+</li>
+<li>
+<p>
+Jean-Louis Fuchs
+</p>
+</li>
+<li>
+<p>
+Matthias Lisin
+</p>
+</li>
+<li>
+<p>
+1 Anonymous
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_day_sponsors">Day sponsors</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+Agent 42
+</p>
+</li>
+<li>
+<p>
+Iggy Jackson
+</p>
+</li>
+<li>
+<p>
+James B
+</p>
+</li>
+<li>
+<p>
+Rudi Seitz
+</p>
+</li>
+<li>
+<p>
+Tim „Das MooL“ Wegener
+</p>
+</li>
+<li>
+<p>
+amd1212
+</p>
+</li>
+<li>
+<p>
+gavtroy
+</p>
+</li>
+<li>
+<p>
+4 Anonymous
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_other_sponsors_2">Other sponsors</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+AP M
+</p>
+</li>
+<li>
+<p>
+Alessandro Balzano
+</p>
+</li>
+<li>
+<p>
+Allan Nordhøy
+</p>
+</li>
+<li>
+<p>
+Andor Uhlar
+</p>
+</li>
+<li>
+<p>
+Andreas Leppert
+</p>
+</li>
+<li>
+<p>
+Andreas Saga Romsdal
+</p>
+</li>
+<li>
+<p>
+Andrew Rogers / tuxlovesyou
+</p>
+</li>
+<li>
+<p>
+André Glüpker
+</p>
+</li>
+<li>
+<p>
+Arian Sanusi
+</p>
+</li>
+<li>
+<p>
+Arin Lares
+</p>
+</li>
+<li>
+<p>
+Assaf Lavie
+</p>
+</li>
+<li>
+<p>
+Baptiste Wicht
+</p>
+</li>
+<li>
+<p>
+Benjamin Richter
+</p>
+</li>
+<li>
+<p>
+Benjamin Schnitzler
+</p>
+</li>
+<li>
+<p>
+Bernardo Kuri
+</p>
+</li>
+<li>
+<p>
+Boris Kourtoukov
+</p>
+</li>
+<li>
+<p>
+Brian Buccola
+</p>
+</li>
+<li>
+<p>
+Bruno Oliveira
+</p>
+</li>
+<li>
+<p>
+Bryan Gilbert
+</p>
+</li>
+<li>
+<p>
+Cassandra Rebecca Ruppen
+</p>
+</li>
+<li>
+<p>
+Charles Saternos
+</p>
+</li>
+<li>
+<p>
+Chris H
+</p>
+</li>
+<li>
+<p>
+Christian Karl
+</p>
+</li>
+<li>
+<p>
+Christian Lange
+</p>
+</li>
+<li>
+<p>
+Christian Strasser
+</p>
+</li>
+<li>
+<p>
+Colin O&#8217;Brien
+</p>
+</li>
+<li>
+<p>
+Corsin Pfister
+</p>
+</li>
+<li>
+<p>
+Cosmin Popescu
+</p>
+</li>
+<li>
+<p>
+Daniel Andersson
+</p>
+</li>
+<li>
+<p>
+David Wilson
+</p>
+</li>
+<li>
+<p>
+Demure Demeanor
+</p>
+</li>
+<li>
+<p>
+Doug Stone-Weaver
+</p>
+</li>
+<li>
+<p>
+Eero Kari
+</p>
+</li>
+<li>
+<p>
+Enric Morales
+</p>
+</li>
+<li>
+<p>
+Eric Krohn
+</p>
+</li>
+<li>
+<p>
+Eskild Hustvedt
+</p>
+</li>
+<li>
+<p>
+Federico Panico
+</p>
+</li>
+<li>
+<p>
+Felix Van der Jeugt
+</p>
+</li>
+<li>
+<p>
+Francis Tseng
+</p>
+</li>
+<li>
+<p>
+Geir Isene
+</p>
+</li>
+<li>
+<p>
+George Voronin
+</p>
+</li>
+<li>
+<p>
+German Correa
+</p>
+</li>
+<li>
+<p>
+Grady Martin
+</p>
+</li>
+<li>
+<p>
+Gregor Böhl
+</p>
+</li>
+<li>
+<p>
+Guilherme Stein
+</p>
+</li>
+<li>
+<p>
+Hannes Doyle
+</p>
+</li>
+<li>
+<p>
+Hasan Soydabas
+</p>
+</li>
+<li>
+<p>
+Ian Scott
+</p>
+</li>
+<li>
+<p>
+Jacob Boldman
+</p>
+</li>
+<li>
+<p>
+Jacob Wikmark
+</p>
+</li>
+<li>
+<p>
+Jan Verbeek
+</p>
+</li>
+<li>
+<p>
+Jarrod Seccombe
+</p>
+</li>
+<li>
+<p>
+Joel Bradshaw
+</p>
+</li>
+<li>
+<p>
+Johannes Martinsson
+</p>
+</li>
+<li>
+<p>
+Jonas Schürmann
+</p>
+</li>
+<li>
+<p>
+Josh Medeiros
+</p>
+</li>
+<li>
+<p>
+José Alberto Orejuela García
+</p>
+</li>
+<li>
+<p>
+Julie Engel
+</p>
+</li>
+<li>
+<p>
+Jörg Behrmann
+</p>
+</li>
+<li>
+<p>
+Jørgen Skancke
+</p>
+</li>
+<li>
+<p>
+Kevin Kainan Li
+</p>
+</li>
+<li>
+<p>
+Kevin Velghe
+</p>
+</li>
+<li>
+<p>
+Konstantin Shmelkov
+</p>
+</li>
+<li>
+<p>
+Kyle Frazer
+</p>
+</li>
+<li>
+<p>
+Lukas Gierth
+</p>
+</li>
+<li>
+<p>
+Mar v Leeuwaarde
+</p>
+</li>
+<li>
+<p>
+Marek Roszman
+</p>
+</li>
+<li>
+<p>
+Marius Betz
+</p>
+</li>
+<li>
+<p>
+Marius Krämer
+</p>
+</li>
+<li>
+<p>
+Markus Schmidinger
+</p>
+</li>
+<li>
+<p>
+Martin Gabelmann
+</p>
+</li>
+<li>
+<p>
+Martin Zimmermann
+</p>
+</li>
+<li>
+<p>
+Mathias Fußenegger
+</p>
+</li>
+<li>
+<p>
+Maxime Wack
+</p>
+</li>
+<li>
+<p>
+Michał Góral
+</p>
+</li>
+<li>
+<p>
+Nathan Isom
+</p>
+</li>
+<li>
+<p>
+Nathanael Philipp
+</p>
+</li>
+<li>
+<p>
+Nils Stål
+</p>
+</li>
+<li>
+<p>
+Oliver Hope
+</p>
+</li>
+<li>
+<p>
+Oskar Nyberg
+</p>
+</li>
+<li>
+<p>
+Pablo Navarro
+</p>
+</li>
+<li>
+<p>
+Panashe M. Fundira
+</p>
+</li>
+<li>
+<p>
+Patric Schmitz
+</p>
+</li>
+<li>
+<p>
+Pete M
+</p>
+</li>
+<li>
+<p>
+Peter Smith
+</p>
+</li>
+<li>
+<p>
+Phil Collins
+</p>
+</li>
+<li>
+<p>
+Philipp Hansch
+</p>
+</li>
+<li>
+<p>
+Philipp Kuhnz
+</p>
+</li>
+<li>
+<p>
+Raphael Khaiat
+</p>
+</li>
+<li>
+<p>
+Raphael Pierzina
+</p>
+</li>
+<li>
+<p>
+Renan Guilherme
+</p>
+</li>
+<li>
+<p>
+Rick Losie
+</p>
+</li>
+<li>
+<p>
+Robert Cross
+</p>
+</li>
+<li>
+<p>
+Roy Van Ginneken
+</p>
+</li>
+<li>
+<p>
+Rupus Reinefjord
+</p>
+</li>
+<li>
+<p>
+Ryan Roden-Corrent
+</p>
+</li>
+<li>
+<p>
+Samir Benmendil
+</p>
+</li>
+<li>
+<p>
+Simon Giotta
+</p>
+</li>
+<li>
+<p>
+Stephen England
+</p>
+</li>
+<li>
+<p>
+Sverrir H Steindorsson
+</p>
+</li>
+<li>
+<p>
+Tarcisio Fedrizzi
+</p>
+</li>
+<li>
+<p>
+Thorsten Wißmann
+</p>
+</li>
+<li>
+<p>
+Timon Stampfli
+</p>
+</li>
+<li>
+<p>
+Tjelvar Olsson
+</p>
+</li>
+<li>
+<p>
+Tomasz Kramkowski
+</p>
+</li>
+<li>
+<p>
+Tsukiko Tsutsukakushi
+</p>
+</li>
+<li>
+<p>
+Vasilij Schneidermann
+</p>
+</li>
+<li>
+<p>
+Vinney Cavallo
+</p>
+</li>
+<li>
+<p>
+Wesly Grefrath
+</p>
+</li>
+<li>
+<p>
+Will Ware
+</p>
+</li>
+<li>
+<p>
+Yousaf Khurshid
+</p>
+</li>
+<li>
+<p>
+Zach Schultz
+</p>
+</li>
+<li>
+<p>
+averrin
+</p>
+</li>
+<li>
+<p>
+ben hengst
+</p>
+</li>
+<li>
+<p>
+colin
+</p>
+</li>
+<li>
+<p>
+craigtski47
+</p>
+</li>
+<li>
+<p>
+dag.robole
+</p>
+</li>
+<li>
+<p>
+daniel.m.kao
+</p>
+</li>
+<li>
+<p>
+diepfann3
+</p>
+</li>
+<li>
+<p>
+eamonn oneil
+</p>
+</li>
+<li>
+<p>
+esakaforever
+</p>
+</li>
+<li>
+<p>
+francois47
+</p>
+</li>
+<li>
+<p>
+glspisso
+</p>
+</li>
+<li>
+<p>
+gmccoy4242
+</p>
+</li>
+<li>
+<p>
+gtcee3
+</p>
+</li>
+<li>
+<p>
+jonathf
+</p>
+</li>
+<li>
+<p>
+lapinski.maciej
+</p>
+</li>
+<li>
+<p>
+lauri.hakko
+</p>
+</li>
+<li>
+<p>
+ljanzen
+</p>
+</li>
+<li>
+<p>
+mutilx9
+</p>
+</li>
+<li>
+<p>
+nussgipfel
+</p>
+</li>
+<li>
+<p>
+oed
+</p>
+</li>
+<li>
+<p>
+p p
+</p>
+</li>
+<li>
+<p>
+r.c.bruno.andre
+</p>
+</li>
+<li>
+<p>
+robert.perce
+</p>
+</li>
+<li>
+<p>
+sghctoma
+</p>
+</li>
+<li>
+<p>
+targy
+</p>
+</li>
+<li>
+<p>
+freelancer
+</p>
+</li>
+<li>
+<p>
+pupu
+</p>
+</li>
+<li>
+<p>
+regines
+</p>
+</li>
+<li>
+<p>
+37 Anonymous
+</p>
+</li>
+</ul></div>
+</div>
 </div>
 </div>
 </div>
@@ -969,7 +2304,7 @@ Node.js: <a href="https://www.npmjs.com/package/qutejs">qutejs</a>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-01 09:19:21 CET
+ 2018-02-20 08:51:09 CET
 </div>
 </div>
 </body>
