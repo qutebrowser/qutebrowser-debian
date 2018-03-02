@@ -5,6 +5,7 @@ qutebrowser (1.1.2-1) UNRELEASED; urgency=medium
 
   [ Axel Beckert ]
   * Upload to unstable again.
+  * Update copyright years in debian/copyright and add myself there, too.
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Fri, 02 Mar 2018 17:29:47 +0100
 

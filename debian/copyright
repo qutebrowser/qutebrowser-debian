@@ -4,7 +4,7 @@ Upstream-Contact: Florian Bruhin <mail@qutebrowser.org>
 Source: https://github.com/qutebrowser/qutebrowser/
 
 Files: *
-Copyright: 2014-2015 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+Copyright: 2014-2018 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 License: GPL-3+
 
 Files: qutebrowser/javascript/pac_utils.js
@@ -12,7 +12,8 @@ Copyright: 1998 Netscape Communications Corporation
 License: MPL-1.1 or GPL-2+ or LGPL-2.1+
 
 Files: debian/*
-Copyright: 2015 Fritz Reichwald
+Copyright: 2015-2018 Fritz Reichwald <reichwald@b1-systems.de>
+           2017-2018 Axel Beckert <abe@debian.org>
 License: GPL-3+
 
 License: GPL-2+
