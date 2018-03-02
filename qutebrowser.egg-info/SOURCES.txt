@@ -5,6 +5,7 @@ qutebrowser.py
 requirements.txt
 setup.py
 tox.ini
+doc/backers.html
 doc/changelog.asciidoc
 doc/changelog.html
 doc/contributing.html
@@ -183,7 +184,6 @@ qutebrowser/html/doc/img/cheatsheet-small.png
 qutebrowser/img/broken_qutebrowser_logo.png
 qutebrowser/img/file.svg
 qutebrowser/img/folder.svg
-qutebrowser/javascript/cycle-inputs.js
 qutebrowser/javascript/greasemonkey_wrapper.js
 qutebrowser/javascript/history.js
 qutebrowser/javascript/pac_utils.js
