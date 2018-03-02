@@ -1,0 +1,16 @@
+---
+Name: qutebrowser
+Bug-Database: https://github.com/qutebrowser/qutebrowser/issues
+Bug-Submit:
+ - https://github.com/qutebrowser/qutebrowser/issues/new
+ - mailto:qutebrowser@lists.qutebrowser.org
+Security-Contact:
+ Florian Bruhin (GPG Key-ID 916EB0C8FD55A072) <mail@qutebrowser.org>
+Contact: mailto:qutebrowser@lists.qutebrowser.org
+Changelog:
+ https://github.com/qutebrowser/qutebrowser/blob/master/doc/changelog.asciidoc
+Donation: https://qutebrowser.org/#_donating
+FAQ: https://qutebrowser.org/doc/faq.html
+Repository: https://github.com/qutebrowser/qutebrowser.git
+Repository-Browse: https://github.com/qutebrowser/qutebrowser
+Screenshots: https://qutebrowser.org/#_screenshots
