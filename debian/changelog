@@ -1,4 +1,4 @@
-qutebrowser (1.1.2-1) UNRELEASED; urgency=medium
+qutebrowser (1.1.2-1) unstable; urgency=medium
 
   [ Fritz Reichwald ]
   * Import new upstream release
@@ -8,7 +8,7 @@ qutebrowser (1.1.2-1) UNRELEASED; urgency=medium
   * Update copyright years in debian/copyright and add myself there, too.
   * Add a DEP12 debian/upstream/metadata file.
 
- -- Fritz Reichwald <reichwald@b1-systems.de>  Fri, 02 Mar 2018 17:29:47 +0100
+ -- Axel Beckert <abe@debian.org>  Sat, 03 Mar 2018 00:49:01 +0100
 
 qutebrowser (1.1.1-2) experimental; urgency=low
 
