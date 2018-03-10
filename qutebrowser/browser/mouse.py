@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2016-2017 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2016-2018 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -151,8 +151,9 @@ class MouseEventFilter(QObject):
 
         if elem.is_editable():
             log.mouse.debug("Clicked editable element!")
-            modeman.enter(self._tab.win_id, usertypes.KeyMode.insert,
-                          'click', only_if_normal=True)
+            if config.val.input.insert_mode.auto_enter:
+                modeman.enter(self._tab.win_id, usertypes.KeyMode.insert,
+                              'click', only_if_normal=True)
         else:
             log.mouse.debug("Clicked non-editable element!")
             if config.val.input.insert_mode.auto_leave:

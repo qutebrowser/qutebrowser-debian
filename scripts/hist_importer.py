@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2017 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
-# Copyright 2017 Josefson Souza <josefson.br@gmail.com>
+# Copyright 2017-2018 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2017-2018 Josefson Souza <josefson.br@gmail.com>
 
 # This file is part of qutebrowser.
 #
@@ -149,7 +149,8 @@ def run():
     source, dest = args.source, args.dest
     query = {
         'firefox': 'select url,title,last_visit_date/1000000 as date '
-                   'from moz_places',
+                   'from moz_places where url like "http%" or url '
+                   'like "ftp%" or url like "file://%"',
         'chrome': 'select url,title,last_visit_time/10000000 as date '
                   'from urls',
     }

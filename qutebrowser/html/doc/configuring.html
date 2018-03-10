@@ -873,6 +873,9 @@ page by running <code>:set</code> without any arguments, where all settings are 
 customizable.</p></div>
 <div class="paragraph"><p>Using the <a href="commands.html#set"><code>:set</code></a> command and command completion, you
 can quickly set settings interactively, for example <code>:set tabs.position left</code>.</p></div>
+<div class="paragraph"><p>Some settings are also customizable for a given
+<a href="https://developer.chrome.com/apps/match_patterns">URL pattern</a> by doing e.g.
+<code>:set --pattern=*://example.com/ content.images false</code>.</p></div>
 <div class="paragraph"><p>To get more help about a setting, use e.g. <code>:help tabs.position</code>.</p></div>
 <div class="paragraph"><p>To bind and unbind keys, you can use the <a href="commands.html#bind"><code>:bind</code></a> and
 <a href="commands.html#unbind"><code>:unbind</code></a> commands:</p></div>
@@ -1020,6 +1023,20 @@ prefix to preserve backslashes) or a Python regex object:</p></div>
 </pre></div></div></div>
 </div>
 <div class="sect2">
+<h3 id="_per_domain_settings">Per-domain settings</h3>
+<div class="paragraph"><p>Using <code>config.set</code>, some settings are also customizable for a given
+<a href="https://developer.chrome.com/apps/match_patterns">URL pattern</a>:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;content.images&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="s1">&#39;*://example.com/&#39;</span><span class="p">)</span>
+</pre></div></div></div>
+<div class="paragraph"><p>Alternatively, you can use <code>with config.pattern(...) as p:</code> to get a shortcut
+similar to <code>c.</code> which is scoped to the given domain:</p></div>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">pattern</span><span class="p">(</span><span class="s1">&#39;*://example.com/&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">images</span> <span class="o">=</span> <span class="bp">False</span>
+</pre></div></div></div>
+</div>
+<div class="sect2">
 <h3 id="_binding_keys">Binding keys</h3>
 <div class="paragraph"><p>While it&#8217;s possible to change the <code>bindings.commands</code> setting to bind keys, it&#8217;s
 preferred to use the <code>config.bind</code> command. Doing so ensures the commands are
@@ -1078,7 +1095,7 @@ can use <code>config.source('otherfile.py')</code> in your <code>config.py</code
 <div class="sect2">
 <h3 id="_getting_the_config_directory">Getting the config directory</h3>
 <div class="paragraph"><p>If you need to get the qutebrowser config directory, you can do so by reading
-<code>config.configdir</code>. Similarily, you can get the qutebrowser data directory via
+<code>config.configdir</code>. Similarly, you can get the qutebrowser data directory via
 <code>config.datadir</code>.</p></div>
 <div class="paragraph"><p>This gives you a <a href="https://docs.python.org/3/library/pathlib.html"><code>pathlib.Path</code>
 object</a>, on which you can use <code>/</code> to add more directory parts, or <code>str(...)</code> to
@@ -1169,7 +1186,9 @@ to do so:</p></div>
 <h4 id="_reading_colors_from_xresources">Reading colors from Xresources</h4>
 <div class="paragraph"><p>You can use something like this to read colors from an <code>~/.Xresources</code> file:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">read_xresources</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="k">def</span> <span class="nf">read_xresources</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
     <span class="n">props</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;xrdb&#39;</span><span class="p">,</span> <span class="s1">&#39;-query&#39;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -1179,7 +1198,7 @@ to do so:</p></div>
     <span class="k">return</span> <span class="n">props</span>
 
 <span class="n">xresources</span> <span class="o">=</span> <span class="n">read_xresources</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
-<span class="n">c</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">statusbar</span><span class="o">.</span><span class="n">normal</span><span class="o">.</span><span class="n">bg</span> <span class="o">=</span> <span class="n">xresources</span><span class="p">[</span><span class="s1">&#39;*background&#39;</span><span class="p">]</span>
+<span class="n">c</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">statusbar</span><span class="o">.</span><span class="n">normal</span><span class="o">.</span><span class="n">bg</span> <span class="o">=</span> <span class="n">xresources</span><span class="p">[</span><span class="s1">&#39;*.background&#39;</span><span class="p">]</span>
 </pre></div></div></div>
 </div>
 <div class="sect3">
@@ -1210,7 +1229,7 @@ stable across qutebrowser versions):</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-01 09:19:25 CET
+ 2018-03-09 22:43:18 CET
 </div>
 </div>
 </body>

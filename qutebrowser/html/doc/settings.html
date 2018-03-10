@@ -1581,6 +1581,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Which unbound keys to forward to the webview in normal mode.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#input.insert_mode.auto_enter">input.insert_mode.auto_enter</a></p></td>
+<td align="left" valign="top"><p class="table">Enter insert mode if an editable element is clicked.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#input.insert_mode.auto_leave">input.insert_mode.auto_leave</a></p></td>
 <td align="left" valign="top"><p class="table">Leave insert mode if a non-editable element is clicked.</p></td>
 </tr>
@@ -1697,6 +1701,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Position of the status bar.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#statusbar.widgets">statusbar.widgets</a></p></td>
+<td align="left" valign="top"><p class="table">List of widgets displayed in the statusbar.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.background">tabs.background</a></p></td>
 <td align="left" valign="top"><p class="table">Open new tabs (middleclick/ctrl+click) in the background.</p></td>
 </tr>
@@ -1729,6 +1737,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">How to behave when the last tab is closed.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs.mode_on_change">tabs.mode_on_change</a></p></td>
+<td align="left" valign="top"><p class="table">When switching tabs, what input mode is applied.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.mousewheel_switching">tabs.mousewheel_switching</a></p></td>
 <td align="left" valign="top"><p class="table">Switch between tabs using the mouse wheel.</p></td>
 </tr>
@@ -1743,10 +1755,6 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.padding">tabs.padding</a></p></td>
 <td align="left" valign="top"><p class="table">Padding (in pixels) around text for tabs.</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table"><a href="#tabs.persist_mode_on_change">tabs.persist_mode_on_change</a></p></td>
-<td align="left" valign="top"><p class="table">Stay in insert/passthrough mode when switching tabs.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.pinned.shrink">tabs.pinned.shrink</a></p></td>
@@ -1909,7 +1917,7 @@ While it&#8217;s possible to add bindings with this setting, it&#8217;s recommen
 This setting is a dictionary containing mode names and dictionaries mapping keys to commands:
 <code>{mode: {key: command}}</code>
 If you want to map a key to another key, check the <code>bindings.key_mappings</code> setting instead.
-For special keys (can&#8217;t be part of a keychain), enclose them in <code>&lt;</code>&#8230;<code>&gt;</code>. For modifiers, you can use either <code>-</code> or <code>+</code> as delimiters, and these names:</p></div>
+For modifiers, you can use either <code>-</code> or <code>+</code> as delimiters, and these names:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1975,10 +1983,11 @@ command: Entered when pressing the <code>:</code> key in order to enter a comman
 <p>
 prompt: Entered when there&#8217;s a prompt to display, like for download
   locations or when invoked from JavaScript.
- <br />
-  You can bind normal keys in this mode, but they will be only active when
-  a yes/no-prompt is asked. For other prompt modes, you can only bind
-  special keys.
+</p>
+</li>
+<li>
+<p>
+yesno: Entered when there&#8217;s a yes/no prompt displayed.
 </p>
 </li>
 <li>
@@ -2002,6 +2011,7 @@ register: Entered when qutebrowser is waiting for a register name/key for
 <div class="paragraph"><p>Default keybindings. If you want to add bindings, modify <code>bindings.commands</code> instead.
 The main purpose of this setting is that you can set it to an empty dictionary if you want to load no default keybindings at all.
 If you want to preserve default bindings (and get new bindings when there is an update), use <code>config.bind()</code> in <code>config.py</code> or the <code>:bind</code> command, and leave this setting alone.</p></div>
+<div class="paragraph"><p>This setting can only be set in config.py.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Dict</a></p></div>
 <div class="paragraph"><p>Default:</p></div>
 <div class="ulist"><ul>
@@ -2985,12 +2995,72 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>tPH</code>: <code>config-cycle -p -u *://*.{url:host}/* content.plugins ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tPh</code>: <code>config-cycle -p -u *://{url:host}/* content.plugins ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tPu</code>: <code>config-cycle -p -u {url} content.plugins ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tSH</code>: <code>config-cycle -p -u *://*.{url:host}/* content.javascript.enabled ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tSh</code>: <code>config-cycle -p -u *://{url:host}/* content.javascript.enabled ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tSu</code>: <code>config-cycle -p -u {url} content.javascript.enabled ;; reload</code>
+</p>
+</li>
+<li>
+<p>
 <code>th</code>: <code>back -t</code>
 </p>
 </li>
 <li>
 <p>
 <code>tl</code>: <code>forward -t</code>
+</p>
+</li>
+<li>
+<p>
+<code>tpH</code>: <code>config-cycle -p -t -u *://*.{url:host}/* content.plugins ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tph</code>: <code>config-cycle -p -t -u *://{url:host}/* content.plugins ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tpu</code>: <code>config-cycle -p -t -u {url} content.plugins ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tsH</code>: <code>config-cycle -p -t -u *://*.{url:host}/* content.javascript.enabled ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tsh</code>: <code>config-cycle -p -t -u *://{url:host}/* content.javascript.enabled ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tsu</code>: <code>config-cycle -p -t -u {url} content.javascript.enabled ;; reload</code>
 </p>
 </li>
 <li>
@@ -3154,6 +3224,16 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>&lt;Alt-Shift-Y&gt;</code>: <code>prompt-yank --sel</code>
+</p>
+</li>
+<li>
+<p>
+<code>&lt;Alt-Y&gt;</code>: <code>prompt-yank</code>
+</p>
+</li>
+<li>
+<p>
 <code>&lt;Ctrl-?&gt;</code>: <code>rl-delete-char</code>
 </p>
 </li>
@@ -3237,16 +3317,6 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <code>&lt;Up&gt;</code>: <code>prompt-item-focus prev</code>
 </p>
 </li>
-<li>
-<p>
-<code>n</code>: <code>prompt-accept no</code>
-</p>
-</li>
-<li>
-<p>
-<code>y</code>: <code>prompt-accept yes</code>
-</p>
-</li>
 </ul></div>
 </li>
 <li>
@@ -3257,6 +3327,43 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <li>
 <p>
 <code>&lt;Escape&gt;</code>: <code>leave-mode</code>
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+<code>yesno</code>:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>&lt;Alt-Shift-Y&gt;</code>: <code>prompt-yank --sel</code>
+</p>
+</li>
+<li>
+<p>
+<code>&lt;Alt-Y&gt;</code>: <code>prompt-yank</code>
+</p>
+</li>
+<li>
+<p>
+<code>&lt;Escape&gt;</code>: <code>leave-mode</code>
+</p>
+</li>
+<li>
+<p>
+<code>&lt;Return&gt;</code>: <code>prompt-accept</code>
+</p>
+</li>
+<li>
+<p>
+<code>n</code>: <code>prompt-accept no</code>
+</p>
+</li>
+<li>
+<p>
+<code>y</code>: <code>prompt-accept yes</code>
 </p>
 </li>
 </ul></div>
@@ -4008,6 +4115,7 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 <h3 id="content.cache.appcache">content.cache.appcache</h3>
 <div class="paragraph"><p>Enable support for the HTML 5 web application cache feature.
 An application cache acts like an HTTP cache in some sense. For documents that use the application cache via JavaScript, the loader engine will first ask the application cache for the contents, before hitting the network.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
@@ -4083,6 +4191,7 @@ This needs to be enabled for <code>:inspector</code> to work and also adds an <e
 <div class="sect2">
 <h3 id="content.dns_prefetch">content.dns_prefetch</h3>
 <div class="paragraph"><p>Try to pre-fetch DNS entries to speed up browsing.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
@@ -4091,6 +4200,7 @@ This needs to be enabled for <code>:inspector</code> to work and also adds an <e
 <h3 id="content.frame_flattening">content.frame_flattening</h3>
 <div class="paragraph"><p>Expand each subframe to its contents.
 This will flatten all the frames to become one scrollable page.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
@@ -4141,7 +4251,7 @@ When this is set to true, qutebrowser asks websites to not track your identity. 
 <div class="sect2">
 <h3 id="content.headers.referer">content.headers.referer</h3>
 <div class="paragraph"><p>When to send the Referer header.
-The Referer header tells websites from which website you were coming from when visting them.</p></div>
+The Referer header tells websites from which website you were coming from when visiting them.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4246,12 +4356,14 @@ Local domains are always exempt from hostblocking.</p></div>
 <div class="sect2">
 <h3 id="content.hyperlink_auditing">content.hyperlink_auditing</h3>
 <div class="paragraph"><p>Enable hyperlink auditing (<code>&lt;a ping&gt;</code>).</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.images">content.images</h3>
 <div class="paragraph"><p>Load images automatically in web pages.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -4265,12 +4377,14 @@ Local domains are always exempt from hostblocking.</p></div>
 <h3 id="content.javascript.can_access_clipboard">content.javascript.can_access_clipboard</h3>
 <div class="paragraph"><p>Allow JavaScript to read from or write to the clipboard.
 With QtWebEngine, writing the clipboard as response to a user interaction is always allowed.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.javascript.can_close_tabs">content.javascript.can_close_tabs</h3>
 <div class="paragraph"><p>Allow JavaScript to close tabs.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
@@ -4278,12 +4392,14 @@ With QtWebEngine, writing the clipboard as response to a user interaction is alw
 <div class="sect2">
 <h3 id="content.javascript.can_open_tabs_automatically">content.javascript.can_open_tabs_automatically</h3>
 <div class="paragraph"><p>Allow JavaScript to open new tabs without user interaction.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.javascript.enabled">content.javascript.enabled</h3>
 <div class="paragraph"><p>Enable JavaScript.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -4332,18 +4448,21 @@ On QtWebKit, the "unknown" setting is always used.</p></div>
 <div class="sect2">
 <h3 id="content.local_content_can_access_file_urls">content.local_content_can_access_file_urls</h3>
 <div class="paragraph"><p>Allow locally loaded documents to access other local URLs.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.local_content_can_access_remote_urls">content.local_content_can_access_remote_urls</h3>
 <div class="paragraph"><p>Allow locally loaded documents to access remote URLs.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.local_storage">content.local_storage</h3>
 <div class="paragraph"><p>Enable support for HTML 5 local storage and Web SQL.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -4415,12 +4534,14 @@ Note that the files can still be downloaded by clicking the download button in t
 <div class="sect2">
 <h3 id="content.plugins">content.plugins</h3>
 <div class="paragraph"><p>Enable plugins in Web pages.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.print_element_backgrounds">content.print_element_backgrounds</h3>
 <div class="paragraph"><p>Draw the background color and images also when the page is printed.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.8 or newer.</p></div>
@@ -4491,6 +4612,7 @@ In addition to the listed values, you can use a <code>socks://...</code> or <cod
 <div class="sect2">
 <h3 id="content.webgl">content.webgl</h3>
 <div class="paragraph"><p>Enable WebGL.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -4504,6 +4626,7 @@ In addition to the listed values, you can use a <code>socks://...</code> or <cod
 <h3 id="content.xss_auditing">content.xss_auditing</h3>
 <div class="paragraph"><p>Monitor load requests for cross-site scripting attempts.
 Suspicious scripts will be blocked and reported in the inspector&#8217;s JavaScript console. Enabling this feature might have an impact on performance.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
@@ -4989,6 +5112,12 @@ Items with less time between them are grouped when being displayed in <code>:his
 <div class="paragraph"><p>Default: <code>auto</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="input.insert_mode.auto_enter">input.insert_mode.auto_enter</h3>
+<div class="paragraph"><p>Enter insert mode if an editable element is clicked.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="input.insert_mode.auto_leave">input.insert_mode.auto_leave</h3>
 <div class="paragraph"><p>Leave insert mode if a non-editable element is clicked.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
@@ -5009,6 +5138,7 @@ Items with less time between them are grouped when being displayed in <code>:his
 <div class="sect2">
 <h3 id="input.links_included_in_focus_chain">input.links_included_in_focus_chain</h3>
 <div class="paragraph"><p>Include hyperlinks in the keyboard focus chain when tabbing.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -5030,6 +5160,7 @@ This disables the context menu.</p></div>
 <h3 id="input.spatial_navigation">input.spatial_navigation</h3>
 <div class="paragraph"><p>Enable spatial navigation.
 Spatial navigation consists in the ability to navigate between focusable elements in a Web page, such as hyperlinks and form controls, by using Left, Right, Up and Down arrow keys. For example, if the user presses the Right key, heuristics determine whether there is an element he might be trying to reach towards the right and which element he probably wants.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
@@ -5181,6 +5312,7 @@ This setting requires a restart.</p></div>
 <h3 id="scrolling.smooth">scrolling.smooth</h3>
 <div class="paragraph"><p>Enable smooth scrolling for web pages.
 Note smooth scrolling does not work with the <code>:scroll-px</code> command.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
@@ -5508,6 +5640,82 @@ You can check for available languages and install dictionaries using scripts/dic
 <div class="paragraph"><p>Default: <code>bottom</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="statusbar.widgets">statusbar.widgets</h3>
+<div class="paragraph"><p>List of widgets displayed in the statusbar.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">List of String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>url</code>: Current page URL.
+</p>
+</li>
+<li>
+<p>
+<code>scroll</code>: Percentage of the current page position like <code>10%</code>.
+</p>
+</li>
+<li>
+<p>
+<code>scroll_raw</code>: Raw percentage of the current page position like <code>10</code>.
+</p>
+</li>
+<li>
+<p>
+<code>history</code>: Display an arrow when possible to go back/forward in history.
+</p>
+</li>
+<li>
+<p>
+<code>tabs</code>: Current active tab, e.g. <code>2</code>.
+</p>
+</li>
+<li>
+<p>
+<code>keypress</code>: Display pressed keys when composing a vi command.
+</p>
+</li>
+<li>
+<p>
+<code>progress</code>: Progress bar for the current page loading.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>keypress</code>
+</p>
+</li>
+<li>
+<p>
+<code>url</code>
+</p>
+</li>
+<li>
+<p>
+<code>scroll</code>
+</p>
+</li>
+<li>
+<p>
+<code>history</code>
+</p>
+</li>
+<li>
+<p>
+<code>tabs</code>
+</p>
+</li>
+<li>
+<p>
+<code>progress</code>
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
 <h3 id="tabs.background">tabs.background</h3>
 <div class="paragraph"><p>Open new tabs (middleclick/ctrl+click) in the background.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
@@ -5648,6 +5856,30 @@ The tab size is unchanged, so big favicons also require extra <code>tabs.padding
 <div class="paragraph"><p>Default: <code>ignore</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="tabs.mode_on_change">tabs.mode_on_change</h3>
+<div class="paragraph"><p>When switching tabs, what input mode is applied.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>persist</code>: Retain the current mode.
+</p>
+</li>
+<li>
+<p>
+<code>restore</code>: Restore previously saved mode.
+</p>
+</li>
+<li>
+<p>
+<code>normal</code>: Always revert to normal mode.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>normal</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="tabs.mousewheel_switching">tabs.mousewheel_switching</h3>
 <div class="paragraph"><p>Switch between tabs using the mouse wheel.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
@@ -5738,12 +5970,6 @@ The tab size is unchanged, so big favicons also require extra <code>tabs.padding
 </p>
 </li>
 </ul></div>
-</div>
-<div class="sect2">
-<h3 id="tabs.persist_mode_on_change">tabs.persist_mode_on_change</h3>
-<div class="paragraph"><p>Stay in insert/passthrough mode when switching tabs.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="tabs.pinned.shrink">tabs.pinned.shrink</h3>
@@ -6000,6 +6226,11 @@ Use <code>about:blank</code> for a blank page.</p></div>
 </li>
 <li>
 <p>
+<code>port</code>
+</p>
+</li>
+<li>
+<p>
 <code>path</code>
 </p>
 </li>
@@ -6204,6 +6435,7 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="zoom.text_only">zoom.text_only</h3>
 <div class="paragraph"><p>Apply the zoom factor on a frame only to the text or to all content.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
@@ -6405,7 +6637,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-01 09:19:33 CET
+ 2018-03-09 22:43:25 CET
 </div>
 </div>
 </body>

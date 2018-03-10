@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2017 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2018 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -291,8 +291,7 @@ class HintActions:
         user_agent = context.tab.user_agent()
 
         # FIXME:qtwebengine do this with QtWebEngine downloads?
-        download_manager = objreg.get('qtnetwork-download-manager',
-                                      scope='window', window=self._win_id)
+        download_manager = objreg.get('qtnetwork-download-manager')
         download_manager.get(url, qnam=qnam, user_agent=user_agent,
                              prompt_download_directory=prompt)
 
@@ -910,20 +909,27 @@ class HintManager(QObject):
 
     @cmdutils.register(instance='hintmanager', scope='tab',
                        modes=[usertypes.KeyMode.hint])
-    def follow_hint(self, keystring=None):
+    def follow_hint(self, select=False, keystring=None):
         """Follow a hint.
 
         Args:
+            select: Only select the given hint, don't necessarily follow it.
             keystring: The hint to follow, or None.
         """
         if keystring is None:
             if self._context.to_follow is None:
                 raise cmdexc.CommandError("No hint to follow")
+            elif select:
+                raise cmdexc.CommandError("Can't use --select without hint.")
             else:
                 keystring = self._context.to_follow
         elif keystring not in self._context.labels:
             raise cmdexc.CommandError("No hint {}!".format(keystring))
-        self._fire(keystring)
+
+        if select:
+            self.handle_partial_key(keystring)
+        else:
+            self._fire(keystring)
 
     @pyqtSlot(usertypes.KeyMode)
     def on_mode_left(self, mode):

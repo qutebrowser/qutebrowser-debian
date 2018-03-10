@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2017 Ryan Roden-Corrent (rcorre) <ryan@rcorre.net>
+# Copyright 2017-2018 Ryan Roden-Corrent (rcorre) <ryan@rcorre.net>
 #
 # This file is part of qutebrowser.
 #
@@ -80,7 +80,7 @@ class HistoryCategory(QSqlQueryModel):
             for i in range(len(words)))
 
         # replace ' in timestamp-format to avoid breaking the query
-        timestamp_format = config.val.completion.timestamp_format
+        timestamp_format = config.val.completion.timestamp_format or ''
         timefmt = ("strftime('{}', last_atime, 'unixepoch', 'localtime')"
                    .format(timestamp_format.replace("'", "`")))
 

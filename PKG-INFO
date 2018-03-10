@@ -1,6 +1,6 @@
 Metadata-Version: 1.2
 Name: qutebrowser
-Version: 1.1.2
+Version: 1.2.0
 Summary: A keyboard-driven, vim-like browser based on PyQt5.
 Home-page: https://www.qutebrowser.org/
 Author: Florian Bruhin
@@ -53,8 +53,8 @@ Description: // If you are reading this in plaintext or on PyPi:
         In addition to the topics mentioned in this README, the following documents are
         available:
         
-        * https://qutebrowser.org/img/cheatsheet-big.png[Key binding cheatsheet]: +
-        image:https://qutebrowser.org/img/cheatsheet-small.png["qutebrowser key binding cheatsheet",link="https://qutebrowser.org/img/cheatsheet-big.png"]
+        * https://raw.githubusercontent.com/qutebrowser/qutebrowser/master/doc/img/cheatsheet-big.png[Key binding cheatsheet]: +
+        image:https://raw.githubusercontent.com/qutebrowser/qutebrowser/master/doc/img/cheatsheet-small.png["qutebrowser key binding cheatsheet",link="https://raw.githubusercontent.com/qutebrowser/qutebrowser/master/doc/img/cheatsheet-big.png"]
         * link:doc/quickstart.asciidoc[Quick start guide]
         * https://www.shortcutfoo.com/app/dojos/qutebrowser[Free training course] to remember those key bindings
         * link:doc/faq.asciidoc[Frequently asked questions]
@@ -100,7 +100,7 @@ Description: // If you are reading this in plaintext or on PyPi:
         mailto:qutebrowser@lists.qutebrowser.org[].
         
         For security bugs, please contact me directly at mail@qutebrowser.org, GPG ID
-        https://www.the-compiler.org/pubkey.asc[0xFD55A072].
+        https://www.the-compiler.org/pubkey.asc[0x916eb0c8fd55a072].
         
         Requirements
         ------------
@@ -123,7 +123,7 @@ Description: // If you are reading this in plaintext or on PyPi:
         * http://fdik.org/pyPEG/[pyPEG2]
         * http://jinja.pocoo.org/[jinja2]
         * http://pygments.org/[pygments]
-        * http://pyyaml.org/wiki/PyYAML[PyYAML]
+        * https://github.com/yaml/pyyaml[PyYAML]
         * http://www.attrs.org/[attrs]
         
         The following libraries are optional:
@@ -256,6 +256,7 @@ Classifier: Operating System :: POSIX :: BSD
 Classifier: Programming Language :: Python :: 3
 Classifier: Programming Language :: Python :: 3.5
 Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
 Classifier: Topic :: Internet
 Classifier: Topic :: Internet :: WWW/HTTP
 Classifier: Topic :: Internet :: WWW/HTTP :: Browsers

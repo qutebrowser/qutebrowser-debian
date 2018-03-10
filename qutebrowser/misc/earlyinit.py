@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2017 Florian Bruhin (The-Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2018 Florian Bruhin (The-Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -172,12 +172,17 @@ def check_qt_version():
     from PyQt5.QtCore import (qVersion, QT_VERSION, PYQT_VERSION,
                               PYQT_VERSION_STR)
     from pkg_resources import parse_version
+    from qutebrowser.utils import log
     if (QT_VERSION < 0x050701 or PYQT_VERSION < 0x050700 or
             parse_version(qVersion()) < parse_version('5.7.1')):
         text = ("Fatal error: Qt >= 5.7.1 and PyQt >= 5.7 are required, "
                 "but Qt {} / PyQt {} is installed.".format(qt_version(),
                                                            PYQT_VERSION_STR))
         _die(text)
+
+    if qVersion().startswith('5.8.'):
+        log.init.warning("Running qutebrowser with Qt 5.8 is untested and "
+                         "unsupported!")
 
 
 def check_ssl_support():
