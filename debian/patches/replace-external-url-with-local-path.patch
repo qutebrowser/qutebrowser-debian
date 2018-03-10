@@ -1,0 +1,22 @@
+Description: replace remote URLs of images with file:/// URLs of local images
+ Fixes Lintian warning privacy-breach-generic
+Author: Axel Beckert <abe@debian.org>
+Forwarded: yes
+
+--- a/qutebrowser/html/doc/quickstart.html
++++ b/qutebrowser/html/doc/quickstart.html
+@@ -877,11 +877,11 @@
+ <div class="ulist"><ul>
+ <li>
+ <p>
+-View the <a href="https://qutebrowser.org/img/cheatsheet-big.png">key binding cheatsheet</a>
++View the <a href="file:///usr/lib/python3/dist-packages/qutebrowser/html/doc/img/cheatsheet-big.png">key binding cheatsheet</a>
+ to make yourself familiar with the key bindings:<br />
+ <span class="image">
+-<a class="image" href="https://qutebrowser.org/img/cheatsheet-big.png">
+-<img src="https://qutebrowser.org/img/cheatsheet-small.png" alt="qutebrowser key binding cheatsheet" />
++<a class="image" href="file:///usr/lib/python3/dist-packages/qutebrowser/html/doc/img/cheatsheet-big.png">
++<img src="file:///usr/lib/python3/dist-packages/qutebrowser/html/doc/img/cheatsheet-small.png" alt="qutebrowser key binding cheatsheet" />
+ </a>
+ </span>
+ </p>

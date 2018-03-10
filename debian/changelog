@@ -1,6 +1,11 @@
 qutebrowser (1.2.0-1) UNRELEASED; urgency=medium
 
+  [ Fritz Reichwald ]
   * Import new upstream release
+
+  [ Axel Beckert ]
+  * Add patch to replace remote URLs of images with file:/// URLs of local
+    images in quickstart.html. Fixes privacy-related lintian warning.
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Sat, 10 Mar 2018 18:13:33 +0100
 
