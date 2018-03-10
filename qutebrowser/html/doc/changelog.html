@@ -807,10 +807,478 @@ breaking changes (such as renamed commands) can happen in minor releases.</p></d
 </div>
 </div>
 <div class="sect1">
+<h2 id="_v1_2_0">v1.2.0</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added">Added</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+Initial implementation of per-domain settings:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>:set</code> and <code>:config-cycle</code> now have a <code>-u</code>/<code>--pattern</code> argument taking a
+    <a href="https://developer.chrome.com/extensions/match_patterns">URL match pattern</a>
+    for supported settings.
+</p>
+</li>
+<li>
+<p>
+<code>config.set</code> in <code>config.py</code> now takes a third argument which is the pattern.
+</p>
+</li>
+<li>
+<p>
+New <code>with config.pattern('...') as p:</code> context manager for <code>config.py</code> to
+    use the shorthand syntax with a pattern.
+</p>
+</li>
+<li>
+<p>
+New <code>tsh</code> keybinding to toggle scripts for the current host. With a capital
+    <code>S</code>, the toggle is saved. With a capital <code>H</code>, subdomains are included. With
+    <code>u</code> instead of <code>h</code>, the exact current URL is used.
+</p>
+</li>
+<li>
+<p>
+New <code>tph</code> keybinding to toggle plugins, with the same additional binding
+    described above.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+New QtWebEngine features:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Caret/visual mode
+</p>
+</li>
+<li>
+<p>
+Authentication via ~/.netrc
+</p>
+</li>
+<li>
+<p>
+Retrying downloads with Qt 5.10 or newer
+</p>
+</li>
+<li>
+<p>
+Hinting and other features inside same-origin frames
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+New flags for existing commands:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>:session-load</code> has a new <code>--delete</code> flag which deletes the
+    session after loading it.
+</p>
+</li>
+<li>
+<p>
+New <code>--no-last</code> flag for <code>:tab-focus</code> to not focus the last tab when focusing
+    the currently focused one.
+</p>
+</li>
+<li>
+<p>
+New <code>--edit</code> flag for <code>:view-source</code> to open the source in an external editor.
+</p>
+</li>
+<li>
+<p>
+New <code>--select</code> flag for <code>:follow-hint</code> which acts like the given string was entered but doesn&#8217;t necessary follow the hint.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+New special pages:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>qute://bindings</code> (opened via <code>:bind</code>) which shows all keybindings.
+</p>
+</li>
+<li>
+<p>
+<code>qute://tabs</code> (opened via <code>:buffer</code>) which lists all tabs.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+New settings:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>statusbar.widgets</code> to configure which widgets should be shown in which
+    order in the statusbar.
+</p>
+</li>
+<li>
+<p>
+<code>tabs.mode_on_change</code> which replaces <code>tabs.persist_mode_on_change</code>. It can
+    now be set to <code>restore</code> which remembers input modes (input/passthrough)
+    per tab.
+</p>
+</li>
+<li>
+<p>
+<code>input.insert_mode.auto_enter</code> which makes it possible to disable entering
+    insert mode automatically when an editable element was clicked. Together
+    with <code>input.forward_unbound_keys</code>, this should allow for emacs-like
+    "modeless" keybindings.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+New <code>:prompt-yank</code> command (bound to <code>Alt-y</code> by default) to yank URLs
+  referenced in prompts.
+</p>
+</li>
+<li>
+<p>
+The <code>hostblock_blame</code> script which was removed in v1.0 was updated for the new
+  config and re-added.
+</p>
+</li>
+<li>
+<p>
+New <code>cycle-inputs.js</code> script in <code>scripts/</code> which can be used with <code>:jseval -f</code>
+  to cycle through inputs.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_changed">Changed</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+Complete refactoring of key input handling, with various effects:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+emacs-like keychains such as <code>&lt;Ctrl-X&gt;&lt;Ctrl-C&gt;</code> can now be bound.
+</p>
+</li>
+<li>
+<p>
+Key chains can now be bound in any mode (this allows binding unused keys in
+    hint mode).
+</p>
+</li>
+<li>
+<p>
+Yes/no prompts don&#8217;t use keybindings from the <code>prompt</code> section anymore, they
+    have their own <code>yesno</code> section instead.
+</p>
+</li>
+<li>
+<p>
+Trying to bind invalid keys now shows an error.
+</p>
+</li>
+<li>
+<p>
+The <code>bindings.default</code> setting can now only be set in a <code>config.py</code>, and
+    existing values in <code>autoconfig.yml</code> are ignored.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+Improvements for GreaseMonkey support:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>@include</code> and <code>@exclude</code> now support regex matches. With QtWebEngine and Qt
+    5.8 and newer, Qt handles the matching, but similar functionality will be
+    added in Qt 5.11.
+</p>
+</li>
+<li>
+<p>
+Support for <code>@requires</code>
+</p>
+</li>
+<li>
+<p>
+Support for the GreaseMonkey 4.0 API
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+The sqlite history now uses write-ahead logging which should be
+  a performance and stability improvement.
+</p>
+</li>
+<li>
+<p>
+When an editor is spawned with <code>:open-editor</code> and <code>:config-edit</code>, the changes
+  are now applied as soon as the file is saved in the editor.
+</p>
+</li>
+<li>
+<p>
+The <code>hist_importer.py</code> script now only imports URL schemes qutebrowser can
+  handle.
+</p>
+</li>
+<li>
+<p>
+Deleting a prefix (<code>:</code>, <code>/</code> or <code>?</code>) via backspace now leaves command mode.
+</p>
+</li>
+<li>
+<p>
+Angular 1 elements and <code>&lt;summary&gt;</code>/<code>&lt;details&gt;</code> now get hints assigned.
+</p>
+</li>
+<li>
+<p>
+<code>:tab-only</code> with pinned tabs now still closes unpinned tabs.
+</p>
+</li>
+<li>
+<p>
+The <code>url.incdec_segments</code> option now also can take <code>port</code> as possible segment.
+</p>
+</li>
+<li>
+<p>
+QtWebEngine: <code>:view-source</code> now uses Chromium&#8217;s <code>view-source:</code> scheme.
+</p>
+</li>
+<li>
+<p>
+Tabs now show their full title as tooltip.
+</p>
+</li>
+<li>
+<p>
+When there are multiple unknown keys in a autoconfig.yml, they now all get
+  reported in one error.
+</p>
+</li>
+<li>
+<p>
+More performance improvements when opening/closing many tabs.
+</p>
+</li>
+<li>
+<p>
+The <code>:version</code> page now has a button to pastebin the information.
+</p>
+</li>
+<li>
+<p>
+Replacements like <code>{url}</code> can now be escaped as <code>{{url}}</code>.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_fixed">Fixed</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+QtWebEngine bugfixes:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Improved fullscreen handling with Qt 5.10.
+</p>
+</li>
+<li>
+<p>
+Hinting and scrolling now works properly on special <code>view-source:</code> pages.
+</p>
+</li>
+<li>
+<p>
+Scroll positions are now restored correctly from sessions.
+</p>
+</li>
+<li>
+<p>
+<code>:follow-selected</code> should now work in more cases with Qt &gt; 5.10.
+</p>
+</li>
+<li>
+<p>
+Incremental search now flickers less and doesn&#8217;t move to the second result
+    when pressing Enter.
+</p>
+</li>
+<li>
+<p>
+Keys like <code>Ctrl-V</code> or <code>Shift-Insert</code> are now correctly handled/filtered with
+    Qt 5.10.
+</p>
+</li>
+<li>
+<p>
+Fixed hangs/segfaults on exit with Qt 5.10.1.
+</p>
+</li>
+<li>
+<p>
+Fixed favicons sometimes getting cleared with Qt 5.10.
+</p>
+</li>
+<li>
+<p>
+Qt download objects are now cleaned up properly when a download is removed.
+</p>
+</li>
+<li>
+<p>
+JavaScript messages are now not double-HTML escaped anymore on Qt &lt; 5.11
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+QtWebKit bugfixes:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Fixed GreaseMonkey-related crashes.
+</p>
+</li>
+<li>
+<p>
+<code>:view-source</code> now displays a valid URL.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+URLs containing ampersands and other special chars are now shown correctly
+  when filtering them in the completion.
+</p>
+</li>
+<li>
+<p>
+<code>:bookmark-add "" foo</code> can now be used to save the current URL with a custom
+  title.
+</p>
+</li>
+<li>
+<p>
+<code>:spawn -o</code> now waits until the process has finished before trying to show the
+  output. Previously, it incorrectly showed the previous output immediately.
+</p>
+</li>
+<li>
+<p>
+Suspended pages now should always load the correct page when being un-suspended.
+</p>
+</li>
+<li>
+<p>
+Exception types are now shown properly with <code>:config-source</code> and <code>:config-edit</code>.
+</p>
+</li>
+<li>
+<p>
+When using <code>:bookmark-add --toggle</code>, bookmarks are now saved properly.
+</p>
+</li>
+<li>
+<p>
+Crash when opening an invalid URL from an application on macOS.
+</p>
+</li>
+<li>
+<p>
+Crash with an empty <code>completion.timestamp_format</code>.
+</p>
+</li>
+<li>
+<p>
+Crash when <code>completion.min_chars</code> is set in some cases.
+</p>
+</li>
+<li>
+<p>
+HTML/JS resource files are now read into RAM on start to avoid crashes when
+  changing qutebrowser versions while it&#8217;s open.
+</p>
+</li>
+<li>
+<p>
+Setting <code>bindings.key_mappings</code> to an empty value is now allowed.
+</p>
+</li>
+<li>
+<p>
+Bindings to an empty commands are now ignored rather than crashing.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_removed">Removed</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>QUTE_SELECTED_HTML</code> is now not set for userscripts anymore except when called
+  via hints.
+</p>
+</li>
+<li>
+<p>
+The <code>qutebrowser_viewsource</code> userscript has been removed as
+  <code>:view-source --edit</code> can now be used.
+</p>
+</li>
+<li>
+<p>
+The <code>tabs.persist_mode_on_change</code> setting has been removed and replaced by
+  <code>tabs.mode_on_change</code>.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_v1_1_2">v1.1.2</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_changed">Changed</h3>
+<h3 id="_changed_2">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -821,7 +1289,7 @@ Windows/macOS releases now bundle Qt 5.10.1 which includes security fixes from
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed">Fixed</h3>
+<h3 id="_fixed_2">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -841,7 +1309,7 @@ Compatibility with Python 3.7
 <h2 id="_v1_1_1">v1.1.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_2">Fixed</h3>
+<h3 id="_fixed_3">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -861,7 +1329,7 @@ Fixed crashes with Qt 5.10 when closing a tab before it finished loading.
 <h2 id="_v1_1_0">v1.1.0</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added">Added</h3>
+<h3 id="_added_2">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1043,7 +1511,7 @@ New <code>hist_importer.py</code> script to import history from Firefox/Chromium
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_2">Changed</h3>
+<h3 id="_changed_3">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1198,7 +1666,7 @@ The <code>colors.completion.fg</code> setting can now be a list, allowing to spe
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_3">Fixed</h3>
+<h3 id="_fixed_4">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1308,7 +1776,7 @@ Fixed a crash when clicking certain form elements with QtWebEngine.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_removed">Removed</h3>
+<h3 id="_removed_2">Removed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1341,7 +1809,7 @@ The <code>x[xtb]</code> default bindings got removed again as many users acciden
 <h2 id="_v1_0_4">v1.0.4</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_4">Fixed</h3>
+<h3 id="_fixed_5">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1381,7 +1849,7 @@ Fix crash when setting content.cache.size to a big value (&gt; 2 GB)
 <h2 id="_v1_0_3">v1.0.3</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_changed_3">Changed</h3>
+<h3 id="_changed_4">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1404,7 +1872,7 @@ The :open-editor command is now not hidden anymore as it&#8217;s also usable in
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_5">Fixed</h3>
+<h3 id="_fixed_6">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1435,7 +1903,7 @@ Completions are now sorted correctly again when filtered
 <h2 id="_v1_0_2">v1.0.2</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_6">Fixed</h3>
+<h3 id="_fixed_7">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1470,7 +1938,7 @@ Fix wrong rendering of keys like <code>&lt;back&gt;</code> in the completion
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_4">Changed</h3>
+<h3 id="_changed_5">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1485,7 +1953,7 @@ Nicer error messages and other minor improvements
 <h2 id="_v1_0_1">v1.0.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_7">Fixed</h3>
+<h3 id="_fixed_8">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1601,7 +2069,7 @@ Up/Down now navigates through the command history instead of selecting
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_added_2">Added</h3>
+<h3 id="_added_3">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1685,7 +2153,7 @@ QtWebEngine: Support for proxy authentication.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_5">Changed</h3>
+<h3 id="_changed_6">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1728,7 +2196,7 @@ Pinned tabs now adjust to their text&#8217;s width, so the <code>tabs.width.pinn
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_removed_2">Removed</h3>
+<h3 id="_removed_3">Removed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1845,7 +2313,7 @@ New dependency on <code>PyOpenGL</code> if QtWebEngine is used.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_added_3">Added</h3>
+<h3 id="_added_4">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1920,7 +2388,7 @@ New <code>{private}</code> field displaying <code>[Private Mode]</code> for
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_6">Changed</h3>
+<h3 id="_changed_7">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2085,7 +2553,7 @@ Trying to focus the currently focused tab with <code>:tab-focus</code> now focus
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_8">Fixed</h3>
+<h3 id="_fixed_9">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2246,7 +2714,7 @@ Scrolling to an anchor in a background tab now works correctly, and javascript
 <h2 id="_v0_10_1">v0.10.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_changed_7">Changed</h3>
+<h3 id="_changed_8">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2256,7 +2724,7 @@ Scrolling to an anchor in a background tab now works correctly, and javascript
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_9">Fixed</h3>
+<h3 id="_fixed_10">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2311,7 +2779,7 @@ Crash when trying to open a file twice on Windows
 <h2 id="_v0_10_0">v0.10.0</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_4">Added</h3>
+<h3 id="_added_5">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2403,7 +2871,7 @@ macOS builds are back, and built with QtWebEngine
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_8">Changed</h3>
+<h3 id="_changed_9">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2454,7 +2922,7 @@ qutebrowser now automatically uses QtWebEngine if QtWebKit is unavailable
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_removed_3">Removed</h3>
+<h3 id="_removed_4">Removed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2501,7 +2969,7 @@ qutebrowser now automatically uses QtWebEngine if QtWebKit is unavailable
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_10">Fixed</h3>
+<h3 id="_fixed_11">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2632,7 +3100,7 @@ Lines in Jupyter notebook now trigger insert mode
 <h2 id="_v0_9_1">v0.9.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_11">Fixed</h3>
+<h3 id="_fixed_12">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2648,7 +3116,7 @@ Prevent websites from downloading files to a location outside of the download
 <h2 id="_v0_9_0">v0.9.0</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_5">Added</h3>
+<h3 id="_added_6">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2778,7 +3246,7 @@ Support for PAC (proxy autoconfig) with QtWebKit
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_9">Changed</h3>
+<h3 id="_changed_10">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3133,7 +3601,7 @@ The <code>:prompt-yes</code> and <code>:prompt-no</code> commands got deprecated
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_removed_4">Removed</h3>
+<h3 id="_removed_5">Removed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3179,7 +3647,7 @@ The <code>-c</code>/<code>--confdir</code>, <code>--datadir</code> and <code>--c
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_12">Fixed</h3>
+<h3 id="_fixed_13">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3231,7 +3699,7 @@ Fixed crash when a included HTML was not found
 <h2 id="_v0_8_3">v0.8.3</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_13">Fixed</h3>
+<h3 id="_fixed_14">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3302,7 +3770,7 @@ Userscripts now can access QUTE_FIFO correctly on Windows
 <h2 id="_v0_8_2">v0.8.2</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_14">Fixed</h3>
+<h3 id="_fixed_15">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3376,7 +3844,7 @@ Fixed <code>:restart</code> deleting the basedir when it was given with <code>--
 <h2 id="_v0_8_1">v0.8.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_15">Fixed</h3>
+<h3 id="_fixed_16">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3402,7 +3870,7 @@ Hide Harfbuzz warning with the macOS .app
 <h2 id="_v0_8_0">v0.8.0</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_6">Added</h3>
+<h3 id="_added_7">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3454,7 +3922,7 @@ New <code>--pdf &lt;filename&gt;</code> argument for <code>:print</code> WHICH c
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_10">Changed</h3>
+<h3 id="_changed_11">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3495,7 +3963,7 @@ New <code>taskadd</code> userscript to add a taskwarrior task annotated with the
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fixed_16">Fixed</h2>
+<h2 id="_fixed_17">Fixed</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -3524,7 +3992,7 @@ Using <code>:jump-mark</code> (e.g. <code>''</code>) when the current URL is inv
 </div>
 </div>
 <div class="sect1">
-<h2 id="_removed_5">Removed</h2>
+<h2 id="_removed_6">Removed</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -3554,7 +4022,7 @@ The <code>general -&gt; wrap-search</code> setting as searches now always wrap.
 <h2 id="_v0_7_0">v0.7.0</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_7">Added</h3>
+<h3 id="_added_8">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3634,7 +4102,7 @@ New <code>inputs</code> group for <code>:hint</code> to hint text input fields.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_11">Changed</h3>
+<h3 id="_changed_12">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3751,7 +4219,7 @@ Better history implementation which also stores titles.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fixed_17">Fixed</h2>
+<h2 id="_fixed_18">Fixed</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -3859,7 +4327,7 @@ Strip off trailing spaces for history entries with no title
 <h2 id="_v0_6_2">v0.6.2</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_18">Fixed</h3>
+<h3 id="_fixed_19">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3896,7 +4364,7 @@ Fixed various crashes related to PyQt 5.6
 <h2 id="_v0_6_1">v0.6.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_19">Fixed</h3>
+<h3 id="_fixed_20">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3926,7 +4394,7 @@ Added workaround for a Qt/PyQt bug which is too weird to describe here
 <h2 id="_v0_6_0">v0.6.0</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_8">Added</h3>
+<h3 id="_added_9">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3979,7 +4447,7 @@ New <code>current</code> hinting mode which forces opening hints in the current 
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_12">Changed</h3>
+<h3 id="_changed_13">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4036,7 +4504,7 @@ Blocked hosts are now also read from a <code>blocked-hosts</code> file in the co
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_20">Fixed</h3>
+<h3 id="_fixed_21">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4127,7 +4595,7 @@ Fixed "Frame load interrupted by policy change" error showing up when
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_removed_6">Removed</h3>
+<h3 id="_removed_7">Removed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4144,7 +4612,7 @@ The <code>gt</code>/<code>gT</code> bindings (luakit-like alternatives to <code>
 <h2 id="_v0_5_1">v0.5.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_21">Fixed</h3>
+<h3 id="_fixed_22">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4170,7 +4638,7 @@ Prevented an error being logged when a website with HTTP authentication was
 <h2 id="_v0_5_0">v0.5.0</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_9">Added</h3>
+<h3 id="_added_10">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4327,7 +4795,7 @@ New option <code>tabs -&gt; title-alignment</code> to change the alignment of ta
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_13">Changed</h3>
+<h3 id="_changed_14">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4435,7 +4903,7 @@ A search engine name can now contain any non-space character, like dashes.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_removed_7">Removed</h3>
+<h3 id="_removed_8">Removed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4465,7 +4933,7 @@ The <code>:download-page</code> command (deprecated in v0.2.0)
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_22">Fixed</h3>
+<h3 id="_fixed_23">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4558,7 +5026,7 @@ Removed <code>.pyc</code> files accidentally contained in source releases.
 <h2 id="_v0_4_1">v0.4.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_23">Fixed</h3>
+<h3 id="_fixed_24">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4618,7 +5086,7 @@ Fixed various <code>PendingDeprecationWarnings</code> shown with Python 3.5.
 <h2 id="_v0_4_0">v0.4.0</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_10">Added</h3>
+<h3 id="_added_11">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4693,7 +5161,7 @@ Directory browsing via <code>file://</code> is now supported.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_14">Changed</h3>
+<h3 id="_changed_15">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4760,7 +5228,7 @@ Better support for Qt 5.5 and Python 3.5.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_24">Fixed</h3>
+<h3 id="_fixed_25">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4857,7 +5325,7 @@ Fixed a race-condition causing an exception when starting qutebrowser.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_removed_8">Removed</h3>
+<h3 id="_removed_9">Removed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4879,7 +5347,7 @@ The <code>tabs -&gt; hide-always</code> and <code>tabs -&gt; hide-auto</code> se
 <h2 id="_v0_3_0">v0.3.0</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_11">Added</h3>
+<h3 id="_added_12">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4999,7 +5467,7 @@ Support for Qt 5.5 and tox 2.0
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_15">Changed</h3>
+<h3 id="_changed_16">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5074,7 +5542,7 @@ Sessions now store zoom/scroll-position separately for each entry.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_removed_9">Removed</h3>
+<h3 id="_removed_10">Removed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5089,7 +5557,7 @@ Support for Qt installations without SSL support was dropped.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_25">Fixed</h3>
+<h3 id="_fixed_26">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5183,7 +5651,7 @@ Sessions now store zoom/scroll-position correctly.
 <h2 id="_a_href_https_github_com_qutebrowser_qutebrowser_releases_tag_v0_2_1_v0_2_1_a"><a href="https://github.com/qutebrowser/qutebrowser/releases/tag/v0.2.1">v0.2.1</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_26">Fixed</h3>
+<h3 id="_fixed_27">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5198,7 +5666,7 @@ Added missing manpage (doc/qutebrowser.1.asciidoc) to archive.
 <h2 id="_a_href_https_github_com_qutebrowser_qutebrowser_releases_tag_v0_2_0_v0_2_0_a"><a href="https://github.com/qutebrowser/qutebrowser/releases/tag/v0.2.0">v0.2.0</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_12">Added</h3>
+<h3 id="_added_13">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5539,7 +6007,7 @@ Alternating row colors in completion. This adds a new <code>colors -&gt; complet
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_changed_16">Changed</h3>
+<h3 id="_changed_17">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5755,7 +6223,7 @@ The <code>:download-page</code> command - use <code>:download</code> instead.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_removed_10">Removed</h3>
+<h3 id="_removed_11">Removed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5765,7 +6233,7 @@ The <code>:download-page</code> command - use <code>:download</code> instead.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_27">Fixed</h3>
+<h3 id="_fixed_28">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5860,7 +6328,7 @@ Various other fixes for small/rare bugs.
 <h2 id="_a_href_https_github_com_qutebrowser_qutebrowser_releases_tag_v0_1_4_v0_1_4_a"><a href="https://github.com/qutebrowser/qutebrowser/releases/tag/v0.1.4">v0.1.4</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_changed_17">Changed</h3>
+<h3 id="_changed_18">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5910,7 +6378,7 @@ Improve parsing of <code>faulthandler</code> logs.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_removed_11">Removed</h3>
+<h3 id="_removed_12">Removed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5925,7 +6393,7 @@ Remove debug console completing completely.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_28">Fixed</h3>
+<h3 id="_fixed_29">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6010,7 +6478,7 @@ Disable insecure SSL ciphers.
 <h2 id="_a_href_https_github_com_qutebrowser_qutebrowser_releases_tag_v0_1_3_v0_1_3_a"><a href="https://github.com/qutebrowser/qutebrowser/releases/tag/v0.1.3">v0.1.3</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_changed_18">Changed</h3>
+<h3 id="_changed_19">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6035,7 +6503,7 @@ Hide adblocked iframes.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_29">Fixed</h3>
+<h3 id="_fixed_30">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6125,7 +6593,7 @@ Fix for HTTP passwords accidentally being written to debug log.
 <h2 id="_a_href_https_github_com_qutebrowser_qutebrowser_releases_tag_v0_1_2_v0_1_2_a"><a href="https://github.com/qutebrowser/qutebrowser/releases/tag/v0.1.2">v0.1.2</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_changed_19">Changed</h3>
+<h3 id="_changed_20">Changed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6140,7 +6608,7 @@ Add SSL info to version info.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_removed_12">Removed</h3>
+<h3 id="_removed_13">Removed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6150,7 +6618,7 @@ Remove hosts-file.net from blocker default lists.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_30">Fixed</h3>
+<h3 id="_fixed_31">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6225,7 +6693,7 @@ Fix user-stylesheet setting with an empty value.
 <h2 id="_a_href_https_github_com_qutebrowser_qutebrowser_releases_tag_v0_1_1_v0_1_1_a"><a href="https://github.com/qutebrowser/qutebrowser/releases/tag/v0.1.1">v0.1.1</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_13">Added</h3>
+<h3 id="_added_14">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6320,7 +6788,7 @@ Various other small improvements and cleanups.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_removed_13">Removed</h3>
+<h3 id="_removed_14">Removed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6330,7 +6798,7 @@ Clean up and temporarily disable alias completion.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_31">Fixed</h3>
+<h3 id="_fixed_32">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6452,7 +6920,7 @@ Fix crash with <code>:zoom</code>.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-01 09:19:16 CET
+ 2018-03-09 22:43:10 CET
 </div>
 </div>
 </body>

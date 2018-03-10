@@ -47,12 +47,12 @@ misc/userscripts/open_download
 misc/userscripts/openfeeds
 misc/userscripts/password_fill
 misc/userscripts/qute-pass
-misc/userscripts/qutebrowser_viewsource
 misc/userscripts/qutedmenu
 misc/userscripts/readability
 misc/userscripts/ripbang
 misc/userscripts/rss
 misc/userscripts/taskadd
+misc/userscripts/tor_identity
 misc/userscripts/view_in_mpv
 qutebrowser/__init__.py
 qutebrowser/__main__.py
@@ -120,7 +120,6 @@ qutebrowser/browser/webkit/network/__init__.py
 qutebrowser/browser/webkit/network/filescheme.py
 qutebrowser/browser/webkit/network/networkmanager.py
 qutebrowser/browser/webkit/network/networkreply.py
-qutebrowser/browser/webkit/network/schemehandler.py
 qutebrowser/browser/webkit/network/webkitqutescheme.py
 qutebrowser/commands/__init__.py
 qutebrowser/commands/argparser.py
@@ -151,9 +150,11 @@ qutebrowser/config/configexc.py
 qutebrowser/config/configfiles.py
 qutebrowser/config/configinit.py
 qutebrowser/config/configtypes.py
+qutebrowser/config/configutils.py
 qutebrowser/config/websettings.py
 qutebrowser/html/back.html
 qutebrowser/html/base.html
+qutebrowser/html/bindings.html
 qutebrowser/html/bookmarks.html
 qutebrowser/html/dirbrowser.html
 qutebrowser/html/error.html
@@ -164,7 +165,7 @@ qutebrowser/html/no_pdfjs.html
 qutebrowser/html/pre.html
 qutebrowser/html/settings.html
 qutebrowser/html/styled.html
-qutebrowser/html/undef_error.html
+qutebrowser/html/tabs.html
 qutebrowser/html/version.html
 qutebrowser/html/doc/CHANGELOG.html
 qutebrowser/html/doc/CONTRIBUTING.html
@@ -184,6 +185,7 @@ qutebrowser/html/doc/img/cheatsheet-small.png
 qutebrowser/img/broken_qutebrowser_logo.png
 qutebrowser/img/file.svg
 qutebrowser/img/folder.svg
+qutebrowser/javascript/caret.js
 qutebrowser/javascript/greasemonkey_wrapper.js
 qutebrowser/javascript/history.js
 qutebrowser/javascript/pac_utils.js
@@ -193,7 +195,7 @@ qutebrowser/javascript/stylesheet.js
 qutebrowser/javascript/webelem.js
 qutebrowser/keyinput/__init__.py
 qutebrowser/keyinput/basekeyparser.py
-qutebrowser/keyinput/keyparser.py
+qutebrowser/keyinput/keyutils.py
 qutebrowser/keyinput/macros.py
 qutebrowser/keyinput/modeman.py
 qutebrowser/keyinput/modeparsers.py
@@ -251,13 +253,16 @@ qutebrowser/utils/objreg.py
 qutebrowser/utils/qtutils.py
 qutebrowser/utils/standarddir.py
 qutebrowser/utils/testfile
+qutebrowser/utils/urlmatch.py
 qutebrowser/utils/urlutils.py
 qutebrowser/utils/usertypes.py
 qutebrowser/utils/utils.py
 qutebrowser/utils/version.py
 scripts/__init__.py
+scripts/cycle-inputs.js
 scripts/dictcli.py
 scripts/hist_importer.py
+scripts/hostblock_blame.py
 scripts/importer.py
 scripts/keytester.py
 scripts/link_pyqt.py

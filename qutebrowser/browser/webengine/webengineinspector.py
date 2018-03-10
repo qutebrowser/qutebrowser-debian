@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2015-2017 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2015-2018 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -43,8 +43,8 @@ class WebEngineInspector(inspector.AbstractWebInspector):
             port = int(os.environ['QTWEBENGINE_REMOTE_DEBUGGING'])
         except KeyError:
             raise inspector.WebInspectorError(
-                "Debugging is not enabled. See 'qutebrowser --help' for "
-                "details.")
+                "QtWebEngine inspector is not enabled. See "
+                "'qutebrowser --help' for details.")
         url = QUrl('http://localhost:{}/'.format(port))
         self._widget.load(url)
         self.show()

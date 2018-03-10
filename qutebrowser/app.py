@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2017 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2018 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -64,7 +64,7 @@ from qutebrowser.completion.models import miscmodels
 from qutebrowser.commands import cmdutils, runners, cmdexc
 from qutebrowser.config import config, websettings, configfiles, configinit
 from qutebrowser.browser import (urlmarks, adblock, history, browsertab,
-                                 downloads, greasemonkey)
+                                 qtnetworkdownloads, downloads, greasemonkey)
 from qutebrowser.browser.network import proxy
 from qutebrowser.browser.webkit import cookies, cache
 from qutebrowser.browser.webkit.network import networkmanager
@@ -95,6 +95,7 @@ def run(args):
 
     log.init.debug("Initializing directories...")
     standarddir.init(args)
+    utils.preload_resources()
 
     log.init.debug("Initializing config...")
     configinit.early_init(args)
@@ -491,6 +492,10 @@ def _init_modules(args, crash_handler):
     diskcache = cache.DiskCache(standarddir.cache(), parent=qApp)
     objreg.register('cache', diskcache)
 
+    log.init.debug("Initializing downloads...")
+    download_manager = qtnetworkdownloads.DownloadManager(parent=qApp)
+    objreg.register('qtnetwork-download-manager', download_manager)
+
     log.init.debug("Initializing Greasemonkey...")
     greasemonkey.init()
 
@@ -768,6 +773,8 @@ class Quitter:
                         pre_text="Error while saving {}".format(key))
         # Disable storage so removing tempdir will work
         websettings.shutdown()
+        # Disable application proxy factory to fix segfaults with Qt 5.10.1
+        proxy.shutdown()
         # Re-enable faulthandler to stdout, then remove crash log
         log.destroy.debug("Deactivating crash log...")
         objreg.get('crash-handler').destroy_crashlogfile()
@@ -836,7 +843,11 @@ class Application(QApplication):
     def event(self, e):
         """Handle macOS FileOpen events."""
         if e.type() == QEvent.FileOpen:
-            open_url(e.url(), no_raise=True)
+            url = e.url()
+            if url.isValid():
+                open_url(url, no_raise=True)
+            else:
+                message.error("Invalid URL: {}".format(url.errorString()))
         else:
             return super().event(e)
 
@@ -874,6 +885,7 @@ class EventFilter(QObject):
         self._handlers = {
             QEvent.KeyPress: self._handle_key_event,
             QEvent.KeyRelease: self._handle_key_event,
+            QEvent.ShortcutOverride: self._handle_key_event,
         }
 
     def _handle_key_event(self, event):
@@ -891,7 +903,7 @@ class EventFilter(QObject):
             return False
         try:
             man = objreg.get('mode-manager', scope='window', window='current')
-            return man.eventFilter(event)
+            return man.handle_event(event)
         except objreg.RegistryUnavailableError:
             # No window available yet, or not a MainWindow
             return False

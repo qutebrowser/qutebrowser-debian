@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2017 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2018 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -34,6 +34,10 @@ def init():
     QNetworkProxyFactory.setApplicationProxyFactory(proxy_factory)
 
 
+def shutdown():
+    QNetworkProxyFactory.setApplicationProxyFactory(None)
+
+
 class ProxyFactory(QNetworkProxyFactory):
 
     """Factory for proxies to be used by qutebrowser."""
@@ -61,6 +65,9 @@ class ProxyFactory(QNetworkProxyFactory):
         """
         proxy = config.val.content.proxy
         if proxy is configtypes.SYSTEM_PROXY:
+            # On Linux, use "export http_proxy=socks5://host:port" to manually
+            # set system proxy.
+            # ref. http://doc.qt.io/qt-5/qnetworkproxyfactory.html#systemProxyForQuery
             proxies = QNetworkProxyFactory.systemProxyForQuery(query)
         elif isinstance(proxy, pac.PACFetcher):
             proxies = proxy.resolve(query)

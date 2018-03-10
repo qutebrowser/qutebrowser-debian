@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2017 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2018 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -41,8 +41,10 @@ Group = enum.Enum('Group', ['all', 'links', 'images', 'url', 'inputs'])
 
 SELECTORS = {
     Group.all: ('a, area, textarea, select, input:not([type=hidden]), button, '
-                'frame, iframe, link, [onclick], [onmousedown], [role=link], '
-                '[role=option], [role=button], img'),
+                'frame, iframe, link, summary, [onclick], [onmousedown], '
+                '[role=link], [role=option], [role=button], img, '
+                # Angular 1 selectors
+                '[ng-click], [ngClick], [data-ng-click], [x-ng-click]'),
     Group.links: 'a[href], area[href], link[href], [role=link][href]',
     Group.images: 'img',
     Group.url: '[src], [href]',
@@ -409,8 +411,9 @@ class AbstractWebElement(collections.abc.MutableMapping):
             elif self.is_editable(strict=True):
                 log.webelem.debug("Clicking via JS focus()")
                 self._click_editable(click_target)
-                modeman.enter(self._tab.win_id, usertypes.KeyMode.insert,
-                              'clicking input')
+                if config.val.input.insert_mode.auto_enter:
+                    modeman.enter(self._tab.win_id, usertypes.KeyMode.insert,
+                                  'clicking input')
             else:
                 self._click_fake_event(click_target)
         elif click_target in [usertypes.ClickTarget.tab,
