@@ -1,7 +1,11 @@
 qutebrowser (1.2.1-1) UNRELEASED; urgency=medium
 
+  [ Fritz Reichwald ]
   * Import new upstream release
   * Remove patch for html/doc/quickstart.html since its fixed upstream
+
+  [ Axel Beckert ]
+  * Add debian/gbp.conf to handle the pristine-tar branch automatically.
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Wed, 14 Mar 2018 22:22:17 +0100
 
