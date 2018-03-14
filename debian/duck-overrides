@@ -1,0 +1,8 @@
+# False positive:
+#
+# I: debian/upstream/metadata:URL: [...] INFORMATION (Certainty:wild-guess)
+#   Curl:0 HTTP:200 No error
+#   Website seems to be outdated, is probably a parked domain or for sale. Please update your links!
+#   Matching regular expression: m/moved to/i
+#
+https://github.com/qutebrowser/qutebrowser/blob/master/doc/changelog.asciidoc
