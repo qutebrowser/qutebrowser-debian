@@ -807,6 +807,68 @@ breaking changes (such as renamed commands) can happen in minor releases.</p></d
 </div>
 </div>
 <div class="sect1">
+<h2 id="_v1_2_1">v1.2.1</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed">Fixed</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+qutebrowser now starts properly when the PyQt5 QOpenGLFunctions package wasn&#8217;t
+  found.
+</p>
+</li>
+<li>
+<p>
+The keybinding cheatsheet on the quickstart page is now loaded from a local
+  <code>qute://</code> URL again.
+</p>
+</li>
+<li>
+<p>
+With "tox -e mkvenv-pypi", PyQt 5.10.0 is used again instead of Qt 5.10.1,
+  because of an issue with Qt 5.10.1 which causes qutebrowser to fail to start
+  ("Could not find QtWebEngineProcess").
+</p>
+</li>
+<li>
+<p>
+Unbinding keys which were bound in older qutebrowser versions now doesn&#8217;t
+  crash anymore.
+</p>
+</li>
+<li>
+<p>
+Fixed a crash when reloading a page which wasn&#8217;t fully loaded with v1.2.0
+</p>
+</li>
+<li>
+<p>
+Keys on the numeric keypad now fall back to the same bindings without <code>Num+</code>
+  if no <code>Num+</code> binding was found.
+</p>
+</li>
+<li>
+<p>
+Fixed hinting on some pages with Qt &lt; 5.10.
+</p>
+</li>
+<li>
+<p>
+Titles are now displayed correctly again for tabs which are cloned or loaded
+  from sessions.
+</p>
+</li>
+<li>
+<p>
+Shortcuts now correctly use <code>Ctrl</code> instead of <code>Command</code> on macOS again.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_v1_2_0">v1.2.0</h2>
 <div class="sectionbody">
 <div class="sect2">
@@ -1105,7 +1167,7 @@ Replacements like <code>{url}</code> can now be escaped as <code>{{url}}</code>.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed">Fixed</h3>
+<h3 id="_fixed_2">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1289,7 +1351,7 @@ Windows/macOS releases now bundle Qt 5.10.1 which includes security fixes from
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_2">Fixed</h3>
+<h3 id="_fixed_3">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1309,7 +1371,7 @@ Compatibility with Python 3.7
 <h2 id="_v1_1_1">v1.1.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_3">Fixed</h3>
+<h3 id="_fixed_4">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1666,7 +1728,7 @@ The <code>colors.completion.fg</code> setting can now be a list, allowing to spe
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_4">Fixed</h3>
+<h3 id="_fixed_5">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1809,7 +1871,7 @@ The <code>x[xtb]</code> default bindings got removed again as many users acciden
 <h2 id="_v1_0_4">v1.0.4</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_5">Fixed</h3>
+<h3 id="_fixed_6">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1872,7 +1934,7 @@ The :open-editor command is now not hidden anymore as it&#8217;s also usable in
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_6">Fixed</h3>
+<h3 id="_fixed_7">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1903,7 +1965,7 @@ Completions are now sorted correctly again when filtered
 <h2 id="_v1_0_2">v1.0.2</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_7">Fixed</h3>
+<h3 id="_fixed_8">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1953,7 +2015,7 @@ Nicer error messages and other minor improvements
 <h2 id="_v1_0_1">v1.0.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_8">Fixed</h3>
+<h3 id="_fixed_9">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2553,7 +2615,7 @@ Trying to focus the currently focused tab with <code>:tab-focus</code> now focus
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_9">Fixed</h3>
+<h3 id="_fixed_10">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2724,7 +2786,7 @@ Scrolling to an anchor in a background tab now works correctly, and javascript
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_10">Fixed</h3>
+<h3 id="_fixed_11">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2969,7 +3031,7 @@ qutebrowser now automatically uses QtWebEngine if QtWebKit is unavailable
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_11">Fixed</h3>
+<h3 id="_fixed_12">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3100,7 +3162,7 @@ Lines in Jupyter notebook now trigger insert mode
 <h2 id="_v0_9_1">v0.9.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_12">Fixed</h3>
+<h3 id="_fixed_13">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3647,7 +3709,7 @@ The <code>-c</code>/<code>--confdir</code>, <code>--datadir</code> and <code>--c
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_13">Fixed</h3>
+<h3 id="_fixed_14">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3699,7 +3761,7 @@ Fixed crash when a included HTML was not found
 <h2 id="_v0_8_3">v0.8.3</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_14">Fixed</h3>
+<h3 id="_fixed_15">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3770,7 +3832,7 @@ Userscripts now can access QUTE_FIFO correctly on Windows
 <h2 id="_v0_8_2">v0.8.2</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_15">Fixed</h3>
+<h3 id="_fixed_16">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3844,7 +3906,7 @@ Fixed <code>:restart</code> deleting the basedir when it was given with <code>--
 <h2 id="_v0_8_1">v0.8.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_16">Fixed</h3>
+<h3 id="_fixed_17">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3963,7 +4025,7 @@ New <code>taskadd</code> userscript to add a taskwarrior task annotated with the
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fixed_17">Fixed</h2>
+<h2 id="_fixed_18">Fixed</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -4219,7 +4281,7 @@ Better history implementation which also stores titles.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_fixed_18">Fixed</h2>
+<h2 id="_fixed_19">Fixed</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -4327,7 +4389,7 @@ Strip off trailing spaces for history entries with no title
 <h2 id="_v0_6_2">v0.6.2</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_19">Fixed</h3>
+<h3 id="_fixed_20">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4364,7 +4426,7 @@ Fixed various crashes related to PyQt 5.6
 <h2 id="_v0_6_1">v0.6.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_20">Fixed</h3>
+<h3 id="_fixed_21">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4504,7 +4566,7 @@ Blocked hosts are now also read from a <code>blocked-hosts</code> file in the co
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_21">Fixed</h3>
+<h3 id="_fixed_22">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4612,7 +4674,7 @@ The <code>gt</code>/<code>gT</code> bindings (luakit-like alternatives to <code>
 <h2 id="_v0_5_1">v0.5.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_22">Fixed</h3>
+<h3 id="_fixed_23">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4933,7 +4995,7 @@ The <code>:download-page</code> command (deprecated in v0.2.0)
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_23">Fixed</h3>
+<h3 id="_fixed_24">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5026,7 +5088,7 @@ Removed <code>.pyc</code> files accidentally contained in source releases.
 <h2 id="_v0_4_1">v0.4.1</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_24">Fixed</h3>
+<h3 id="_fixed_25">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5228,7 +5290,7 @@ Better support for Qt 5.5 and Python 3.5.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_25">Fixed</h3>
+<h3 id="_fixed_26">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5557,7 +5619,7 @@ Support for Qt installations without SSL support was dropped.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_26">Fixed</h3>
+<h3 id="_fixed_27">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5651,7 +5713,7 @@ Sessions now store zoom/scroll-position correctly.
 <h2 id="_a_href_https_github_com_qutebrowser_qutebrowser_releases_tag_v0_2_1_v0_2_1_a"><a href="https://github.com/qutebrowser/qutebrowser/releases/tag/v0.2.1">v0.2.1</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_27">Fixed</h3>
+<h3 id="_fixed_28">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6233,7 +6295,7 @@ The <code>:download-page</code> command - use <code>:download</code> instead.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_28">Fixed</h3>
+<h3 id="_fixed_29">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6393,7 +6455,7 @@ Remove debug console completing completely.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_29">Fixed</h3>
+<h3 id="_fixed_30">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6503,7 +6565,7 @@ Hide adblocked iframes.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_30">Fixed</h3>
+<h3 id="_fixed_31">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6618,7 +6680,7 @@ Remove hosts-file.net from blocker default lists.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_31">Fixed</h3>
+<h3 id="_fixed_32">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6798,7 +6860,7 @@ Clean up and temporarily disable alias completion.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_32">Fixed</h3>
+<h3 id="_fixed_33">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6920,7 +6982,7 @@ Fix crash with <code>:zoom</code>.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-09 22:43:10 CET
+ 2018-03-14 20:21:16 CET
 </div>
 </div>
 </body>
