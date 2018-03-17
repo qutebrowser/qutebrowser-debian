@@ -1,14 +1,14 @@
-qutebrowser (1.2.1-1) UNRELEASED; urgency=medium
+qutebrowser (1.2.1-1) unstable; urgency=medium
 
   [ Fritz Reichwald ]
-  * Import new upstream release
-  * Remove patch for html/doc/quickstart.html since its fixed upstream
+  * Import new upstream release.
+  * Remove patch for html/doc/quickstart.html since it's fixed upstream.
 
   [ Axel Beckert ]
   * Add debian/gbp.conf to handle the pristine-tar branch automatically.
   * Add debian/duck-overrides to silence a false positive for "moved to".
 
- -- Fritz Reichwald <reichwald@b1-systems.de>  Wed, 14 Mar 2018 22:22:17 +0100
+ -- Axel Beckert <abe@debian.org>  Sat, 17 Mar 2018 01:57:45 +0100
 
 qutebrowser (1.2.0-1) unstable; urgency=medium
 
