@@ -1,6 +1,10 @@
 qutebrowser (1.2.1-2) UNRELEASED; urgency=medium
 
+  [ Fritz Reichwald ]
   * Fix missing build dependency dh-python (Closes: #896737).
+
+  [ Axel Beckert ]
+  * Declare compliance with Debian Policy 4.1.4. (No changes needed.)
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Tue, 24 Apr 2018 21:43:11 +0200
 
