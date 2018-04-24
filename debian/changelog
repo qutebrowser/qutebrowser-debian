@@ -1,4 +1,4 @@
-qutebrowser (1.2.1-2) UNRELEASED; urgency=medium
+qutebrowser (1.2.1-2) unstable; urgency=medium
 
   [ Fritz Reichwald ]
   * Fix missing build dependency dh-python (Closes: #896737).
@@ -6,7 +6,7 @@ qutebrowser (1.2.1-2) UNRELEASED; urgency=medium
   [ Axel Beckert ]
   * Declare compliance with Debian Policy 4.1.4. (No changes needed.)
 
- -- Fritz Reichwald <reichwald@b1-systems.de>  Tue, 24 Apr 2018 21:43:11 +0200
+ -- Axel Beckert <abe@debian.org>  Wed, 25 Apr 2018 00:15:12 +0200
 
 qutebrowser (1.2.1-1) unstable; urgency=medium
 
