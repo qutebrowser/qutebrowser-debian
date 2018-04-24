@@ -1,3 +1,10 @@
+qutebrowser (1.2.1-2) unstable; urgency=medium
+
+  * Fix missing build dependency dh-python
+  * (Closes: #896737).
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Tue, 24 Apr 2018 21:43:11 +0200
+
 qutebrowser (1.2.1-1) unstable; urgency=medium
 
   [ Fritz Reichwald ]
