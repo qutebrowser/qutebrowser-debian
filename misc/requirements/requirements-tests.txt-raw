@@ -1,0 +1,21 @@
+beautifulsoup4
+cheroot
+coverage
+Flask
+hunter
+hypothesis
+pytest
+pytest-bdd
+pytest-benchmark
+pytest-cov
+pytest-faulthandler
+pytest-instafail
+pytest-mock
+pytest-qt
+pytest-repeat
+pytest-rerunfailures
+pytest-travis-fold
+pytest-xvfb
+vulture
+
+#@ ignore: Jinja2, MarkupSafe, colorama

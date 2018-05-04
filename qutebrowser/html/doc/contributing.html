@@ -2020,17 +2020,22 @@ Make sure there are no unstaged changes and the tests are green.
 </li>
 <li>
 <p>
+Make sure all issues with the related milestone are closed.
+</p>
+</li>
+<li>
+<p>
 Run <code>x=... y=...</code> to set the respective shell variables.
 </p>
 </li>
 <li>
 <p>
-Adjust <code>__version_info__</code> in <code>qutebrowser/__init__.py</code>.
+Update changelog (remove <strong>(unreleased)</strong>).
 </p>
 </li>
 <li>
 <p>
-Update changelog (remove <strong>(unreleased)</strong>).
+Adjust <code>__version_info__</code> in <code>qutebrowser/__init__.py</code>.
 </p>
 </li>
 <li>
@@ -2066,7 +2071,7 @@ as closed.
 </li>
 <li>
 <p>
-Linux: Run <code>git checkout v1.$x.$y &amp;&amp; python3 scripts/dev/build_release.py --upload v1.$x.$y</code>.
+Linux: Run <code>git checkout v1.$x.$y &amp;&amp; ./.venv/bin/python3 scripts/dev/build_release.py --upload v1.$x.$y</code>.
 </p>
 </li>
 <li>
@@ -2081,8 +2086,20 @@ macOS: Run <code>git checkout v1.X.Y &amp;&amp; python3 scripts/dev/build_releas
 </li>
 <li>
 <p>
-On server: Run <code>python3 scripts/dev/download_release.py v1.X.Y</code> (replace X/Y by hand).
+On server:
 </p>
+<div class="ulist"><ul>
+<li>
+<p>
+Run <code>python3 scripts/dev/download_release.py v1.X.Y</code> (replace X/Y by hand).
+</p>
+</li>
+<li>
+<p>
+Run <code>git pull github master &amp;&amp; sudo python3 scripts/asciidoc2html.py --website /srv/http/qutebrowser</code>
+</p>
+</li>
+</ul></div>
 </li>
 <li>
 <p>
@@ -2103,7 +2120,7 @@ Announce to qutebrowser and qutebrowser-announce mailinglist.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-14 20:21:17 CET
+ 2018-05-04 07:54:03 CEST
 </div>
 </div>
 </body>
