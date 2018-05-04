@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.10" />
 <title>Installing qutebrowser</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -765,7 +766,7 @@ running.</p></div>
 <div class="paragraph"><p>Those distributions only have Python 3.4 and a too old Qt version available,
 while qutebrowser requires Python 3.5 and Qt 5.7.1 or newer.</p></div>
 <div class="paragraph"><p>It should be possible to install Python 3.5 e.g. from the
-<a href="https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa">deadsnakes PPA</a> or via_ipca
+<a href="https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa">deadsnakes PPA</a> or via
 <a href="https://github.com/pyenv/pyenv">pyenv</a>, but nobody tried that yet.</p></div>
 <div class="paragraph"><p>If you get qutebrowser running on those distributions, please
 <a href="https://github.com/qutebrowser/qutebrowser/blob/master/doc/contributing.asciidoc">contribute</a>
@@ -776,21 +777,46 @@ to update this documentation!</p></div>
 <div class="paragraph"><p>Ubuntu 16.04 doesn&#8217;t come with an up-to-date engine (a new enough QtWebKit, or
 QtWebEngine). However, it comes with Python 3.5, so you can
 <a href="#tox">install qutebrowser via tox</a>.</p></div>
+<div class="paragraph"><p>You&#8217;ll need some basic libraries to use the tox-installed PyQt:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code># apt install libglib2.0-0 libgl1 libfontconfig1 libx11-xcb1 libxi6 libxrender1 libdbus-1-3</code></pre>
+</div></div>
 </div>
 <div class="sect2">
 <h3 id="_debian_stretch_ubuntu_17_04_and_17_10">Debian Stretch / Ubuntu 17.04 and 17.10</h3>
 <div class="paragraph"><p>Those versions come with QtWebEngine in the repositories. This makes it possible
 to install qutebrowser via the Debian package.</p></div>
-<div class="paragraph"><p>Get the qutebrowser package from the
-<a href="https://github.com/qutebrowser/qutebrowser/releases">release page</a> and download
-the <a href="https://qutebrowser.org/python3-pypeg2_2.15.2-1_all.deb">PyPEG2 package</a>.</p></div>
-<div class="paragraph"><p>(If you are using debian testing you can just use the python3-pypeg2 package from the repos)</p></div>
-<div class="paragraph"><p>Install the packages:</p></div>
+<div class="paragraph"><p>You&#8217;ll need to download three packages:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://packages.debian.org/sid/all/python3-pypeg2/download">PyPEG2</a> (a library
+  used by qutebrowser which is not in the earlier repositories)
+</p>
+</li>
+<li>
+<p>
+<a href="https://packages.debian.org/sid/all/qutebrowser/download">qutebrowser</a> itself
+</p>
+</li>
+<li>
+<p>
+Either <a href="https://packages.debian.org/sid/all/qutebrowser-qtwebengine/download">qutebrowser-qtwebengine</a>
+  or <a href="https://packages.debian.org/sid/all/qutebrowser-qtwebkit/download">qutebrowser-qtwebkit</a>
+  (or both) depending on the backend you want to use. QtWebEngine is the
+  default/recommended choice.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>After downloading, install the packages:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code># apt install ./python3-pypeg2_*_all.deb
-# apt install ./qutebrowser_*_all.deb</code></pre>
+# apt install ./qutebrowser*.deb</code></pre>
 </div></div>
+<div class="paragraph"><p>For an update after the initial install, you only need to download/install the
+qutebrowser package.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_debian_testing_ubuntu_18_04">Debian Testing / Ubuntu 18.04</h3>
@@ -824,8 +850,7 @@ $ python3 scripts/asciidoc2html.py</code></pre>
 <li>
 <p>
 If you prefer using QtWebKit, there&#8217;s an up-to-date version available in
-  Debian experimental, or from <a href="http://repo.paretje.be/unstable/">this repository</a>
-  for Debian Stretch.
+  <a href="https://packages.debian.org/buster/libqt5webkit5">Debian Testing</a>.
 </p>
 </li>
 <li>
@@ -860,6 +885,17 @@ now (November 2017) maintained and up-to-date again.</td>
 </div></div>
 <div class="paragraph"><p>However, note that Fedora 25/26 won&#8217;t be updated to qutebrowser v1.0, so you
 might want to <a href="#tox">install qutebrowser via tox</a> instead there.</p></div>
+<div class="sect2">
+<h3 id="_additional_hints_2">Additional hints</h3>
+<div class="paragraph"><p>Fedora only ships free software in the repositories.
+To be able to play videos with proprietary codecs with QtWebEngine, you will
+need to install an additional package from the RPM Fusion Free repository.
+For more information see <a href="https://rpmfusion.org/Configuration">https://rpmfusion.org/Configuration</a>.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code># dnf install qt5-qtwebengine-freeworld</code></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1037,6 +1073,18 @@ Chocolatey&#8217;s client
 <div class="listingblock">
 <div class="content">
 <pre><code>C:\&gt; choco install qutebrowser</code></pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Scoop&#8217;s client
+</p>
+</li>
+</ul></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>C:\&gt; scoop bucket add extras
+C:\&gt; scoop install qutebrowser</code></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1220,7 +1268,8 @@ virtualenv:</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-12-05 09:36:00 CET
+Last updated
+ 2018-03-21 10:55:26 CET
 </div>
 </div>
 </body>

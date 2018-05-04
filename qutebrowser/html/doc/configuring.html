@@ -1068,10 +1068,10 @@ will never be used in a default keybinding.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_loading_code_autoconfig_yml_code">Loading <code>autoconfig.yml</code></h3>
-<div class="paragraph"><p>By default, all customization done via <code>:set</code>, <code>:bind</code> and <code>:unbind</code> is
-temporary as soon as a <code>config.py</code> exists. The settings done that way are always
-saved in the <code>autoconfig.yml</code> file, but you&#8217;ll need to explicitly load it in
-your <code>config.py</code> by doing:</p></div>
+<div class="paragraph"><p>All customization done via the UI (<code>:set</code>, <code>:bind</code> and <code>:unbind</code>) is
+stored in the <code>autoconfig.yml</code> file, which is not loaded automatically as soon
+as a <code>config.py</code> exists. If you want those settings to be loaded, you&#8217;ll need to
+explicitly load the <code>autoconfig.yml</code> file in your <code>config.py</code> by doing:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
 <div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">load_autoconfig</span><span class="p">()</span>
@@ -1229,7 +1229,7 @@ stable across qutebrowser versions):</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-14 20:21:25 CET
+ 2018-05-04 07:54:09 CEST
 </div>
 </div>
 </body>

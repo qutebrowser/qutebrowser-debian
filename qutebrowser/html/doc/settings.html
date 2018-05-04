@@ -1722,7 +1722,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.favicons.show">tabs.favicons.show</a></p></td>
-<td align="left" valign="top"><p class="table">Show favicons in the tab bar.</p></td>
+<td align="left" valign="top"><p class="table">When to show favicons in the tab bar.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.indicator.padding">tabs.indicator.padding</a></p></td>
@@ -1735,6 +1735,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.last_close">tabs.last_close</a></p></td>
 <td align="left" valign="top"><p class="table">How to behave when the last tab is closed.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs.min_width">tabs.min_width</a></p></td>
+<td align="left" valign="top"><p class="table">Minimum width (in pixels) of tabs (-1 for the default minimum size behavior).</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.mode_on_change">tabs.mode_on_change</a></p></td>
@@ -1813,6 +1817,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">URL segments where <code>:navigate increment/decrement</code> will search for a number.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#url.open_base_url">url.open_base_url</a></p></td>
+<td align="left" valign="top"><p class="table">Open base URL of the searchengine if a searchengine shortcut is invoked without parameters.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#url.searchengines">url.searchengines</a></p></td>
 <td align="left" valign="top"><p class="table">Search engines which can be used via the address bar.</p></td>
 </tr>
@@ -1825,8 +1833,8 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">URL parameters to strip with <code>:yank url</code>.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#window.hide_wayland_decoration">window.hide_wayland_decoration</a></p></td>
-<td align="left" valign="top"><p class="table">Hide the window decoration when using wayland.</p></td>
+<td align="left" valign="top"><p class="table"><a href="#window.hide_decoration">window.hide_decoration</a></p></td>
+<td align="left" valign="top"><p class="table">Hide the window decoration.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#window.title_format">window.title_format</a></p></td>
@@ -4313,27 +4321,7 @@ A zip-file of any of the above, with either only one file, or a file
 <div class="ulist"><ul>
 <li>
 <p>
-<code>https://www.malwaredomainlist.com/hostslist/hosts.txt</code>
-</p>
-</li>
-<li>
-<p>
-<code>http://someonewhocares.org/hosts/hosts</code>
-</p>
-</li>
-<li>
-<p>
-<code>http://winhelp2002.mvps.org/hosts.zip</code>
-</p>
-</li>
-<li>
-<p>
-<code>http://malwaredomains.lehigh.edu/files/justdomains.zip</code>
-</p>
-</li>
-<li>
-<p>
-<code>https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&amp;mimetype=plaintext</code>
+<code>https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts</code>
 </p>
 </li>
 </ul></div>
@@ -5783,9 +5771,27 @@ The tab size is unchanged, so big favicons also require extra <code>tabs.padding
 </div>
 <div class="sect2">
 <h3 id="tabs.favicons.show">tabs.favicons.show</h3>
-<div class="paragraph"><p>Show favicons in the tab bar.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>true</code></p></div>
+<div class="paragraph"><p>When to show favicons in the tab bar.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Always show favicons.
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Always hide favicons.
+</p>
+</li>
+<li>
+<p>
+<code>pinned</code>: Show favicons only on pinned tabs.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>always</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="tabs.indicator.padding">tabs.indicator.padding</h3>
@@ -5854,6 +5860,14 @@ The tab size is unchanged, so big favicons also require extra <code>tabs.padding
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>ignore</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs.min_width">tabs.min_width</h3>
+<div class="paragraph"><p>Minimum width (in pixels) of tabs (-1 for the default minimum size behavior).
+This setting only applies when tabs are horizontal.
+This setting does not apply to pinned tabs, unless <code>tabs.pinned.shrink</code> is False.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
+<div class="paragraph"><p>Default: <code>-1</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="tabs.mode_on_change">tabs.mode_on_change</h3>
@@ -6260,6 +6274,12 @@ Use <code>about:blank</code> for a blank page.</p></div>
 </ul></div>
 </div>
 <div class="sect2">
+<h3 id="url.open_base_url">url.open_base_url</h3>
+<div class="paragraph"><p>Open base URL of the searchengine if a searchengine shortcut is invoked without parameters.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="url.searchengines">url.searchengines</h3>
 <div class="paragraph"><p>Search engines which can be used via the address bar.
 Maps a search engine name (such as <code>DEFAULT</code>, or <code>ddg</code>) to a URL with a <code>{}</code> placeholder. The placeholder will be replaced by the search term, use <code>{{</code> and <code>}}</code> for literal <code>{</code>/<code>}</code> signs.
@@ -6319,9 +6339,9 @@ The search engine named <code>DEFAULT</code> is used when <code>url.auto_search<
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="window.hide_wayland_decoration">window.hide_wayland_decoration</h3>
-<div class="paragraph"><p>Hide the window decoration when using wayland.
-This setting requires a restart.</p></div>
+<h3 id="window.hide_decoration">window.hide_decoration</h3>
+<div class="paragraph"><p>Hide the window decoration.</p></div>
+<div class="paragraph"><p>This setting requires a restart on Wayland.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
@@ -6613,7 +6633,7 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table">TimestampTemplate</p></td>
 <td align="left" valign="top"><p class="table">An strftime-like template for timestamps.</p>
-<p class="table">See <a href="https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior">https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior</a> for reference.</p></td>
+<p class="table">See <a href="https://sqlite.org/lang_datefunc.html">https://sqlite.org/lang_datefunc.html</a> for reference.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table">UniqueCharString</p></td>
@@ -6637,7 +6657,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-03-14 20:21:33 CET
+ 2018-05-04 07:54:15 CEST
 </div>
 </div>
 </body>
