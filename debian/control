@@ -16,7 +16,6 @@ Build-Depends: asciidoc,
                xsltproc
 X-Python3-Version: >= 3.5
 Standards-Version: 4.1.4
-Testsuite: autopkgtest-pkg-python
 Homepage: https://qutebrowser.org
 Vcs-Git: https://github.com/qutebrowser/qutebrowser-debian.git
 Vcs-Browser: https://github.com/qutebrowser/qutebrowser-debian
