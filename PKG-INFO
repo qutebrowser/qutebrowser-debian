@@ -1,12 +1,11 @@
 Metadata-Version: 1.2
 Name: qutebrowser
-Version: 1.3.0
+Version: 1.3.1
 Summary: A keyboard-driven, vim-like browser based on PyQt5.
 Home-page: https://www.qutebrowser.org/
 Author: Florian Bruhin
 Author-email: mail@qutebrowser.org
 License: GPL
-Description-Content-Type: UNKNOWN
 Description: // If you are reading this in plaintext or on PyPi:
         //
         // A rendered version is available at:
