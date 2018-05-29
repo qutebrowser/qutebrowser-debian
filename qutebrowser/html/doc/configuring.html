@@ -808,56 +808,31 @@ asciidoc.install();
 </td>
 <td class="content">qutebrowser&#8217;s configuration system was completely rewritten in
 September 2017. This information is not applicable to older releases, and older
-information elsewhere might be outdated. <strong>If you had an old configuration
-around and upgraded, this page will automatically open once</strong>. To view it at a
-later time, use the <code>:help</code> command.</td>
+information elsewhere might be outdated.</td>
 </tr></table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_migrating_older_configurations">Migrating older configurations</h2>
+<h2 id="_qutebrowser_8217_s_config_files">qutebrowser&#8217;s config files</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>qutebrowser does no automatic migration for the new configuration. However,
-there&#8217;s a special <a href="qute://configdiff/old">configdiff</a> page
-(<code>qute://configdiff/old</code>) in qutebrowser, which will show you the changes you
-did in your old configuration, compared to the old defaults.</p></div>
-<div class="paragraph"><p>Other changes in default settings:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-In v1.1.x and newer, <code>&lt;Up&gt;</code> and <code>&lt;Down&gt;</code> navigate through command history
-  if no text was entered yet.
-  With v1.0.x, they always navigate through command history instead of selecting
-  completion items. Use <code>&lt;Tab&gt;</code>/<code>&lt;Shift-Tab&gt;</code> to cycle through the completion
-  instead.
-  You can get back the old behavior by doing:
-</p>
-<div class="listingblock">
-<div class="content">
-<pre><code>:bind -m command &lt;Up&gt; completion-item-focus prev
-:bind -m command &lt;Down&gt; completion-item-focus next</code></pre>
-</div></div>
-<div class="paragraph"><p>or always navigate through command history with</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>:bind -m command &lt;Up&gt; command-history-prev
-:bind -m command &lt;Down&gt; command-history-next</code></pre>
-</div></div>
-</li>
-<li>
-<p>
-The default for <code>completion.web_history_max_items</code> is now set to <code>-1</code>, showing
-  an unlimited number of items in the completion for <code>:open</code> as the new
-  sqlite-based completion is much faster. If the <code>:open</code> completion is too slow
-  on your machine, set an appropriate limit again.
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p>qutebrowser releases before v1.0.0 had a <code>qutebrowser.conf</code> and <code>keys.conf</code>
+file. Those are not used anymore since that release - see
+<a href="#migrating">"Migrating older configurations"</a> for information on how to
+migrate to the new config.</p></div>
+<div class="paragraph"><p>When using <code>:set</code> and <code>:bind</code>, changes are saved to an <code>autoconfig.yml</code> file
+automatically. If you don&#8217;t want to have a config file which is curated by
+hand, you can simply use those - see
+<a href="#autoconfig">"Configuring qutebrowser via the user interface"</a> for details.</p></div>
+<div class="paragraph"><p>For more advanced configuration, you can write a <code>config.py</code> file - see
+<a href="#configpy">"Configuring qutebrowser via config.py"</a>. As soon as a <code>config.py</code>
+exists, the <code>autoconfig.yml</code> file <strong>is not read anymore</strong> by default. You need
+to <a href="#configpy-autoconfig">load it by hand</a> if you want settings done via
+<code>:set</code>/<code>:bind</code> to still persist.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuring_qutebrowser_via_the_user_interface">Configuring qutebrowser via the user interface</h2>
+<h2 id="autoconfig">Configuring qutebrowser via the user interface</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>The easy (but less flexible) way to configure qutebrowser is using its user
 interface or command line. Changes you make this way are immediately active
@@ -904,7 +879,7 @@ different values.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuring_qutebrowser_via_config_py">Configuring qutebrowser via config.py</h2>
+<h2 id="configpy">Configuring qutebrowser via config.py</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>For more powerful configuration possibilities, you can create a <code>config.py</code>
 file. Since it&#8217;s a Python file, you have much more flexibility for
@@ -1067,7 +1042,7 @@ will never be used in a default keybinding.</p></div>
 <code>c.bindings.default = {}</code>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_loading_code_autoconfig_yml_code">Loading <code>autoconfig.yml</code></h3>
+<h3 id="configpy-autoconfig">Loading <code>autoconfig.yml</code></h3>
 <div class="paragraph"><p>All customization done via the UI (<code>:set</code>, <code>:bind</code> and <code>:unbind</code>) is
 stored in the <code>autoconfig.yml</code> file, which is not loaded automatically as soon
 as a <code>config.py</code> exists. If you want those settings to be loaded, you&#8217;ll need to
@@ -1224,12 +1199,53 @@ stable across qutebrowser versions):</p></div>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="migrating">Migrating older configurations</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>qutebrowser does no automatic migration for the new configuration. However,
+there&#8217;s a special <a href="qute://configdiff/old">configdiff</a> page
+(<code>qute://configdiff/old</code>) in qutebrowser, which will show you the changes you
+did in your old configuration, compared to the old defaults.</p></div>
+<div class="paragraph"><p>Other changes in default settings:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+In v1.1.x and newer, <code>&lt;Up&gt;</code> and <code>&lt;Down&gt;</code> navigate through command history
+  if no text was entered yet.
+  With v1.0.x, they always navigate through command history instead of selecting
+  completion items. Use <code>&lt;Tab&gt;</code>/<code>&lt;Shift-Tab&gt;</code> to cycle through the completion
+  instead.
+  You can get back the old behavior by doing:
+</p>
+<div class="listingblock">
+<div class="content">
+<pre><code>:bind -m command &lt;Up&gt; completion-item-focus prev
+:bind -m command &lt;Down&gt; completion-item-focus next</code></pre>
+</div></div>
+<div class="paragraph"><p>or always navigate through command history with</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>:bind -m command &lt;Up&gt; command-history-prev
+:bind -m command &lt;Down&gt; command-history-next</code></pre>
+</div></div>
+</li>
+<li>
+<p>
+The default for <code>completion.web_history_max_items</code> is now set to <code>-1</code>, showing
+  an unlimited number of items in the completion for <code>:open</code> as the new
+  sqlite-based completion is much faster. If the <code>:open</code> completion is too slow
+  on your machine, set an appropriate limit again.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-05-04 07:54:09 CEST
+ 2018-05-29 11:16:44 CEST
 </div>
 </div>
 </body>

@@ -30,7 +30,7 @@ from PyQt5.QtCore import (pyqtSignal, pyqtSlot, Qt, QEvent, QPoint, QPointF,
                           QUrl, QTimer)
 from PyQt5.QtGui import QKeyEvent, QIcon
 from PyQt5.QtNetwork import QAuthenticator
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineScript
 
 from qutebrowser.config import configdata, config
@@ -780,8 +780,6 @@ class WebEngineTab(browsertab.AbstractTab):
             url: The QUrl to open.
             predict: If set to False, predicted_navigation is not emitted.
         """
-        # WORKAROUND for https://bugreports.qt.io/browse/QTBUG-68076
-        self._widget.setFocus()
         self._saved_zoom = self.zoom.factor()
         self._openurl_prepare(url, predict=predict)
         self._widget.load(url)
@@ -1028,8 +1026,9 @@ class WebEngineTab(browsertab.AbstractTab):
             log.config.debug(
                 "Loading {} again because of config change".format(
                     self._reload_url.toDisplayString()))
-            QTimer.singleShot(100, lambda url=self._reload_url:
-                              self.openurl(url, predict=False))
+            QTimer.singleShot(100, functools.partial(self.openurl,
+                                                     self._reload_url,
+                                                     predict=False))
             self._reload_url = None
 
         if not qtutils.version_check('5.10', compiled=False):
@@ -1048,10 +1047,33 @@ class WebEngineTab(browsertab.AbstractTab):
     @pyqtSlot(usertypes.NavigationRequest)
     def _on_navigation_request(self, navigation):
         super()._on_navigation_request(navigation)
+
+        if qtutils.version_check('5.11.0', exact=True, compiled=False):
+            # WORKAROUND for https://bugreports.qt.io/browse/QTBUG-68224
+            layout = self._widget.layout()
+            count = layout.count()
+            children = self._widget.findChildren(QWidget)
+            if not count and children:
+                log.webview.warning("Found children not in layout: {}, "
+                                    "focus proxy {} (QTBUG-68224)".format(
+                                        children, self._widget.focusProxy()))
+            if count > 1:
+                log.webview.debug("Found {} widgets! (QTBUG-68224)"
+                                  .format(count))
+                for i in range(count):
+                    item = layout.itemAt(i)
+                    if item is None:
+                        continue
+                    widget = item.widget()
+                    if widget is not self._widget.focusProxy():
+                        log.webview.debug("Removing widget {} (QTBUG-68224)"
+                                          .format(widget))
+                        layout.removeWidget(widget)
+
         if not navigation.accepted or not navigation.is_main_frame:
             return
 
-        needs_reload = {
+        settings_needing_reload = {
             'content.plugins',
             'content.javascript.enabled',
             'content.javascript.can_access_clipboard',
@@ -1060,11 +1082,20 @@ class WebEngineTab(browsertab.AbstractTab):
             'input.spatial_navigation',
             'input.spatial_navigation',
         }
-        assert needs_reload.issubset(configdata.DATA)
+        assert settings_needing_reload.issubset(configdata.DATA)
 
         changed = self.settings.update_for_url(navigation.url)
-        if (changed & needs_reload and navigation.navigation_type !=
-                navigation.Type.link_clicked):
+        reload_needed = changed & settings_needing_reload
+
+        # On Qt < 5.11, we don't don't need a reload when type == link_clicked.
+        # On Qt 5.11.0, we always need a reload.
+        # TODO on Qt > 5.11.0, we hopefully never need a reload:
+        #      https://codereview.qt-project.org/#/c/229525/1
+        if not qtutils.version_check('5.11.0', exact=True, compiled=False):
+            if navigation.navigation_type != navigation.Type.link_clicked:
+                reload_needed = False
+
+        if reload_needed:
             # WORKAROUND for https://bugreports.qt.io/browse/QTBUG-66656
             self._reload_url = navigation.url
 
