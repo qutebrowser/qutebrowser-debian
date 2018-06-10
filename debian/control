@@ -14,7 +14,6 @@ Build-Depends: asciidoc,
                python3-setuptools,
                source-highlight,
                xsltproc
-X-Python3-Version: >= 3.5
 Standards-Version: 4.1.4
 Homepage: https://qutebrowser.org
 Vcs-Git: https://github.com/qutebrowser/qutebrowser-debian.git
