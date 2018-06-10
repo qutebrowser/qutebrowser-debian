@@ -1,4 +1,4 @@
-qutebrowser (1.3.2-1) UNRELEASED; urgency=medium
+qutebrowser (1.3.2-1) unstable; urgency=medium
 
   [ Fritz Reichwald ]
   * Import new upstream release 1.3.1.
@@ -8,7 +8,7 @@ qutebrowser (1.3.2-1) UNRELEASED; urgency=medium
   * Drop "X-Python3-Version: >= 3.5" header. Other build-dependencies
     don't allow building in Debian releases older than Debian 9 Stretch.
 
- -- Fritz Reichwald <reichwald@b1-systems.de>  Wed, 30 May 2018 20:50:43 +0200
+ -- Axel Beckert <abe@debian.org>  Sun, 10 Jun 2018 16:12:55 +0200
 
 qutebrowser (1.3.0-1) unstable; urgency=medium
 
