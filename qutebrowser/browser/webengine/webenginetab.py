@@ -30,7 +30,7 @@ from PyQt5.QtCore import (pyqtSignal, pyqtSlot, Qt, QEvent, QPoint, QPointF,
                           QUrl, QTimer)
 from PyQt5.QtGui import QKeyEvent, QIcon
 from PyQt5.QtNetwork import QAuthenticator
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineScript
 
 from qutebrowser.config import configdata, config
@@ -1048,28 +1048,6 @@ class WebEngineTab(browsertab.AbstractTab):
     def _on_navigation_request(self, navigation):
         super()._on_navigation_request(navigation)
 
-        if qtutils.version_check('5.11.0', exact=True, compiled=False):
-            # WORKAROUND for https://bugreports.qt.io/browse/QTBUG-68224
-            layout = self._widget.layout()
-            count = layout.count()
-            children = self._widget.findChildren(QWidget)
-            if not count and children:
-                log.webview.warning("Found children not in layout: {}, "
-                                    "focus proxy {} (QTBUG-68224)".format(
-                                        children, self._widget.focusProxy()))
-            if count > 1:
-                log.webview.debug("Found {} widgets! (QTBUG-68224)"
-                                  .format(count))
-                for i in range(count):
-                    item = layout.itemAt(i)
-                    if item is None:
-                        continue
-                    widget = item.widget()
-                    if widget is not self._widget.focusProxy():
-                        log.webview.debug("Removing widget {} (QTBUG-68224)"
-                                          .format(widget))
-                        layout.removeWidget(widget)
-
         if not navigation.accepted or not navigation.is_main_frame:
             return
 
@@ -1092,7 +1070,7 @@ class WebEngineTab(browsertab.AbstractTab):
         # TODO on Qt > 5.11.0, we hopefully never need a reload:
         #      https://codereview.qt-project.org/#/c/229525/1
         if not qtutils.version_check('5.11.0', exact=True, compiled=False):
-            if navigation.navigation_type != navigation.Type.link_clicked:
+            if navigation.navigation_type == navigation.Type.link_clicked:
                 reload_needed = False
 
         if reload_needed:
@@ -1137,4 +1115,4 @@ class WebEngineTab(browsertab.AbstractTab):
         self.predicted_navigation.connect(self._on_predicted_navigation)
 
     def event_target(self):
-        return self._widget.focusProxy()
+        return self._widget.render_widget()

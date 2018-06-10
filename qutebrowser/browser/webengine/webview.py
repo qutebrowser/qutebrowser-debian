@@ -21,8 +21,10 @@
 
 import functools
 
+import sip
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QUrl, PYQT_VERSION
 from PyQt5.QtGui import QPalette
+from PyQt5.QtQuickWidgets import QQuickWidget
 from PyQt5.QtWebEngineWidgets import (QWebEngineView, QWebEnginePage,
                                       QWebEngineScript)
 
@@ -30,6 +32,7 @@ from qutebrowser.browser import shared
 from qutebrowser.browser.webengine import certificateerror, webenginesettings
 from qutebrowser.config import config
 from qutebrowser.utils import log, debug, usertypes, jinja, objreg, qtutils
+from qutebrowser.misc import miscwidgets
 
 
 class WebEngineView(QWebEngineView):
@@ -50,6 +53,34 @@ class WebEngineView(QWebEngineView):
         page = WebEnginePage(theme_color=theme_color, profile=profile,
                              parent=self)
         self.setPage(page)
+
+        if qtutils.version_check('5.11', compiled=False):
+            # Set a PseudoLayout as a WORKAROUND for
+            # https://bugreports.qt.io/browse/QTBUG-68224
+            # and other related issues.
+            sip.delete(self.layout())
+            self._layout = miscwidgets.PseudoLayout(self)
+
+    def render_widget(self):
+        """Get the RenderWidgetHostViewQt for this view.
+
+        Normally, this would always be the focusProxy().
+        However, it sometimes isn't, so we use this as a WORKAROUND for
+        https://bugreports.qt.io/browse/QTBUG-68727
+        """
+        proxy = self.focusProxy()
+        if proxy is not None:
+            return proxy
+
+        # This should only find the RenderWidgetHostViewQtDelegateWidget,
+        # but not e.g. a QMenu
+        children = self.findChildren(QQuickWidget)
+
+        if not children:
+            return None
+
+        assert len(children) == 1, children
+        return children[0]
 
     def shutdown(self):
         self.page().shutdown()
