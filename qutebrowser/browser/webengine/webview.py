@@ -24,7 +24,7 @@ import functools
 import sip
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QUrl, PYQT_VERSION
 from PyQt5.QtGui import QPalette
-from PyQt5.QtQuickWidgets import QQuickWidget
+from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWebEngineWidgets import (QWebEngineView, QWebEnginePage,
                                       QWebEngineScript)
 
@@ -72,15 +72,15 @@ class WebEngineView(QWebEngineView):
         if proxy is not None:
             return proxy
 
-        # This should only find the RenderWidgetHostViewQtDelegateWidget,
-        # but not e.g. a QMenu
-        children = self.findChildren(QQuickWidget)
+        # We don't want e.g. a QMenu.
+        rwhv_class = 'QtWebEngineCore::RenderWidgetHostViewQtDelegateWidget'
+        children = [c for c in self.findChildren(QWidget)
+                    if c.isVisible() and c.inherits(rwhv_class)]
 
-        if not children:
-            return None
+        log.webview.debug("Found possibly lost focusProxy: {}"
+                          .format(children))
 
-        assert len(children) == 1, children
-        return children[0]
+        return children[-1] if children else None
 
     def shutdown(self):
         self.page().shutdown()
