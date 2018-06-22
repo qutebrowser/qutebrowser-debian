@@ -1,7 +1,7 @@
-qutebrowser (1.3.3-1) UNRELEASED; urgency=medium
+qutebrowser (1.3.3-1) unstable; urgency=high
 
   * New upstream release
-  * Fixes security issue whith rendering html tags in history
+  * Fixes security issue with rendering html tags in history
     see: https://github.com/qutebrowser/qutebrowser/issues/4011
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Fri, 22 Jun 2018 00:06:52 +0200
