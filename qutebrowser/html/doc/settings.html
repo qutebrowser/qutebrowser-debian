@@ -1213,6 +1213,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Require a confirmation before quitting the application.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#content.autoplay">content.autoplay</a></p></td>
+<td align="left" valign="top"><p class="table">Automatically start playing <code>&lt;video&gt;</code> elements.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#content.cache.appcache">content.cache.appcache</a></p></td>
 <td align="left" valign="top"><p class="table">Enable support for the HTML 5 web application cache feature.</p></td>
 </tr>
@@ -1223,6 +1227,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.cache.size">content.cache.size</a></p></td>
 <td align="left" valign="top"><p class="table">Size (in bytes) of the HTTP network cache. Null to use the default value.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content.canvas_reading">content.canvas_reading</a></p></td>
+<td align="left" valign="top"><p class="table">Allow websites to read canvas elements.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.cookies.accept">content.cookies.accept</a></p></td>
@@ -1237,8 +1245,8 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Default encoding to use for websites.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#content.developer_extras">content.developer_extras</a></p></td>
-<td align="left" valign="top"><p class="table">Enable extra tools for Web developers.</p></td>
+<td align="left" valign="top"><p class="table"><a href="#content.desktop_capture">content.desktop_capture</a></p></td>
+<td align="left" valign="top"><p class="table">Allow websites to share screen content.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.dns_prefetch">content.dns_prefetch</a></p></td>
@@ -1353,6 +1361,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Allow pdf.js to view PDF files in the browser.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#content.persistent_storage">content.persistent_storage</a></p></td>
+<td align="left" valign="top"><p class="table">Allow websites to request persistent storage quota via <code>navigator.webkitPersistentStorage.requestQuota</code>.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#content.plugins">content.plugins</a></p></td>
 <td align="left" valign="top"><p class="table">Enable plugins in Web pages.</p></td>
 </tr>
@@ -1373,6 +1385,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Send DNS requests over the configured proxy.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#content.register_protocol_handler">content.register_protocol_handler</a></p></td>
+<td align="left" valign="top"><p class="table">Allow websites to register protocol handlers via <code>navigator.registerProtocolHandler</code>.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#content.ssl_strict">content.ssl_strict</a></p></td>
 <td align="left" valign="top"><p class="table">Validate SSL handshakes.</p></td>
 </tr>
@@ -1383,6 +1399,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.webgl">content.webgl</a></p></td>
 <td align="left" valign="top"><p class="table">Enable WebGL.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content.webrtc_public_interfaces_only">content.webrtc_public_interfaces_only</a></p></td>
+<td align="left" valign="top"><p class="table">Only expose public interfaces via WebRTC.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.windowed_fullscreen">content.windowed_fullscreen</a></p></td>
@@ -1575,6 +1595,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#history_gap_interval">history_gap_interval</a></p></td>
 <td align="left" valign="top"><p class="table">Maximum time (in minutes) between two history items for them to be considered being from the same browsing session.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input.escape_quits_reporter">input.escape_quits_reporter</a></p></td>
+<td align="left" valign="top"><p class="table">Allow Escape to quit the crash reporter.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#input.forward_unbound_keys">input.forward_unbound_keys</a></p></td>
@@ -2518,6 +2542,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>&lt;Alt-m&gt;</code>: <code>tab-mute</code>
+</p>
+</li>
+<li>
+<p>
 <code>&lt;Ctrl-A&gt;</code>: <code>navigate increment</code>
 </p>
 </li>
@@ -2579,6 +2608,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <li>
 <p>
 <code>&lt;Ctrl-Shift-T&gt;</code>: <code>undo</code>
+</p>
+</li>
+<li>
+<p>
+<code>&lt;Ctrl-Shift-Tab&gt;</code>: <code>nop</code>
 </p>
 </li>
 <li>
@@ -2889,6 +2923,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <li>
 <p>
 <code>gg</code>: <code>scroll-to-perc 0</code>
+</p>
+</li>
+<li>
+<p>
+<code>gi</code>: <code>hint inputs --first</code>
 </p>
 </li>
 <li>
@@ -4120,6 +4159,15 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 </ul></div>
 </div>
 <div class="sect2">
+<h3 id="content.autoplay">content.autoplay</h3>
+<div class="paragraph"><p>Automatically start playing <code>&lt;video&gt;</code> elements.
+Note this option needs a restart with QtWebEngine on Qt &lt; 5.11.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.10 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
 <h3 id="content.cache.appcache">content.cache.appcache</h3>
 <div class="paragraph"><p>Enable support for the HTML 5 web application cache feature.
 An application cache acts like an HTTP cache in some sense. For documents that use the application cache via JavaScript, the loader engine will first ask the application cache for the contents, before hitting the network.</p></div>
@@ -4145,6 +4193,15 @@ With QtWebEngine, the maximum supported value is 2147483647 (~2 GB).</p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
+<h3 id="content.canvas_reading">content.canvas_reading</h3>
+<div class="paragraph"><p>Allow websites to read canvas elements.
+Note this is needed for some websites to work properly.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+</div>
+<div class="sect2">
 <h3 id="content.cookies.accept">content.cookies.accept</h3>
 <div class="paragraph"><p>Which cookies to accept.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
@@ -4162,7 +4219,7 @@ With QtWebEngine, the maximum supported value is 2147483647 (~2 GB).</p></div>
 </li>
 <li>
 <p>
-<code>no-unknown-3rdparty</code>: Accept cookies from the same origin only, unless a cookie is already set for the domain.
+<code>no-unknown-3rdparty</code>: Accept cookies from the same origin only, unless a cookie is already set for the domain. On QtWebEngine, this is the same as no-3rdparty.
 </p>
 </li>
 <li>
@@ -4172,7 +4229,7 @@ With QtWebEngine, the maximum supported value is 2147483647 (~2 GB).</p></div>
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>no-3rdparty</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.11 or newer.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.cookies.store">content.cookies.store</h3>
@@ -4189,12 +4246,30 @@ The encoding must be a string describing an encoding such as <em>utf-8</em>, <em
 <div class="paragraph"><p>Default: <code>iso-8859-1</code></p></div>
 </div>
 <div class="sect2">
-<h3 id="content.developer_extras">content.developer_extras</h3>
-<div class="paragraph"><p>Enable extra tools for Web developers.
-This needs to be enabled for <code>:inspector</code> to work and also adds an <em>Inspect</em> entry to the context menu. For QtWebEngine, see <code>--enable-webengine-inspector</code> in <code>qutebrowser --help</code> instead.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+<h3 id="content.desktop_capture">content.desktop_capture</h3>
+<div class="paragraph"><p>Allow websites to share screen content.
+On Qt &lt; 5.10, a dialog box is always displayed, even if this is set to "true".</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+<li>
+<p>
+<code>ask</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>ask</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.dns_prefetch">content.dns_prefetch</h3>
@@ -4216,6 +4291,7 @@ This will flatten all the frames to become one scrollable page.</p></div>
 <div class="sect2">
 <h3 id="content.geolocation">content.geolocation</h3>
 <div class="paragraph"><p>Allow websites to request geolocations.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4239,13 +4315,16 @@ This will flatten all the frames to become one scrollable page.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.headers.accept_language">content.headers.accept_language</h3>
-<div class="paragraph"><p>Value to send in the <code>Accept-Language</code> header.</p></div>
+<div class="paragraph"><p>Value to send in the <code>Accept-Language</code> header.
+Note that the value read from JavaScript is always the global value.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Default: <code>en-US,en</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.headers.custom">content.headers.custom</h3>
 <div class="paragraph"><p>Custom headers for qutebrowser HTTP requests.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Dict</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
@@ -4253,6 +4332,7 @@ This will flatten all the frames to become one scrollable page.</p></div>
 <h3 id="content.headers.do_not_track">content.headers.do_not_track</h3>
 <div class="paragraph"><p>Value to send in the <code>DNT</code> header.
 When this is set to true, qutebrowser asks websites to not track your identity. If set to null, the DNT header is not sent at all.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -4284,7 +4364,9 @@ The Referer header tells websites from which website you were coming from when v
 </div>
 <div class="sect2">
 <h3 id="content.headers.user_agent">content.headers.user_agent</h3>
-<div class="paragraph"><p>User agent to send. Unset to send the default.</p></div>
+<div class="paragraph"><p>User agent to send. Unset to send the default.
+Note that the value read from JavaScript is always the global value.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
@@ -4457,6 +4539,7 @@ On QtWebKit, the "unknown" setting is always used.</p></div>
 <div class="sect2">
 <h3 id="content.media_capture">content.media_capture</h3>
 <div class="paragraph"><p>Allow websites to record audio/video.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4489,6 +4572,7 @@ If unset, <code>~/.netrc</code> is used.</p></div>
 <div class="sect2">
 <h3 id="content.notifications">content.notifications</h3>
 <div class="paragraph"><p>Allow websites to show notifications.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4518,6 +4602,33 @@ Note that the files can still be downloaded by clicking the download button in t
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="content.persistent_storage">content.persistent_storage</h3>
+<div class="paragraph"><p>Allow websites to request persistent storage quota via <code>navigator.webkitPersistentStorage.requestQuota</code>.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+<li>
+<p>
+<code>ask</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>ask</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.11 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.plugins">content.plugins</h3>
@@ -4568,8 +4679,36 @@ In addition to the listed values, you can use a <code>socks://...</code> or <cod
 <div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 </div>
 <div class="sect2">
+<h3 id="content.register_protocol_handler">content.register_protocol_handler</h3>
+<div class="paragraph"><p>Allow websites to register protocol handlers via <code>navigator.registerProtocolHandler</code>.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+<li>
+<p>
+<code>ask</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>ask</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.11 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
 <h3 id="content.ssl_strict">content.ssl_strict</h3>
 <div class="paragraph"><p>Validate SSL handshakes.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4603,6 +4742,15 @@ In addition to the listed values, you can use a <code>socks://...</code> or <cod
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content.webrtc_public_interfaces_only">content.webrtc_public_interfaces_only</h3>
+<div class="paragraph"><p>Only expose public interfaces via WebRTC.
+On Qt 5.9, this option requires a restart. On Qt 5.10, this option doesn&#8217;t work at all because of a Qt bug. On Qt &gt;= 5.11, no restart is required.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.9.2 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.windowed_fullscreen">content.windowed_fullscreen</h3>
@@ -5076,6 +5224,12 @@ Items with less time between them are grouped when being displayed in <code>:his
 <div class="paragraph"><p>Default: <code>30</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="input.escape_quits_reporter">input.escape_quits_reporter</h3>
+<div class="paragraph"><p>Allow Escape to quit the crash reporter.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="input.forward_unbound_keys">input.forward_unbound_keys</h3>
 <div class="paragraph"><p>Which unbound keys to forward to the webview in normal mode.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
@@ -5275,10 +5429,33 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="qt.force_software_rendering">qt.force_software_rendering</h3>
 <div class="paragraph"><p>Force software rendering for QtWebEngine.
-This is needed for QtWebEngine to work with Nouveau drivers.
+This is needed for QtWebEngine to work with Nouveau drivers and can be useful in other scenarios related to graphic issues.
 This setting requires a restart.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>software-opengl</code>: Tell LibGL to use a software implementation of GL (<code>LIBGL_ALWAYS_SOFTWARE</code> / <code>QT_XCB_FORCE_SOFTWARE_OPENGL</code>)
+</p>
+</li>
+<li>
+<p>
+<code>qt-quick</code>: Tell Qt Quick to use a software renderer instead of OpenGL. (<code>QT_QUICK_BACKEND=software</code>)
+</p>
+</li>
+<li>
+<p>
+<code>chromium</code>: Tell Chromium to disable GPU support and use Skia software rendering instead. (<code>--disable-gpu</code>)
+</p>
+</li>
+<li>
+<p>
+<code>none</code>: Don&#8217;t force software rendering.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>none</code></p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
@@ -6174,9 +6351,14 @@ The following placeholders are defined:</p></div>
 <code>{protocol}</code>: Protocol (http/https/&#8230;) of the current web page.
 </p>
 </li>
+<li>
+<p>
+<code>{audio}</code>: Indicator for audio/mute status.
+</p>
+</li>
 </ul></div>
 <div class="paragraph"><p>Type: <a href="#types">FormatString</a></p></div>
-<div class="paragraph"><p>Default: <code>{index}: {title}</code></p></div>
+<div class="paragraph"><p>Default: <code>{audio}{index}: {title}</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="tabs.title.format_pinned">tabs.title.format_pinned</h3>
@@ -6657,7 +6839,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-06-21 23:34:38 CEST
+ 2018-07-03 15:48:09 CEST
 </div>
 </div>
 </body>

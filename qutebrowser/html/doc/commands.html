@@ -1198,6 +1198,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Move the current tab according to the argument and [count].</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#tab-mute">tab-mute</a></p></td>
+<td align="left" valign="top"><p class="table">Mute/Unmute the current/[count]th tab.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#tab-next">tab-next</a></p></td>
 <td align="left" valign="top"><p class="table">Switch to the next tab, or switch [count] tabs forward.</p></td>
 </tr>
@@ -2029,7 +2033,7 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 <div class="sect2">
 <h3 id="hint">hint</h3>
-<div class="paragraph"><p>Syntax: <code>:hint [<strong>--mode</strong> <em>mode</em>] [<strong>--add-history</strong>] [<strong>--rapid</strong>]
+<div class="paragraph"><p>Syntax: <code>:hint [<strong>--mode</strong> <em>mode</em>] [<strong>--add-history</strong>] [<strong>--rapid</strong>] [<strong>--first</strong>]
      [<em>group</em>] [<em>target</em>] [<em>args</em> [<em>args</em> &#8230;]]</code></p></div>
 <div class="paragraph"><p>Start hinting.</p></div>
 <div class="sect3">
@@ -2216,6 +2220,11 @@ With <code>run</code>: Same as <code>fill</code>.
  open multiple links. This is only possible with targets
  <code>tab</code> (with <code>tabs.background_tabs=true</code>), <code>tab-bg</code>,
  <code>window</code>, <code>run</code>, <code>hover</code>, <code>userscript</code> and <code>spawn</code>.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-f</strong></code>, <code><strong>--first</strong></code>: Click the first hinted element without prompting.
 </p>
 </li>
 </ul></div>
@@ -3561,10 +3570,18 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 </div>
 <div class="sect2">
+<h3 id="tab-mute">tab-mute</h3>
+<div class="paragraph"><p>Mute/Unmute the current/[count]th tab.</p></div>
+<div class="sect3">
+<h4 id="_count_29">count</h4>
+<div class="paragraph"><p>The tab index to mute or unmute</p></div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="tab-next">tab-next</h3>
 <div class="paragraph"><p>Switch to the next tab, or switch [count] tabs forward.</p></div>
 <div class="sect3">
-<h4 id="_count_29">count</h4>
+<h4 id="_count_30">count</h4>
 <div class="paragraph"><p>How many tabs to switch forward.</p></div>
 </div>
 </div>
@@ -3598,7 +3615,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Pin/Unpin the current/[count]th tab.</p></div>
 <div class="paragraph"><p>Pinning a tab shrinks it to the size of its title text. Attempting to close a pinned tab will cause a confirmation, unless --force is passed.</p></div>
 <div class="sect3">
-<h4 id="_count_30">count</h4>
+<h4 id="_count_31">count</h4>
 <div class="paragraph"><p>The tab index to pin or unpin</p></div>
 </div>
 </div>
@@ -3606,7 +3623,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="tab-prev">tab-prev</h3>
 <div class="paragraph"><p>Switch to the previous tab, or switch [count] tabs back.</p></div>
 <div class="sect3">
-<h4 id="_count_31">count</h4>
+<h4 id="_count_32">count</h4>
 <div class="paragraph"><p>How many tabs to switch back.</p></div>
 </div>
 </div>
@@ -3671,7 +3688,7 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 <div class="sect2">
 <h3 id="view-source">view-source</h3>
-<div class="paragraph"><p>Syntax: <code>:view-source [<strong>--edit</strong>]</code></p></div>
+<div class="paragraph"><p>Syntax: <code>:view-source [<strong>--edit</strong>] [<strong>--pygments</strong>]</code></p></div>
 <div class="paragraph"><p>Show the source of the current page in a new tab.</p></div>
 <div class="sect3">
 <h4 id="_optional_arguments_49">optional arguments</h4>
@@ -3679,6 +3696,13 @@ This command does not split arguments after the last argument and handles quotes
 <li>
 <p>
 <code><strong>-e</strong></code>, <code><strong>--edit</strong></code>: Edit the source in the editor instead of opening a tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-p</strong></code>, <code><strong>--pygments</strong></code>: Use pygments to generate the view. This is always the case for QtWebKit. For QtWebEngine it may display
+ slightly different source.
+ Some JavaScript processing may be applied.
 </p>
 </li>
 </ul></div>
@@ -3761,7 +3785,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_32">count</h4>
+<h4 id="_count_33">count</h4>
 <div class="paragraph"><p>The zoom percentage to set.</p></div>
 </div>
 </div>
@@ -3769,7 +3793,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="zoom-in">zoom-in</h3>
 <div class="paragraph"><p>Increase the zoom level for the current tab.</p></div>
 <div class="sect3">
-<h4 id="_count_33">count</h4>
+<h4 id="_count_34">count</h4>
 <div class="paragraph"><p>How many steps to zoom in.</p></div>
 </div>
 </div>
@@ -3777,7 +3801,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="zoom-out">zoom-out</h3>
 <div class="paragraph"><p>Decrease the zoom level for the current tab.</p></div>
 <div class="sect3">
-<h4 id="_count_34">count</h4>
+<h4 id="_count_35">count</h4>
 <div class="paragraph"><p>How many steps to zoom out.</p></div>
 </div>
 </div>
@@ -4092,7 +4116,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-end-of-next-block">move-to-end-of-next-block</h3>
 <div class="paragraph"><p>Move the cursor or selection to the end of next block.</p></div>
 <div class="sect3">
-<h4 id="_count_35">count</h4>
+<h4 id="_count_36">count</h4>
 <div class="paragraph"><p>How many blocks to move.</p></div>
 </div>
 </div>
@@ -4100,7 +4124,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-end-of-prev-block">move-to-end-of-prev-block</h3>
 <div class="paragraph"><p>Move the cursor or selection to the end of previous block.</p></div>
 <div class="sect3">
-<h4 id="_count_36">count</h4>
+<h4 id="_count_37">count</h4>
 <div class="paragraph"><p>How many blocks to move.</p></div>
 </div>
 </div>
@@ -4108,7 +4132,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-end-of-word">move-to-end-of-word</h3>
 <div class="paragraph"><p>Move the cursor or selection to the end of the word.</p></div>
 <div class="sect3">
-<h4 id="_count_37">count</h4>
+<h4 id="_count_38">count</h4>
 <div class="paragraph"><p>How many words to move.</p></div>
 </div>
 </div>
@@ -4116,7 +4140,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-next-char">move-to-next-char</h3>
 <div class="paragraph"><p>Move the cursor or selection to the next char.</p></div>
 <div class="sect3">
-<h4 id="_count_38">count</h4>
+<h4 id="_count_39">count</h4>
 <div class="paragraph"><p>How many lines to move.</p></div>
 </div>
 </div>
@@ -4124,7 +4148,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-next-line">move-to-next-line</h3>
 <div class="paragraph"><p>Move the cursor or selection to the next line.</p></div>
 <div class="sect3">
-<h4 id="_count_39">count</h4>
+<h4 id="_count_40">count</h4>
 <div class="paragraph"><p>How many lines to move.</p></div>
 </div>
 </div>
@@ -4132,7 +4156,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-next-word">move-to-next-word</h3>
 <div class="paragraph"><p>Move the cursor or selection to the next word.</p></div>
 <div class="sect3">
-<h4 id="_count_40">count</h4>
+<h4 id="_count_41">count</h4>
 <div class="paragraph"><p>How many words to move.</p></div>
 </div>
 </div>
@@ -4140,7 +4164,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-prev-char">move-to-prev-char</h3>
 <div class="paragraph"><p>Move the cursor or selection to the previous char.</p></div>
 <div class="sect3">
-<h4 id="_count_41">count</h4>
+<h4 id="_count_42">count</h4>
 <div class="paragraph"><p>How many chars to move.</p></div>
 </div>
 </div>
@@ -4148,7 +4172,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-prev-line">move-to-prev-line</h3>
 <div class="paragraph"><p>Move the cursor or selection to the prev line.</p></div>
 <div class="sect3">
-<h4 id="_count_42">count</h4>
+<h4 id="_count_43">count</h4>
 <div class="paragraph"><p>How many lines to move.</p></div>
 </div>
 </div>
@@ -4156,7 +4180,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-prev-word">move-to-prev-word</h3>
 <div class="paragraph"><p>Move the cursor or selection to the previous word.</p></div>
 <div class="sect3">
-<h4 id="_count_43">count</h4>
+<h4 id="_count_44">count</h4>
 <div class="paragraph"><p>How many words to move.</p></div>
 </div>
 </div>
@@ -4172,7 +4196,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-start-of-next-block">move-to-start-of-next-block</h3>
 <div class="paragraph"><p>Move the cursor or selection to the start of next block.</p></div>
 <div class="sect3">
-<h4 id="_count_44">count</h4>
+<h4 id="_count_45">count</h4>
 <div class="paragraph"><p>How many blocks to move.</p></div>
 </div>
 </div>
@@ -4180,7 +4204,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-start-of-prev-block">move-to-start-of-prev-block</h3>
 <div class="paragraph"><p>Move the cursor or selection to the start of previous block.</p></div>
 <div class="sect3">
-<h4 id="_count_45">count</h4>
+<h4 id="_count_46">count</h4>
 <div class="paragraph"><p>How many blocks to move.</p></div>
 </div>
 </div>
@@ -4638,7 +4662,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_46">count</h4>
+<h4 id="_count_47">count</h4>
 <div class="paragraph"><p>How many times to repeat the action.</p></div>
 </div>
 </div>
@@ -4649,7 +4673,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-06-21 23:34:28 CEST
+ 2018-07-03 15:48:01 CEST
 </div>
 </div>
 </body>

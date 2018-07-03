@@ -937,6 +937,16 @@ Replace <code>master</code> by the branch your work was based on, e.g.,
 </div>
 </div>
 <div class="sect1">
+<h2 id="_running_qutebrowser">Running qutebrowser</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>After <a href="install.asciidoc#tox">installing qutebrowser via tox</a>, you can run
+<code>.venv/bin/qutebrowser --debug --temp-basedir</code> to test your changes with debug
+logging enabled and without affecting existing running instances.</p></div>
+<div class="paragraph"><p>Alternatively, you can install qutebrowser&#8217;s dependencies system-wide and run
+<code>python3 -m qutebrowser --debug --temp-basedir</code>.</p></div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_useful_utilities">Useful utilities</h2>
 <div class="sectionbody">
 <div class="sect2">
@@ -1118,8 +1128,8 @@ Raw profile file (<code>--profile-tool=none</code>)
 <div class="paragraph"><p>There are some useful functions for debugging in the <code>qutebrowser.utils.debug</code>
 module.</p></div>
 <div class="paragraph"><p>When starting qutebrowser with the <code>--debug</code> flag, you also get useful debug
-logs. You can add <code>--logfilter <em>category[,category,&#8230;]</em></code> to restrict logging
-to the given categories.</p></div>
+logs. You can add <code>--logfilter <em>[!]category[,category,&#8230;]</em></code> to restrict
+logging to the given categories.</p></div>
 <div class="paragraph"><p>With <code>--debug</code> there are also some additional <code>debug-<em>*</em></code> commands available,
 for example <code>:debug-all-objects</code> and <code>:debug-all-widgets</code> which print a list of
 all Qt objects/widgets to the debug log&#8201;&#8212;&#8201;this is very useful for finding
@@ -1779,6 +1789,58 @@ chrome://ppapiflashcrash/
 chrome://ppapiflashhang/
 </p>
 </li>
+<li>
+<p>
+chrome://quota-internals/ (Qt 5.11)
+</p>
+</li>
+<li>
+<p>
+chrome://taskscheduler-internals/ (Qt 5.11)
+</p>
+</li>
+<li>
+<p>
+chrome://sandbox/ (Qt 5.11, Linux only)
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_qtwebengine_internals">QtWebEngine internals</h3>
+<div class="paragraph"><p>This is mostly useful for qutebrowser maintainers to work around issues in Qt - if you don&#8217;t understand it, don&#8217;t worry, just ignore it.</p></div>
+<div class="paragraph"><p>The hierarchy of widgets when QtWebEngine is involved looks like this:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+qutebrowser has a <code>WebEngineTab</code> object, which is its abstraction over QtWebKit/QtWebEngine.
+</p>
+</li>
+<li>
+<p>
+The <code>WebEngineTab</code> has a <code>_widget</code> attribute, which is the <a href="https://doc.qt.io/qt-5/qwebengineview.html">QWebEngineView</a>
+</p>
+</li>
+<li>
+<p>
+That view has a <a href="https://doc.qt.io/qt-5/qwebenginepage.html">QWebEnginePage</a> for everything which doesn&#8217;t require rendering.
+</p>
+</li>
+<li>
+<p>
+The view also has a layout with exactly one element (which also is its <code>focusProxy()</code>)
+</p>
+</li>
+<li>
+<p>
+That element is the  <a href="http://code.qt.io/cgit/qt/qtwebengine.git/tree/src/webenginewidgets/render_widget_host_view_qt_delegate_widget.cpp">RenderWidgetHostViewQtDelegateWidget</a> (it inherits <a href="https://doc.qt.io/qt-5/qquickwidget.html">QQuickWidget</a>) - also often referred to as RWHV or RWHVQDW. It can be obtained via <code>sip.cast(tab._widget.focusProxy(), QQuickWidget)</code>.
+</p>
+</li>
+<li>
+<p>
+Calling <code>rootObject()</code> on that gives us the <a href="https://doc.qt.io/qt-5/qquickitem.html">QQuickItem</a> where Chromium renders into (?). With it, we can do things like <code>.setRotation(20)</code>.
+</p>
+</li>
 </ul></div>
 </div>
 </div>
@@ -1995,16 +2057,6 @@ See above.
 </li>
 <li>
 <p>
-Install new PyQt in Windows VM (32- and 64-bit).
-</p>
-</li>
-<li>
-<p>
-Download new installer and update PyQt installer path in <code>ci_install.py</code>.
-</p>
-</li>
-<li>
-<p>
 Update <code>tox.ini</code>/<code>.travis.yml</code>/<code>.appveyor.yml</code> to test new versions.
 </p>
 </li>
@@ -2076,12 +2128,12 @@ Linux: Run <code>git checkout v1.$x.$y &amp;&amp; ./.venv/bin/python3 scripts/de
 </li>
 <li>
 <p>
-Windows: Run <code>git checkout v1.X.Y; C:\Python36-32\python scripts\dev\build_release.py --asciidoc C:\Python27\python C:\asciidoc-8.6.9\asciidoc.py --upload v1.X.Y</code> (replace X/Y by hand).
+Windows: Run <code>git checkout v1.X.Y; py -3.6 scripts\dev\build_release.py --asciidoc C:\Python27\python C:\asciidoc-8.6.9\asciidoc.py --upload v1.X.Y</code> (replace X/Y by hand).
 </p>
 </li>
 <li>
 <p>
-macOS: Run <code>git checkout v1.X.Y &amp;&amp; python3 scripts/dev/build_release.py --upload v1.X.Y</code> (replace X/Y by hand).
+macOS: Run <code>pyenv shell 3.6.6 &amp;&amp; git checkout v1.X.Y &amp;&amp; python3 scripts/dev/build_release.py --upload v1.X.Y</code> (replace X/Y by hand).
 </p>
 </li>
 <li>
@@ -2120,7 +2172,7 @@ Announce to qutebrowser and qutebrowser-announce mailinglist.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-06-21 23:34:23 CEST
+ 2018-07-03 15:47:57 CEST
 </div>
 </div>
 </body>
