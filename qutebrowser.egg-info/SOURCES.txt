@@ -34,7 +34,6 @@ misc/Makefile
 misc/cheatsheet.svg
 misc/qutebrowser.appdata.xml
 misc/qutebrowser.desktop
-misc/qutebrowser.rcc
 misc/apparmor/usr.bin.qutebrowser
 misc/requirements/README.md
 misc/requirements/requirements-check-manifest.txt
@@ -50,8 +49,6 @@ misc/requirements/requirements-pylint-master.txt
 misc/requirements/requirements-pylint-master.txt-raw
 misc/requirements/requirements-pylint.txt
 misc/requirements/requirements-pylint.txt-raw
-misc/requirements/requirements-pyqt-old.txt
-misc/requirements/requirements-pyqt-old.txt-raw
 misc/requirements/requirements-pyqt.txt
 misc/requirements/requirements-pyqt.txt-raw
 misc/requirements/requirements-pyroma.txt
@@ -72,6 +69,7 @@ misc/userscripts/open_download
 misc/userscripts/openfeeds
 misc/userscripts/password_fill
 misc/userscripts/qute-keepass
+misc/userscripts/qute-lastpass
 misc/userscripts/qute-pass
 misc/userscripts/qutedmenu
 misc/userscripts/readability
@@ -84,6 +82,7 @@ qutebrowser/__init__.py
 qutebrowser/__main__.py
 qutebrowser/app.py
 qutebrowser/git-commit-id
+qutebrowser/qt.py
 qutebrowser/qutebrowser.py
 qutebrowser/resources.py
 qutebrowser.egg-info/PKG-INFO
@@ -117,6 +116,7 @@ qutebrowser/browser/network/pac.py
 qutebrowser/browser/network/proxy.py
 qutebrowser/browser/webengine/__init__.py
 qutebrowser/browser/webengine/certificateerror.py
+qutebrowser/browser/webengine/cookies.py
 qutebrowser/browser/webengine/interceptor.py
 qutebrowser/browser/webengine/spell.py
 qutebrowser/browser/webengine/tabhistory.py
@@ -213,6 +213,7 @@ qutebrowser/javascript/greasemonkey_wrapper.js
 qutebrowser/javascript/history.js
 qutebrowser/javascript/pac_utils.js
 qutebrowser/javascript/position_caret.js
+qutebrowser/javascript/print.js
 qutebrowser/javascript/scroll.js
 qutebrowser/javascript/stylesheet.js
 qutebrowser/javascript/webelem.js

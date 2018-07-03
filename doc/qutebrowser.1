@@ -2,12 +2,12 @@
 .\"     Title: qutebrowser
 .\"    Author: [see the "AUTHOR" section]
 .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 06/21/2018
+.\"      Date: 07/03/2018
 .\"    Manual: qutebrowser manpage
 .\"    Source: qutebrowser
 .\"  Language: English
 .\"
-.TH "QUTEBROWSER" "1" "06/21/2018" "qutebrowser" "qutebrowser manpage"
+.TH "QUTEBROWSER" "1" "07/03/2018" "qutebrowser" "qutebrowser manpage"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -58,7 +58,7 @@ URLs to open on startup (empty as a window separator)\&.
 show this help message and exit
 .RE
 .PP
-\fB\-\-basedir\fR \fIBASEDIR\fR
+\fB\-B\fR \fIBASEDIR\fR, \fB\-\-basedir\fR \fIBASEDIR\fR
 .RS 4
 Base directory for all storage\&.
 .RE
@@ -97,7 +97,7 @@ Which backend to use\&.
 .RS 4
 Enable the web inspector for QtWebEngine\&. Note that this is a SECURITY RISK and you should not visit untrusted websites with the inspector turned on\&. See
 https://bugreports\&.qt\&.io/browse/QTBUG\-50725
-for more details\&.
+for more details\&. This is not needed anymore since Qt 5\&.11 where the inspector is always enabled and secure\&.
 .RE
 .SS "debug arguments"
 .PP
@@ -116,7 +116,7 @@ Comma\-separated list of things to be logged to the debug log on stdout\&.
 How many lines of the debug log to keep in RAM (\-1: unlimited)\&.
 .RE
 .PP
-\fB\-\-debug\fR
+\fB\-d\fR, \fB\-\-debug\fR
 .RS 4
 Turn on debugging options\&.
 .RE
@@ -141,7 +141,7 @@ Force colored logging
 Don\(cqt show the main window\&.
 .RE
 .PP
-\fB\-\-temp\-basedir\fR
+\fB\-T\fR, \fB\-\-temp\-basedir\fR
 .RS 4
 Use a temporary basedir\&.
 .RE
@@ -163,7 +163,7 @@ to set the window geometry\&.
 Pass an argument to Qt as flag\&.
 .RE
 .PP
-\fB\-\-debug\-flag\fR \fIDEBUG_FLAGS\fR
+\fB\-D\fR \fIDEBUG_FLAGS\fR, \fB\-\-debug\-flag\fR \fIDEBUG_FLAGS\fR
 .RS 4
 Pass name of debugging feature to be turned on\&.
 .RE

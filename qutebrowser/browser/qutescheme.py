@@ -34,7 +34,6 @@ import urllib
 import collections
 
 import pkg_resources
-import sip
 from PyQt5.QtCore import QUrlQuery, QUrl
 
 import qutebrowser
@@ -42,6 +41,7 @@ from qutebrowser.config import config, configdata, configexc, configdiff
 from qutebrowser.utils import (version, utils, jinja, log, message, docutils,
                                objreg, urlutils)
 from qutebrowser.misc import objects
+from qutebrowser.qt import sip
 
 
 pyeval_output = ":pyeval was never called"
@@ -178,7 +178,7 @@ def data_for_url(url):
     except OSError as e:
         # FIXME:qtwebengine how to handle this?
         raise QuteSchemeOSError(e)
-    except QuteSchemeError as e:
+    except QuteSchemeError:
         raise
 
     assert mimetype is not None, url
@@ -242,7 +242,7 @@ def history_data(start_time, offset=None):
         end_time = start_time - 24*60*60
         entries = hist.entries_between(end_time, start_time)
 
-    return [{"url": html.escape(e.url),
+    return [{"url": e.url,
              "title": html.escape(e.title) or html.escape(e.url),
              "time": e.atime} for e in entries]
 
