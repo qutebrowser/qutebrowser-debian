@@ -1,3 +1,12 @@
+qutebrowser (1.4.1-1) UNRELEASED; urgency=critical
+
+  * New upstream security release
+    + [CVE-2018-10895] Fixes CSRF issue on the qute://settings page, leading to
+      possible arbitrary code execution. See the related GitHub issue for
+      details: https://github.com/qutebrowser/qutebrowser/issues/4060
+
+ -- Axel Beckert <abe@debian.org>  Wed, 11 Jul 2018 17:21:13 +0200
+
 qutebrowser (1.4.0-1) unstable; urgency=medium
 
   [ Fritz Reichwald ]
