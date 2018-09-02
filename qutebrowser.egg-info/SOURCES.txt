@@ -6,7 +6,7 @@ requirements.txt
 setup.py
 tox.ini
 doc/changelog.asciidoc
-doc/contributing.html
+doc/faq.html
 doc/qutebrowser.1
 doc/qutebrowser.1.asciidoc
 doc/img/cheatsheet-big.png
