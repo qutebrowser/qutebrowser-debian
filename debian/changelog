@@ -1,6 +1,7 @@
 qutebrowser (1.4.2-1) UNRELEASED; urgency=medium
 
   * New upstream bugfix release.
+  * Declare compliance with Debian Policy 4.2.1. (No changes needed.)
 
  -- Axel Beckert <abe@debian.org>  Sun, 02 Sep 2018 21:05:42 +0200
 
