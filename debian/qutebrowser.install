@@ -8,6 +8,7 @@ icons/qutebrowser-32x32.png /usr/share/icons/hicolor/32x32/apps/
 icons/qutebrowser-48x48.png /usr/share/icons/hicolor/48x48/apps/
 icons/qutebrowser-512x512.png /usr/share/icons/hicolor/512x512/apps/
 icons/qutebrowser-64x64.png /usr/share/icons/hicolor/64x64/apps/
+icons/qutebrowser.svg /usr/share/icons/hicolor/scalable/apps/
 icons/qutebrowser.xpm /usr/share/pixmaps/
 misc/qutebrowser.desktop /usr/share/applications
 misc/userscripts/* /usr/share/qutebrowser/userscripts/
