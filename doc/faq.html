@@ -772,14 +772,14 @@ software.</p></div>
 What&#8217;s wrong with <a href="https://bitbucket.org/portix/dwb/">dwb</a>/<a href="https://sourceforge.net/projects/vimprobable/">vimprobable</a>/<a href="https://mason-larobina.github.io/luakit/">luakit</a>/jumanji/&#8230; (projects based on WebKitGTK)?
 </em></p>
 <p>
-    Most of them are based on the <a href="http://webkitgtk.org/">WebKitGTK+</a>
-    <a href="http://webkitgtk.org/reference/webkitgtk/stable/index.html">WebKit1</a> API,
+    Most of them are based on the <a href="https://webkitgtk.org/">WebKitGTK+</a>
+    <a href="https://webkitgtk.org/reference/webkitgtk/stable/index.html">WebKit1</a> API,
     which causes a lot of crashes. As the GTK API using WebKit1 is
     <a href="https://lists.webkit.org/pipermail/webkit-gtk/2014-March/001821.html">deprecated</a>,
     these bugs are never going to be fixed.
 </p>
 <div class="paragraph"><p>When qutebrowser was created, the newer
-<a href="http://webkitgtk.org/reference/webkit2gtk/stable/index.html">WebKit2 API</a> lacked
+<a href="https://webkitgtk.org/reference/webkit2gtk/stable/index.html">WebKit2 API</a> lacked
 basic features like proxy support, and almost no projects have started porting
 to WebKit2. In the meantime, this situation has improved a bit, but there are
 still only a few projects which have some kind of WebKit2 support (see the
@@ -794,7 +794,7 @@ web features - it&#8217;s also arguably more secure.</p></div>
 </li>
 <li>
 <p><em>
-What&#8217;s wrong with <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a> and <a href="http://5digits.org/pentadactyl/">Pentadactyl</a>/<a href="http://www.vimperator.org/vimperator">Vimperator</a>?
+What&#8217;s wrong with <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a> and <a href="http://bug.5digits.org/pentadactyl/">Pentadactyl</a>/<a href="http://www.vimperator.org/vimperator">Vimperator</a>?
 </em></p>
 <p>
     Firefox likes to break compatibility with addons on each upgrade, gets
@@ -806,7 +806,7 @@ What&#8217;s wrong with <a href="https://www.mozilla.org/en-US/firefox/new/">Fir
 </li>
 <li>
 <p><em>
-What&#8217;s wrong with <a href="http://www.chromium.org/Home">Chromium</a> and <a href="https://vimium.github.io/">Vimium</a>?
+What&#8217;s wrong with <a href="https://www.chromium.org/Home">Chromium</a> and <a href="https://vimium.github.io/">Vimium</a>?
 </em></p>
 <p>
     The Chrome plugin API doesn&#8217;t seem to allow much freedom for plugin
@@ -831,7 +831,7 @@ Why Python?
 But isn&#8217;t Python too slow for a browser?
 </em></p>
 <p>
-    <a href="http://www.infoworld.com/d/application-development/van-rossum-python-not-too-slow-188715">No.</a>
+    <a href="https://www.infoworld.com/d/application-development/van-rossum-python-not-too-slow-188715">No.</a>
     I believe efficiency while coding is a lot more important than efficiency
     while running. Also, most of the heavy lifting of qutebrowser is done by Qt
     and WebKit in C++, with the
@@ -874,7 +874,7 @@ Is there an adblocker?
 <p>
     There is a host-based adblocker which takes /etc/hosts-like lists. A "real"
     adblocker has a
-    <a href="http://www.reddit.com/r/programming/comments/25j41u/adblock_pluss_effect_on_firefoxs_memory_usage/chhpomw">big
+    <a href="https://www.reddit.com/r/programming/comments/25j41u/adblock_pluss_effect_on_firefoxs_memory_usage/chhpomw">big
     impact</a> on browsing speed and
     <a href="https://blog.mozilla.org/nnethercote/2014/05/14/adblock-pluss-effect-on-firefoxs-memory-usage/">RAM
     usage</a>, so implementing support for AdBlockPlus-like lists is currently not
@@ -931,14 +931,15 @@ playing them all at once.</p></div>
 How do I use qutebrowser with mutt?
 </em></p>
 <p>
-    Due to a Qt limitation, local files without <code>.html</code> extensions are
-    "downloaded" instead of displayed, see
-    <a href="https://github.com/qutebrowser/qutebrowser/issues/566">#566</a>. You can work
-    around this by using this in your <code>mailcap</code>:
+    For security reasons, local files without <code>.html</code> extensions aren&#8217;t
+    rendered as HTML, see
+    <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=777737">this Chromium issue</a>
+    for details. You can do this in your <code>mailcap</code> file to get a proper
+    extension:
 </p>
 <div class="listingblock">
 <div class="content">
-<pre><code>    text/html; mv %s %s.html &amp;&amp; qutebrowser %s.html &gt;/dev/null 2&gt;/dev/null; needsterminal;</code></pre>
+<pre><code>    text/html; qutebrowser %s; nametemplate=%s.html</code></pre>
 </div></div>
 </li>
 <li>
@@ -1131,7 +1132,7 @@ Unable to view flash content.
     to use the flash plugin. Using the command <code>:set content.plugins true</code>
     in qutebrowser will enable plugins. Packages for flash should
     be provided for your platform or it can be obtained from
-    <a href="http://get.adobe.com/flashplayer/">Adobe</a>.
+    <a href="https://get.adobe.com/flashplayer/">Adobe</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1192,6 +1193,19 @@ and move them to the <code>ppapi</code> plugin directory in your Qt library dire
 </div></div>
 </dd>
 <dt class="hdlist1">
+Unable to use <code>spawn</code> on MacOS.
+</dt>
+<dd>
+<p>
+When running qutebrowser from the prebuilt binary (<code>qutebrowser.app</code>) it <strong>will
+not</strong> read any files that would alter your <code>$PATH</code> (e.g. <code>.profile</code>, <code>.bashrc</code>,
+etc). This is not a bug, just that <code>.profile</code> is not propogated to GUI
+applications in MacOS.
+</p>
+<div class="paragraph"><p>See <a href="https://github.com/qutebrowser/qutebrowser/issues/4273">Issue #4273</a> for
+details and potential workarounds.</p></div>
+</dd>
+<dt class="hdlist1">
 My issue is not listed.
 </dt>
 <dd>
@@ -1200,7 +1214,7 @@ My issue is not listed.
     <a href="https://github.com/qutebrowser/qutebrowser/issues">the issue tracker</a> or
     using the <code>:report</code> command.
     If you are reporting a segfault, make sure you read the
-    <a href="doc/stacktrace.html">guide</a> on how to report them with all needed
+    <a href="stacktrace.html">guide</a> on how to report them with all needed
     information.
 </p>
 </dd>
@@ -1212,7 +1226,7 @@ My issue is not listed.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-08-27 23:29:47 CEST
+ 2018-09-30 22:14:56 CEST
 </div>
 </div>
 </body>

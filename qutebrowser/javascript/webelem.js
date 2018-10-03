@@ -333,13 +333,13 @@ window._qutebrowser.webelem = (function() {
     // it). If nothing is selected but there is something focused, returns
     // "focused"
     funcs.find_selected_focused_link = () => {
-        const elem = window.getSelection().baseNode;
+        const elem = window.getSelection().anchorNode;
         if (elem) {
             return serialize_elem(elem.parentNode);
         }
 
         const serialized_frame_elem = run_frames((frame) => {
-            const node = frame.window.getSelection().baseNode;
+            const node = frame.window.getSelection().anchorNode;
             if (node) {
                 return serialize_elem(node.parentNode, frame);
             }
@@ -360,6 +360,15 @@ window._qutebrowser.webelem = (function() {
         const elem = elements[id];
         elem.focus();
         document.execCommand("insertText", false, text);
+    };
+
+    funcs.dispatch_event = (id, event, bubbles = false,
+        cancelable = false, composed = false) => {
+        const elem = elements[id];
+        elem.dispatchEvent(
+            new Event(event, {"bubbles": bubbles,
+                "cancelable": cancelable,
+                "composed": composed}));
     };
 
     funcs.set_attribute = (id, name, value) => {
