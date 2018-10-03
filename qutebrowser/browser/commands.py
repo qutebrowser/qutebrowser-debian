@@ -66,6 +66,11 @@ class CommandDispatcher:
 
     def _new_tabbed_browser(self, private):
         """Get a tabbed-browser from a new window."""
+        args = QApplication.instance().arguments()
+        if private and '--single-process' in args:
+            raise cmdexc.CommandError("Private windows are unavailable with "
+                                      "the single-process process model.")
+
         new_window = mainwindow.MainWindow(private=private)
         new_window.show()
         return new_window.tabbed_browser
@@ -485,14 +490,16 @@ class CommandDispatcher:
         new_tabbed_browser.widget.set_tab_pinned(newtab, curtab.data.pinned)
         return newtab
 
-    @cmdutils.register(instance='command-dispatcher', scope='window')
+    @cmdutils.register(instance='command-dispatcher', scope='window',
+                       maxsplit=0)
     @cmdutils.argument('index', completion=miscmodels.other_buffer)
-    def tab_take(self, index):
+    def tab_take(self, index, keep=False):
         """Take a tab from another window.
 
         Args:
             index: The [win_id/]index of the tab to take. Or a substring
                    in which case the closest match will be taken.
+            keep: If given, keep the old tab around.
         """
         tabbed_browser, tab = self._resolve_buffer_index(index)
 
@@ -500,18 +507,20 @@ class CommandDispatcher:
             raise cmdexc.CommandError("Can't take a tab from the same window")
 
         self._open(tab.url(), tab=True)
-        tabbed_browser.close_tab(tab, add_undo=False)
+        if not keep:
+            tabbed_browser.close_tab(tab, add_undo=False)
 
     @cmdutils.register(instance='command-dispatcher', scope='window')
     @cmdutils.argument('win_id', completion=miscmodels.window)
     @cmdutils.argument('count', count=True)
-    def tab_give(self, win_id: int = None, count=None):
+    def tab_give(self, win_id: int = None, keep=False, count=None):
         """Give the current tab to a new or existing window if win_id given.
 
         If no win_id is given, the tab will get detached into a new window.
 
         Args:
             win_id: The window ID of the window to give the current tab to.
+            keep: If given, keep the old tab around.
             count: Overrides win_id (index starts at 1 for win_id=0).
         """
         if count is not None:
@@ -521,7 +530,7 @@ class CommandDispatcher:
             raise cmdexc.CommandError("Can't give a tab to the same window")
 
         if win_id is None:
-            if self._count() < 2:
+            if self._count() < 2 and not keep:
                 raise cmdexc.CommandError("Cannot detach from a window with "
                                           "only one tab")
 
@@ -536,7 +545,9 @@ class CommandDispatcher:
                                         window=win_id)
 
         tabbed_browser.tabopen(self._current_url())
-        self._tabbed_browser.close_tab(self._current_widget(), add_undo=False)
+        if not keep:
+            self._tabbed_browser.close_tab(self._current_widget(),
+                                           add_undo=False)
 
     def _back_forward(self, tab, bg, window, count, forward):
         """Helper function for :back/:forward."""
@@ -606,11 +617,11 @@ class CommandDispatcher:
                 - `up`: Go up a level in the current URL.
                 - `increment`: Increment the last number in the URL.
                   Uses the
-                  link:settings.html#url.incdec_segments[url.incdec_segments]
+                  link:settings{outsuffix}#url.incdec_segments[url.incdec_segments]
                   config option.
                 - `decrement`: Decrement the last number in the URL.
                   Uses the
-                  link:settings.html#url.incdec_segments[url.incdec_segments]
+                  link:settings{outsuffix}#url.incdec_segments[url.incdec_segments]
                   config option.
 
             tab: Open in a new tab.
@@ -624,7 +635,8 @@ class CommandDispatcher:
 
         cmdutils.check_exclusive((tab, bg, window), 'tbw')
         widget = self._current_widget()
-        url = self._current_url().adjusted(QUrl.RemoveFragment)
+        url = self._current_url()
+        url = url.adjusted(QUrl.RemoveFragment | QUrl.RemoveQuery)
 
         handlers = {
             'prev': functools.partial(navigate.prevnext, prev=True),
@@ -864,37 +876,41 @@ class CommandDispatcher:
 
     @cmdutils.register(instance='command-dispatcher', scope='window')
     @cmdutils.argument('count', count=True)
-    def zoom_in(self, count=1):
+    def zoom_in(self, count=1, quiet=False):
         """Increase the zoom level for the current tab.
 
         Args:
             count: How many steps to zoom in.
+            quiet: Don't show a zoom level message.
         """
         tab = self._current_widget()
         try:
             perc = tab.zoom.offset(count)
         except ValueError as e:
             raise cmdexc.CommandError(e)
-        message.info("Zoom level: {}%".format(int(perc)), replace=True)
+        if not quiet:
+            message.info("Zoom level: {}%".format(int(perc)), replace=True)
 
     @cmdutils.register(instance='command-dispatcher', scope='window')
     @cmdutils.argument('count', count=True)
-    def zoom_out(self, count=1):
+    def zoom_out(self, count=1, quiet=False):
         """Decrease the zoom level for the current tab.
 
         Args:
             count: How many steps to zoom out.
+            quiet: Don't show a zoom level message.
         """
         tab = self._current_widget()
         try:
             perc = tab.zoom.offset(-count)
         except ValueError as e:
             raise cmdexc.CommandError(e)
-        message.info("Zoom level: {}%".format(int(perc)), replace=True)
+        if not quiet:
+            message.info("Zoom level: {}%".format(int(perc)), replace=True)
 
     @cmdutils.register(instance='command-dispatcher', scope='window')
     @cmdutils.argument('count', count=True)
-    def zoom(self, zoom=None, count=None):
+    def zoom(self, zoom=None, count=None, quiet=False):
         """Set the zoom level for the current tab.
 
         The zoom can be given as argument or as [count]. If neither is
@@ -904,6 +920,7 @@ class CommandDispatcher:
         Args:
             zoom: The zoom percentage to set.
             count: The zoom percentage to set.
+            quiet: Don't show a zoom level message.
         """
         if zoom is not None:
             try:
@@ -921,7 +938,8 @@ class CommandDispatcher:
             tab.zoom.set_factor(float(level) / 100)
         except ValueError:
             raise cmdexc.CommandError("Can't zoom {}%!".format(level))
-        message.info("Zoom level: {}%".format(int(level)), replace=True)
+        if not quiet:
+            message.info("Zoom level: {}%".format(int(level)), replace=True)
 
     @cmdutils.register(instance='command-dispatcher', scope='window')
     def tab_only(self, prev=False, next_=False, force=False):
@@ -1110,15 +1128,16 @@ class CommandDispatcher:
         if index == 'last':
             self._tab_focus_last()
             return
-        elif not no_last and index == self._current_index() + 1:
-            self._tab_focus_last(show_error=False)
-            return
         elif index is None:
             self.tab_next()
             return
 
         if index < 0:
             index = self._count() + index + 1
+
+        if not no_last and index == self._current_index() + 1:
+            self._tab_focus_last(show_error=False)
+            return
 
         if 1 <= index <= self._count():
             self._set_current_index(index - 1)
@@ -1173,8 +1192,9 @@ class CommandDispatcher:
 
     @cmdutils.register(instance='command-dispatcher', scope='window',
                        maxsplit=0, no_replace_variables=True)
+    @cmdutils.argument('count', count=True)
     def spawn(self, cmdline, userscript=False, verbose=False,
-              output=False, detach=False):
+              output=False, detach=False, count=None):
         """Spawn a command in a shell.
 
         Args:
@@ -1182,12 +1202,13 @@ class CommandDispatcher:
                         absolute path, or store the userscript in one of those
                         locations:
                             - `~/.local/share/qutebrowser/userscripts`
-                              (or `$XDG_DATA_DIR`)
+                              (or `$XDG_DATA_HOME`)
                             - `/usr/share/qutebrowser/userscripts`
             verbose: Show notifications when the command started/exited.
             output: Whether the output should be shown in a new tab.
             detach: Whether the command should be detached from qutebrowser.
             cmdline: The commandline to execute.
+            count: Given to userscripts as $QUTE_COUNT.
         """
         cmdutils.check_exclusive((userscript, detach), 'ud')
         try:
@@ -1211,7 +1232,7 @@ class CommandDispatcher:
         if userscript:
             def _selection_callback(s):
                 try:
-                    runner = self._run_userscript(s, cmd, args, verbose)
+                    runner = self._run_userscript(s, cmd, args, verbose, count)
                     runner.finished.connect(_on_proc_finished)
                 except cmdexc.CommandError as e:
                     message.error(str(e))
@@ -1238,18 +1259,22 @@ class CommandDispatcher:
         """Open main startpage in current tab."""
         self.openurl(config.val.url.start_pages[0])
 
-    def _run_userscript(self, selection, cmd, args, verbose):
+    def _run_userscript(self, selection, cmd, args, verbose, count):
         """Run a userscript given as argument.
 
         Args:
             cmd: The userscript to run.
             args: Arguments to pass to the userscript.
             verbose: Show notifications when the command started/exited.
+            count: Exposed to the userscript.
         """
         env = {
             'QUTE_MODE': 'command',
             'QUTE_SELECTED_TEXT': selection,
         }
+
+        if count is not None:
+            env['QUTE_COUNT'] = str(count)
 
         idx = self._current_index()
         if idx != -1:
@@ -1646,6 +1671,8 @@ class CommandDispatcher:
         """
         try:
             elem.set_value(text)
+            # Kick off js handlers to trick them into thinking there was input.
+            elem.dispatch_event("input", bubbles=True)
         except webelem.OrphanedError:
             message.error('Edited element vanished')
             ed.backup()
@@ -2216,6 +2243,6 @@ class CommandDispatcher:
         if tab is None:
             return
         try:
-            tab.audio.toggle_muted()
+            tab.audio.toggle_muted(override=True)
         except browsertab.WebTabError as e:
             raise cmdexc.CommandError(e)

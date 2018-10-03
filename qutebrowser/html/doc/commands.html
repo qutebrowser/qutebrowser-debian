@@ -2163,7 +2163,7 @@ With <code>spawn</code>: The executable and arguments to spawn.
 With <code>userscript</code>: The userscript to execute. Either store
  the userscript in
  <code>~/.local/share/qutebrowser/userscripts</code>
- (or <code>$XDG_DATA_DIR</code>), or use an absolute
+ (or <code>$XDG_DATA_HOME</code>), or use an absolute
  path.
 </p>
 </li>
@@ -2543,7 +2543,6 @@ This command does not replace variables like <code>{url}</code>.
 <p>
 <code>increment</code>: Increment the last number in the URL.
  Uses the
- <a href="settings.html#url.incdec_segments">url.incdec_segments</a>
  config option.
 </p>
 </li>
@@ -2551,7 +2550,6 @@ This command does not replace variables like <code>{url}</code>.
 <p>
 <code>decrement</code>: Decrement the last number in the URL.
  Uses the
- <a href="settings.html#url.incdec_segments">url.incdec_segments</a>
  config option.
 </p>
 </li>
@@ -2858,6 +2856,10 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
+<h4 id="_count_14">count</h4>
+<div class="paragraph"><p>Multiplies with <em>times</em> when given.</p></div>
+</div>
+<div class="sect3">
 <h4 id="_note_13">note</h4>
 <div class="ulist"><ul>
 <li>
@@ -2882,7 +2884,7 @@ This command does not replace variables like <code>{url}</code>.
 <h3 id="repeat-command">repeat-command</h3>
 <div class="paragraph"><p>Repeat the last executed command.</p></div>
 <div class="sect3">
-<h4 id="_count_14">count</h4>
+<h4 id="_count_15">count</h4>
 <div class="paragraph"><p>Which count to pass the command.</p></div>
 </div>
 </div>
@@ -2909,7 +2911,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_15">count</h4>
+<h4 id="_count_16">count</h4>
 <div class="paragraph"><p>How many times to run the macro.</p></div>
 </div>
 </div>
@@ -2934,7 +2936,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_16">count</h4>
+<h4 id="_count_17">count</h4>
 <div class="paragraph"><p>The count that run_with_count itself received.</p></div>
 </div>
 <div class="sect3">
@@ -2989,7 +2991,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_17">count</h4>
+<h4 id="_count_18">count</h4>
 <div class="paragraph"><p>multiplier</p></div>
 </div>
 </div>
@@ -3028,7 +3030,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_18">count</h4>
+<h4 id="_count_19">count</h4>
 <div class="paragraph"><p>multiplier</p></div>
 </div>
 </div>
@@ -3052,7 +3054,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_19">count</h4>
+<h4 id="_count_20">count</h4>
 <div class="paragraph"><p>multiplier</p></div>
 </div>
 </div>
@@ -3097,7 +3099,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_20">count</h4>
+<h4 id="_count_21">count</h4>
 <div class="paragraph"><p>Percentage to scroll.</p></div>
 </div>
 </div>
@@ -3140,7 +3142,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="search-next">search-next</h3>
 <div class="paragraph"><p>Continue the search to the ([count]th) next term.</p></div>
 <div class="sect3">
-<h4 id="_count_21">count</h4>
+<h4 id="_count_22">count</h4>
 <div class="paragraph"><p>How many elements to ignore.</p></div>
 </div>
 </div>
@@ -3148,7 +3150,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="search-prev">search-prev</h3>
 <div class="paragraph"><p>Continue the search to the ([count]th) previous term.</p></div>
 <div class="sect3">
-<h4 id="_count_22">count</h4>
+<h4 id="_count_23">count</h4>
 <div class="paragraph"><p>How many elements to ignore.</p></div>
 </div>
 </div>
@@ -3268,7 +3270,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="set">set</h3>
 <div class="paragraph"><p>Syntax: <code>:set [<strong>--temp</strong>] [<strong>--print</strong>] [<strong>--pattern</strong> <em>pattern</em>] [<em>option</em>] [<em>value</em>]</code></p></div>
 <div class="paragraph"><p>Set an option.</p></div>
-<div class="paragraph"><p>If the option name ends with <em>?</em>, the value of the option is shown instead. Using :set without any arguments opens a page where settings can be changed interactively.</p></div>
+<div class="paragraph"><p>If the option name ends with <em>?</em> or no value is provided, the value of the option is shown instead. Using :set without any arguments opens a page where settings can be changed interactively.</p></div>
 <div class="sect3">
 <h4 id="_positional_arguments_46">positional arguments</h4>
 <div class="ulist"><ul>
@@ -3340,7 +3342,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_23">count</h4>
+<h4 id="_count_24">count</h4>
 <div class="paragraph"><p>The count if given.</p></div>
 </div>
 <div class="sect3">
@@ -3395,7 +3397,7 @@ This command does not split arguments after the last argument and handles quotes
 <li>
 <p>
 <code>~/.local/share/qutebrowser/userscripts</code>
- (or <code>$XDG_DATA_DIR</code>)
+ (or <code>$XDG_DATA_HOME</code>)
 </p>
 </li>
 <li>
@@ -3423,6 +3425,10 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
+<h4 id="_count_25">count</h4>
+<div class="paragraph"><p>Given to userscripts as $QUTE_COUNT.</p></div>
+</div>
+<div class="sect3">
 <h4 id="_note_17">note</h4>
 <div class="ulist"><ul>
 <li>
@@ -3437,7 +3443,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="stop">stop</h3>
 <div class="paragraph"><p>Stop loading in the current/[count]th tab.</p></div>
 <div class="sect3">
-<h4 id="_count_24">count</h4>
+<h4 id="_count_26">count</h4>
 <div class="paragraph"><p>The tab index to stop.</p></div>
 </div>
 </div>
@@ -3491,7 +3497,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_25">count</h4>
+<h4 id="_count_27">count</h4>
 <div class="paragraph"><p>The tab index to close</p></div>
 </div>
 </div>
@@ -3523,13 +3529,13 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_26">count</h4>
+<h4 id="_count_28">count</h4>
 <div class="paragraph"><p>The tab index to focus, starting with 1.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="tab-give">tab-give</h3>
-<div class="paragraph"><p>Syntax: <code>:tab-give [<em>win-id</em>]</code></p></div>
+<div class="paragraph"><p>Syntax: <code>:tab-give [<strong>--keep</strong>] [<em>win-id</em>]</code></p></div>
 <div class="paragraph"><p>Give the current tab to a new or existing window if win_id given.</p></div>
 <div class="paragraph"><p>If no win_id is given, the tab will get detached into a new window.</p></div>
 <div class="sect3">
@@ -3543,7 +3549,17 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_27">count</h4>
+<h4 id="_optional_arguments_46">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-k</strong></code>, <code><strong>--keep</strong></code>: If given, keep the old tab around.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_29">count</h4>
 <div class="paragraph"><p>Overrides win_id (index starts at 1 for win_id=0).</p></div>
 </div>
 </div>
@@ -3564,7 +3580,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_28">count</h4>
+<h4 id="_count_30">count</h4>
 <div class="paragraph"><p>If moving relatively: Offset. If moving absolutely: New position (default: 0). This
  overrides the index argument, if given.</p></div>
 </div>
@@ -3573,7 +3589,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="tab-mute">tab-mute</h3>
 <div class="paragraph"><p>Mute/Unmute the current/[count]th tab.</p></div>
 <div class="sect3">
-<h4 id="_count_29">count</h4>
+<h4 id="_count_31">count</h4>
 <div class="paragraph"><p>The tab index to mute or unmute</p></div>
 </div>
 </div>
@@ -3581,7 +3597,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="tab-next">tab-next</h3>
 <div class="paragraph"><p>Switch to the next tab, or switch [count] tabs forward.</p></div>
 <div class="sect3">
-<h4 id="_count_30">count</h4>
+<h4 id="_count_32">count</h4>
 <div class="paragraph"><p>How many tabs to switch forward.</p></div>
 </div>
 </div>
@@ -3590,7 +3606,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:tab-only [<strong>--prev</strong>] [<strong>--next</strong>] [<strong>--force</strong>]</code></p></div>
 <div class="paragraph"><p>Close all tabs except for the current one.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_46">optional arguments</h4>
+<h4 id="_optional_arguments_47">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3615,7 +3631,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Pin/Unpin the current/[count]th tab.</p></div>
 <div class="paragraph"><p>Pinning a tab shrinks it to the size of its title text. Attempting to close a pinned tab will cause a confirmation, unless --force is passed.</p></div>
 <div class="sect3">
-<h4 id="_count_31">count</h4>
+<h4 id="_count_33">count</h4>
 <div class="paragraph"><p>The tab index to pin or unpin</p></div>
 </div>
 </div>
@@ -3623,13 +3639,13 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="tab-prev">tab-prev</h3>
 <div class="paragraph"><p>Switch to the previous tab, or switch [count] tabs back.</p></div>
 <div class="sect3">
-<h4 id="_count_32">count</h4>
+<h4 id="_count_34">count</h4>
 <div class="paragraph"><p>How many tabs to switch back.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="tab-take">tab-take</h3>
-<div class="paragraph"><p>Syntax: <code>:tab-take <em>index</em></code></p></div>
+<div class="paragraph"><p>Syntax: <code>:tab-take [<strong>--keep</strong>] <em>index</em></code></p></div>
 <div class="paragraph"><p>Take a tab from another window.</p></div>
 <div class="sect3">
 <h4 id="_positional_arguments_53">positional arguments</h4>
@@ -3637,6 +3653,26 @@ This command does not split arguments after the last argument and handles quotes
 <li>
 <p>
 <code><em>index</em></code>: The [win_id/]index of the tab to take. Or a substring in which case the closest match will be taken.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_48">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-k</strong></code>, <code><strong>--keep</strong></code>: If given, keep the old tab around.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_18">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
 </p>
 </li>
 </ul></div>
@@ -3657,7 +3693,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_47">optional arguments</h4>
+<h4 id="_optional_arguments_49">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3676,7 +3712,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:version [<strong>--paste</strong>]</code></p></div>
 <div class="paragraph"><p>Show version information.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_48">optional arguments</h4>
+<h4 id="_optional_arguments_50">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3691,7 +3727,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:view-source [<strong>--edit</strong>] [<strong>--pygments</strong>]</code></p></div>
 <div class="paragraph"><p>Show the source of the current page in a new tab.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_49">optional arguments</h4>
+<h4 id="_optional_arguments_51">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3754,7 +3790,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_50">optional arguments</h4>
+<h4 id="_optional_arguments_52">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3771,7 +3807,7 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 <div class="sect2">
 <h3 id="zoom">zoom</h3>
-<div class="paragraph"><p>Syntax: <code>:zoom [<em>zoom</em>]</code></p></div>
+<div class="paragraph"><p>Syntax: <code>:zoom [<strong>--quiet</strong>] [<em>zoom</em>]</code></p></div>
 <div class="paragraph"><p>Set the zoom level for the current tab.</p></div>
 <div class="paragraph"><p>The zoom can be given as argument or as [count]. If neither is given, the zoom is set to the default zoom. If both are given, use [count].</p></div>
 <div class="sect3">
@@ -3785,23 +3821,55 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_33">count</h4>
+<h4 id="_optional_arguments_53">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-q</strong></code>, <code><strong>--quiet</strong></code>: Don&#8217;t show a zoom level message.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_35">count</h4>
 <div class="paragraph"><p>The zoom percentage to set.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="zoom-in">zoom-in</h3>
+<div class="paragraph"><p>Syntax: <code>:zoom-in [<strong>--quiet</strong>]</code></p></div>
 <div class="paragraph"><p>Increase the zoom level for the current tab.</p></div>
 <div class="sect3">
-<h4 id="_count_34">count</h4>
+<h4 id="_optional_arguments_54">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-q</strong></code>, <code><strong>--quiet</strong></code>: Don&#8217;t show a zoom level message.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_36">count</h4>
 <div class="paragraph"><p>How many steps to zoom in.</p></div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="zoom-out">zoom-out</h3>
+<div class="paragraph"><p>Syntax: <code>:zoom-out [<strong>--quiet</strong>]</code></p></div>
 <div class="paragraph"><p>Decrease the zoom level for the current tab.</p></div>
 <div class="sect3">
-<h4 id="_count_35">count</h4>
+<h4 id="_optional_arguments_55">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-q</strong></code>, <code><strong>--quiet</strong></code>: Don&#8217;t show a zoom level message.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_37">count</h4>
 <div class="paragraph"><p>How many steps to zoom out.</p></div>
 </div>
 </div>
@@ -4009,7 +4077,7 @@ cellspacing="0" cellpadding="4">
 <div class="paragraph"><p>Syntax: <code>:command-accept [<strong>--rapid</strong>]</code></p></div>
 <div class="paragraph"><p>Execute the command currently in the commandline.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_51">optional arguments</h4>
+<h4 id="_optional_arguments_56">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4046,7 +4114,7 @@ cellspacing="0" cellpadding="4">
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_52">optional arguments</h4>
+<h4 id="_optional_arguments_57">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4061,7 +4129,7 @@ cellspacing="0" cellpadding="4">
 <div class="paragraph"><p>Syntax: <code>:completion-item-yank [<strong>--sel</strong>]</code></p></div>
 <div class="paragraph"><p>Yank the current completion item into the clipboard.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_53">optional arguments</h4>
+<h4 id="_optional_arguments_58">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4090,7 +4158,7 @@ cellspacing="0" cellpadding="4">
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_54">optional arguments</h4>
+<h4 id="_optional_arguments_59">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4116,7 +4184,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-end-of-next-block">move-to-end-of-next-block</h3>
 <div class="paragraph"><p>Move the cursor or selection to the end of next block.</p></div>
 <div class="sect3">
-<h4 id="_count_36">count</h4>
+<h4 id="_count_38">count</h4>
 <div class="paragraph"><p>How many blocks to move.</p></div>
 </div>
 </div>
@@ -4124,7 +4192,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-end-of-prev-block">move-to-end-of-prev-block</h3>
 <div class="paragraph"><p>Move the cursor or selection to the end of previous block.</p></div>
 <div class="sect3">
-<h4 id="_count_37">count</h4>
+<h4 id="_count_39">count</h4>
 <div class="paragraph"><p>How many blocks to move.</p></div>
 </div>
 </div>
@@ -4132,7 +4200,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-end-of-word">move-to-end-of-word</h3>
 <div class="paragraph"><p>Move the cursor or selection to the end of the word.</p></div>
 <div class="sect3">
-<h4 id="_count_38">count</h4>
+<h4 id="_count_40">count</h4>
 <div class="paragraph"><p>How many words to move.</p></div>
 </div>
 </div>
@@ -4140,7 +4208,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-next-char">move-to-next-char</h3>
 <div class="paragraph"><p>Move the cursor or selection to the next char.</p></div>
 <div class="sect3">
-<h4 id="_count_39">count</h4>
+<h4 id="_count_41">count</h4>
 <div class="paragraph"><p>How many lines to move.</p></div>
 </div>
 </div>
@@ -4148,7 +4216,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-next-line">move-to-next-line</h3>
 <div class="paragraph"><p>Move the cursor or selection to the next line.</p></div>
 <div class="sect3">
-<h4 id="_count_40">count</h4>
+<h4 id="_count_42">count</h4>
 <div class="paragraph"><p>How many lines to move.</p></div>
 </div>
 </div>
@@ -4156,7 +4224,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-next-word">move-to-next-word</h3>
 <div class="paragraph"><p>Move the cursor or selection to the next word.</p></div>
 <div class="sect3">
-<h4 id="_count_41">count</h4>
+<h4 id="_count_43">count</h4>
 <div class="paragraph"><p>How many words to move.</p></div>
 </div>
 </div>
@@ -4164,7 +4232,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-prev-char">move-to-prev-char</h3>
 <div class="paragraph"><p>Move the cursor or selection to the previous char.</p></div>
 <div class="sect3">
-<h4 id="_count_42">count</h4>
+<h4 id="_count_44">count</h4>
 <div class="paragraph"><p>How many chars to move.</p></div>
 </div>
 </div>
@@ -4172,7 +4240,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-prev-line">move-to-prev-line</h3>
 <div class="paragraph"><p>Move the cursor or selection to the prev line.</p></div>
 <div class="sect3">
-<h4 id="_count_43">count</h4>
+<h4 id="_count_45">count</h4>
 <div class="paragraph"><p>How many lines to move.</p></div>
 </div>
 </div>
@@ -4180,7 +4248,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-prev-word">move-to-prev-word</h3>
 <div class="paragraph"><p>Move the cursor or selection to the previous word.</p></div>
 <div class="sect3">
-<h4 id="_count_44">count</h4>
+<h4 id="_count_46">count</h4>
 <div class="paragraph"><p>How many words to move.</p></div>
 </div>
 </div>
@@ -4196,7 +4264,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-start-of-next-block">move-to-start-of-next-block</h3>
 <div class="paragraph"><p>Move the cursor or selection to the start of next block.</p></div>
 <div class="sect3">
-<h4 id="_count_45">count</h4>
+<h4 id="_count_47">count</h4>
 <div class="paragraph"><p>How many blocks to move.</p></div>
 </div>
 </div>
@@ -4204,7 +4272,7 @@ cellspacing="0" cellpadding="4">
 <h3 id="move-to-start-of-prev-block">move-to-start-of-prev-block</h3>
 <div class="paragraph"><p>Move the cursor or selection to the start of previous block.</p></div>
 <div class="sect3">
-<h4 id="_count_46">count</h4>
+<h4 id="_count_48">count</h4>
 <div class="paragraph"><p>How many blocks to move.</p></div>
 </div>
 </div>
@@ -4240,7 +4308,7 @@ cellspacing="0" cellpadding="4">
 </div>
 <div class="sect2">
 <h3 id="prompt-open-download">prompt-open-download</h3>
-<div class="paragraph"><p>Syntax: <code>:prompt-open-download [<em>cmdline</em>]</code></p></div>
+<div class="paragraph"><p>Syntax: <code>:prompt-open-download [<strong>--pdfjs</strong>] [<em>cmdline</em>]</code></p></div>
 <div class="paragraph"><p>Immediately open a download.</p></div>
 <div class="paragraph"><p>If no specific command is given, this will use the system&#8217;s default application to open the file.</p></div>
 <div class="sect3">
@@ -4256,7 +4324,17 @@ cellspacing="0" cellpadding="4">
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_note_18">note</h4>
+<h4 id="_optional_arguments_60">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-p</strong></code>, <code><strong>--pdfjs</strong></code>: Open the download via PDF.js.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_note_19">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4271,7 +4349,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:prompt-yank [<strong>--sel</strong>]</code></p></div>
 <div class="paragraph"><p>Yank URL to clipboard or primary selection.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_55">optional arguments</h4>
+<h4 id="_optional_arguments_61">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4501,7 +4579,7 @@ cellspacing="0" cellpadding="4">
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_56">optional arguments</h4>
+<h4 id="_optional_arguments_62">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4571,7 +4649,7 @@ cellspacing="0" cellpadding="4">
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_57">optional arguments</h4>
+<h4 id="_optional_arguments_63">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4586,7 +4664,7 @@ cellspacing="0" cellpadding="4">
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_note_19">note</h4>
+<h4 id="_note_20">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4631,7 +4709,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_note_20">note</h4>
+<h4 id="_note_21">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4662,7 +4740,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_47">count</h4>
+<h4 id="_count_49">count</h4>
 <div class="paragraph"><p>How many times to repeat the action.</p></div>
 </div>
 </div>
@@ -4673,7 +4751,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-09-02 15:03:32 CEST
+ 2018-10-03 16:01:12 CEST
 </div>
 </div>
 </body>

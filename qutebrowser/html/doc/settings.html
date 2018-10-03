@@ -1205,7 +1205,11 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Execute the best-matching command on a partial match.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#completion.web_history_max_items">completion.web_history_max_items</a></p></td>
+<td align="left" valign="top"><p class="table"><a href="#completion.web_history.exclude">completion.web_history.exclude</a></p></td>
+<td align="left" valign="top"><p class="table">A list of patterns which should not be shown in the history.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#completion.web_history.max_items">completion.web_history.max_items</a></p></td>
 <td align="left" valign="top"><p class="table">Number of URLs to show in the web history.</p></td>
 </tr>
 <tr>
@@ -1290,7 +1294,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.host_blocking.whitelist">content.host_blocking.whitelist</a></p></td>
-<td align="left" valign="top"><p class="table">List of domains that should always be loaded, despite being ad-blocked.</p></td>
+<td align="left" valign="top"><p class="table">A list of patterns that should always be loaded, despite being ad-blocked.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.hyperlink_auditing">content.hyperlink_auditing</a></p></td>
@@ -1349,6 +1353,14 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Allow websites to record audio/video.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#content.mouse_lock">content.mouse_lock</a></p></td>
+<td align="left" valign="top"><p class="table">Allow websites to lock your mouse pointer.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content.mute">content.mute</a></p></td>
+<td align="left" valign="top"><p class="table">Automatically mute tabs.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#content.netrc_file">content.netrc_file</a></p></td>
 <td align="left" valign="top"><p class="table">Netrc-file for HTTP authentication.</p></td>
 </tr>
@@ -1401,8 +1413,8 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Enable WebGL.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#content.webrtc_public_interfaces_only">content.webrtc_public_interfaces_only</a></p></td>
-<td align="left" valign="top"><p class="table">Only expose public interfaces via WebRTC.</p></td>
+<td align="left" valign="top"><p class="table"><a href="#content.webrtc_ip_handling_policy">content.webrtc_ip_handling_policy</a></p></td>
+<td align="left" valign="top"><p class="table">Which interfaces to expose via WebRTC.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.windowed_fullscreen">content.windowed_fullscreen</a></p></td>
@@ -1685,8 +1697,16 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Turn on Qt HighDPI scaling.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#qt.low_end_device_mode">qt.low_end_device_mode</a></p></td>
+<td align="left" valign="top"><p class="table">When to use Chromium&#8217;s low-end device mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#qt.process_model">qt.process_model</a></p></td>
+<td align="left" valign="top"><p class="table">Which Chromium process model to use.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#scrolling.bar">scrolling.bar</a></p></td>
-<td align="left" valign="top"><p class="table">Show a scrollbar.</p></td>
+<td align="left" valign="top"><p class="table">When to show the scrollbar.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#scrolling.smooth">scrolling.smooth</a></p></td>
@@ -1759,6 +1779,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.last_close">tabs.last_close</a></p></td>
 <td align="left" valign="top"><p class="table">How to behave when the last tab is closed.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs.max_width">tabs.max_width</a></p></td>
+<td align="left" valign="top"><p class="table">Maximum width (in pixels) of tabs (-1 for no maximum).</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.min_width">tabs.min_width</a></p></td>
@@ -2887,6 +2911,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>gD</code>: <code>tab-give</code>
+</p>
+</li>
+<li>
+<p>
 <code>gO</code>: <code>set-cmd-text :open -t -r {url:pretty}</code>
 </p>
 </li>
@@ -3042,6 +3071,21 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>tIH</code>: <code>config-cycle -p -u *://*.{url:host}/* content.images ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tIh</code>: <code>config-cycle -p -u *://{url:host}/* content.images ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tIu</code>: <code>config-cycle -p -u {url} content.images ;; reload</code>
+</p>
+</li>
+<li>
+<p>
 <code>tPH</code>: <code>config-cycle -p -u *://*.{url:host}/* content.plugins ;; reload</code>
 </p>
 </li>
@@ -3073,6 +3117,21 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <li>
 <p>
 <code>th</code>: <code>back -t</code>
+</p>
+</li>
+<li>
+<p>
+<code>tiH</code>: <code>config-cycle -p -t -u *://*.{url:host}/* content.images ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tih</code>: <code>config-cycle -p -t -u *://{url:host}/* content.images ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tiu</code>: <code>config-cycle -p -t -u {url} content.images ;; reload</code>
 </p>
 </li>
 <li>
@@ -3239,7 +3298,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <div class="ulist"><ul>
 <li>
 <p>
-<code>&lt;Ctrl-V&gt;</code>: <code>leave-mode</code>
+<code>&lt;Shift-Escape&gt;</code>: <code>leave-mode</code>
 </p>
 </li>
 </ul></div>
@@ -3312,6 +3371,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <li>
 <p>
 <code>&lt;Ctrl-K&gt;</code>: <code>rl-kill-line</code>
+</p>
+</li>
+<li>
+<p>
+<code>&lt;Ctrl-P&gt;</code>: <code>prompt-open-download --pdfjs</code>
 </p>
 </li>
 <li>
@@ -4116,7 +4180,16 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
-<h3 id="completion.web_history_max_items">completion.web_history_max_items</h3>
+<h3 id="completion.web_history.exclude">completion.web_history.exclude</h3>
+<div class="paragraph"><p>A list of patterns which should not be shown in the history.
+This only affects the completion. Matching URLs are still saved in the history (and visible on the qute://history page), but hidden in the completion.
+Changing this setting will cause the completion history to be regenerated on the next start, which will take a short while.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">List of UrlPattern</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="completion.web_history.max_items">completion.web_history.max_items</h3>
 <div class="paragraph"><p>Number of URLs to show in the web history.
 0: no history / -1: unlimited</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
@@ -4161,7 +4234,8 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 <div class="sect2">
 <h3 id="content.autoplay">content.autoplay</h3>
 <div class="paragraph"><p>Automatically start playing <code>&lt;video&gt;</code> elements.
-Note this option needs a restart with QtWebEngine on Qt &lt; 5.11.</p></div>
+Note: On Qt &lt; 5.11, this option needs a restart and does not support URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.10 or newer.</p></div>
@@ -4339,7 +4413,9 @@ When this is set to true, qutebrowser asks websites to not track your identity. 
 <div class="sect2">
 <h3 id="content.headers.referer">content.headers.referer</h3>
 <div class="paragraph"><p>When to send the Referer header.
-The Referer header tells websites from which website you were coming from when visiting them.</p></div>
+The Referer header tells websites from which website you were coming from when visiting them.
+No restart is needed with QtWebKit.
+This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4355,12 +4431,11 @@ The Referer header tells websites from which website you were coming from when v
 </li>
 <li>
 <p>
-<code>same-domain</code>: Only send the Referer for the same domain. This will still protect your privacy, but shouldn&#8217;t break any sites.
+<code>same-domain</code>: Only send the Referer for the same domain. This will still protect your privacy, but shouldn&#8217;t break any sites. With QtWebEngine, the referer will still be sent for other domains, but with stripped path information.
 </p>
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>same-domain</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.headers.user_agent">content.headers.user_agent</h3>
@@ -4398,6 +4473,9 @@ A zip-file of any of the above, with either only one file, or a file
 </p>
 </li>
 </ul></div>
+<div class="paragraph"><p>It&#8217;s also possible to add a local file or directory via a <code>file://</code> URL. In
+case of a directory, all files in the directory are read as adblock lists.</p></div>
+<div class="paragraph"><p>The file <code>~/.config/qutebrowser/blocked-hosts</code> is always read if it exists.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">List of Url</a></p></div>
 <div class="paragraph"><p>Default:</p></div>
 <div class="ulist"><ul>
@@ -4410,10 +4488,9 @@ A zip-file of any of the above, with either only one file, or a file
 </div>
 <div class="sect2">
 <h3 id="content.host_blocking.whitelist">content.host_blocking.whitelist</h3>
-<div class="paragraph"><p>List of domains that should always be loaded, despite being ad-blocked.
-Domains may contain * and ? wildcards and are otherwise required to exactly match the requested domain.
+<div class="paragraph"><p>A list of patterns that should always be loaded, despite being ad-blocked.
 Local domains are always exempt from hostblocking.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">List of String</a></p></div>
+<div class="paragraph"><p>Type: <a href="#types">List of UrlPattern</a></p></div>
 <div class="paragraph"><p>Default:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -4563,6 +4640,41 @@ On QtWebKit, the "unknown" setting is always used.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
+<h3 id="content.mouse_lock">content.mouse_lock</h3>
+<div class="paragraph"><p>Allow websites to lock your mouse pointer.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+<li>
+<p>
+<code>ask</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>ask</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.8 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
+<h3 id="content.mute">content.mute</h3>
+<div class="paragraph"><p>Automatically mute tabs.
+Note that if the <code>:tab-mute</code> command is used, the mute status for the affected tab is now controlled manually, and this setting doesn&#8217;t have any effect.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="content.netrc_file">content.netrc_file</h3>
 <div class="paragraph"><p>Netrc-file for HTTP authentication.
 If unset, <code>~/.netrc</code> is used.</p></div>
@@ -4601,7 +4713,6 @@ If unset, <code>~/.netrc</code> is used.</p></div>
 Note that the files can still be downloaded by clicking the download button in the pdf.js viewer.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.persistent_storage">content.persistent_storage</h3>
@@ -4744,11 +4855,35 @@ In addition to the listed values, you can use a <code>socks://...</code> or <cod
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
-<h3 id="content.webrtc_public_interfaces_only">content.webrtc_public_interfaces_only</h3>
-<div class="paragraph"><p>Only expose public interfaces via WebRTC.
-On Qt 5.9, this option requires a restart. On Qt 5.10, this option doesn&#8217;t work at all because of a Qt bug. On Qt &gt;= 5.11, no restart is required.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
+<h3 id="content.webrtc_ip_handling_policy">content.webrtc_ip_handling_policy</h3>
+<div class="paragraph"><p>Which interfaces to expose via WebRTC.
+On Qt 5.10, this option doesn&#8217;t work because of a Qt bug.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>all-interfaces</code>: WebRTC has the right to enumerate all interfaces and bind them to discover public interfaces.
+</p>
+</li>
+<li>
+<p>
+<code>default-public-and-private-interfaces</code>: WebRTC should only use the default route used by http. This also exposes the associated default private address. Default route is the route chosen by the OS on a multi-homed endpoint.
+</p>
+</li>
+<li>
+<p>
+<code>default-public-interface-only</code>: WebRTC should only use the default route used by http. This doesn&#8217;t expose any local addresses.
+</p>
+</li>
+<li>
+<p>
+<code>disable-non-proxied-udp</code>: WebRTC should only use TCP to contact peers or servers unless the proxy server supports UDP. This doesn&#8217;t expose any local addresses either.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>all-interfaces</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.9.2 or newer.</p></div>
 <div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 </div>
@@ -5468,10 +5603,95 @@ This setting requires a restart.</p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="qt.low_end_device_mode">qt.low_end_device_mode</h3>
+<div class="paragraph"><p>When to use Chromium&#8217;s low-end device mode.
+This improves the RAM usage of renderer processes, at the expense of performance.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Always use low-end device mode.
+</p>
+</li>
+<li>
+<p>
+<code>auto</code>: Decide automatically (uses low-end mode with &lt; 1 GB available RAM).
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Never use low-end device mode.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>auto</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="qt.process_model">qt.process_model</h3>
+<div class="paragraph"><p>Which Chromium process model to use.
+Alternative process models use less resources, but decrease security and robustness.
+See the following pages for more details:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://www.chromium.org/developers/design-documents/process-models">https://www.chromium.org/developers/design-documents/process-models</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://doc.qt.io/qt-5/qtwebengine-features.html#process-models">https://doc.qt.io/qt-5/qtwebengine-features.html#process-models</a>
+This setting requires a restart.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>process-per-site-instance</code>: Pages from separate sites are put into separate processes and separate visits to the same site are also isolated.
+</p>
+</li>
+<li>
+<p>
+<code>process-per-site</code>: Pages from separate sites are put into separate processes. Unlike Process per Site Instance, all visits to the same site will share an OS process. The benefit of this model is reduced memory consumption, because more web pages will share processes. The drawbacks include reduced security, robustness, and responsiveness.
+</p>
+</li>
+<li>
+<p>
+<code>single-process</code>: Run all tabs in a single process. This should be used for debugging purposes only, and it disables <code>:open --private</code>.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>process-per-site-instance</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+</div>
+<div class="sect2">
 <h3 id="scrolling.bar">scrolling.bar</h3>
-<div class="paragraph"><p>Show a scrollbar.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>When to show the scrollbar.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Always show the scrollbar.
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Never show the scrollbar.
+</p>
+</li>
+<li>
+<p>
+<code>when-searching</code>: Show the scrollbar when searching for text in the webpage. With the QtWebKit backend, this is equal to <code>never</code>.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>when-searching</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="scrolling.smooth">scrolling.smooth</h3>
@@ -6037,6 +6257,15 @@ The tab size is unchanged, so big favicons also require extra <code>tabs.padding
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>ignore</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs.max_width">tabs.max_width</h3>
+<div class="paragraph"><p>Maximum width (in pixels) of tabs (-1 for no maximum).
+This setting only applies when tabs are horizontal.
+This setting does not apply to pinned tabs, unless <code>tabs.pinned.shrink</code> is False.
+This setting may not apply properly if max_width is smaller than the minimum size of tab contents, or smaller than tabs.min_width.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
+<div class="paragraph"><p>Default: <code>-1</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="tabs.min_width">tabs.min_width</h3>
@@ -6826,6 +7055,11 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">A URL as a string.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table">UrlPattern</p></td>
+<td align="left" valign="top"><p class="table">A match pattern for a URL.</p>
+<p class="table">See <a href="https://developer.chrome.com/apps/match_patterns">https://developer.chrome.com/apps/match_patterns</a> for the allowed syntax.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table">VerticalPosition</p></td>
 <td align="left" valign="top"><p class="table">The position of the download bar.</p></td>
 </tr>
@@ -6839,7 +7073,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-09-02 15:03:40 CEST
+ 2018-10-03 16:01:20 CEST
 </div>
 </div>
 </body>

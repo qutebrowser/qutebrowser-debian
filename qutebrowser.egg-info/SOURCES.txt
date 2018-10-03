@@ -45,8 +45,6 @@ misc/requirements/requirements-flake8.txt-raw
 misc/requirements/requirements-pip.txt
 misc/requirements/requirements-pyinstaller.txt
 misc/requirements/requirements-pyinstaller.txt-raw
-misc/requirements/requirements-pylint-master.txt
-misc/requirements/requirements-pylint-master.txt-raw
 misc/requirements/requirements-pylint.txt
 misc/requirements/requirements-pylint.txt-raw
 misc/requirements/requirements-pyqt.txt
@@ -61,6 +59,7 @@ misc/requirements/requirements-tox.txt
 misc/requirements/requirements-tox.txt-raw
 misc/requirements/requirements-vulture.txt
 misc/requirements/requirements-vulture.txt-raw
+misc/userscripts/README.md
 misc/userscripts/cast
 misc/userscripts/dmenu_qutebrowser
 misc/userscripts/format_json
@@ -168,6 +167,7 @@ qutebrowser/completion/models/urlmodel.py
 qutebrowser/completion/models/util.py
 qutebrowser/config/__init__.py
 qutebrowser/config/config.py
+qutebrowser/config/configcache.py
 qutebrowser/config/configcommands.py
 qutebrowser/config/configdata.py
 qutebrowser/config/configdata.yml
@@ -193,6 +193,8 @@ qutebrowser/html/settings.html
 qutebrowser/html/styled.html
 qutebrowser/html/tabs.html
 qutebrowser/html/version.html
+qutebrowser/html/warning-old-qt.html
+qutebrowser/html/warning-webkit.html
 qutebrowser/html/doc/changelog.html
 qutebrowser/html/doc/commands.html
 qutebrowser/html/doc/configuring.html

@@ -809,10 +809,10 @@ asciidoc.install();
 What is qutebrowser based on?
 </em></p>
 <p>
-    qutebrowser uses <a href="http://www.python.org/">Python</a>, <a href="http://qt.io/">Qt</a> and
-    <a href="http://www.riverbankcomputing.com/software/pyqt/intro">PyQt</a>.
+    qutebrowser uses <a href="https://www.python.org/">Python</a>, <a href="https://www.qt.io/">Qt</a> and
+    <a href="https://www.riverbankcomputing.com/software/pyqt/intro">PyQt</a>.
 </p>
-<div class="paragraph"><p>The concept of it is largely inspired by <a href="http://portix.bitbucket.org/dwb/">dwb</a>
+<div class="paragraph"><p>The concept of it is largely inspired by <a href="https://bitbucket.org/portix/dwb/">dwb</a>
 and <a href="http://www.vimperator.org/vimperator">Vimperator</a>. Many actions and
 key bindings are similar to dwb.</p></div>
 </li>
@@ -824,39 +824,39 @@ Why another browser?
     It might be hard to believe, but I didn&#8217;t find any browser which I was
     happy with, so I started to write my own. Also, I needed a project to get
     into writing GUI applications with Python and
-    <a href="http://qt.io/">Qt</a>/<a href="http://www.riverbankcomputing.com/software/pyqt/intro">PyQt</a>.
+    <a href="https://www.qt.io/">Qt</a>/<a href="https://www.riverbankcomputing.com/software/pyqt/intro">PyQt</a>.
 </p>
 <div class="paragraph"><p>Read the next few questions to find out why I was unhappy with existing
 software.</p></div>
 </li>
 <li>
 <p><em>
-What&#8217;s wrong with <a href="http://portix.bitbucket.org/dwb/">dwb</a>/<a href="http://sourceforge.net/projects/vimprobable/">vimprobable</a>/<a href="https://mason-larobina.github.io/luakit/">luakit</a>/<a href="http://pwmt.org/projects/jumanji/">jumanji</a>/&#8230; (projects based on WebKitGTK)?
+What&#8217;s wrong with <a href="https://bitbucket.org/portix/dwb/">dwb</a>/<a href="https://sourceforge.net/projects/vimprobable/">vimprobable</a>/<a href="https://mason-larobina.github.io/luakit/">luakit</a>/jumanji/&#8230; (projects based on WebKitGTK)?
 </em></p>
 <p>
-    Most of them are based on the <a href="http://webkitgtk.org/">WebKitGTK+</a>
-    <a href="http://webkitgtk.org/reference/webkitgtk/stable/index.html">WebKit1</a> API,
+    Most of them are based on the <a href="https://webkitgtk.org/">WebKitGTK+</a>
+    <a href="https://webkitgtk.org/reference/webkitgtk/stable/index.html">WebKit1</a> API,
     which causes a lot of crashes. As the GTK API using WebKit1 is
     <a href="https://lists.webkit.org/pipermail/webkit-gtk/2014-March/001821.html">deprecated</a>,
     these bugs are never going to be fixed.
 </p>
 <div class="paragraph"><p>When qutebrowser was created, the newer
-<a href="http://webkitgtk.org/reference/webkit2gtk/stable/index.html">WebKit2 API</a> lacked
+<a href="https://webkitgtk.org/reference/webkit2gtk/stable/index.html">WebKit2 API</a> lacked
 basic features like proxy support, and almost no projects have started porting
 to WebKit2. In the meantime, this situation has improved a bit, but there are
 still only a few projects which have some kind of WebKit2 support (see the
 <a href="https://github.com/qutebrowser/qutebrowser#similar-projects">list of
 alternatives</a>).</p></div>
-<div class="paragraph"><p>qutebrowser uses <a href="http://qt.io/">Qt</a> and
-<a href="http://wiki.qt.io/QtWebEngine">QtWebEngine</a> by default (and supports
-<a href="http://wiki.qt.io/QtWebKit">QtWebKit</a> optionally). QtWebEngine is based on
+<div class="paragraph"><p>qutebrowser uses <a href="https://www.qt.io/">Qt</a> and
+<a href="https://wiki.qt.io/QtWebEngine">QtWebEngine</a> by default (and supports
+<a href="https://wiki.qt.io/QtWebKit">QtWebKit</a> optionally). QtWebEngine is based on
 Google&#8217;s <a href="https://www.chromium.org/Home">Chromium</a>. With an up-to-date Qt, it has
 much more man-power behind it than WebKitGTK+ has, and thus supports more modern
 web features - it&#8217;s also arguably more secure.</p></div>
 </li>
 <li>
 <p><em>
-What&#8217;s wrong with <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a> and <a href="http://5digits.org/pentadactyl/">Pentadactyl</a>/<a href="http://www.vimperator.org/vimperator">Vimperator</a>?
+What&#8217;s wrong with <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a> and <a href="http://bug.5digits.org/pentadactyl/">Pentadactyl</a>/<a href="http://www.vimperator.org/vimperator">Vimperator</a>?
 </em></p>
 <p>
     Firefox likes to break compatibility with addons on each upgrade, gets
@@ -868,7 +868,7 @@ What&#8217;s wrong with <a href="https://www.mozilla.org/en-US/firefox/new/">Fir
 </li>
 <li>
 <p><em>
-What&#8217;s wrong with <a href="http://www.chromium.org/Home">Chromium</a> and <a href="https://vimium.github.io/">Vimium</a>?
+What&#8217;s wrong with <a href="https://www.chromium.org/Home">Chromium</a> and <a href="https://vimium.github.io/">Vimium</a>?
 </em></p>
 <p>
     The Chrome plugin API doesn&#8217;t seem to allow much freedom for plugin
@@ -882,9 +882,9 @@ Why Python?
 </em></p>
 <p>
     I enjoy writing Python since 2011, which made it one of the possible
-    choices. I wanted to use <a href="http://qt.io/">Qt</a> because of
-    <a href="http://wiki.qt.io/QtWebKit">QtWebKit</a> so I didn&#8217;t have
-    <a href="http://wiki.qt.io/Category:LanguageBindings">many other choices</a>. I don&#8217;t
+    choices. I wanted to use <a href="https://www.qt.io/">Qt</a> because of
+    <a href="https://wiki.qt.io/QtWebKit">QtWebKit</a> so I didn&#8217;t have
+    <a href="https://wiki.qt.io/Category:LanguageBindings">many other choices</a>. I don&#8217;t
     like C++ and can&#8217;t write it very well, so that wasn&#8217;t an alternative.
 </p>
 </li>
@@ -893,7 +893,7 @@ Why Python?
 But isn&#8217;t Python too slow for a browser?
 </em></p>
 <p>
-    <a href="http://www.infoworld.com/d/application-development/van-rossum-python-not-too-slow-188715">No.</a>
+    <a href="https://www.infoworld.com/d/application-development/van-rossum-python-not-too-slow-188715">No.</a>
     I believe efficiency while coding is a lot more important than efficiency
     while running. Also, most of the heavy lifting of qutebrowser is done by Qt
     and WebKit in C++, with the
@@ -908,7 +908,7 @@ Is qutebrowser secure?
     Most security issues are in the backend (which handles networking,
     rendering, JavaScript, etc.) and not qutebrowser itself.
 </p>
-<div class="paragraph"><p>qutebrowser uses <a href="http://wiki.qt.io/QtWebEngine">QtWebEngine</a> by default.
+<div class="paragraph"><p>qutebrowser uses <a href="https://wiki.qt.io/QtWebEngine">QtWebEngine</a> by default.
 QtWebEngine is based on Google&#8217;s <a href="https://www.chromium.org/Home">Chromium</a>. While
 Qt only updates to a new Chromium release on every minor Qt release (all ~6
 months), every patch release backports security fixes from newer Chromium
@@ -917,14 +917,16 @@ be recieving security updates on a regular basis, without qutebrowser having to
 do anything. Chromium&#8217;s process isolation and
 <a href="https://chromium.googlesource.com/chromium/src/+/master/docs/design/sandbox.md">sandboxing</a>
 features are also enabled as a second line of defense.</p></div>
-<div class="paragraph"><p><a href="http://wiki.qt.io/QtWebKit">QtWebKit</a> is also supported as an alternative
+<div class="paragraph"><p><a href="https://wiki.qt.io/QtWebKit">QtWebKit</a> is also supported as an alternative
 backend, but hasn&#8217;t seen new releases
 <a href="https://github.com/annulen/webkit/releases">in a while</a>. It also doesn&#8217;t have any
-process isolation or sandboxing.</p></div>
-<div class="paragraph"><p>Security issues in qutebrowser&#8217;s code happen very rarely (as per March 2018,
-there has been one security issue caused by qutebrowser in over four years) and
-are fixed timely. To report security bugs, please contact me directly at
-<a href="mailto:mail@qutebrowser.org">mail@qutebrowser.org</a>, GPG ID
+process isolation or sandboxing. See
+<a href="https://github.com/qutebrowser/qutebrowser/issues/4039">#4039</a> for more details.</p></div>
+<div class="paragraph"><p>Security issues in qutebrowser&#8217;s code happen very rarely (as per July 2018,
+there have been three security issues caused by qutebrowser in over 4.5 years).
+Those were handled appropriately
+(<a href="http://seclists.org/oss-sec/2018/q3/29">example</a>) and fixed timely. To report
+security bugs, please contact me directly at <a href="mailto:mail@qutebrowser.org">mail@qutebrowser.org</a>, GPG ID
 <a href="https://www.the-compiler.org/pubkey.asc">0x916eb0c8fd55a072</a>.</p></div>
 </li>
 <li>
@@ -934,12 +936,29 @@ Is there an adblocker?
 <p>
     There is a host-based adblocker which takes /etc/hosts-like lists. A "real"
     adblocker has a
-    <a href="http://www.reddit.com/r/programming/comments/25j41u/adblock_pluss_effect_on_firefoxs_memory_usage/chhpomw">big
+    <a href="https://www.reddit.com/r/programming/comments/25j41u/adblock_pluss_effect_on_firefoxs_memory_usage/chhpomw">big
     impact</a> on browsing speed and
     <a href="https://blog.mozilla.org/nnethercote/2014/05/14/adblock-pluss-effect-on-firefoxs-memory-usage/">RAM
     usage</a>, so implementing support for AdBlockPlus-like lists is currently not
     a priority.
 </p>
+</li>
+<li>
+<p><em>
+How can I get No-Script-like behavior?
+</em></p>
+<p>
+    To disable JavaScript by default:
+</p>
+<div class="listingblock">
+<div class="content">
+<pre><code>:set content.javascript.enabled false</code></pre>
+</div></div>
+<div class="paragraph"><p>The basic command for enabling JavaScript for the current host is <code>tsh</code>.
+This will allow JavaScript execution for the current session.
+Use <code>S</code> instead of <code>s</code> to make the exception permanent.
+With <code>H</code> instead of <code>h</code>, subdomains are included.
+With <code>u</code> instead of <code>h</code>, only the current URL is whitelisted (not the whole host).</p></div>
 </li>
 <li>
 <p><em>
@@ -974,14 +993,15 @@ playing them all at once.</p></div>
 How do I use qutebrowser with mutt?
 </em></p>
 <p>
-    Due to a Qt limitation, local files without <code>.html</code> extensions are
-    "downloaded" instead of displayed, see
-    <a href="https://github.com/qutebrowser/qutebrowser/issues/566">#566</a>. You can work
-    around this by using this in your <code>mailcap</code>:
+    For security reasons, local files without <code>.html</code> extensions aren&#8217;t
+    rendered as HTML, see
+    <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=777737">this Chromium issue</a>
+    for details. You can do this in your <code>mailcap</code> file to get a proper
+    extension:
 </p>
 <div class="listingblock">
 <div class="content">
-<pre><code>    text/html; mv %s %s.html &amp;&amp; qutebrowser %s.html &gt;/dev/null 2&gt;/dev/null; needsterminal;</code></pre>
+<pre><code>    text/html; qutebrowser %s; nametemplate=%s.html</code></pre>
 </div></div>
 </li>
 <li>
@@ -1174,7 +1194,7 @@ Unable to view flash content.
     to use the flash plugin. Using the command <code>:set content.plugins true</code>
     in qutebrowser will enable plugins. Packages for flash should
     be provided for your platform or it can be obtained from
-    <a href="http://get.adobe.com/flashplayer/">Adobe</a>.
+    <a href="https://get.adobe.com/flashplayer/">Adobe</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1235,6 +1255,19 @@ and move them to the <code>ppapi</code> plugin directory in your Qt library dire
 </div></div>
 </dd>
 <dt class="hdlist1">
+Unable to use <code>spawn</code> on MacOS.
+</dt>
+<dd>
+<p>
+When running qutebrowser from the prebuilt binary (<code>qutebrowser.app</code>) it <strong>will
+not</strong> read any files that would alter your <code>$PATH</code> (e.g. <code>.profile</code>, <code>.bashrc</code>,
+etc). This is not a bug, just that <code>.profile</code> is not propogated to GUI
+applications in MacOS.
+</p>
+<div class="paragraph"><p>See <a href="https://github.com/qutebrowser/qutebrowser/issues/4273">Issue #4273</a> for
+details and potential workarounds.</p></div>
+</dd>
+<dt class="hdlist1">
 My issue is not listed.
 </dt>
 <dd>
@@ -1243,7 +1276,7 @@ My issue is not listed.
     <a href="https://github.com/qutebrowser/qutebrowser/issues">the issue tracker</a> or
     using the <code>:report</code> command.
     If you are reporting a segfault, make sure you read the
-    <a href="stacktrace.asciidoc">guide</a> on how to report them with all needed
+    <a href="stacktrace.html">guide</a> on how to report them with all needed
     information.
 </p>
 </dd>
@@ -1255,7 +1288,7 @@ My issue is not listed.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-09-02 15:03:26 CEST
+ 2018-10-03 16:01:06 CEST
 </div>
 </div>
 </body>
