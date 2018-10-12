@@ -11,7 +11,11 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	dh_auto_install
+	env PREFIX=/usr DESTDIR=debian/qutebrowser $(MAKE) -f misc/Makefile install
 	rm -f debian/qutebrowser/usr/lib/python3.*/dist-packages/qutebrowser/html/COPYING.html
+	# Fix accidentially set x-bit
+	chmod a-x -c debian/qutebrowser/usr/share/qutebrowser/scripts/utils.py
+	chmod a-x -c debian/qutebrowser/usr/share/qutebrowser/userscripts/README.md
 
 override_dh_installchangelogs:
 	dh_installchangelogs doc/changelog.asciidoc

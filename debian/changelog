@@ -3,6 +3,12 @@ qutebrowser (1.5.1-2) UNRELEASED; urgency=medium
   * Add lintian override for /usr/share/qutebrowser/userscripts/README.md
     triggering package-contains-documentation-outside-usr-share-doc
     despite being a per-directory documentation.
+  * Call "make -f misc/Makefile install" to install a bunch of supporting
+    files. Thanks to Lionel for making us aware of the missing files.
+    + Drop a bunch of manually listed files from
+      debian/qutebrowser.install.
+    + Explicitly remove executable bit from userscripts/REAMDE.md and
+      scripts/util.py. Avoids a lintian warning, too.
 
  -- Axel Beckert <abe@debian.org>  Fri, 12 Oct 2018 02:32:04 +0200
 
