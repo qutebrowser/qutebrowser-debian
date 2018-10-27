@@ -1,3 +1,9 @@
+qutebrowser (1.5.2-1) UNRELEASED; urgency=medium
+
+  * New upstream bug fix release.
+
+ -- Axel Beckert <abe@debian.org>  Sat, 27 Oct 2018 22:06:06 +0200
+
 qutebrowser (1.5.1-2) unstable; urgency=medium
 
   * Add lintian override for /usr/share/qutebrowser/userscripts/README.md
