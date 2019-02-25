@@ -825,10 +825,10 @@ automatically. If you don&#8217;t want to have a config file which is curated by
 hand, you can simply use those - see
 <a href="#autoconfig">"Configuring qutebrowser via the user interface"</a> for details.</p></div>
 <div class="paragraph"><p>For more advanced configuration, you can write a <code>config.py</code> file - see
-<a href="#configpy">"Configuring qutebrowser via config.py"</a>. As soon as a <code>config.py</code>
+<a href="#configpy">"Configuring qutebrowser via config.py"</a>. When a <code>config.py</code>
 exists, the <code>autoconfig.yml</code> file <strong>is not read anymore</strong> by default. You need
-to <a href="#configpy-autoconfig">load it by hand</a> if you want settings done via
-<code>:set</code>/<code>:bind</code> to still persist.</p></div>
+to <a href="#configpy-autoconfig">load it from <code>config.py</code></a> if you want settings changed via
+<code>:set</code>/<code>:bind</code> to persist between restarts.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -1044,15 +1044,15 @@ will never be used in a default keybinding.</p></div>
 <div class="sect2">
 <h3 id="configpy-autoconfig">Loading <code>autoconfig.yml</code></h3>
 <div class="paragraph"><p>All customization done via the UI (<code>:set</code>, <code>:bind</code> and <code>:unbind</code>) is
-stored in the <code>autoconfig.yml</code> file, which is not loaded automatically as soon
-as a <code>config.py</code> exists. If you want those settings to be loaded, you&#8217;ll need to
-explicitly load the <code>autoconfig.yml</code> file in your <code>config.py</code> by doing:</p></div>
+stored in the <code>autoconfig.yml</code> file. When a <code>config.py</code> file exists, <code>autoconfig.yml</code>
+is not loaded automatically. To load <code>autoconfig.yml</code> automatically, add the
+following snippet to <code>config.py</code>:</p></div>
 <div class="listingblock">
-<div class="title">config.py:</div>
 <div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">load_autoconfig</span><span class="p">()</span>
 </pre></div></div></div>
-<div class="paragraph"><p>If you do so at the top of your file, your <code>config.py</code> settings will take
-precedence as they overwrite the settings done in <code>autoconfig.yml</code>.</p></div>
+<div class="paragraph"><p>You can configure which file overrides the other by the location of the above code snippet.
+Place the snippet at the top to allow <code>config.py</code> to override <code>autoconfig.yml</code>.
+Place the snippet at the bottom for the opposite effect.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_importing_other_modules">Importing other modules</h3>
@@ -1194,6 +1194,11 @@ Two implementations of the <a href="https://github.com/arcticicestudio/nord">Nor
 <a href="https://github.com/evannagle/qutebrowser-dracula-theme">Dracula</a>
 </p>
 </li>
+<li>
+<p>
+<a href="https://github.com/jjzmajic/qutewal">Pywal theme</a>
+</p>
+</li>
 </ul></div>
 </div>
 <div class="sect3">
@@ -1215,6 +1220,30 @@ stable across qutebrowser versions):</p></div>
 <span class="n">config</span> <span class="o">=</span> <span class="n">config</span>  <span class="c1"># type: ConfigAPI # noqa: F821 pylint: disable=E0602,C0103</span>
 <span class="n">c</span> <span class="o">=</span> <span class="n">c</span>  <span class="c1"># type: ConfigContainer # noqa: F821 pylint: disable=E0602,C0103</span>
 </pre></div></div></div>
+</div>
+<div class="sect3">
+<h4 id="_emacs_like_config">emacs-like config</h4>
+<div class="paragraph"><p>Various emacs/conkeror-like keybinding configs exist:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://gitlab.com/jgkamat/qutemacs/blob/master/qutemacs.py">jgkamat</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://gitlab.com/Kaligule/qutebrowser-emacs-config/blob/master/config.py">Kaligule</a>
+</p>
+</li>
+<li>
+<p>
+<a href="http://me0w.net/pit/1540882719">nm0i</a>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>It&#8217;s also mostly possible to get rid of modal keybindings by setting
+<code>input.insert_mode.auto_enter</code> to <code>false</code>, and <code>input.forward_unbound_keys</code> to
+<code>all</code>.</p></div>
 </div>
 </div>
 </div>
@@ -1265,7 +1294,7 @@ The default for <code>completion.web_history.max_items</code> is now set to <cod
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2018-10-26 10:22:31 CEST
+ 2019-02-25 13:53:33 CET
 </div>
 </div>
 </body>
