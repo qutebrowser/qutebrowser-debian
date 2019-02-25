@@ -1,4 +1,4 @@
-qutebrowser (1.6.0-1) UNRELEASED; urgency=medium
+qutebrowser (1.6.0-1) unstable; urgency=medium
 
   [ Fritz Reichwald ]
   * New upstream release.
@@ -7,7 +7,7 @@ qutebrowser (1.6.0-1) UNRELEASED; urgency=medium
   [ Axel Beckert ]
   * Declare compliance with Debian Policy 4.3.0. (No changes needed.)
 
- -- Axel Beckert <abe@debian.org>  Tue, 26 Feb 2019 00:16:26 +0100
+ -- Axel Beckert <abe@debian.org>  Tue, 26 Feb 2019 00:19:28 +0100
 
 qutebrowser (1.5.2-1) unstable; urgency=medium
 
