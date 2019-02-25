@@ -1,9 +1,13 @@
 qutebrowser (1.6.0-1) UNRELEASED; urgency=medium
 
+  [ Fritz Reichwald ]
   * New upstream release.
   * Add License for misc/org.qutebrowser.qutebrowser.appdata.xml
 
- -- Fritz Reichwald <reichwald@b1-systems.de>  Mon, 25 Feb 2019 15:55:08 +0100
+  [ Axel Beckert ]
+  * Declare compliance with Debian Policy 4.3.0. (No changes needed.)
+
+ -- Axel Beckert <abe@debian.org>  Tue, 26 Feb 2019 00:16:26 +0100
 
 qutebrowser (1.5.2-1) unstable; urgency=medium
 
