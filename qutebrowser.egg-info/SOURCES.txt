@@ -8,6 +8,7 @@ setup.py
 tox.ini
 doc/changelog.asciidoc
 doc/changelog.html
+doc/contributing.html
 doc/faq.html
 doc/qutebrowser.1
 doc/qutebrowser.1.asciidoc
