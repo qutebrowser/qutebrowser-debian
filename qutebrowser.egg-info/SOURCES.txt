@@ -1,15 +1,11 @@
 LICENSE
 MANIFEST.in
 README.asciidoc
-README.rst
 qutebrowser.py
 requirements.txt
 setup.py
 tox.ini
 doc/changelog.asciidoc
-doc/changelog.html
-doc/contributing.html
-doc/faq.html
 doc/qutebrowser.1
 doc/qutebrowser.1.asciidoc
 doc/img/cheatsheet-big.png
