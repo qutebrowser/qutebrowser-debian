@@ -1,3 +1,14 @@
+qutebrowser (1.6.2-1) UNRELEASED; urgency=medium
+
+  * New upstream bugfix release.
+    + Fixes a crash when SQL errors occur while using the completion.
+    + Fixes a crash when cancelling a download prompt started in an already closed window.
+    + Fixes a crash when many prompts are opened at the same time.
+    + Running without Qt installed now displays a proper error again.
+    + Fixes high CPU usage when using the keyhint widget with a low delay.
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Tue, 07 May 2019 21:36:38 +0200
+
 qutebrowser (1.6.1-2) unstable; urgency=low
 
   * No-change upload to unstable again. (see #925194)
