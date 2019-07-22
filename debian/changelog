@@ -1,3 +1,9 @@
+qutebrowser (1.7.0-1) UNRELEASED; urgency=medium
+
+  * New upstream release
+
+ -- Axel Beckert <abe@debian.org>  Mon, 22 Jul 2019 21:55:26 +0200
+
 qutebrowser (1.6.3-1) UNRELEASED; urgency=medium
 
   * New upstream release
