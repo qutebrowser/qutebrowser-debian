@@ -2,6 +2,8 @@ qutebrowser (1.7.0-1) UNRELEASED; urgency=medium
 
   * New upstream release
   * Declare compliance with Debian Policy 4.4.0. (No changes needed.)
+  * Bump debhelper compatibility level to 12.
+    + Replace debian/compat with a versioned b-d on debhelper-compat.
 
  -- Axel Beckert <abe@debian.org>  Mon, 22 Jul 2019 21:55:26 +0200
 
