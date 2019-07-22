@@ -818,7 +818,14 @@ completion when pressing <code>:</code>, as they&#8217;re typically not useful t
 </li>
 <li>
 <p>
-<code>{url:host}</code> expands to the host part of the URL
+<code>{url:host}</code>, <code>{url:domain}</code>, <code>{url:auth}</code>, <code>{url:scheme}</code>, <code>{url:username}</code>,
+  <code>{url:password}</code>, <code>{url:host}</code>, <code>{url:port}</code>, <code>{url:path}</code> and <code>{url:query}</code>
+  expand to the respective parts of the current URL
+</p>
+</li>
+<li>
+<p>
+<code>{title}</code> expands to the current page&#8217;s title
 </p>
 </li>
 <li>
@@ -832,7 +839,8 @@ completion when pressing <code>:</code>, as they&#8217;re typically not useful t
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>It is possible to run or bind multiple commands by separating them with <code>;;</code>.</p></div>
+<div class="paragraph"><p>Those variables can be escaped by doubling the braces, e.g. <code>{{url}}</code>. It is
+possible to run or bind multiple commands by separating them with <code>;;</code>.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -1259,7 +1267,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#yank">yank</a></p></td>
-<td align="left" valign="top"><p class="table">Yank something to the clipboard or primary selection.</p></td>
+<td align="left" valign="top"><p class="table">Yank (copy) something to the clipboard or primary selection.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#zoom">zoom</a></p></td>
@@ -2022,7 +2030,8 @@ This command does not split arguments after the last argument and handles quotes
 <div class="ulist"><ul>
 <li>
 <p>
-<code><em>mode</em></code>: The mode to enter.
+<code><em>mode</em></code>: The mode to enter. See <code>:help bindings.commands</code> for the available modes, but note that hint/command/yesno/prompt mode
+ can&#8217;t be entered manually.
 </p>
 </li>
 </ul></div>
@@ -2100,7 +2109,7 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 <div class="sect2">
 <h3 id="fullscreen">fullscreen</h3>
-<div class="paragraph"><p>Syntax: <code>:fullscreen [<strong>--leave</strong>]</code></p></div>
+<div class="paragraph"><p>Syntax: <code>:fullscreen [<strong>--leave</strong>] [<strong>--enter</strong>]</code></p></div>
 <div class="paragraph"><p>Toggle fullscreen mode.</p></div>
 <div class="sect3">
 <h4 id="_optional_arguments_24">optional arguments</h4>
@@ -2108,6 +2117,11 @@ This command does not split arguments after the last argument and handles quotes
 <li>
 <p>
 <code><strong>-l</strong></code>, <code><strong>--leave</strong></code>: Only leave fullscreen if it was entered by the page.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-e</strong></code>, <code><strong>--enter</strong></code>: Activate fullscreen and do not toggle if it is already active.
 </p>
 </li>
 </ul></div>
@@ -2234,7 +2248,7 @@ and also used here.</code></pre>
 <li>
 <p>
 <code>tab</code>: Open the link in a new tab (honoring the
- <code>tabs.background_tabs</code> setting).
+ <code>tabs.background</code> setting).
 </p>
 </li>
 <li>
@@ -2292,6 +2306,11 @@ and also used here.</code></pre>
 <li>
 <p>
 <code>spawn</code>: Spawn a command.
+</p>
+</li>
+<li>
+<p>
+<code>delete</code>: Delete the selected element.
 </p>
 </li>
 </ul></div>
@@ -2368,7 +2387,7 @@ With <code>run</code>: Same as <code>fill</code>.
 <p>
 <code><strong>-r</strong></code>, <code><strong>--rapid</strong></code>: Whether to do rapid hinting. With rapid hinting, the hint mode isn&#8217;t left after a hint is followed, so you can easily
  open multiple links. This is only possible with targets
- <code>tab</code> (with <code>tabs.background_tabs=true</code>), <code>tab-bg</code>,
+ <code>tab</code> (with <code>tabs.background=true</code>), <code>tab-bg</code>,
  <code>window</code>, <code>run</code>, <code>hover</code>, <code>userscript</code> and <code>spawn</code>.
 </p>
 </li>
@@ -3900,8 +3919,8 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 <div class="sect2">
 <h3 id="yank">yank</h3>
-<div class="paragraph"><p>Syntax: <code>:yank [<strong>--sel</strong>] [<strong>--keep</strong>] [<strong>--quiet</strong>] [<em>what</em>]</code></p></div>
-<div class="paragraph"><p>Yank something to the clipboard or primary selection.</p></div>
+<div class="paragraph"><p>Syntax: <code>:yank [<strong>--sel</strong>] [<strong>--keep</strong>] [<strong>--quiet</strong>] [<em>what</em>] [<em>inline</em>]</code></p></div>
+<div class="paragraph"><p>Yank (copy) something to the clipboard or primary selection.</p></div>
 <div class="sect3">
 <h4 id="_positional_arguments_59">positional arguments</h4>
 <div class="ulist"><ul>
@@ -3937,10 +3956,21 @@ This command does not split arguments after the last argument and handles quotes
 </li>
 <li>
 <p>
-<code>markdown</code>: Yank title and URL in markdown format.
+<code>markdown</code>: Yank title and URL in markdown format
+ (deprecated, use <code>:yank inline [{title}]({url})</code> instead).
+</p>
+</li>
+<li>
+<p>
+<code>inline</code>: Yank the text contained in the <em>inline</em> argument.
 </p>
 </li>
 </ul></div>
+</li>
+<li>
+<p>
+<code><em>inline</em></code>: A block of text, to be yanked if <em>what</em> is inline and ignored otherwise.
+</p>
 </li>
 </ul></div>
 </div>
@@ -4164,6 +4194,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#prompt-yank">prompt-yank</a></p></td>
 <td align="left" valign="top"><p class="table">Yank URL to clipboard or primary selection.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#reverse-selection">reverse-selection</a></p></td>
+<td align="left" valign="top"><p class="table">Swap the stationary and moving end of the current selection.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#rl-backward-char">rl-backward-char</a></p></td>
@@ -4438,7 +4472,7 @@ cellspacing="0" cellpadding="4">
 </div>
 <div class="sect2">
 <h3 id="prompt-accept">prompt-accept</h3>
-<div class="paragraph"><p>Syntax: <code>:prompt-accept [<em>value</em>]</code></p></div>
+<div class="paragraph"><p>Syntax: <code>:prompt-accept [<strong>--save</strong>] [<em>value</em>]</code></p></div>
 <div class="paragraph"><p>Accept the current prompt.</p></div>
 <div class="sect3">
 <h4 id="_positional_arguments_63">positional arguments</h4>
@@ -4446,6 +4480,16 @@ cellspacing="0" cellpadding="4">
 <li>
 <p>
 <code><em>value</em></code>: If given, uses this value instead of the entered one. For boolean prompts, "yes"/"no" are accepted as value.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_optional_arguments_64">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-s</strong></code>, <code><strong>--save</strong></code>: Save the value to the config.
 </p>
 </li>
 </ul></div>
@@ -4484,7 +4528,7 @@ cellspacing="0" cellpadding="4">
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_64">optional arguments</h4>
+<h4 id="_optional_arguments_65">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4509,7 +4553,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:prompt-yank [<strong>--sel</strong>]</code></p></div>
 <div class="paragraph"><p>Yank URL to clipboard or primary selection.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_65">optional arguments</h4>
+<h4 id="_optional_arguments_66">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4518,6 +4562,10 @@ This command does not split arguments after the last argument and handles quotes
 </li>
 </ul></div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="reverse-selection">reverse-selection</h3>
+<div class="paragraph"><p>Swap the stationary and moving end of the current selection.</p></div>
 </div>
 <div class="sect2">
 <h3 id="rl-backward-char">rl-backward-char</h3>
@@ -4739,7 +4787,7 @@ cellspacing="0" cellpadding="4">
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_66">optional arguments</h4>
+<h4 id="_optional_arguments_67">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4809,7 +4857,7 @@ cellspacing="0" cellpadding="4">
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_67">optional arguments</h4>
+<h4 id="_optional_arguments_68">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4911,7 +4959,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2019-06-18 11:57:00 CEST
+ 2019-07-18 12:25:40 CEST
 </div>
 </div>
 </body>

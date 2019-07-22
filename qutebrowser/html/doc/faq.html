@@ -1001,7 +1001,7 @@ How do I use qutebrowser with mutt?
 </p>
 <div class="listingblock">
 <div class="content">
-<pre><code>    text/html; qutebrowser %s; nametemplate=%s.html</code></pre>
+<pre><code>    text/html; qutebrowser %s; needsterminal; nametemplate=%s.html</code></pre>
 </div></div>
 </li>
 <li>
@@ -1127,9 +1127,7 @@ Why does it take longer to open a URL in qutebrowser than in chromium?
     and place it in your $PATH with the name "qutebrowser". This
     script passes the URL via an unix socket to qutebrowser (if its
     running already) using socat which is much faster and starts a new
-    qutebrowser if it is not running already. Also check if you want
-    to use webengine as backend in line 17 and change it to your
-    needs.
+    qutebrowser if it is not running already.
 </p>
 </li>
 <li>
@@ -1249,14 +1247,9 @@ Unable to view DRM content (Netflix, Spotify, etc.).
     You will need to install <code>widevine</code> and set <code>qt.args</code> to point to it.
     Qt 5.9 currently only supports widevine up to Chrome version 61.
 </p>
-<div class="paragraph"><p>On Arch, simply install <code>qt5-webengine-widevine</code> from the AUR and run:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>:set qt.args '["ppapi-widevine-path=/usr/lib/qt/plugins/ppapi/libwidevinecdmadapter.so"]'
-:restart</code></pre>
-</div></div>
+<div class="paragraph"><p>On Arch, simply install <code>chromium-widevine</code> from the AUR.</p></div>
 <div class="paragraph"><p>For other distributions, download the chromium tarball and widevine-cdm zip from
-<a href="https://aur.archlinux.org/packages/qt5-webengine-widevine/">the AUR page</a>,
+<a href="https://aur.archlinux.org/packages/chromium-widevine/">the AUR page</a>,
 extract <code>libwidevinecdmadapter.so</code> and <code>libwidevinecdm.so</code> files, respectively,
 and move them to the <code>ppapi</code> plugin directory in your Qt library directory (create it if it does not exist).</p></div>
 <div class="paragraph"><p>Lastly, set your <code>qt.args</code> to point to that directory and restart qutebrowser:</p></div>
@@ -1300,7 +1293,7 @@ My issue is not listed.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2019-06-18 11:56:53 CEST
+ 2019-07-18 12:25:32 CEST
 </div>
 </div>
 </body>
