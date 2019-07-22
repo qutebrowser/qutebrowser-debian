@@ -865,13 +865,9 @@ TpxOJy6Xy7qWZdk6wZzrxCbvCY1JRNd1NE3LAWgSM69ngp+PgCiK1gF3NhFTzHvmO+Y3wCzw8xLI
 JpL5tYCZpEyw2f/nWt1ag2UtM0x3Mq1iAp1j+bH0M7KFCGWDnfmbd8AMnuxfUzL/C0rp/wFnFd4n
 EQn3XQAAAABJRU5ErkJggg==" />
 </td>
-<td class="content"><strong>Currently, bigger changes are going on in qutebrowser, as
-part of a
-<a href="https://lists.schokokeks.org/pipermail/qutebrowser-announce/2018-September/000051.html">student research project</a>
-about adding a plugin API to qutebrowser and moving a lot of code from the code
-into plugins.</strong> Due to that, bandwidth for pull request review is currently
-very limited, and contributions might lead to merge conflicts due to
-ongoing refactorings.</td>
+<td class="content">Bandwidth for pull request review is currently quite limited. If you
+want to contribute where it&#8217;s most needed, please consider reviewing or testing
+open pull requests.</td>
 </tr></table>
 </div>
 <div class="paragraph"><p>I <code>&amp;lt;3</code> <span class="footnote"><br />[Of course, that says <code>&lt;3</code> in HTML.]<br /></span> contributors!</p></div>
@@ -1223,7 +1219,7 @@ memory leaks.</p></div>
 </li>
 <li>
 <p>
-<a href="http://requestb.in/">RequestBin, a service to inspect HTTP requests</a>
+<a href="https://requestbin.com/">RequestBin, a service to inspect HTTP requests</a>
 </p>
 </li>
 </ul></div>
@@ -1926,7 +1922,7 @@ Calling <code>rootObject()</code> on that gives us the <a href="https://doc.qt.i
 <h2 id="_style_conventions">Style conventions</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>qutebrowser&#8217;s coding conventions are based on
-<a href="http://legacy.python.org/dev/peps/pep-0008/">PEP8</a> and the <a href="https://google-styleguide.googlecode.com/svn/trunk/pyguide.html">Google Python style guidelines</a> with some additions:</p></div>
+<a href="http://legacy.python.org/dev/peps/pep-0008/">PEP8</a> and the <a href="https://google.github.io/styleguide/pyguide.html">Google Python style guidelines</a> with some additions:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2154,86 +2150,28 @@ Make sure all issues with the related milestone are closed.
 </li>
 <li>
 <p>
-Run <code>x=... y=...</code> to set the respective shell variables.
-</p>
-</li>
-<li>
-<p>
-Update changelog (remove <strong>(unreleased)</strong>).
-</p>
-</li>
-<li>
-<p>
-Adjust <code>__version_info__</code> in <code>qutebrowser/__init__.py</code>.
-</p>
-</li>
-<li>
-<p>
 Consider updating the completions for <code>content.headers.user_agent</code> in <code>configdata.yml</code>.
 </p>
 </li>
 <li>
 <p>
-Commit.
+Make sure Python is up-to-date on build machines.
 </p>
 </li>
 <li>
 <p>
-Create annotated git tag (<code>git tag -s "v1.$x.$y" -m "Release v1.$x.$y"</code>).
+Mark the milestone at <a href="https://github.com/qutebrowser/qutebrowser/milestones">https://github.com/qutebrowser/qutebrowser/milestones</a> as closed.
 </p>
 </li>
 <li>
 <p>
-<code>git push origin</code>; <code>git push origin v1.$x.$y</code>.
+Run <code>./.venv/bin/python3 scripts/dev/update_version.py {major,minor,patch}</code>.
 </p>
 </li>
 <li>
 <p>
-If committing on minor branch, cherry-pick release commit to master.
+Run the printed instructions accordingly.
 </p>
-</li>
-<li>
-<p>
-Create release on github.
-</p>
-</li>
-<li>
-<p>
-Mark the milestone at <a href="https://github.com/qutebrowser/qutebrowser/milestones">https://github.com/qutebrowser/qutebrowser/milestones</a>
-as closed.
-</p>
-</li>
-<li>
-<p>
-Linux: Run <code>git checkout v1.$x.$y &amp;&amp; ./.venv/bin/python3 scripts/dev/build_release.py --upload v1.$x.$y</code>.
-</p>
-</li>
-<li>
-<p>
-Windows: Run <code>git checkout v1.X.Y; py -3 scripts\dev\build_release.py --asciidoc C:\Python27\python %userprofile%\bin\asciidoc-8.6.10\asciidoc.py --upload v1.X.Y</code> (replace X/Y by hand).
-</p>
-</li>
-<li>
-<p>
-macOS: Run <code>git checkout v1.X.Y &amp;&amp; python3 scripts/dev/build_release.py --upload v1.X.Y</code> (replace X/Y by hand).
-</p>
-</li>
-<li>
-<p>
-On server:
-</p>
-<div class="ulist"><ul>
-<li>
-<p>
-Run <code>python3 scripts/dev/download_release.py v1.X.Y</code> (replace X/Y by hand).
-</p>
-</li>
-<li>
-<p>
-Run <code>git pull github master &amp;&amp; sudo python3 scripts/asciidoc2html.py --website /srv/http/qutebrowser</code>
-</p>
-</li>
-</ul></div>
 </li>
 <li>
 <p>
@@ -2254,7 +2192,7 @@ Announce to qutebrowser and qutebrowser-announce mailinglist.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2019-06-18 11:56:55 CEST
+ 2019-07-18 12:25:35 CEST
 </div>
 </div>
 </body>

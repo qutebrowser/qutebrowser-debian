@@ -43,6 +43,7 @@ class WebEngineView(QWebEngineView):
 
         theme_color = self.style().standardPalette().color(QPalette.Base)
         if private:
+            assert webenginesettings.private_profile is not None
             profile = webenginesettings.private_profile
             assert profile.isOffTheRecord()
         else:
@@ -258,6 +259,12 @@ class WebEnginePage(QWebEnginePage):
             QWebEnginePage.NavigationTypeOther:
                 usertypes.NavigationRequest.Type.other,
         }
+        try:
+            type_map[QWebEnginePage.NavigationTypeRedirect] = (
+                usertypes.NavigationRequest.Type.redirect)
+        except AttributeError:
+            # Added in Qt 5.14
+            pass
 
         navigation = usertypes.NavigationRequest(
             url=url,

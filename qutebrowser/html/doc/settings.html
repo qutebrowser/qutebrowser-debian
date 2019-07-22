@@ -878,11 +878,15 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.completion.item.selected.border.top">colors.completion.item.selected.border.top</a></p></td>
-<td align="left" valign="top"><p class="table">Top border color of the completion widget category headers.</p></td>
+<td align="left" valign="top"><p class="table">Top border color of the selected completion item.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.completion.item.selected.fg">colors.completion.item.selected.fg</a></p></td>
 <td align="left" valign="top"><p class="table">Foreground color of the selected completion item.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.completion.item.selected.match.fg">colors.completion.item.selected.match.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the matched text in the selected completion item.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.completion.match.fg">colors.completion.match.fg</a></p></td>
@@ -1139,6 +1143,38 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.tabs.odd.fg">colors.tabs.odd.fg</a></p></td>
 <td align="left" valign="top"><p class="table">Foreground color of unselected odd tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.tabs.pinned.even.bg">colors.tabs.pinned.even.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of pinned unselected even tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.tabs.pinned.even.fg">colors.tabs.pinned.even.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of pinned unselected even tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.tabs.pinned.odd.bg">colors.tabs.pinned.odd.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of pinned unselected odd tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.tabs.pinned.odd.fg">colors.tabs.pinned.odd.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of pinned unselected odd tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.tabs.pinned.selected.even.bg">colors.tabs.pinned.selected.even.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of pinned selected even tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.tabs.pinned.selected.even.fg">colors.tabs.pinned.selected.even.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of pinned selected even tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.tabs.pinned.selected.odd.bg">colors.tabs.pinned.selected.odd.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of pinned selected odd tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.tabs.pinned.selected.odd.fg">colors.tabs.pinned.selected.odd.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of pinned selected odd tabs.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.tabs.selected.even.bg">colors.tabs.selected.even.bg</a></p></td>
@@ -1585,6 +1621,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Hide unmatched hints in rapid mode.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#hints.leave_on_load">hints.leave_on_load</a></p></td>
+<td align="left" valign="top"><p class="table">Leave hint mode when starting a new page load.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#hints.min_chars">hints.min_chars</a></p></td>
 <td align="left" valign="top"><p class="table">Minimum number of characters used for hint strings.</p></td>
 </tr>
@@ -1863,6 +1903,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.title.format_pinned">tabs.title.format_pinned</a></p></td>
 <td align="left" valign="top"><p class="table">Format to use for the tab title for pinned tabs. The same placeholders like for <code>tabs.title.format</code> are defined.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs.undo_stack_size">tabs.undo_stack_size</a></p></td>
+<td align="left" valign="top"><p class="table">Number of close tab actions to remember, per window (-1 for no maximum).</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.width">tabs.width</a></p></td>
@@ -2214,6 +2258,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <li>
 <p>
 <code>l</code>: <code>move-to-next-char</code>
+</p>
+</li>
+<li>
+<p>
+<code>o</code>: <code>reverse-selection</code>
 </p>
 </li>
 <li>
@@ -3276,7 +3325,6 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>yM</code>: <code>yank markdown -s</code>
 </p>
 </li>
 <li>
@@ -3301,7 +3349,6 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>ym</code>: <code>yank markdown</code>
 </p>
 </li>
 <li>
@@ -3509,6 +3556,16 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>N</code>: <code>prompt-accept --save no</code>
+</p>
+</li>
+<li>
+<p>
+<code>Y</code>: <code>prompt-accept --save yes</code>
+</p>
+</li>
+<li>
+<p>
 <code>n</code>: <code>prompt-accept no</code>
 </p>
 </li>
@@ -3640,7 +3697,7 @@ May be a single color to use for all columns or a list of three colors, one for 
 </div>
 <div class="sect2">
 <h3 id="colors.completion.item.selected.border.top">colors.completion.item.selected.border.top</h3>
-<div class="paragraph"><p>Top border color of the completion widget category headers.</p></div>
+<div class="paragraph"><p>Top border color of the selected completion item.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
 <div class="paragraph"><p>Default: <code>#bbbb00</code></p></div>
 </div>
@@ -3649,6 +3706,12 @@ May be a single color to use for all columns or a list of three colors, one for 
 <div class="paragraph"><p>Foreground color of the selected completion item.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
 <div class="paragraph"><p>Default: <code>black</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.completion.item.selected.match.fg">colors.completion.item.selected.match.fg</h3>
+<div class="paragraph"><p>Foreground color of the matched text in the selected completion item.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
+<div class="paragraph"><p>Default: <code>#ff4444</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.completion.match.fg">colors.completion.match.fg</h3>
@@ -3790,7 +3853,7 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 <div class="sect2">
 <h3 id="colors.hints.match.fg">colors.hints.match.fg</h3>
 <div class="paragraph"><p>Font color for the matched part of hints.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
+<div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
 <div class="paragraph"><p>Default: <code>green</code></p></div>
 </div>
 <div class="sect2">
@@ -4030,7 +4093,7 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 <div class="sect2">
 <h3 id="colors.tabs.bar.bg">colors.tabs.bar.bg</h3>
 <div class="paragraph"><p>Background color of the tab bar.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
+<div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
 <div class="paragraph"><p>Default: <code>#555555</code></p></div>
 </div>
 <div class="sect2">
@@ -4101,6 +4164,54 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 <div class="sect2">
 <h3 id="colors.tabs.odd.fg">colors.tabs.odd.fg</h3>
 <div class="paragraph"><p>Foreground color of unselected odd tabs.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.tabs.pinned.even.bg">colors.tabs.pinned.even.bg</h3>
+<div class="paragraph"><p>Background color of pinned unselected even tabs.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
+<div class="paragraph"><p>Default: <code>darkseagreen</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.tabs.pinned.even.fg">colors.tabs.pinned.even.fg</h3>
+<div class="paragraph"><p>Foreground color of pinned unselected even tabs.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.tabs.pinned.odd.bg">colors.tabs.pinned.odd.bg</h3>
+<div class="paragraph"><p>Background color of pinned unselected odd tabs.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
+<div class="paragraph"><p>Default: <code>seagreen</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.tabs.pinned.odd.fg">colors.tabs.pinned.odd.fg</h3>
+<div class="paragraph"><p>Foreground color of pinned unselected odd tabs.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.tabs.pinned.selected.even.bg">colors.tabs.pinned.selected.even.bg</h3>
+<div class="paragraph"><p>Background color of pinned selected even tabs.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
+<div class="paragraph"><p>Default: <code>black</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.tabs.pinned.selected.even.fg">colors.tabs.pinned.selected.even.fg</h3>
+<div class="paragraph"><p>Foreground color of pinned selected even tabs.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.tabs.pinned.selected.odd.bg">colors.tabs.pinned.selected.odd.bg</h3>
+<div class="paragraph"><p>Background color of pinned selected odd tabs.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
+<div class="paragraph"><p>Default: <code>black</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.tabs.pinned.selected.odd.fg">colors.tabs.pinned.selected.odd.fg</h3>
+<div class="paragraph"><p>Foreground color of pinned selected odd tabs.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
 <div class="paragraph"><p>Default: <code>white</code></p></div>
 </div>
@@ -4442,7 +4553,7 @@ On Qt &lt; 5.10, a dialog box is always displayed, even if this is set to "true"
 <div class="paragraph"><p>Try to pre-fetch DNS entries to speed up browsing.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>true</code></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.12 or newer.</p></div>
 </div>
 <div class="sect2">
@@ -4799,12 +4910,13 @@ If unset, <code>~/.netrc</code> is used.</p></div>
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>ask</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.13 or newer.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.pdfjs">content.pdfjs</h3>
 <div class="paragraph"><p>Allow pdf.js to view PDF files in the browser.
 Note that the files can still be downloaded by clicking the download button in the pdf.js viewer.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
@@ -5328,6 +5440,12 @@ Whenever "monospace" is used in a font setting, it&#8217;s replaced with the fon
 <div class="sect2">
 <h3 id="hints.hide_unmatched_rapid_hints">hints.hide_unmatched_rapid_hints</h3>
 <div class="paragraph"><p>Hide unmatched hints in rapid mode.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="hints.leave_on_load">hints.leave_on_load</h3>
+<div class="paragraph"><p>Leave hint mode when starting a new page load.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -5885,7 +6003,7 @@ See <code>new_instance_open_target_window</code> to customize in which window th
 <div class="sect2">
 <h3 id="new_instance_open_target_window">new_instance_open_target_window</h3>
 <div class="paragraph"><p>Which window to choose when opening links as new tabs.
-When <code>new_instance_open_target</code> is not set to <code>window</code>, this is ignored.</p></div>
+When <code>new_instance_open_target</code> is set to <code>window</code>, this is ignored.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -6926,7 +7044,7 @@ The following placeholders are defined:</p></div>
 </li>
 <li>
 <p>
-<code>{title}</code>: Title of the current web page.
+<code>{current_title}</code>: Title of the current web page.
 </p>
 </li>
 <li>
@@ -6981,13 +7099,19 @@ The following placeholders are defined:</p></div>
 </li>
 </ul></div>
 <div class="paragraph"><p>Type: <a href="#types">FormatString</a></p></div>
-<div class="paragraph"><p>Default: <code>{audio}{index}: {title}</code></p></div>
+<div class="paragraph"><p>Default: <code>{audio}{index}: {current_title}</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="tabs.title.format_pinned">tabs.title.format_pinned</h3>
 <div class="paragraph"><p>Format to use for the tab title for pinned tabs. The same placeholders like for <code>tabs.title.format</code> are defined.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FormatString</a></p></div>
 <div class="paragraph"><p>Default: <code>{index}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs.undo_stack_size">tabs.undo_stack_size</h3>
+<div class="paragraph"><p>Number of close tab actions to remember, per window (-1 for no maximum).</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
+<div class="paragraph"><p>Default: <code>100</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="tabs.width">tabs.width</h3>
@@ -7155,7 +7279,7 @@ The search engine named <code>DEFAULT</code> is used when <code>url.auto_search<
 <div class="paragraph"><p>Format to use for the window title. The same placeholders like for
 <code>tabs.title.format</code> are defined.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FormatString</a></p></div>
-<div class="paragraph"><p>Default: <code>{perc}{title}{title_sep}qutebrowser</code></p></div>
+<div class="paragraph"><p>Default: <code>{perc}{current_title}{title_sep}qutebrowser</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="zoom.default">zoom.default</h3>
@@ -7466,7 +7590,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2019-06-18 11:57:10 CEST
+ 2019-07-18 12:25:51 CEST
 </div>
 </div>
 </body>
