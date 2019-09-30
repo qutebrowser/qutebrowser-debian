@@ -232,7 +232,7 @@ class StatusBar(QWidget):
                 self.percentage.show()
             elif segment == 'scroll_raw':
                 self._hbox.addWidget(self.percentage)
-                self.percentage.raw = True
+                self.percentage.set_raw()
                 self.percentage.show()
             elif segment == 'history':
                 self._hbox.addWidget(self.backforward)
@@ -308,7 +308,7 @@ class StatusBar(QWidget):
             all_bindings = key_instance.get_reverse_bindings_for('passthrough')
             bindings = all_bindings.get('leave-mode')
             if bindings:
-                suffix = ' ({} to leave)'.format(bindings[0])
+                suffix = ' ({} to leave)'.format(' or '.join(bindings))
             else:
                 suffix = ''
         else:
@@ -407,7 +407,7 @@ class StatusBar(QWidget):
 
     def minimumSizeHint(self):
         """Set the minimum height to the text height plus some padding."""
-        padding = config.val.statusbar.padding
+        padding = config.cache['statusbar.padding']
         width = super().minimumSizeHint().width()
         height = self.fontMetrics().height() + padding.top + padding.bottom
         return QSize(width, height)

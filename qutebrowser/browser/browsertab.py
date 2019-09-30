@@ -40,11 +40,10 @@ from qutebrowser.config import config
 from qutebrowser.utils import (utils, objreg, usertypes, log, qtutils,
                                urlutils, message)
 from qutebrowser.misc import miscwidgets, objects
-from qutebrowser.browser import mouse, hints
+from qutebrowser.browser import eventfilter, hints
 from qutebrowser.qt import sip
-MYPY = False
-if MYPY:
-    # pylint can't interpret type comments with Python 3.7
+
+if typing.TYPE_CHECKING:
     # pylint: disable=unused-import,useless-suppression
     from qutebrowser.browser import webelem
     from qutebrowser.browser.inspector import AbstractWebInspector
@@ -529,7 +528,8 @@ class AbstractScroller(QObject):
         super().__init__(parent)
         self._tab = tab
         self._widget = None  # type: typing.Optional[QWidget]
-        self.perc_changed.connect(self._log_scroll_pos_change)
+        if 'log-scroll-pos' in objects.debug_flags:
+            self.perc_changed.connect(self._log_scroll_pos_change)
 
     @pyqtSlot()
     def _log_scroll_pos_change(self) -> None:
@@ -781,14 +781,16 @@ class AbstractTabPrivate:
 
     def handle_auto_insert_mode(self, ok: bool) -> None:
         """Handle `input.insert_mode.auto_load` after loading finished."""
-        if not config.val.input.insert_mode.auto_load or not ok:
+        if not ok or not config.cache['input.insert_mode.auto_load']:
             return
 
         cur_mode = self._mode_manager.mode
         if cur_mode == usertypes.KeyMode.insert:
             return
 
-        def _auto_insert_mode_cb(elem: 'webelem.AbstractWebElement') -> None:
+        def _auto_insert_mode_cb(
+                elem: typing.Optional['webelem.AbstractWebElement']
+        ) -> None:
             """Called from JS after finding the focused element."""
             if elem is None:
                 log.webview.debug("No focused element!")
@@ -883,7 +885,7 @@ class AbstractTab(QWidget):
         self._progress = 0
         self._has_ssl_errors = False
         self._load_status = usertypes.LoadStatus.none
-        self._mouse_event_filter = mouse.MouseEventFilter(
+        self._tab_event_filter = eventfilter.TabEventFilter(
             self, parent=self)
         self.backend = None
 

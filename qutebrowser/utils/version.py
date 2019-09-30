@@ -53,6 +53,7 @@ import qutebrowser
 from qutebrowser.utils import log, utils, standarddir, usertypes, message
 from qutebrowser.misc import objects, earlyinit, sql, httpclient, pastebin
 from qutebrowser.browser import pdfjs
+from qutebrowser.config import config
 
 try:
     from qutebrowser.browser.webengine import webenginesettings
@@ -216,6 +217,7 @@ def _module_versions():
         ('cssutils', ['__version__']),
         ('attr', ['__version__']),
         ('PyQt5.QtWebEngineWidgets', []),
+        ('PyQt5.QtWebEngine', ['PYQT_WEBENGINE_VERSION_STR']),
         ('PyQt5.QtWebKitWidgets', []),
     ])
     for modname, attributes in modules.items():
@@ -343,18 +345,18 @@ def _chromium_version():
 
     Qt 5.12: Chromium 69
     (LTS)    69.0.3497.113 (2018-09-27)
-             5.12.4: Security fixes up to 74.0.3729.157 (2019-05-14)
+             5.12.5: Security fixes up to 76.0.3809.87 (2019-06-30)
 
     Qt 5.13: Chromium 73
              73.0.3683.105 (~2019-02-28)
-             5.13.0: Security fixes up to 74.0.3729.131 (2019-04-30)
+             5.13.1: Security fixes up to 76.0.3809.87 (2019-06-30)
 
     Also see https://www.chromium.org/developers/calendar
     and https://chromereleases.googleblog.com/
     """
-    if webenginesettings is None or QWebEngineProfile is None:
+    if webenginesettings is None or QWebEngineProfile is None:  # type: ignore
         # This should never happen
-        return 'unavailable'
+        return 'unavailable'  # type: ignore
     ua = webenginesettings.default_user_agent
     if ua is None:
         profile = QWebEngineProfile.defaultProfile()
@@ -382,6 +384,17 @@ def _uptime() -> datetime.timedelta:
     # Round off microseconds
     time_delta -= datetime.timedelta(microseconds=time_delta.microseconds)
     return time_delta
+
+
+def _autoconfig_loaded() -> str:
+    return "yes" if config.instance.yaml_loaded else "no"
+
+
+def _config_py_loaded() -> str:
+    if config.instance.config_py_loaded:
+        return "{} has been loaded".format(standarddir.config_py())
+    else:
+        return "no config.py was loaded"
 
 
 def version():
@@ -450,7 +463,9 @@ def version():
 
     lines += [
         '',
-        'Uptime: {}'.format(_uptime()),
+        'Autoconfig loaded: {}'.format(_autoconfig_loaded()),
+        'Config.py: {}'.format(_config_py_loaded()),
+        'Uptime: {}'.format(_uptime())
     ]
 
     return '\n'.join(lines)

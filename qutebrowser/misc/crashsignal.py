@@ -38,7 +38,7 @@ from PyQt5.QtCore import (pyqtSlot, qInstallMessageHandler, QObject,
                           QSocketNotifier, QTimer, QUrl)
 
 from qutebrowser.api import cmdutils
-from qutebrowser.misc import earlyinit, crashdialog, ipc
+from qutebrowser.misc import earlyinit, crashdialog, ipc, objects
 from qutebrowser.utils import usertypes, standarddir, log, objreg, debug, utils
 
 
@@ -157,9 +157,9 @@ class CrashHandler(QObject):
         """Report a bug in qutebrowser."""
         pages = self._recover_pages()
         cmd_history = objreg.get('command-history')[-5:]
-        objects = debug.get_all_objects()
+        all_objects = debug.get_all_objects()
         self._crash_dialog = crashdialog.ReportDialog(pages, cmd_history,
-                                                      objects)
+                                                      all_objects)
         self._crash_dialog.show()
 
     def destroy_crashlogfile(self):
@@ -172,7 +172,7 @@ class CrashHandler(QObject):
         if sys.__stderr__ is not None:
             faulthandler.enable(sys.__stderr__)
         else:
-            faulthandler.disable()
+            faulthandler.disable()  # type: ignore
         try:
             self._crash_log_file.close()
             os.remove(self._crash_log_file.name)
@@ -198,11 +198,11 @@ class CrashHandler(QObject):
             cmd_history = []
 
         try:
-            objects = debug.get_all_objects()
+            all_objects = debug.get_all_objects()
         except Exception:
             log.destroy.exception("Error while getting objects")
-            objects = ""
-        return ExceptionInfo(pages, cmd_history, objects)
+            all_objects = ""
+        return ExceptionInfo(pages, cmd_history, all_objects)
 
     def exception_hook(self, exctype, excvalue, tb):
         """Handle uncaught python exceptions.
@@ -222,10 +222,10 @@ class CrashHandler(QObject):
         is_ignored_exception = (exctype is bdb.BdbQuit or
                                 not issubclass(exctype, Exception))
 
-        if 'pdb-postmortem' in self._args.debug_flags:
+        if 'pdb-postmortem' in objects.debug_flags:
             pdb.post_mortem(tb)
 
-        if is_ignored_exception or 'pdb-postmortem' in self._args.debug_flags:
+        if is_ignored_exception or 'pdb-postmortem' in objects.debug_flags:
             # pdb exit, KeyboardInterrupt, ...
             sys.exit(usertypes.Exit.exception)
 
@@ -334,7 +334,7 @@ class SignalHandler(QObject):
             self._notifier.setEnabled(False)
             rfd = self._notifier.socket()
             wfd = signal.set_wakeup_fd(self._orig_wakeup_fd)
-            os.close(rfd)
+            os.close(int(rfd))
             os.close(wfd)
         for sig, handler in self._orig_handlers.items():
             signal.signal(sig, handler)
@@ -353,7 +353,7 @@ class SignalHandler(QObject):
         self._notifier.setEnabled(False)
         read_fd = self._notifier.socket()
         try:
-            os.read(read_fd, 1)
+            os.read(int(read_fd), 1)
         except OSError:
             log.destroy.exception("Failed to read wakeup fd.")
         self._notifier.setEnabled(True)

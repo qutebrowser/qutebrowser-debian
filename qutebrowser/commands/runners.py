@@ -33,9 +33,8 @@ from qutebrowser.commands import cmdexc
 from qutebrowser.utils import message, objreg, qtutils, usertypes, utils
 from qutebrowser.misc import split, objects
 
-MYPY = False
-if MYPY:
-    # pylint: disable=unused-import
+if typing.TYPE_CHECKING:
+    # pylint: disable=unused-import,useless-suppression
     from qutebrowser.mainwindow import tabbedbrowser
 _ReplacementFunction = typing.Callable[['tabbedbrowser.TabbedBrowser'], str]
 
@@ -153,10 +152,10 @@ class CommandParser:
             otherwise.
         """
         parts = text.strip().split(maxsplit=1)
-        try:
-            alias = config.val.aliases[parts[0]]
-        except KeyError:
+        aliases = config.cache['aliases']
+        if parts[0] not in aliases:
             return default
+        alias = aliases[parts[0]]
 
         try:
             new_cmd = '{} {}'.format(alias, parts[1])

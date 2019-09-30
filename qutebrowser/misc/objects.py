@@ -24,8 +24,7 @@
 
 import typing
 
-MYPY = False
-if MYPY:
+if typing.TYPE_CHECKING:
     from qutebrowser.utils import usertypes
     from qutebrowser.commands import command
 
@@ -40,3 +39,4 @@ class NoBackend:
 
 backend = NoBackend()  # type: typing.Union[usertypes.Backend, NoBackend]
 commands = {}  # type: typing.Dict[str, command.Command]
+debug_flags = set()  # type: typing.Set[str]
