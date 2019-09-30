@@ -37,6 +37,7 @@ Depends: libqt5core5a (>= 5.7.1),
          ${misc:Depends},
          ${python3:Depends}
 Suggests: libjs-pdf,
+          nodejs,
           python3-colorlog
 Provides: x-www-browser
 Description: Keyboard-driven, vim-like browser based on PyQt5
