@@ -24,6 +24,7 @@ Package: qutebrowser
 Architecture: all
 Depends: libqt5core5a (>= 5.7.1),
          libqt5sql5-sqlite,
+         python3 (>= 3.5.2),
          python3-attr,
          python3-pkg-resources,
          python3-pypeg2,
