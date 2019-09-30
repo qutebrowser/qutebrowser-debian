@@ -4696,14 +4696,7 @@ case of a directory, all files in the directory are read as adblock lists.</p></
 Note this whitelists blocked hosts, not first-party URLs. As an example, if <code>example.org</code> loads an ad from <code>ads.example.org</code>, the whitelisted host should be <code>ads.example.org</code>. If you want to disable the adblocker on a given page, use the <code>content.host_blocking.enabled</code> setting with a URL pattern instead.
 Local domains are always exempt from hostblocking.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">List of UrlPattern</a></p></div>
-<div class="paragraph"><p>Default:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<code>piwik.org</code>
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.hyperlink_auditing">content.hyperlink_auditing</h3>
@@ -5102,10 +5095,11 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="content.xss_auditing">content.xss_auditing</h3>
 <div class="paragraph"><p>Monitor load requests for cross-site scripting attempts.
-Suspicious scripts will be blocked and reported in the inspector&#8217;s JavaScript console.</p></div>
+Suspicious scripts will be blocked and reported in the inspector&#8217;s JavaScript console.
+Note that bypasses for the XSS auditor are widely known and it can be abused for cross-site info leaks in some scenarios, see: <a href="https://www.chromium.org/developers/design-documents/xss-auditor">https://www.chromium.org/developers/design-documents/xss-auditor</a></p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>true</code></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="downloads.location.directory">downloads.location.directory</h3>
@@ -7590,7 +7584,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2019-07-18 12:25:51 CEST
+ 2019-09-27 13:36:45 CEST
 </div>
 </div>
 </body>

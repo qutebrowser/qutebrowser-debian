@@ -54,13 +54,9 @@ WEBENGINE_SCHEMES = [
 ]
 
 
-class InvalidUrlError(ValueError):
+class InvalidUrlError(Exception):
 
-    """Error raised if a function got an invalid URL.
-
-    Inherits ValueError because that was the exception originally used for
-    that, so there still might be some code around which checks for that.
-    """
+    """Error raised if a function got an invalid URL."""
 
     def __init__(self, url):
         if url.isValid():
@@ -218,8 +214,7 @@ def fuzzy_url(urlstr, cwd=None, relative=False, do_search=True,
     if do_search and config.val.url.auto_search != 'never' and urlstr:
         qtutils.ensure_valid(url)
     else:
-        if not url.isValid():
-            raise InvalidUrlError(url)
+        ensure_valid(url)
     return url
 
 
@@ -344,6 +339,11 @@ def qurl_from_user_input(urlstr):
         return QUrl('http://[{}]{}'.format(ipstr, rest))
 
 
+def ensure_valid(url):
+    if not url.isValid():
+        raise InvalidUrlError(url)
+
+
 def invalid_url_error(url, action):
     """Display an error message for a URL.
 
@@ -360,8 +360,10 @@ def invalid_url_error(url, action):
 
 def raise_cmdexc_if_invalid(url):
     """Check if the given QUrl is invalid, and if so, raise a CommandError."""
-    if not url.isValid():
-        raise cmdutils.CommandError(get_errstring(url))
+    try:
+        ensure_valid(url)
+    except InvalidUrlError as e:
+        raise cmdutils.CommandError(str(e))
 
 
 def get_path_if_valid(pathstr, cwd=None, relative=False, check_exists=False):
@@ -434,8 +436,7 @@ def host_tuple(url):
 
     This is suitable to identify a connection, e.g. for SSL errors.
     """
-    if not url.isValid():
-        raise InvalidUrlError(url)
+    ensure_valid(url)
     scheme, host, port = url.scheme(), url.host(), url.port()
     assert scheme
     if not host:
@@ -484,10 +485,8 @@ def same_domain(url1, url2):
     Return:
         True if the domains are the same, False otherwise.
     """
-    if not url1.isValid():
-        raise InvalidUrlError(url1)
-    if not url2.isValid():
-        raise InvalidUrlError(url2)
+    ensure_valid(url1)
+    ensure_valid(url2)
 
     suffix1 = url1.topLevelDomain()
     suffix2 = url2.topLevelDomain()
@@ -509,122 +508,6 @@ def encoded_url(url):
         url: The url to encode as QUrl.
     """
     return bytes(url.toEncoded()).decode('ascii')
-
-
-class IncDecError(Exception):
-
-    """Exception raised by incdec_number on problems.
-
-    Attributes:
-        msg: The error message.
-        url: The QUrl which caused the error.
-    """
-
-    def __init__(self, msg, url):
-        super().__init__(msg)
-        self.url = url
-        self.msg = msg
-
-    def __str__(self):
-        return '{}: {}'.format(self.msg, self.url.toString())
-
-
-def _get_incdec_value(match, incdec, url, count):
-    """Get an incremented/decremented URL based on a URL match."""
-    pre, zeroes, number, post = match.groups()
-    # This should always succeed because we match \d+
-    val = int(number)
-    if incdec == 'decrement':
-        if val < count:
-            raise IncDecError("Can't decrement {} by {}!".format(val, count),
-                              url)
-        val -= count
-    elif incdec == 'increment':
-        val += count
-    else:
-        raise ValueError("Invalid value {} for incdec!".format(incdec))
-    if zeroes:
-        if len(number) < len(str(val)):
-            zeroes = zeroes[1:]
-        elif len(number) > len(str(val)):
-            zeroes += '0'
-
-    return ''.join([pre, zeroes, str(val), post])
-
-
-# Order of the segments in a URL.
-# Each list entry is a tuple of (path name (string), getter, setter).
-# Note that the getters must not use FullyDecoded decoded mode to prevent loss
-# of information. (host and path use FullyDecoded by default)
-_URL_SEGMENTS = [
-    ('host',
-     lambda url: url.host(QUrl.FullyEncoded),
-     lambda url, host: url.setHost(host, QUrl.StrictMode)),
-
-    ('port',
-     lambda url: str(url.port()) if url.port() > 0 else '',
-     lambda url, x: url.setPort(int(x))),
-
-    ('path',
-     lambda url: url.path(QUrl.FullyEncoded),
-     lambda url, path: url.setPath(path, QUrl.StrictMode)),
-
-    ('query',
-     lambda url: url.query(QUrl.FullyEncoded),
-     lambda url, query: url.setQuery(query, QUrl.StrictMode)),
-
-    ('anchor',
-     lambda url: url.fragment(QUrl.FullyEncoded),
-     lambda url, fragment: url.setFragment(fragment, QUrl.StrictMode)),
-]
-
-
-def incdec_number(url, incdec, count=1, segments=None):
-    """Find a number in the url and increment or decrement it.
-
-    Args:
-        url: The current url
-        incdec: Either 'increment' or 'decrement'
-        count: The number to increment or decrement by
-        segments: A set of URL segments to search. Valid segments are:
-                  'host', 'port', 'path', 'query', 'anchor'.
-                  Default: {'path', 'query'}
-
-    Return:
-        The new url with the number incremented/decremented.
-
-    Raises IncDecError if the url contains no number.
-    """
-    if not url.isValid():
-        raise InvalidUrlError(url)
-
-    if segments is None:
-        segments = {'path', 'query'}
-    valid_segments = {'host', 'port', 'path', 'query', 'anchor'}
-    if segments - valid_segments:
-        extra_elements = segments - valid_segments
-        raise IncDecError("Invalid segments: {}".format(
-            ', '.join(extra_elements)), url)
-
-    # Make a copy of the QUrl so we don't modify the original
-    url = QUrl(url)
-    # We're searching the last number so we walk the url segments backwards
-    for segment, getter, setter in reversed(_URL_SEGMENTS):
-        if segment not in segments:
-            continue
-
-        # Get the last number in a string not preceded by regex '%' or '%.'
-        match = re.fullmatch(r'(.*\D|^)(?<!%)(?<!%.)(0*)(\d+)(.*)',
-                             getter(url))
-        if not match:
-            continue
-
-        setter(url, _get_incdec_value(match, incdec, url, count))
-        qtutils.ensure_valid(url)
-
-        return url
-
-    raise IncDecError("No number found in URL!", url)
 
 
 def file_url(path):
@@ -653,8 +536,7 @@ def safe_display_string(qurl):
     See https://github.com/qutebrowser/qutebrowser/issues/2547
     and https://bugreports.qt.io/browse/QTBUG-60365
     """
-    if not qurl.isValid():
-        raise InvalidUrlError(qurl)
+    ensure_valid(qurl)
 
     host = qurl.host(QUrl.FullyEncoded)
     if '..' in host:  # pragma: no cover
@@ -697,8 +579,7 @@ def proxy_from_url(url):
     Return:
         New QNetworkProxy.
     """
-    if not url.isValid():
-        raise InvalidUrlError(url)
+    ensure_valid(url)
 
     scheme = url.scheme()
     if scheme in ['pac+http', 'pac+https', 'pac+file']:

@@ -28,8 +28,8 @@ from PyQt5.QtWebKitWidgets import QWebFrame
 from qutebrowser.config import config
 from qutebrowser.utils import log, utils, javascript, usertypes
 from qutebrowser.browser import webelem
-MYPY = False
-if MYPY:
+
+if typing.TYPE_CHECKING:
     # pylint: disable=unused-import,useless-suppression
     from qutebrowser.browser.webkit import webkittab
 
@@ -172,7 +172,8 @@ class WebKitElement(webelem.AbstractWebElement):
     def _parent(self) -> typing.Optional['WebKitElement']:
         """Get the parent element of this element."""
         self._check_vanished()
-        elem = self._elem.parent()
+        elem = typing.cast(typing.Optional[QWebElement],
+                           self._elem.parent())
         if elem is None or elem.isNull():
             return None
         return WebKitElement(elem, tab=self._tab)

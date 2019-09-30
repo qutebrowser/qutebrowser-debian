@@ -29,8 +29,8 @@ from qutebrowser.config import config
 from qutebrowser.keyinput import modeman
 from qutebrowser.mainwindow import mainwindow
 from qutebrowser.utils import log, usertypes, utils, qtutils, objreg
-MYPY = False
-if MYPY:
+
+if typing.TYPE_CHECKING:
     # pylint: disable=unused-import,useless-suppression
     from qutebrowser.browser import browsertab
 
@@ -201,7 +201,8 @@ class AbstractWebElement(collections.abc.MutableMapping):
             return self.is_writable()
         else:
             if objtype in ['text', 'email', 'url', 'tel', 'number', 'password',
-                           'search']:
+                           'search', 'date', 'time', 'datetime',
+                           'datetime-local', 'month', 'week']:
                 return self.is_writable()
             else:
                 return False

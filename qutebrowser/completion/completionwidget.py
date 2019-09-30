@@ -23,7 +23,10 @@ Defines a CompletionView which uses CompletionFiterModel and CompletionModel
 subclasses to provide completions.
 """
 
-from PyQt5.QtWidgets import QTreeView, QSizePolicy, QStyleFactory
+import typing  # pylint: disable=unused-import,useless-suppression
+
+
+from PyQt5.QtWidgets import QTreeView, QSizePolicy, QStyleFactory, QWidget
 from PyQt5.QtCore import pyqtSlot, pyqtSignal, Qt, QItemSelectionModel, QSize
 
 from qutebrowser.config import config
@@ -105,9 +108,9 @@ class CompletionView(QTreeView):
     update_geometry = pyqtSignal()
     selection_changed = pyqtSignal(str)
 
-    def __init__(self, win_id, parent=None):
+    def __init__(self, win_id: int, parent: QWidget = None) -> None:
         super().__init__(parent)
-        self.pattern = ''
+        self.pattern = None  # type: typing.Optional[str]
         self._win_id = win_id
         config.instance.changed.connect(self._on_config_changed)
 
@@ -305,15 +308,21 @@ class CompletionView(QTreeView):
 
         model.setParent(self)
         self._active = True
+        self.pattern = None
         self._maybe_show()
 
         self._resize_columns()
         for i in range(model.rowCount()):
             self.expand(model.index(i, 0))
 
-    def set_pattern(self, pattern):
+    def set_pattern(self, pattern: str) -> None:
         """Set the pattern on the underlying model."""
         if not self.model():
+            return
+        if self.pattern == pattern:
+            # no changes, abort
+            log.completion.debug(
+                "Ignoring pattern set request as pattern has not changed.")
             return
         self.pattern = pattern
         with debug.log_time(log.completion, 'Set pattern {}'.format(pattern)):
@@ -349,7 +358,7 @@ class CompletionView(QTreeView):
         confheight = str(config.val.completion.height)
         if confheight.endswith('%'):
             perc = int(confheight.rstrip('%'))
-            height = self.window().height() * perc / 100
+            height = self.window().height() * perc // 100
         else:
             height = int(confheight)
         # Shrink to content size if needed and shrinking is enabled

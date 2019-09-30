@@ -207,7 +207,7 @@ class HintKeyParser(CommandKeyParser):
                                "sequence '{}'".format(self._last_press,
                                                       self._filtertext,
                                                       self._sequence))
-            if self._last_press == LastPress.filtertext and self._filtertext:
+            if self._last_press != LastPress.keystring and self._filtertext:
                 self._filtertext = self._filtertext[:-1]
                 hintmanager.filter_hints(self._filtertext)
                 return QKeySequence.ExactMatch
@@ -246,7 +246,7 @@ class HintKeyParser(CommandKeyParser):
         if dry_run:
             return super().handle(e, dry_run=True)
 
-        if keyutils.is_special(e.key(), e.modifiers()):
+        if keyutils.is_special_hint_mode(e.key(), e.modifiers()):
             log.keyboard.debug("Got special key, clearing keychain")
             self.clear_keystring()
 

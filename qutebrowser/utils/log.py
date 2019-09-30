@@ -220,9 +220,9 @@ def _init_py_warnings():
     warnings.filterwarnings('ignore', module='pdb', category=ResourceWarning)
     # This happens in many qutebrowser dependencies...
     warnings.filterwarnings('ignore', category=DeprecationWarning,
-                            message="Using or importing the ABCs from "
-                            "'collections' instead of from 'collections.abc' "
-                            "is deprecated, and in 3.8 it will stop working")
+                            message=r"Using or importing the ABCs from "
+                            r"'collections' instead of from 'collections.abc' "
+                            r"is deprecated.*")
 
 
 @contextlib.contextmanager
@@ -259,7 +259,7 @@ def _init_handlers(level, color, force_color, json_logging, ram_capacity):
         level, color, force_color, json_logging)
 
     if sys.stderr is None:
-        console_handler = None
+        console_handler = None  # type: ignore
     else:
         strip = False if force_color else None
         if use_colorama:
@@ -313,7 +313,7 @@ def _init_formatters(level, color, force_color, json_logging):
     html_formatter = HTMLFormatter(EXTENDED_FMT_HTML, DATEFMT,
                                    log_colors=LOG_COLORS)
     if sys.stderr is None:
-        return None, ram_formatter, html_formatter, False
+        return None, ram_formatter, html_formatter, False  # type: ignore
 
     if json_logging:
         console_formatter = JSONFormatter()

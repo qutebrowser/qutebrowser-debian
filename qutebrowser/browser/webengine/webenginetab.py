@@ -31,12 +31,12 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineScript
 
 from qutebrowser.config import configdata, config
-from qutebrowser.browser import browsertab, mouse, shared, webelem
+from qutebrowser.browser import browsertab, eventfilter, shared, webelem
 from qutebrowser.browser.webengine import (webview, webengineelem, tabhistory,
                                            interceptor, webenginequtescheme,
                                            cookies, webenginedownloads,
                                            webenginesettings, certificateerror)
-from qutebrowser.misc import miscwidgets
+from qutebrowser.misc import miscwidgets, objects
 from qutebrowser.utils import (usertypes, qtutils, log, javascript, utils,
                                message, objreg, jinja, debug)
 from qutebrowser.qt import sip
@@ -60,8 +60,7 @@ def init():
         _qute_scheme_handler.install(webenginesettings.private_profile)
 
     log.init.debug("Initializing request interceptor...")
-    args = objreg.get('args')
-    req_interceptor = interceptor.RequestInterceptor(args=args, parent=app)
+    req_interceptor = interceptor.RequestInterceptor(parent=app)
     req_interceptor.install(webenginesettings.default_profile)
     if webenginesettings.private_profile:
         req_interceptor.install(webenginesettings.private_profile)
@@ -419,7 +418,6 @@ class WebEngineScroller(browsertab.AbstractScroller):
 
     def __init__(self, tab, parent=None):
         super().__init__(tab, parent)
-        self._args = objreg.get('args')
         self._pos_perc = (0, 0)
         self._pos_px = QPoint()
         self._at_bottom = False
@@ -448,7 +446,7 @@ class WebEngineScroller(browsertab.AbstractScroller):
                 perc_x = min(100, round(100 / scrollable_x * pos.x()))
             except ValueError:
                 # https://github.com/qutebrowser/qutebrowser/issues/3219
-                log.misc.debug("Got ValueError!")
+                log.misc.debug("Got ValueError for perc_x!")
                 log.misc.debug("contents_size.width(): {}".format(
                     contents_size.width()))
                 log.misc.debug("self._widget.width(): {}".format(
@@ -461,12 +459,23 @@ class WebEngineScroller(browsertab.AbstractScroller):
         if scrollable_y == 0:
             perc_y = 0
         else:
-            perc_y = min(100, round(100 / scrollable_y * pos.y()))
+            try:
+                perc_y = min(100, round(100 / scrollable_y * pos.y()))
+            except ValueError:
+                # https://github.com/qutebrowser/qutebrowser/issues/3219
+                log.misc.debug("Got ValueError for perc_y!")
+                log.misc.debug("contents_size.height(): {}".format(
+                    contents_size.height()))
+                log.misc.debug("self._widget.height(): {}".format(
+                    self._widget.height()))
+                log.misc.debug("scrollable_y: {}".format(scrollable_y))
+                log.misc.debug("pos.y(): {}".format(pos.y()))
+                raise
 
         self._at_bottom = math.ceil(pos.y()) >= scrollable_y
 
         if (self._pos_perc != (perc_x, perc_y) or
-                'no-scroll-filtering' in self._args.debug_flags):
+                'no-scroll-filtering' in objects.debug_flags):
             self._pos_perc = perc_x, perc_y
             self.perc_changed.emit(*self._pos_perc)
 
@@ -1141,9 +1150,9 @@ class WebEngineTab(browsertab.AbstractTab):
     def _install_event_filter(self):
         fp = self._widget.focusProxy()
         if fp is not None:
-            fp.installEventFilter(self._mouse_event_filter)
-        self._child_event_filter = mouse.ChildEventFilter(
-            eventfilter=self._mouse_event_filter, widget=self._widget,
+            fp.installEventFilter(self._tab_event_filter)
+        self._child_event_filter = eventfilter.ChildEventFilter(
+            eventfilter=self._tab_event_filter, widget=self._widget,
             win_id=self.win_id, parent=self)
         self._widget.installEventFilter(self._child_event_filter)
 
