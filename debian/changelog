@@ -1,6 +1,7 @@
 qutebrowser (1.8.1-1) UNRELEASED; urgency=medium
 
   * New upstream release
+  * Declare compliance with Debian Policy 4.4.1. (No changes needed.)
 
  -- Axel Beckert <abe@debian.org>  Mon, 30 Sep 2019 22:47:28 +0200
 
