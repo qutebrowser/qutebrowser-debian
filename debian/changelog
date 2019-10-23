@@ -1,9 +1,9 @@
-qutebrowser (1.8.1-2) UNRELEASED; urgency=medium
+qutebrowser (1.8.1-2) unstable; urgency=medium
 
   * Remove superfluous build-dependency on python-setuptools, no more
     needed. Thanks to Sandro Tosi for the bug report. (Closes: #943236)
 
- -- Axel Beckert <abe@debian.org>  Wed, 23 Oct 2019 11:11:12 +0200
+ -- Axel Beckert <abe@debian.org>  Thu, 24 Oct 2019 01:46:45 +0200
 
 qutebrowser (1.8.1-1) unstable; urgency=medium
 
