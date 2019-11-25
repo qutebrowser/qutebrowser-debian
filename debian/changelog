@@ -1,3 +1,12 @@
+qutebrowser (1.8.2-1) UNRELEASED; urgency=medium
+
+  * New upstream bugfix release.
+    + Workaround for missing/broken error pages on Debian.
+    + Unbinding keys via `config.bind(key, None) is deprecated
+    + <Shift-Insert> can now be used to paste text starting with a hyphen.
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Mon, 25 Nov 2019 23:02:01 +0100
+
 qutebrowser (1.8.1-2) unstable; urgency=medium
 
   * Remove superfluous build-dependency on python-setuptools, no more
