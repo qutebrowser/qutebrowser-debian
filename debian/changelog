@@ -1,11 +1,14 @@
-qutebrowser (1.8.2-1) UNRELEASED; urgency=medium
+qutebrowser (1.8.3-1) UNRELEASED; urgency=medium
 
-  * New upstream bugfix release.
+  * New upstream bugfix release 1.8.3
+    + fix for a segmentation fault introduced in v1.8.2 when a tab gets closed
+      immediately after it has finished loading (e.g. with certain login flows).
+  * New upstream bugfix release 1.8.2
     + Workaround for missing/broken error pages on Debian.
     + Unbinding keys via `config.bind(key, None) is deprecated
     + <Shift-Insert> can now be used to paste text starting with a hyphen.
 
- -- Fritz Reichwald <reichwald@b1-systems.de>  Mon, 25 Nov 2019 23:02:01 +0100
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Fri, 06 Dec 2019 08:55:34 +0100
 
 qutebrowser (1.8.1-2) unstable; urgency=medium
 
