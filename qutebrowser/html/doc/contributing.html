@@ -1541,7 +1541,7 @@ commands.</p></div>
 
 <span class="o">...</span>
 
-<span class="nd">@cmdutils.register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">foo</span><span class="p">():</span>
     <span class="o">...</span>
 </pre></div></div></div>
@@ -1562,8 +1562,8 @@ qutebrowser&#8217;s commandline.</p></div>
 <div class="paragraph"><p>The type can be overridden using Python&#8217;s
 <a href="http://legacy.python.org/dev/peps/pep-3107/">function annotations</a>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils.register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">baz</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">baz</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Possible values:</p></div>
@@ -1589,15 +1589,15 @@ A <code>typing.Union</code> of multiple types above: Any of these types are vali
 decorator <strong>after</strong> <code>@cmdutils.register</code>. This can, for example, be used to
 customize the flag an argument should get:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils.register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="nd">@cmdutils.argument</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="nd">@cmdutils</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div></div></div>
 <div class="paragraph"><p>For a <code>str</code> argument, you can restrict the allowed strings using <code>choices</code>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils.register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="nd">@cmdutils.argument</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val1&#39;</span><span class="p">,</span> <span class="s1">&#39;val2&#39;</span><span class="p">])</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="nd">@cmdutils</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val1&#39;</span><span class="p">,</span> <span class="s1">&#39;val2&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div></div></div>
@@ -2197,7 +2197,7 @@ Announce to qutebrowser and qutebrowser-announce mailinglist.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2019-11-22 18:28:35 CET
+ 2019-12-05 16:33:06 CET
 </div>
 </div>
 </body>

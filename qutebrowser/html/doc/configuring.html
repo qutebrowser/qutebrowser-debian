@@ -902,7 +902,7 @@ settings like this:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
 <div class="content"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">tabs</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span>
-<span class="n">c</span><span class="o">.</span><span class="n">completion</span><span class="o">.</span><span class="n">shrink</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">c</span><span class="o">.</span><span class="n">completion</span><span class="o">.</span><span class="n">shrink</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Note that qutebrowser does some Python magic so it&#8217;s able to warn you about
 mistyped config settings. As an example, if you do <code>c.tabs.possition = "left"</code>,
@@ -988,7 +988,7 @@ prefix to preserve backslashes) or a Python regex object:</p></div>
 <div class="title">config.py:</div>
 <div class="content"><div class="highlight"><pre><span></span><span class="c1"># Equivalent to:</span>
 <span class="c1"># c.content.javascript.enabled = False</span>
-<span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;content.javascript.enabled&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;content.javascript.enabled&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>To read a setting, use the <code>config.get</code> method:</p></div>
 <div class="listingblock">
@@ -1002,13 +1002,13 @@ prefix to preserve backslashes) or a Python regex object:</p></div>
 <div class="paragraph"><p>Using <code>config.set</code>, some settings are also customizable for a given
 <a href="https://developer.chrome.com/apps/match_patterns">URL pattern</a>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;content.images&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="s1">&#39;*://example.com/&#39;</span><span class="p">)</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;content.images&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;*://example.com/&#39;</span><span class="p">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Alternatively, you can use <code>with config.pattern(...) as p:</code> to get a shortcut
 similar to <code>c.</code> which is scoped to the given domain:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">pattern</span><span class="p">(</span><span class="s1">&#39;*://example.com/&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">images</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">images</span> <span class="o">=</span> <span class="kc">False</span>
 </pre></div></div></div>
 </div>
 <div class="sect2">
@@ -1022,7 +1022,7 @@ setting.</p></div>
 <div class="paragraph"><p>To bind a key:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
-<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Ctrl-v&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;spawn mpv {url}&#39;</span><span class="p">)</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Ctrl-v&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;spawn mpv </span><span class="si">{url}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>To bind a key in a mode other than <code>'normal'</code>, add a <code>mode</code> argument:</p></div>
 <div class="listingblock">
@@ -1036,7 +1036,7 @@ setting.</p></div>
 chains starting with a comma are ideal for custom bindings, as the comma key
 will never be used in a default keybinding.</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;,v&#39;</span><span class="p">,</span> <span class="s1">&#39;spawn mpv {url}&#39;</span><span class="p">)</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;,v&#39;</span><span class="p">,</span> <span class="s1">&#39;spawn mpv </span><span class="si">{url}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>To suppress loading of any default keybindings, you can set
 <code>c.bindings.default = {}</code>.</p></div>
@@ -1077,7 +1077,7 @@ object</a>, on which you can use <code>/</code> to add more directory parts, or 
 get a string:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
-<div class="content"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">configdir</span> <span class="o">/</span> <span class="s1">&#39;config.py&#39;</span><span class="p">))</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">configdir</span> <span class="o">/</span> <span class="s1">&#39;config.py&#39;</span><span class="p">))</span>
 </pre></div></div></div>
 </div>
 <div class="sect2">
@@ -1137,7 +1137,7 @@ tabs.show: switching</code></pre>
 <span class="k">def</span> <span class="nf">dict_attrs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">yield from</span> <span class="n">dict_attrs</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;{}.{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">k</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">dict_attrs</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">k</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">yield</span> <span class="n">path</span><span class="p">,</span> <span class="n">obj</span>
 
@@ -1294,7 +1294,7 @@ The default for <code>completion.web_history.max_items</code> is now set to <cod
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2019-11-22 18:28:58 CET
+ 2019-12-05 16:33:14 CET
 </div>
 </div>
 </body>
