@@ -1,4 +1,4 @@
-qutebrowser (1.8.3-1) UNRELEASED; urgency=medium
+qutebrowser (1.8.3-1) unstable; urgency=medium
 
   * New upstream bugfix release 1.8.3
     + fix for a segmentation fault introduced in v1.8.2 when a tab gets closed
