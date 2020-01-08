@@ -1,9 +1,9 @@
-qutebrowser (1.9.0-1) UNRELEASED; urgency=medium
+qutebrowser (1.9.0-1) unstable; urgency=medium
 
   * New upstream release 1.9.0.
     + Patch faq.html to link to external images instead of including them.
 
- -- Axel Beckert <abe@debian.org>  Thu, 09 Jan 2020 00:11:17 +0100
+ -- Axel Beckert <abe@debian.org>  Thu, 09 Jan 2020 00:40:32 +0100
 
 qutebrowser (1.8.3-1) unstable; urgency=medium
 
