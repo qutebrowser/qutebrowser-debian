@@ -905,6 +905,22 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Color of the scrollbar handle in the completion view.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.contextmenu.menu.bg">colors.contextmenu.menu.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the context menu.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.contextmenu.menu.fg">colors.contextmenu.menu.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the context menu.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.contextmenu.selected.bg">colors.contextmenu.selected.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of the context menu&#8217;s selected item.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.contextmenu.selected.fg">colors.contextmenu.selected.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of the context menu&#8217;s selected item.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.downloads.bar.bg">colors.downloads.bar.bg</a></p></td>
 <td align="left" valign="top"><p class="table">Background color for the download bar.</p></td>
 </tr>
@@ -1322,7 +1338,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.headers.user_agent">content.headers.user_agent</a></p></td>
-<td align="left" valign="top"><p class="table">User agent to send. Unset to send the default.</p></td>
+<td align="left" valign="top"><p class="table">User agent to send.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.host_blocking.enabled">content.host_blocking.enabled</a></p></td>
@@ -1441,6 +1457,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Allow websites to register protocol handlers via <code>navigator.registerProtocolHandler</code>.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#content.site_specific_quirks">content.site_specific_quirks</a></p></td>
+<td align="left" valign="top"><p class="table">Enable quirks (such as faked user agent headers) needed to get specific sites to work properly.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#content.ssl_strict">content.ssl_strict</a></p></td>
 <td align="left" valign="top"><p class="table">Validate SSL handshakes.</p></td>
 </tr>
@@ -1494,7 +1514,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#editor.command">editor.command</a></p></td>
-<td align="left" valign="top"><p class="table">Editor (and arguments) to use for the <code>open-editor</code> command. The following placeholders are defined:</p></td>
+<td align="left" valign="top"><p class="table">Editor (and arguments) to use for the <code>open-editor</code> command.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#editor.encoding">editor.encoding</a></p></td>
@@ -1507,6 +1527,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#fonts.completion.entry">fonts.completion.entry</a></p></td>
 <td align="left" valign="top"><p class="table">Font used in the completion widget.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts.contextmenu">fonts.contextmenu</a></p></td>
+<td align="left" valign="top"><p class="table">Font used for the context menu.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#fonts.debug_console">fonts.debug_console</a></p></td>
@@ -1741,6 +1765,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Force a Qt platform to use.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#qt.force_platformtheme">qt.force_platformtheme</a></p></td>
+<td align="left" valign="top"><p class="table">Force a Qt platformtheme to use.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#qt.force_software_rendering">qt.force_software_rendering</a></p></td>
 <td align="left" valign="top"><p class="table">Force software rendering for QtWebEngine.</p></td>
 </tr>
@@ -1819,6 +1847,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.favicons.show">tabs.favicons.show</a></p></td>
 <td align="left" valign="top"><p class="table">When to show favicons in the tab bar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs.focus_stack_size">tabs.focus_stack_size</a></p></td>
+<td align="left" valign="top"><p class="table">Maximum stack size to remember for tab switches (-1 for no maximum).</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.indicator.padding">tabs.indicator.padding</a></p></td>
@@ -1903,6 +1935,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.title.format_pinned">tabs.title.format_pinned</a></p></td>
 <td align="left" valign="top"><p class="table">Format to use for the tab title for pinned tabs. The same placeholders like for <code>tabs.title.format</code> are defined.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs.tooltips">tabs.tooltips</a></p></td>
+<td align="left" valign="top"><p class="table">Show tooltips on tabs.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.undo_stack_size">tabs.undo_stack_size</a></p></td>
@@ -3738,6 +3774,34 @@ May be a single color to use for all columns or a list of three colors, one for 
 <div class="paragraph"><p>Default: <code>white</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="colors.contextmenu.menu.bg">colors.contextmenu.menu.bg</h3>
+<div class="paragraph"><p>Background color of the context menu.
+If set to null, the Qt default is used.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.contextmenu.menu.fg">colors.contextmenu.menu.fg</h3>
+<div class="paragraph"><p>Foreground color of the context menu.
+If set to null, the Qt default is used.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.contextmenu.selected.bg">colors.contextmenu.selected.bg</h3>
+<div class="paragraph"><p>Background color of the context menu&#8217;s selected item.
+If set to null, the Qt default is used.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.contextmenu.selected.fg">colors.contextmenu.selected.fg</h3>
+<div class="paragraph"><p>Foreground color of the context menu&#8217;s selected item.
+If set to null, the Qt default is used.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
 <h3 id="colors.downloads.bar.bg">colors.downloads.bar.bg</h3>
 <div class="paragraph"><p>Background color for the download bar.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
@@ -4642,11 +4706,52 @@ This setting requires a restart.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.headers.user_agent">content.headers.user_agent</h3>
-<div class="paragraph"><p>User agent to send. Unset to send the default.
-Note that the value read from JavaScript is always the global value.</p></div>
+<div class="paragraph"><p>User agent to send.</p></div>
+<div class="paragraph"><p>The following placeholders are defined:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>{os_info}</code>: Something like "X11; Linux x86_64".
+</p>
+</li>
+<li>
+<p>
+<code>{webkit_version}</code>: The underlying WebKit version (set to a fixed value
+  with QtWebEngine).
+</p>
+</li>
+<li>
+<p>
+<code>{qt_key}</code>: "Qt" for QtWebKit, "QtWebEngine" for QtWebEngine.
+</p>
+</li>
+<li>
+<p>
+<code>{qt_version}</code>: The underlying Qt version.
+</p>
+</li>
+<li>
+<p>
+<code>{upstream_browser_key}</code>: "Version" for QtWebKit, "Chrome" for QtWebEngine.
+</p>
+</li>
+<li>
+<p>
+<code>{upstream_browser_version}</code>: The corresponding Safari/Chrome version.
+</p>
+</li>
+<li>
+<p>
+<code>{qutebrowser_version}</code>: The currently running qutebrowser version.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The default value is equal to the unchanged user agent of
+QtWebKit/QtWebEngine.</p></div>
+<div class="paragraph"><p>Note that the value read from JavaScript is always the global value.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
-<div class="paragraph"><p>Default: empty</p></div>
+<div class="paragraph"><p>Type: <a href="#types">FormatString</a></p></div>
+<div class="paragraph"><p>Default: <code>Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.host_blocking.enabled">content.host_blocking.enabled</h3>
@@ -4752,7 +4857,8 @@ With QtWebEngine, writing the clipboard as response to a user interaction is alw
 <h3 id="content.javascript.log">content.javascript.log</h3>
 <div class="paragraph"><p>Log levels to use for JavaScript console logging messages.
 When a JavaScript message with the level given in the dictionary key is logged, the corresponding dictionary value selects the qutebrowser logger to use.
-On QtWebKit, the "unknown" setting is always used.</p></div>
+On QtWebKit, the "unknown" setting is always used.
+The following levels are valid: <code>none</code>, <code>debug</code>, <code>info</code>, <code>warning</code>, <code>error</code>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Dict</a></p></div>
 <div class="paragraph"><p>Default:</p></div>
 <div class="ulist"><ul>
@@ -5016,6 +5122,13 @@ In addition to the listed values, you can use a <code>socks://...</code> or <cod
 <div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 </div>
 <div class="sect2">
+<h3 id="content.site_specific_quirks">content.site_specific_quirks</h3>
+<div class="paragraph"><p>Enable quirks (such as faked user agent headers) needed to get specific sites to work properly.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="content.ssl_strict">content.ssl_strict</h3>
 <div class="paragraph"><p>Validate SSL handshakes.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
@@ -5181,8 +5294,35 @@ If set to -1, downloads are never removed.</p></div>
 </div>
 <div class="sect2">
 <h3 id="editor.command">editor.command</h3>
-<div class="paragraph"><p>Editor (and arguments) to use for the <code>open-editor</code> command. The following placeholders are defined:
-* <code>{file}</code>: Filename of the file to be edited. * <code>{line}</code>: Line in which the caret is found in the text. * <code>{column}</code>: Column in which the caret is found in the text. * <code>{line0}</code>: Same as <code>{line}</code>, but starting from index 0. * <code>{column0}</code>: Same as <code>{column}</code>, but starting from index 0.</p></div>
+<div class="paragraph"><p>Editor (and arguments) to use for the <code>open-editor</code> command.
+The following placeholders are defined:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>{file}</code>: Filename of the file to be edited.
+</p>
+</li>
+<li>
+<p>
+<code>{line}</code>: Line in which the caret is found in the text.
+</p>
+</li>
+<li>
+<p>
+<code>{column}</code>: Column in which the caret is found in the text.
+</p>
+</li>
+<li>
+<p>
+<code>{line0}</code>: Same as <code>{line}</code>, but starting from index 0.
+</p>
+</li>
+<li>
+<p>
+<code>{column0}</code>: Same as <code>{column}</code>, but starting from index 0.
+</p>
+</li>
+</ul></div>
 <div class="paragraph"><p>Type: <a href="#types">ShellCommand</a></p></div>
 <div class="paragraph"><p>Default:</p></div>
 <div class="ulist"><ul>
@@ -5232,6 +5372,13 @@ If set to -1, downloads are never removed.</p></div>
 <div class="paragraph"><p>Default: <code>10pt monospace</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="fonts.contextmenu">fonts.contextmenu</h3>
+<div class="paragraph"><p>Font used for the context menu.
+If set to null, the Qt default is used.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
 <h3 id="fonts.debug_console">fonts.debug_console</h3>
 <div class="paragraph"><p>Font used for the debugging console.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">QtFont</a></p></div>
@@ -5278,7 +5425,7 @@ If set to -1, downloads are never removed.</p></div>
 <div class="paragraph"><p>Default monospace fonts.
 Whenever "monospace" is used in a font setting, it&#8217;s replaced with the fonts listed here.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
-<div class="paragraph"><p>Default: <code>&quot;xos4 Terminus&quot;, Terminus, Monospace, &quot;DejaVu Sans Mono&quot;, Monaco, &quot;Bitstream Vera Sans Mono&quot;, &quot;Andale Mono&quot;, &quot;Courier New&quot;, Courier, &quot;Liberation Mono&quot;, monospace, Fixed, Consolas, Terminal</code></p></div>
+<div class="paragraph"><p>Default: <code>Monospace, &quot;DejaVu Sans Mono&quot;, Monaco, &quot;Bitstream Vera Sans Mono&quot;, &quot;Andale Mono&quot;, &quot;Courier New&quot;, Courier, &quot;Liberation Mono&quot;, monospace, Fixed, Consolas, Terminal</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.prompts">fonts.prompts</h3>
@@ -6053,6 +6200,14 @@ This setting requires a restart.</p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
+<h3 id="qt.force_platformtheme">qt.force_platformtheme</h3>
+<div class="paragraph"><p>Force a Qt platformtheme to use.
+This sets the <code>QT_QPA_PLATFORMTHEME</code> environment variable which controls dialogs like the filepicker. By default, Qt determines the platform theme based on the desktop environment.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
 <h3 id="qt.force_software_rendering">qt.force_software_rendering</h3>
 <div class="paragraph"><p>Force software rendering for QtWebEngine.
 This is needed for QtWebEngine to work with Nouveau drivers and can be useful in other scenarios related to graphic issues.
@@ -6087,7 +6242,7 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="qt.highdpi">qt.highdpi</h3>
 <div class="paragraph"><p>Turn on Qt HighDPI scaling.
-This is equivalent to setting QT_AUTO_SCREEN_SCALE_FACTOR=1 in the environment.
+This is equivalent to setting QT_AUTO_SCREEN_SCALE_FACTOR=1 or QT_ENABLE_HIGHDPI_SCALING=1 (Qt &gt;= 5.14) in the environment.
 It&#8217;s off by default as it can cause issues with some bitmap fonts. As an alternative to this, it&#8217;s possible to set font sizes and the <code>zoom.default</code> setting.
 This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
@@ -6682,6 +6837,12 @@ The tab size is unchanged, so big favicons also require extra <code>tabs.padding
 <div class="paragraph"><p>Default: <code>always</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="tabs.focus_stack_size">tabs.focus_stack_size</h3>
+<div class="paragraph"><p>Maximum stack size to remember for tab switches (-1 for no maximum).</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
+<div class="paragraph"><p>Default: <code>10</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="tabs.indicator.padding">tabs.indicator.padding</h3>
 <div class="paragraph"><p>Padding (in pixels) for tab indicators.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Padding</a></p></div>
@@ -7100,6 +7261,13 @@ The following placeholders are defined:</p></div>
 <div class="paragraph"><p>Format to use for the tab title for pinned tabs. The same placeholders like for <code>tabs.title.format</code> are defined.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FormatString</a></p></div>
 <div class="paragraph"><p>Default: <code>{index}</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="tabs.tooltips">tabs.tooltips</h3>
+<div class="paragraph"><p>Show tooltips on tabs.
+Note this setting only affects windows opened after it has been set.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="tabs.undo_stack_size">tabs.undo_stack_size</h3>
@@ -7584,7 +7752,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2019-12-05 16:33:22 CET
+ 2020-01-08 16:31:51 CET
 </div>
 </div>
 </body>

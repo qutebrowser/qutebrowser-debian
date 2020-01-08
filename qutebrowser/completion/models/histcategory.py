@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2017-2019 Ryan Roden-Corrent (rcorre) <ryan@rcorre.net>
+# Copyright 2017-2020 Ryan Roden-Corrent (rcorre) <ryan@rcorre.net>
 #
 # This file is part of qutebrowser.
 #
@@ -19,7 +19,7 @@
 
 """A completion category that queries the SQL history store."""
 
-import typing  # pylint: disable=unused-import,useless-suppression
+import typing
 
 from PyQt5.QtSql import QSqlQueryModel
 from PyQt5.QtWidgets import QWidget
@@ -40,7 +40,7 @@ class HistoryCategory(QSqlQueryModel):
         """Create a new History completion category."""
         super().__init__(parent=parent)
         self.name = "History"
-        self._query = None
+        self._query = None  # type: typing.Optional[sql.Query]
 
         # advertise that this model filters by URL and title
         self.columns_to_filter = [0, 1]
@@ -133,6 +133,7 @@ class HistoryCategory(QSqlQueryModel):
     def removeRows(self, row, _count, _parent=None):
         """Override QAbstractItemModel::removeRows to re-run SQL query."""
         # re-run query to reload updated table
+        assert self._query is not None
         with debug.log_time('sql', 'Re-running completion query post-delete'):
             self._query.run()
         self.setQuery(self._query.query)

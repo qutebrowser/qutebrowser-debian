@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2019 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -19,7 +19,6 @@
 
 """Functions related to ad blocking."""
 
-import io
 import os.path
 import functools
 import posixpath
@@ -247,7 +246,7 @@ class HostBlocker:
         self._in_progress.append(download)
         self._on_download_finished(download)
 
-    def _merge_file(self, byte_io: io.BytesIO) -> None:
+    def _merge_file(self, byte_io: typing.IO[bytes]) -> None:
         """Read and merge host files.
 
         Args:
@@ -303,6 +302,9 @@ class HostBlocker:
         self._in_progress.remove(download)
         if download.successful:
             self._done_count += 1
+            assert not isinstance(download.fileobj,
+                                  downloads.UnsupportedAttribute)
+            assert download.fileobj is not None
             try:
                 self._merge_file(download.fileobj)
             finally:

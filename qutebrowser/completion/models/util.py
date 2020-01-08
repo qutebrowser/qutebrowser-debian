@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2017-2019 Ryan Roden-Corrent (rcorre) <ryan@rcorre.net>
+# Copyright 2017-2020 Ryan Roden-Corrent (rcorre) <ryan@rcorre.net>
 #
 # This file is part of qutebrowser.
 #
@@ -21,7 +21,7 @@
 
 import typing
 
-from qutebrowser.utils import objreg, usertypes
+from qutebrowser.utils import usertypes
 from qutebrowser.misc import objects
 
 
@@ -43,7 +43,7 @@ def get_cmd_completions(info, include_hidden, include_aliases, prefix=''):
     cmdlist = []
     cmd_to_keys = info.keyconf.get_reverse_bindings_for('normal')
     for obj in set(objects.commands.values()):
-        hide_debug = obj.debug and not objreg.get('args').debug
+        hide_debug = obj.debug and not objects.args.debug
         hide_mode = (usertypes.KeyMode.normal not in obj.modes and
                      not include_hidden)
         if not (hide_debug or hide_mode or obj.deprecated):

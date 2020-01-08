@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2018-2019 Jay Kamat <jaygkamat@gmail.com>
+# Copyright 2018-2020 Jay Kamat <jaygkamat@gmail.com>
 #
 # This file is part of qutebrowser.
 #
@@ -64,8 +64,9 @@ class Throttle(QObject):
         self._timer = usertypes.Timer(self, 'throttle-timer')
         self._timer.setSingleShot(True)
 
-    def _call_pending(self):
+    def _call_pending(self) -> None:
         """Start a pending call."""
+        assert self._pending_call is not None
         self._func(*self._pending_call.args, **self._pending_call.kwargs)
         self._pending_call = None
         self._last_call_ms = int(time.monotonic() * 1000)

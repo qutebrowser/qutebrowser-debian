@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2017-2019 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2017-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 # Copyright 2017-2018 Michal Siedlaczek <michal.siedlaczek@gmail.com>
 
 # This file is part of qutebrowser.
@@ -37,7 +37,7 @@ import attr
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.pardir))
 from qutebrowser.browser.webengine import spell
 from qutebrowser.config import configdata
-from qutebrowser.utils import standarddir
+from qutebrowser.utils import standarddir, utils
 
 
 API_URL = 'https://chromium.googlesource.com/chromium/deps/hunspell_dictionaries.git/+/master/'
@@ -245,6 +245,9 @@ def remove_old(languages):
 
 def check_root():
     """Ask for confirmation if running as root when unnecessary."""
+    if not utils.is_posix:
+        return
+
     if spell.can_use_data_path() and os.geteuid() == 0:
         print("You're running Qt >= 5.10 which means qutebrowser will "
               "load dictionaries from a path in your home-directory. "

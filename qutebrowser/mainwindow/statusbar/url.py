@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2019 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -24,7 +24,7 @@ import enum
 from PyQt5.QtCore import pyqtSlot, pyqtProperty, QUrl
 
 from qutebrowser.mainwindow.statusbar import textbase
-from qutebrowser.config import config
+from qutebrowser.config import stylesheet
 from qutebrowser.utils import usertypes, urlutils
 
 
@@ -42,16 +42,9 @@ class UrlText(textbase.TextBase):
         _normal_url_type: The type of the normal URL as a UrlType instance.
         _hover_url: The URL we're currently hovering over.
         _ssl_errors: Whether SSL errors occurred while loading.
-
-    Class attributes:
         _urltype: The URL type to show currently (normal/ok/error/warn/hover).
                   Accessed via the urltype property.
-
-                  For some reason we need to have this as class attribute so
-                  pyqtProperty works correctly.
     """
-
-    _urltype = None
 
     STYLESHEET = """
         QLabel#UrlText[urltype="normal"] {
@@ -81,8 +74,9 @@ class UrlText(textbase.TextBase):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self._urltype = None
         self.setObjectName(self.__class__.__name__)
-        config.set_register_stylesheet(self)
+        stylesheet.set_register(self)
         self._hover_url = None
         self._normal_url = None
         self._normal_url_type = UrlType.normal

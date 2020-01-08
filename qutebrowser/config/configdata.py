@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2019 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -25,7 +25,7 @@ DATA: A dict of Option objects after init() has been called.
 """
 
 import typing
-from typing import Optional  # pylint: disable=unused-import,useless-suppression
+from typing import Optional
 import functools
 
 import attr

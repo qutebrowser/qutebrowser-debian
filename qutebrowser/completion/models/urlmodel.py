@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2019 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -23,6 +23,7 @@ import typing
 
 from qutebrowser.completion.models import (completionmodel, listcategory,
                                            histcategory)
+from qutebrowser.browser import history
 from qutebrowser.utils import log, objreg
 from qutebrowser.config import config
 
@@ -34,8 +35,7 @@ _TEXTCOL = 1
 def _delete_history(data):
     urlstr = data[_URLCOL]
     log.completion.debug('Deleting history entry {}'.format(urlstr))
-    hist = objreg.get('web-history')
-    hist.delete_url(urlstr)
+    history.web_history.delete_url(urlstr)
 
 
 def _delete_bookmark(data: typing.Sequence[str]) -> None:

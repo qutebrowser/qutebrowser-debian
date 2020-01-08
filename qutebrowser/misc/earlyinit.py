@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2019 Florian Bruhin (The-Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2020 Florian Bruhin (The-Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -141,7 +141,7 @@ def pyinstaller_qt_workaround():
             hasattr(sys, '_MEIPASS') and
             sys.platform == 'win32'):
         # pylint: disable=no-member,protected-access
-        os.environ['PATH'] += os.pathsep + sys._MEIPASS
+        os.environ['PATH'] += os.pathsep + sys._MEIPASS  # type: ignore
 
 
 def check_pyqt():
@@ -262,13 +262,18 @@ def configure_pyqt():
     Doing this means we can't use the interactive shell anymore (which we don't
     anyways), but we can use pdb instead.
     """
-    from PyQt5.QtCore import pyqtRemoveInputHook
-    pyqtRemoveInputHook()
+    from PyQt5 import QtCore
+    QtCore.pyqtRemoveInputHook()
+    try:
+        QtCore.pyqt5_enable_new_onexit_scheme(True)  # type: ignore
+    except AttributeError:
+        # Added in PyQt 5.13 somewhere, going to be the default in 5.14
+        pass
 
     from qutebrowser.qt import sip
     try:
         # Added in sip 4.19.4
-        sip.enableoverflowchecking(True)
+        sip.enableoverflowchecking(True)  # type: ignore
     except AttributeError:
         pass
 
