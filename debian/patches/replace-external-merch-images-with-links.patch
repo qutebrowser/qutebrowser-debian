@@ -1,0 +1,78 @@
+Description: Sponsoring FAQ: link to external images of perks instead of including them
+Author: Axel Beckert <abe@debian.org>
+Forwarded: no
+
+--- a/doc/faq.html
++++ b/doc/faq.html
+@@ -227,7 +227,6 @@
+ 
+ div.imageblock div.content { padding-left: 0; }
+ span.image img { border-style: none; vertical-align: text-bottom; }
+-a.image:visited { color: white; }
+ 
+ dl {
+   margin-top: 0.8em;
+@@ -1315,7 +1314,7 @@
+ </p>
+ <div class="paragraph"><p><span class="image">
+ <a class="image" href="https://qutebrowser.org/img/sponsors/stickers.jpg">
+-<img src="https://qutebrowser.org/img/sponsors/stickers.jpg" alt="stickers" width="300" />
++Picture of the stickers
+ </a>
+ </span></p></div>
+ </dd>
+@@ -1328,7 +1327,7 @@
+ </p>
+ <div class="paragraph"><p><span class="image">
+ <a class="image" href="https://qutebrowser.org/img/sponsors/swag.jpg">
+-<img src="https://qutebrowser.org/img/sponsors/swag.jpg" alt="swag" width="300" />
++Picture of the swag
+ </a>
+ </span></p></div>
+ <div class="paragraph"><p>It&#8217;s planned to order more swag, depending on the exact demand. Possibilites
+@@ -1353,7 +1352,7 @@
+ 2016 crowdfunding:</p></div>
+ <div class="paragraph"><p><span class="image">
+ <a class="image" href="https://qutebrowser.org/img/sponsors/shirt.jpg">
+-<img src="https://qutebrowser.org/img/sponsors/shirt.jpg" alt="shirt" width="300" />
++Picture of the shirt
+ </a>
+ </span></p></div>
+ </dd>
+--- a/qutebrowser/html/doc/faq.html
++++ b/qutebrowser/html/doc/faq.html
+@@ -227,7 +227,6 @@
+ 
+ div.imageblock div.content { padding-left: 0; }
+ span.image img { border-style: none; vertical-align: text-bottom; }
+-a.image:visited { color: white; }
+ 
+ dl {
+   margin-top: 0.8em;
+@@ -1393,7 +1392,7 @@
+ </p>
+ <div class="paragraph"><p><span class="image">
+ <a class="image" href="https://qutebrowser.org/img/sponsors/stickers.jpg">
+-<img src="https://qutebrowser.org/img/sponsors/stickers.jpg" alt="stickers" width="300" />
++Picture of the stickers
+ </a>
+ </span></p></div>
+ </dd>
+@@ -1406,7 +1405,7 @@
+ </p>
+ <div class="paragraph"><p><span class="image">
+ <a class="image" href="https://qutebrowser.org/img/sponsors/swag.jpg">
+-<img src="https://qutebrowser.org/img/sponsors/swag.jpg" alt="swag" width="300" />
++Picture of the swag
+ </a>
+ </span></p></div>
+ <div class="paragraph"><p>It&#8217;s planned to order more swag, depending on the exact demand. Possibilites
+@@ -1447,7 +1446,7 @@
+ 2016 crowdfunding:</p></div>
+ <div class="paragraph"><p><span class="image">
+ <a class="image" href="https://qutebrowser.org/img/sponsors/shirt.jpg">
+-<img src="https://qutebrowser.org/img/sponsors/shirt.jpg" alt="shirt" width="300" />
++Picture of the shirt
+ </a>
+ </span></p></div>
+ </dd>
