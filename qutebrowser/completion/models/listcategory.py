@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2017-2019 Ryan Roden-Corrent (rcorre) <ryan@rcorre.net>
+# Copyright 2017-2020 Ryan Roden-Corrent (rcorre) <ryan@rcorre.net>
 #
 # This file is part of qutebrowser.
 #
@@ -30,13 +30,18 @@ from qutebrowser.completion.models import util
 from qutebrowser.utils import qtutils, log
 
 
+_ItemType = typing.Union[typing.Tuple[str],
+                         typing.Tuple[str, str],
+                         typing.Tuple[str, str, str]]
+
+
 class ListCategory(QSortFilterProxyModel):
 
     """Expose a list of items as a category for the CompletionModel."""
 
     def __init__(self,
                  name: str,
-                 items: typing.Sequence[str],
+                 items: typing.Iterable[_ItemType],
                  sort: bool = True,
                  delete_func: util.DeleteFuncType = None,
                  parent: QWidget = None):

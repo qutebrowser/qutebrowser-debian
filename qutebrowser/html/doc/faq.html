@@ -925,25 +925,14 @@ security bugs, please contact me directly at <a href="mailto:mail@qutebrowser.or
 </li>
 <li>
 <p><em>
-Is there an adblocker?
+Is there an ad blocker?
 </em></p>
 <p>
-    There is a host-based adblocker which takes /etc/hosts-like lists. A "real"
-    adblocker has a
-    <a href="https://www.reddit.com/r/programming/comments/25j41u/adblock_pluss_effect_on_firefoxs_memory_usage/chhpomw">big
-    impact</a> on browsing speed and
-    <a href="https://blog.mozilla.org/nnethercote/2014/05/14/adblock-pluss-effect-on-firefoxs-memory-usage/">RAM
-    usage</a>, so implementing support for AdBlockPlus-like lists is currently not
-    a priority.
+    There is a simple host-based ad blocker that takes <code>/etc/hosts</code>-like lists.
 </p>
-</li>
-<li>
-<p><em>
-How can I get No-Script-like behavior?
-</em></p>
-<p>
-    To disable JavaScript by default:
-</p>
+<div class="paragraph"><p>More advanced ad blockers can have a big impact on browsing speed and <a href="https://blog.mozilla.org/nnethercote/2014/05/14/adblock-pluss-effect-on-firefoxs-memory-usage/">RAM usage</a>, so implementing support for AdBlock Plus-like lists is not a priority.
+How can I get No-Script-like behavior?::
+    To disable JavaScript by default:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>:set content.javascript.enabled false</code></pre>
@@ -1256,12 +1245,271 @@ My issue is not listed.
 </dl></div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="sponsors">GitHub Sponsors FAQ</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Using <a href="https://github.com/sponsors/The-Compiler">GitHub Sponsors</a>, you can sign
+up for a monthly donation to The-Compiler (qutebrowser&#8217;s main developer),
+allowing him to work part-time on qutebrowser. If you keep your donation level
+for long enough, you can get some qutebrowser stickers!</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Why GitHub Sponsors? What is the GitHub Matching Fund?
+</dt>
+<dd>
+<p>
+    Thanks to the
+    <a href="https://help.github.com/en/github/supporting-the-open-source-community-with-github-sponsors/about-github-sponsors#about-the-github-sponsors-matching-fund">GitHub Sponsors Matching Fund</a>,
+    all donations are doubled by GitHub in the first year, up to a $5000 total limit.
+</p>
+<div class="paragraph"><p>Even outside of the matching fund, GitHub Sponsors is nicely integrated with
+qutebrowser&#8217;s existing GitHub page and a better offering than alternatives such
+as Patreon or Liberapay.</p></div>
+</dd>
+<dt class="hdlist1">
+Is it possible to contribute via a one-time donation instead?
+</dt>
+<dd>
+<p>
+   If you prefer a one-time donation, there are various possibilities:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Select a tier which covers the total amount you&#8217;d like to donate (note that
+  payments are prorated based on the current date). After the payment is
+  processed, cancel your GitHub sponsors subscription again. This has a big
+  benefit: Thanks to GitHub&#8217;s matching fund, your donation will be doubled (and
+  nothing will be lost to fees).
+</p>
+</li>
+<li>
+<p>
+Sign up for a lower recurring donation instead.
+</p>
+</li>
+<li>
+<p>
+Do so via the <a href="https://github.com/qutebrowser/qutebrowser#donating">existing
+  donation methods</a>. Rewards (shirts/stickers/swag) are handled on a
+  case-by-case basis as GitHub&#8217;s matching fund isn&#8217;t applicable and there might
+  be relatively high fees which make this tricky.
+</p>
+</li>
+<li>
+<p>
+If you want to contribute via a one-time donation and want to make sure
+  you&#8217;ll receive a reward, you might want to sign up to the
+  <a href="https://lists.schokokeks.org/mailman/listinfo.cgi/qutebrowser-announce">qutebrowser-announce</a>
+  mailinglist and wait until there is an official way to do so. It&#8217;s planned to
+  set this up at a later date. Note that the thresholds for perks will be
+  higher because those donations aren&#8217;t matched by GitHub and fees are
+  relatively high.
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+I&#8217;d like a certain reward (e.g. a t-shirt) but I&#8217;d prefer making a smaller monthly donation. Can I upgrade via a one-time donation?
+</dt>
+<dd>
+<p>
+    It&#8217;s planned to set up a donation page to allow this at a later date.
+    However, the thresholds for perks will be higher because those donations
+    aren&#8217;t matched by GitHub and fees are relatively high. Note that you can
+    switch tiers on GitHub sponsors at any time.
+</p>
+</dd>
+<dt class="hdlist1">
+GitHub tries to charge me for an entire year. What gives?
+</dt>
+<dd>
+<p>
+    This happens if you have an existing annual billing cycle with GitHub (for
+    example a Pro membership or Marketplace subscription). At the moment,
+    GitHub&#8217;s billing system only supports annual sponsor payments in that case.
+</p>
+</dd>
+<dt class="hdlist1">
+Can I support you without getting any rewards/merchandise?
+</dt>
+<dd>
+<p>
+    Absolutely! Any merchandise is optional. Before sending out merchandise
+    I&#8217;ll distribute forms asking for size/address/etc. - those forms will have
+    an option to not get any merch at all.
+</p>
+</dd>
+<dt class="hdlist1">
+Can I select my own amount rather than using the predefined tiers?
+</dt>
+<dd>
+<p>
+    Unfortunately, GitHub sponsors doesn&#8217;t support this at the moment. The
+    existing tiers should hopefully cover various options. If you disagree,
+    please <a href="mailto:mail@qutebrowser.org">get in touch</a> - I might be able to add a
+    new sponsorship tier.
+</p>
+</dd>
+<dt class="hdlist1">
+When will rewards be shipped?
+</dt>
+<dd>
+<p>
+    Rewards will be ordered and subsequently shipped once it&#8217;s clear how many
+    people are eliglible. The cut-off date for the donation goals is May
+    2020, so rewards will likely be shipped Q2/2020. This also applies to tiers
+    which make you eliglible for a certain perk immediately, though stickers
+    might be shipped earlier depending on how many people this affects.
+</p>
+</dd>
+<dt class="hdlist1">
+I&#8217;d like some stickers, but I can&#8217;t donate anything because of my financial situation.
+</dt>
+<dd>
+<p>
+    Please <a href="mailto:mail@qutebrowser.org">get in touch</a>! As long as this doesn&#8217;t
+    get abused, I&#8217;d happily send stickers for free.
+</p>
+</dd>
+<dt class="hdlist1">
+We&#8217;re a company interested in sponsoring qutebrowser, can you invoice us for the sponsored amount?
+</dt>
+<dd>
+<p>
+    You will receive a confirmation mail including a PDF receipt from GitHub
+    when sponsoring qutebrowser. If you really need an invoice, I can bill
+    you via my company, <a href="https://bruhin.software/">Bruhin Software</a>. Please
+    <a href="mailto:mail@qutebrowser.org">get in touch</a> to discuss details!
+</p>
+</dd>
+<dt class="hdlist1">
+Can you share details on the stickers?
+</dt>
+<dd>
+<p>
+    There are two sticker designs: Rectangular stickers (with text) and round
+    vinyl stickers. Those are the same as during the 2016/2017 crowdfundings.
+</p>
+<div class="paragraph"><p><span class="image">
+<a class="image" href="https://qutebrowser.org/img/sponsors/stickers.jpg">
+<img src="https://qutebrowser.org/img/sponsors/stickers.jpg" alt="stickers" width="300" />
+</a>
+</span></p></div>
+</dd>
+<dt class="hdlist1">
+Can you share details on the swag?
+</dt>
+<dd>
+<p>
+    A limited number of metal buttons and magnets is available:
+</p>
+<div class="paragraph"><p><span class="image">
+<a class="image" href="https://qutebrowser.org/img/sponsors/swag.jpg">
+<img src="https://qutebrowser.org/img/sponsors/swag.jpg" alt="swag" width="300" />
+</a>
+</span></p></div>
+<div class="paragraph"><p>It&#8217;s planned to order more swag, depending on the exact demand. Possibilites
+would include:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+qutebrowser pens (refillable)
+</p>
+</li>
+<li>
+<p>
+notebooks (the paper kind)
+</p>
+</li>
+<li>
+<p>
+USB-sticks (for the "expensive swag" reward).
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Can you share details on the t-shirts?
+</dt>
+<dd>
+<p>
+    The shirts will be
+    <a href="https://www.bc-collection.eu/en/t-shirts/bc-e190-tu03t">B&amp;C #E190</a> shirts
+    which are the successor to the "Exact 190" shirts distributed in the
+    previous crowdfundings: 100% cotton and relatively thick/heavy.
+</p>
+<div class="paragraph"><p>Sizes from XS and 5XL are available, most of them also as a fitted (women) cut.
+Up to 40 colors are available from the supplier - there will be a selection of
+recommended/tested colors, but any available color can be selected on your own
+risk.</p></div>
+<div class="paragraph"><p>The print will be a white silk-screen print, with the same design as in the
+2016 crowdfunding:</p></div>
+<div class="paragraph"><p><span class="image">
+<a class="image" href="https://qutebrowser.org/img/sponsors/shirt.jpg">
+<img src="https://qutebrowser.org/img/sponsors/shirt.jpg" alt="shirt" width="300" />
+</a>
+</span></p></div>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="privacy">Privacy Policy</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Being a mostly volunteer-run project, qutebrowser does not have the resources
+for a full legalese version of a privacy policy. Instead, this overview should
+answer the most common questions.</p></div>
+<div class="paragraph"><p>For any privacy questions, please contact <a href="mailto:privacy@qutebrowser.org">privacy@qutebrowser.org</a>.</p></div>
+<div class="sect2">
+<h3 id="_website">Website</h3>
+<div class="paragraph"><p>The qutebrowser.org website does not use any cookies or trackers.</p></div>
+<div class="paragraph"><p>However, IP addresses are currently (October 2019) logged and stored
+indefinitely. It&#8217;s planned to change this soon by migrating qutebrowser.org to
+a different server.</p></div>
+<div class="paragraph"><p>Note that some services related to qutebrowser are stored on third-party
+services such as GitHub, Travis CI or AppVeyor. By using their websites, you&#8217;re
+subject to their privacy policies.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_crash_reports">Crash reports</h3>
+<div class="paragraph"><p>When qutebrowser crashes or you use the <code>:report</code> command, you have the
+possibility to send a crash report. If you decide to do so, your crash report
+is stored on qutebrowser&#8217;s server, where core qutebrowser developers (four
+people at the time of writing) can access it.</p></div>
+<div class="paragraph"><p>If you select the option to include a debug log with your report, it&#8217;s possible
+that sensitive information is contained in your report. You can show and edit
+the log in the crash report window to redact any such information as you see
+fit. Additionally, qutebrowser tries to avoid logging information such as
+passwords entirely (by not logging any input going to websites).</p></div>
+<div class="paragraph"><p>Currently, crash reports are stored indefinitely for technical reasons. With a
+<a href="https://github.com/The-Compiler/crashbin/">new tool designed for crash reports</a>,
+it&#8217;ll become possible to delete crashreports after the underlying issue is
+fixed, but that tool needs some more work before qutebrowser can use it.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_application">Application</h3>
+<div class="paragraph"><p>Without any user interaction, qutebrowser can be expected to make no
+unsolicited requests. It does not contain any telemetry code.</p></div>
+<div class="paragraph"><p>The QtWebEngine library (on which qutebrowser is based on) strips out any
+Chromium features which talk to Google servers, so any unsolicited requests
+should be treated as a bug.</p></div>
+<div class="paragraph"><p>While qutebrowser uses DuckDuckGo as the default search page, no advertising
+deal exists between DuckDuckGo and qutebrowser. Note that by visiting
+DuckDuckGo, you&#8217;re subject to their privacy policy.</p></div>
+<div class="paragraph"><p>With regard to websites you visit, qutebrowser tries to strike a balance
+between usability/compatibility and privacy. There are various <code>content.*</code>
+settings which can be used to tweak such behavior, reduce fingerprinting or
+disable various features (usually at a cost of website compatibility).</p></div>
+</div>
+</div>
+</div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2019-12-05 16:33:04 CET
+ 2020-01-08 16:31:35 CET
 </div>
 </div>
 </body>

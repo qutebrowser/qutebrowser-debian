@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2017-2019 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2017-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -28,7 +28,7 @@ from PyQt5.QtWidgets import QMessageBox
 
 from qutebrowser.api import config as configapi
 from qutebrowser.config import (config, configdata, configfiles, configtypes,
-                                configexc, configcommands)
+                                configexc, configcommands, stylesheet)
 from qutebrowser.utils import (objreg, usertypes, log, standarddir, message,
                                qtutils)
 from qutebrowser.config import configcache
@@ -57,7 +57,7 @@ def early_init(args: argparse.Namespace) -> None:
 
     config_commands = configcommands.ConfigCommands(
         config.instance, config.key_instance)
-    objreg.register('config-commands', config_commands)
+    objreg.register('config-commands', config_commands, command_only=True)
 
     config_file = standarddir.config_py()
     global _init_errors
@@ -88,6 +88,8 @@ def early_init(args: argparse.Namespace) -> None:
     configtypes.Font.monospace_fonts = config.val.fonts.monospace
     config.instance.changed.connect(_update_monospace_fonts)
 
+    stylesheet.init()
+
     _init_envvars()
 
 
@@ -104,12 +106,17 @@ def _init_envvars() -> None:
 
     if config.val.qt.force_platform is not None:
         os.environ['QT_QPA_PLATFORM'] = config.val.qt.force_platform
+    if config.val.qt.force_platformtheme is not None:
+        os.environ['QT_QPA_PLATFORMTHEME'] = config.val.qt.force_platformtheme
 
     if config.val.window.hide_decoration:
         os.environ['QT_WAYLAND_DISABLE_WINDOWDECORATION'] = '1'
 
     if config.val.qt.highdpi:
-        os.environ['QT_AUTO_SCREEN_SCALE_FACTOR'] = '1'
+        env_var = ('QT_ENABLE_HIGHDPI_SCALING'
+                   if qtutils.version_check('5.14', compiled=False)
+                   else 'QT_AUTO_SCREEN_SCALE_FACTOR')
+        os.environ[env_var] = '1'
 
 
 @config.change_filter('fonts.monospace', function=True)

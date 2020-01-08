@@ -1014,7 +1014,7 @@ logging enabled and without affecting existing running instances.</p></div>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_checkers">Checkers</h3>
-<div class="paragraph"><p>qutebrowser uses <a href="http://tox.readthedocs.org/en/latest/">tox</a> to run its
+<div class="paragraph"><p>qutebrowser uses <a href="https://tox.readthedocs.io/en/latest/">tox</a> to run its
 unittests and several linters/checkers.</p></div>
 <div class="paragraph"><p>Currently, the following tox environments are available:</p></div>
 <div class="ulist"><ul>
@@ -1158,15 +1158,16 @@ tox -e py35-cov -- tests/unit/browser/test_webelem.py</code></pre>
 </div>
 <div class="sect2">
 <h3 id="_profiling">Profiling</h3>
-<div class="paragraph"><p>In the <em>scripts/</em> subfolder there&#8217;s a <code>run_profile.py</code> which profiles the code
-and shows a graphical representation of what takes how much time.</p></div>
+<div class="paragraph"><p>In the <em>scripts/dev/</em> subfolder there&#8217;s <code>run_profile.py</code> which profiles the
+code and shows a graphical representation of what takes how much time.</p></div>
 <div class="paragraph"><p>It uses the built-in Python
-<a href="https://docs.python.org/3.6/library/profile.html">cProfile</a> module and can show
-the output in four different ways:</p></div>
+<a href="https://docs.python.org/3/library/profile.html">cProfile</a> module. It launches a
+qutebrowser instance, waits for it to exit and then shows the graph.</p></div>
+<div class="paragraph"><p>Available methods for visualization are:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Raw profile file (<code>--profile-tool=none</code>)
+<a href="https://jiffyclub.github.io/snakeviz/">SnakeViz</a> (<code>--profile-tool=snakeviz</code>, the default)
 </p>
 </li>
 <li>
@@ -1176,15 +1177,16 @@ Raw profile file (<code>--profile-tool=none</code>)
 </li>
 <li>
 <p>
-<a href="https://jiffyclub.github.io/snakeviz/">SnakeViz</a> (<code>--profile-tool=snakeviz</code>)
+<a href="https://github.com/jrfonseca/gprof2dot">gprof2dot</a> (<code>--profile-tool=gprof2dot</code>, needs <code>dot</code> from <a href="http://graphviz.org/">Graphviz</a> and <a href="http://feh.finalrewind.org/">feh</a>)
 </p>
 </li>
 <li>
 <p>
-<a href="https://github.com/jrfonseca/gprof2dot">gprof2dot</a> (needs <code>dot</code> from <a href="http://graphviz.org/">Graphviz</a> and <a href="http://feh.finalrewind.org/">feh</a>)
+<a href="https://github.com/nschloe/tuna">tuna</a> (<code>--profile-tool=tuna</code>)
 </p>
 </li>
 </ul></div>
+<div class="paragraph"><p>You can also save the binary profile data to a file (<code>--profile-tool=none</code>).</p></div>
 </div>
 <div class="sect2">
 <h3 id="_debugging">Debugging</h3>
@@ -2165,7 +2167,12 @@ Mark the milestone at <a href="https://github.com/qutebrowser/qutebrowser/milest
 </li>
 <li>
 <p>
-Update changelog
+Update changelog in master branch
+</p>
+</li>
+<li>
+<p>
+If necessary: Update changelog in release branch from master.
 </p>
 </li>
 <li>
@@ -2197,7 +2204,7 @@ Announce to qutebrowser and qutebrowser-announce mailinglist.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2019-12-05 16:33:06 CET
+ 2020-01-08 16:31:37 CET
 </div>
 </div>
 </body>

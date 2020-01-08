@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2016-2019 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2016-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -22,6 +22,7 @@
 import os
 import html
 import netrc
+import typing
 
 from PyQt5.QtCore import QUrl
 
@@ -138,7 +139,7 @@ _JS_LOGMAP = {
     'info': log.js.info,
     'warning': log.js.warning,
     'error': log.js.error,
-}
+}  # type: typing.Mapping[str, typing.Callable[[str], None]]
 
 
 def javascript_log_message(level, source, line, msg):
@@ -257,10 +258,8 @@ def get_tab(win_id, target):
         target: A usertypes.ClickTarget
     """
     if target == usertypes.ClickTarget.tab:
-        win_id = win_id
         bg_tab = False
     elif target == usertypes.ClickTarget.tab_bg:
-        win_id = win_id
         bg_tab = True
     elif target == usertypes.ClickTarget.window:
         tabbed_browser = objreg.get('tabbed-browser', scope='window',

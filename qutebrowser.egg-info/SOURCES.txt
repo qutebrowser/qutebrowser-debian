@@ -15,6 +15,8 @@ doc/img/completion.png
 doc/img/downloads.png
 doc/img/hints.png
 doc/img/main.png
+doc/img/sponsors/hsr.png
+doc/img/sponsors/macstadium.png
 icons/qutebrowser-128x128.png
 icons/qutebrowser-16x16.png
 icons/qutebrowser-24x24.png
@@ -59,6 +61,8 @@ misc/requirements/requirements-pyqt-5.12.txt
 misc/requirements/requirements-pyqt-5.12.txt-raw
 misc/requirements/requirements-pyqt-5.13.txt
 misc/requirements/requirements-pyqt-5.13.txt-raw
+misc/requirements/requirements-pyqt-5.14.txt
+misc/requirements/requirements-pyqt-5.14.txt-raw
 misc/requirements/requirements-pyqt-5.7.txt
 misc/requirements/requirements-pyqt-5.7.txt-raw
 misc/requirements/requirements-pyqt-5.9.txt
@@ -196,6 +200,7 @@ qutebrowser/components/__init__.py
 qutebrowser/components/adblock.py
 qutebrowser/components/caretcommands.py
 qutebrowser/components/misccommands.py
+qutebrowser/components/readlinecommands.py
 qutebrowser/components/scrollcommands.py
 qutebrowser/components/zoomcommands.py
 qutebrowser/config/__init__.py
@@ -210,6 +215,7 @@ qutebrowser/config/configfiles.py
 qutebrowser/config/configinit.py
 qutebrowser/config/configtypes.py
 qutebrowser/config/configutils.py
+qutebrowser/config/stylesheet.py
 qutebrowser/config/websettings.py
 qutebrowser/extensions/__init__.py
 qutebrowser/extensions/interceptors.py
@@ -298,7 +304,6 @@ qutebrowser/misc/miscwidgets.py
 qutebrowser/misc/msgbox.py
 qutebrowser/misc/objects.py
 qutebrowser/misc/pastebin.py
-qutebrowser/misc/readline.py
 qutebrowser/misc/savemanager.py
 qutebrowser/misc/sessions.py
 qutebrowser/misc/split.py

@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2018-2019 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2018-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -32,10 +32,10 @@ from PyQt5.QtCore import pyqtSlot
 
 from qutebrowser import components
 from qutebrowser.config import config
-from qutebrowser.utils import log, standarddir, objreg
+from qutebrowser.utils import log, standarddir
+from qutebrowser.misc import objects
 
 if typing.TYPE_CHECKING:
-    # pylint: disable=unused-import,useless-suppression
     import argparse
 
 
@@ -138,7 +138,7 @@ def _get_init_context() -> InitContext:
     """Get an InitContext object."""
     return InitContext(data_dir=pathlib.Path(standarddir.data()),
                        config_dir=pathlib.Path(standarddir.config()),
-                       args=objreg.get('args'))
+                       args=objects.args)
 
 
 def _load_component(info: ExtensionInfo, *,
