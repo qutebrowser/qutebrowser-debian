@@ -1,3 +1,7 @@
+qutebrwoser (1.9.0-2) unstable; urgency=low
+
+  * Declare compliance with Debian Policy 4.5.0.0 (No changes needed.)
+
 qutebrowser (1.9.0-1) unstable; urgency=medium
 
   * New upstream release 1.9.0.
