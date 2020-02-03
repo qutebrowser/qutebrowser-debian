@@ -225,7 +225,9 @@ class Values:
             return self._get_fallback(fallback)
 
         candidates = []  # type: typing.List[ScopedValue]
-        widened_hosts = _widened_hostnames(url.host())
+        # Urls trailing with '.' are equivalent to non-trailing types.
+        # urlutils strips them, so in order to match we will need to as well.
+        widened_hosts = _widened_hostnames(url.host().rstrip('.'))
         # We must check the 'None' key as well, in case any patterns that
         # did not have a domain match.
         for host in itertools.chain(widened_hosts, [None]):
@@ -263,3 +265,51 @@ class Values:
                 return usertypes.UNSET
 
         return self._get_fallback(fallback)
+
+
+class FontFamilies:
+
+    """A list of font family names."""
+
+    def __init__(self, families: typing.Sequence[str]) -> None:
+        self._families = families
+        self.family = families[0] if families else None
+
+    def __iter__(self) -> typing.Iterator[str]:
+        yield from self._families
+
+    def __repr__(self) -> str:
+        return utils.get_repr(self, families=self._families, constructor=True)
+
+    def __str__(self) -> str:
+        return self.to_str()
+
+    def _quoted_families(self) -> typing.Iterator[str]:
+        for f in self._families:
+            needs_quoting = any(c in f for c in ', ')
+            yield '"{}"'.format(f) if needs_quoting else f
+
+    def to_str(self, *, quote: bool = True) -> str:
+        families = self._quoted_families() if quote else self._families
+        return ', '.join(families)
+
+    @classmethod
+    def from_str(cls, family_str: str) -> 'FontFamilies':
+        """Parse a CSS-like string of font families."""
+        families = []
+
+        for part in family_str.split(','):
+            part = part.strip()
+
+            # The Qt CSS parser handles " and ' before passing the string to
+            # QFont.setFamily.
+            if ((part.startswith("'") and part.endswith("'")) or
+                    (part.startswith('"') and part.endswith('"'))):
+                part = part[1:-1]
+
+            if not part:
+                continue
+
+            families.append(part)
+
+        return cls(families)
