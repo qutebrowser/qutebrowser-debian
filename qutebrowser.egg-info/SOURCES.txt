@@ -6,6 +6,7 @@ requirements.txt
 setup.py
 tox.ini
 doc/changelog.asciidoc
+doc/changelog.html
 doc/faq.html
 doc/qutebrowser.1
 doc/qutebrowser.1.asciidoc
@@ -263,6 +264,7 @@ qutebrowser/javascript/stylesheet.js
 qutebrowser/javascript/webelem.js
 qutebrowser/keyinput/__init__.py
 qutebrowser/keyinput/basekeyparser.py
+qutebrowser/keyinput/eventfilter.py
 qutebrowser/keyinput/keyutils.py
 qutebrowser/keyinput/macros.py
 qutebrowser/keyinput/modeman.py
@@ -304,6 +306,7 @@ qutebrowser/misc/miscwidgets.py
 qutebrowser/misc/msgbox.py
 qutebrowser/misc/objects.py
 qutebrowser/misc/pastebin.py
+qutebrowser/misc/quitter.py
 qutebrowser/misc/savemanager.py
 qutebrowser/misc/sessions.py
 qutebrowser/misc/split.py
@@ -335,6 +338,7 @@ scripts/hostblock_blame.py
 scripts/importer.py
 scripts/keytester.py
 scripts/link_pyqt.py
+scripts/mkvenv.py
 scripts/open_url_in_instance.sh
 scripts/setupcommon.py
 scripts/utils.py

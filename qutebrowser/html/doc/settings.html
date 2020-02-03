@@ -1213,6 +1213,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Background color for webpages if unset (or empty to use the theme&#8217;s color).</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.webpage.prefers_color_scheme_dark">colors.webpage.prefers_color_scheme_dark</a></p></td>
+<td align="left" valign="top"><p class="table">Force <code>prefers-color-scheme: dark</code> colors for websites.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#completion.cmd_history_max_items">completion.cmd_history_max_items</a></p></td>
 <td align="left" valign="top"><p class="table">Number of commands to save in the command history.</p></td>
 </tr>
@@ -1537,6 +1541,14 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Font used for the debugging console.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts.default_family">fonts.default_family</a></p></td>
+<td align="left" valign="top"><p class="table">Default font families to use.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts.default_size">fonts.default_size</a></p></td>
+<td align="left" valign="top"><p class="table">Default font size to use.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#fonts.downloads">fonts.downloads</a></p></td>
 <td align="left" valign="top"><p class="table">Font used for the downloadbar.</p></td>
 </tr>
@@ -1559,10 +1571,6 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#fonts.messages.warning">fonts.messages.warning</a></p></td>
 <td align="left" valign="top"><p class="table">Font used for warning messages.</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table"><a href="#fonts.monospace">fonts.monospace</a></p></td>
-<td align="left" valign="top"><p class="table">Default monospace fonts.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#fonts.prompts">fonts.prompts</a></p></td>
@@ -4310,6 +4318,14 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 <div class="paragraph"><p>Default: <code>white</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="colors.webpage.prefers_color_scheme_dark">colors.webpage.prefers_color_scheme_dark</h3>
+<div class="paragraph"><p>Force <code>prefers-color-scheme: dark</code> colors for websites.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
 <h3 id="completion.cmd_history_max_items">completion.cmd_history_max_items</h3>
 <div class="paragraph"><p>Number of commands to save in the command history.
 0: no history / -1: unlimited</p></div>
@@ -4660,7 +4676,7 @@ This will flatten all the frames to become one scrollable page.</p></div>
 Note that the value read from JavaScript is always the global value.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
-<div class="paragraph"><p>Default: <code>en-US,en</code></p></div>
+<div class="paragraph"><p>Default: <code>en-US,en;q=0.9</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.headers.custom">content.headers.custom</h3>
@@ -5363,13 +5379,13 @@ The following placeholders are defined:</p></div>
 <h3 id="fonts.completion.category">fonts.completion.category</h3>
 <div class="paragraph"><p>Font used in the completion categories.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
-<div class="paragraph"><p>Default: <code>bold 10pt monospace</code></p></div>
+<div class="paragraph"><p>Default: <code>bold default_size default_family</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.completion.entry">fonts.completion.entry</h3>
 <div class="paragraph"><p>Font used in the completion widget.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
-<div class="paragraph"><p>Default: <code>10pt monospace</code></p></div>
+<div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.contextmenu">fonts.contextmenu</h3>
@@ -5382,68 +5398,77 @@ If set to null, the Qt default is used.</p></div>
 <h3 id="fonts.debug_console">fonts.debug_console</h3>
 <div class="paragraph"><p>Font used for the debugging console.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">QtFont</a></p></div>
-<div class="paragraph"><p>Default: <code>10pt monospace</code></p></div>
+<div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts.default_family">fonts.default_family</h3>
+<div class="paragraph"><p>Default font families to use.
+Whenever "default_family" is used in a font setting, it&#8217;s replaced with the fonts listed here.
+If set to an empty value, a system-specific monospace default is used.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">List of Font&#44; or Font</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts.default_size">fonts.default_size</h3>
+<div class="paragraph"><p>Default font size to use.
+Whenever "default_size" is used in a font setting, it&#8217;s replaced with the size listed here.
+Valid values are either a float value with a "pt" suffix, or an integer value with a "px" suffix.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Default: <code>10pt</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.downloads">fonts.downloads</h3>
 <div class="paragraph"><p>Font used for the downloadbar.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
-<div class="paragraph"><p>Default: <code>10pt monospace</code></p></div>
+<div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.hints">fonts.hints</h3>
 <div class="paragraph"><p>Font used for the hints.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
-<div class="paragraph"><p>Default: <code>bold 10pt monospace</code></p></div>
+<div class="paragraph"><p>Default: <code>bold default_size default_family</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.keyhint">fonts.keyhint</h3>
 <div class="paragraph"><p>Font used in the keyhint widget.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
-<div class="paragraph"><p>Default: <code>10pt monospace</code></p></div>
+<div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.messages.error">fonts.messages.error</h3>
 <div class="paragraph"><p>Font used for error messages.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
-<div class="paragraph"><p>Default: <code>10pt monospace</code></p></div>
+<div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.messages.info">fonts.messages.info</h3>
 <div class="paragraph"><p>Font used for info messages.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
-<div class="paragraph"><p>Default: <code>10pt monospace</code></p></div>
+<div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.messages.warning">fonts.messages.warning</h3>
 <div class="paragraph"><p>Font used for warning messages.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
-<div class="paragraph"><p>Default: <code>10pt monospace</code></p></div>
-</div>
-<div class="sect2">
-<h3 id="fonts.monospace">fonts.monospace</h3>
-<div class="paragraph"><p>Default monospace fonts.
-Whenever "monospace" is used in a font setting, it&#8217;s replaced with the fonts listed here.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
-<div class="paragraph"><p>Default: <code>Monospace, &quot;DejaVu Sans Mono&quot;, Monaco, &quot;Bitstream Vera Sans Mono&quot;, &quot;Andale Mono&quot;, &quot;Courier New&quot;, Courier, &quot;Liberation Mono&quot;, monospace, Fixed, Consolas, Terminal</code></p></div>
+<div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.prompts">fonts.prompts</h3>
 <div class="paragraph"><p>Font used for prompts.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
-<div class="paragraph"><p>Default: <code>10pt sans-serif</code></p></div>
+<div class="paragraph"><p>Default: <code>default_size sans-serif</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.statusbar">fonts.statusbar</h3>
 <div class="paragraph"><p>Font used in the statusbar.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
-<div class="paragraph"><p>Default: <code>10pt monospace</code></p></div>
+<div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.tabs">fonts.tabs</h3>
 <div class="paragraph"><p>Font used in the tab bar.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">QtFont</a></p></div>
-<div class="paragraph"><p>Default: <code>10pt monospace</code></p></div>
+<div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.family.cursive">fonts.web.family.cursive</h3>
@@ -7752,7 +7777,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-01-08 16:31:51 CET
+ 2020-02-02 21:48:35 CET
 </div>
 </div>
 </body>
