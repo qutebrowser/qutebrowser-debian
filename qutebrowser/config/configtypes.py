@@ -1287,8 +1287,8 @@ class QtFont(Font):
 
         return configutils.FontFamilies.from_str(family_str)
 
-    def to_py(self, value: _StrUnset) -> typing.Union[usertypes.Unset,
-                                                      None, QFont]:
+    def to_py(self, value: _StrUnset) -> typing.Union[  # noqa: C901
+            usertypes.Unset, None, QFont]:
         self._basic_py_validation(value, str)
         if isinstance(value, usertypes.Unset):
             return value
@@ -1333,7 +1333,10 @@ class QtFont(Font):
             if size == 'default_size':
                 size = self.default_size
 
-            if size.lower().endswith('pt'):
+            if size is None:
+                # initial validation before default_size is set up.
+                pass
+            elif size.lower().endswith('pt'):
                 font.setPointSizeF(float(size[:-2]))
             elif size.lower().endswith('px'):
                 font.setPixelSize(int(size[:-2]))
