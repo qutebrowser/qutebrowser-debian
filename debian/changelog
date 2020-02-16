@@ -1,3 +1,9 @@
+qutebrowser (1.10.1-1) UNRELEASED; urgency=medium
+
+  * New upstream release
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Sun, 16 Feb 2020 11:14:07 +0100
+
 qutebrowser (1.10.0-1) unstable; urgency=medium
 
   * New upstream release 1.10.0
