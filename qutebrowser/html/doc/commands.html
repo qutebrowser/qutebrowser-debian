@@ -1195,7 +1195,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#spawn">spawn</a></p></td>
-<td align="left" valign="top"><p class="table">Spawn a command in a shell.</p></td>
+<td align="left" valign="top"><p class="table">Spawn an external command.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#stop">stop</a></p></td>
@@ -3550,7 +3550,8 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:spawn [<strong>--userscript</strong>] [<strong>--verbose</strong>] [<strong>--output</strong>] [<strong>--output-messages</strong>]
       [<strong>--detach</strong>]
       <em>cmdline</em></code></p></div>
-<div class="paragraph"><p>Spawn a command in a shell.</p></div>
+<div class="paragraph"><p>Spawn an external command.</p></div>
+<div class="paragraph"><p>Note that the command is <strong>not</strong> run in a shell, so things like <code>$VAR</code> or <code>&gt; output</code> won&#8217;t have the desired effect.</p></div>
 <div class="sect3">
 <h4 id="_positional_arguments_53">positional arguments</h4>
 <div class="ulist"><ul>
@@ -4972,7 +4973,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-02-15 14:18:34 CET
+ 2020-04-17 18:15:48 CEST
 </div>
 </div>
 </body>

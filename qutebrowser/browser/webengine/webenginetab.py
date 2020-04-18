@@ -24,7 +24,6 @@ import functools
 import re
 import html as html_utils
 import typing
-import textwrap
 
 from PyQt5.QtCore import (pyqtSignal, pyqtSlot, Qt, QPoint, QPointF, QUrl,
                           QTimer, QObject)
@@ -1104,25 +1103,16 @@ class _WebEngineScripts(QObject):
         if not config.val.content.site_specific_quirks:
             return
 
-        # WhatsApp Web, based on:
-        # https://github.com/jiahaog/nativefier/issues/719#issuecomment-443809630
-        script = QWebEngineScript()
-        script.setName('quirk-whatsapp')
-        script.setWorldId(QWebEngineScript.ApplicationWorld)
-        script.setInjectionPoint(QWebEngineScript.DocumentReady)
-        script.setSourceCode(textwrap.dedent(r"""
-            // ==UserScript==
-            // @include https://web.whatsapp.com/
-            // ==/UserScript==
-            if (document.body.innerText.replace(/\n/g, ' ').search(
-                     /whatsapp works with.*to use whatsapp.*update/i) !== -1) {
-                navigator.serviceWorker.getRegistration().then(function (r) {
-                    r.unregister();
-                    document.location.reload();
-                });
-            }
-        """))
-        self._widget.page().scripts().insert(script)
+        page_scripts = self._widget.page().scripts()
+
+        for filename in ['whatsapp_web_quirk']:
+            script = QWebEngineScript()
+            script.setName(filename)
+            script.setWorldId(QWebEngineScript.ApplicationWorld)
+            script.setInjectionPoint(QWebEngineScript.DocumentReady)
+            src = utils.read_file("javascript/{}.user.js".format(filename))
+            script.setSourceCode(src)
+            page_scripts.insert(script)
 
 
 class WebEngineTabPrivate(browsertab.AbstractTabPrivate):
