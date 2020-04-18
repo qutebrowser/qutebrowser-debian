@@ -1,8 +1,8 @@
-qutebrowser (1.10.2-1) UNRELEASED; urgency=medium
+qutebrowser (1.10.2-1) unstable; urgency=medium
 
-  * New upstream release 1.10.2
+  * New upstream minor bugfix release 1.10.2
 
- -- Axel Beckert <abe@debian.org>  Sat, 18 Apr 2020 16:30:16 +0200
+ -- Axel Beckert <abe@debian.org>  Sat, 18 Apr 2020 17:18:47 +0200
 
 qutebrowser (1.10.1-1) unstable; urgency=medium
 
