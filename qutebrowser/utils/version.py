@@ -90,7 +90,7 @@ def distribution() -> typing.Optional[DistributionInfo]:
         with open(filename, 'r', encoding='utf-8') as f:
             for line in f:
                 line = line.strip()
-                if (not line) or line.startswith('#'):
+                if (not line) or line.startswith('#') or '=' not in line:
                     continue
                 k, v = line.split("=", maxsplit=1)
                 info[k] = v.strip('"')
@@ -287,7 +287,7 @@ def _os_info() -> typing.Sequence[str]:
             versioninfo = ''
         else:
             versioninfo = '.'.join(info_tpl)
-        osver = ', '.join([e for e in [release, versioninfo, machine] if e])
+        osver = ', '.join(e for e in [release, versioninfo, machine] if e)
     elif utils.is_posix:
         osver = ' '.join(platform.uname())
     else:
@@ -343,7 +343,7 @@ def _chromium_version() -> str:
 
     Qt 5.9:  Chromium 56
     (LTS)    56.0.2924.122 (2017-01-25)
-             5.9.8: Security fixes up to 72.0.3626.121 (2019-03-01)
+             5.9.9: Security fixes up to 78.0.3904.108 (2019-11-18)
 
     Qt 5.10: Chromium 61
              61.0.3163.140 (2017-09-05)
@@ -355,7 +355,7 @@ def _chromium_version() -> str:
 
     Qt 5.12: Chromium 69
     (LTS)    69.0.3497.113 (2018-09-27)
-             5.12.7: Security fixes up to 79.0.3945.130 (2020-01-16)
+             5.12.8: Security fixes up to 80.0.3987.149 (2020-03-18)
 
     Qt 5.13: Chromium 73
              73.0.3683.105 (~2019-02-28)
@@ -366,7 +366,8 @@ def _chromium_version() -> str:
              5.14.2: Security fixes up to 80.0.3987.132 (2020-03-03)
 
     Qt 5.15: Chromium 80
-             80.0.3987.136 (~2020-03-09)
+             80.0.3987.163 (2020-04-02)
+             5.15.0: Security fixes up to 81.0.4044.122 (2020-04-21)
 
     Also see https://www.chromium.org/developers/calendar
     and https://chromereleases.googleblog.com/

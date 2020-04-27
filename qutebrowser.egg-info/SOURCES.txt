@@ -237,6 +237,7 @@ qutebrowser/html/styled.html
 qutebrowser/html/tabs.html
 qutebrowser/html/version.html
 qutebrowser/html/warning-old-qt.html
+qutebrowser/html/warning-sessions.html
 qutebrowser/html/warning-webkit.html
 qutebrowser/html/doc/changelog.html
 qutebrowser/html/doc/commands.html
