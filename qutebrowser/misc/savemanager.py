@@ -213,5 +213,6 @@ class SaveManager(QObject):
                 self.save(key, is_exit=True)
             except OSError as e:
                 error.handle_fatal_exc(
-                    e, objects.args, "Error while saving!",
-                    pre_text="Error while saving {}".format(key))
+                    e, "Error while saving!",
+                    pre_text="Error while saving {}".format(key),
+                    no_err_windows=objects.args.no_err_windows)

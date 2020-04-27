@@ -1321,6 +1321,14 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Expand each subframe to its contents.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#content.fullscreen.overlay_timeout">content.fullscreen.overlay_timeout</a></p></td>
+<td align="left" valign="top"><p class="table">Set fullscreen notification overlay timeout in milliseconds.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content.fullscreen.window">content.fullscreen.window</a></p></td>
+<td align="left" valign="top"><p class="table">Limit fullscreen to the browser window (does not expand to fill the screen).</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#content.geolocation">content.geolocation</a></p></td>
 <td align="left" valign="top"><p class="table">Allow websites to request geolocations.</p></td>
 </tr>
@@ -1469,6 +1477,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Validate SSL handshakes.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#content.unknown_url_scheme_policy">content.unknown_url_scheme_policy</a></p></td>
+<td align="left" valign="top"><p class="table">How navigation requests to URLs with unknown schemes are handled.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#content.user_stylesheets">content.user_stylesheets</a></p></td>
 <td align="left" valign="top"><p class="table">List of user stylesheet filenames to use.</p></td>
 </tr>
@@ -1479,10 +1491,6 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.webrtc_ip_handling_policy">content.webrtc_ip_handling_policy</a></p></td>
 <td align="left" valign="top"><p class="table">Which interfaces to expose via WebRTC.</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table"><a href="#content.windowed_fullscreen">content.windowed_fullscreen</a></p></td>
-<td align="left" valign="top"><p class="table">Limit fullscreen to the browser window (does not expand to fill the screen).</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.xss_auditing">content.xss_auditing</a></p></td>
@@ -1669,8 +1677,16 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Comma-separated list of regular expressions to use for <em>next</em> links.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#hints.padding">hints.padding</a></p></td>
+<td align="left" valign="top"><p class="table">Padding (in pixels) for hints.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#hints.prev_regexes">hints.prev_regexes</a></p></td>
 <td align="left" valign="top"><p class="table">Comma-separated list of regular expressions to use for <em>prev</em> links.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#hints.radius">hints.radius</a></p></td>
+<td align="left" valign="top"><p class="table">Rounding radius (in pixels) for the edges of hints.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#hints.scatter">hints.scatter</a></p></td>
@@ -1758,7 +1774,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#prompt.filebrowser">prompt.filebrowser</a></p></td>
-<td align="left" valign="top"><p class="table">Show a filebrowser in upload/download prompts.</p></td>
+<td align="left" valign="top"><p class="table">Show a filebrowser in download prompts.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#prompt.radius">prompt.radius</a></p></td>
@@ -1807,6 +1823,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#search.incremental">search.incremental</a></p></td>
 <td align="left" valign="top"><p class="table">Find text on a page incrementally, renewing the search for each typed character.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#search.wrap">search.wrap</a></p></td>
+<td align="left" valign="top"><p class="table">Wrap around at the top and bottom of the page when advancing through text matches using <code>:search-next</code> and <code>:search-prev</code>.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#session.default_name">session.default_name</a></p></td>
@@ -4646,6 +4666,19 @@ This will flatten all the frames to become one scrollable page.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 </div>
 <div class="sect2">
+<h3 id="content.fullscreen.overlay_timeout">content.fullscreen.overlay_timeout</h3>
+<div class="paragraph"><p>Set fullscreen notification overlay timeout in milliseconds.
+If set to 0, no overlay will be displayed.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
+<div class="paragraph"><p>Default: <code>3000</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content.fullscreen.window">content.fullscreen.window</h3>
+<div class="paragraph"><p>Limit fullscreen to the browser window (does not expand to fill the screen).</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="content.geolocation">content.geolocation</h3>
 <div class="paragraph"><p>Allow websites to request geolocations.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
@@ -5170,6 +5203,33 @@ This setting requires a restart.</p></div>
 <div class="paragraph"><p>Default: <code>ask</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="content.unknown_url_scheme_policy">content.unknown_url_scheme_policy</h3>
+<div class="paragraph"><p>How navigation requests to URLs with unknown schemes are handled.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>disallow</code>: Disallows all navigation requests to URLs with unknown schemes.
+</p>
+</li>
+<li>
+<p>
+<code>allow-from-user-interaction</code>: Allows navigation requests to URLs with unknown schemes that are issued from user-interaction (like a mouse-click), whereas other navigation requests (for example from JavaScript) are suppressed.
+</p>
+</li>
+<li>
+<p>
+<code>allow-all</code>: Allows all navigation requests to URLs with unknown schemes.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>allow-from-user-interaction</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.11 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
 <h3 id="content.user_stylesheets">content.user_stylesheets</h3>
 <div class="paragraph"><p>List of user stylesheet filenames to use.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">List of File&#44; or File</a></p></div>
@@ -5214,12 +5274,6 @@ This setting requires a restart.</p></div>
 <div class="paragraph"><p>Default: <code>all-interfaces</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.9.2 or newer.</p></div>
 <div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
-</div>
-<div class="sect2">
-<h3 id="content.windowed_fullscreen">content.windowed_fullscreen</h3>
-<div class="paragraph"><p>Limit fullscreen to the browser window (does not expand to fill the screen).</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.xss_auditing">content.xss_auditing</h3>
@@ -5684,6 +5738,34 @@ Valid values are either a float value with a "pt" suffix, or an integer value wi
 </ul></div>
 </div>
 <div class="sect2">
+<h3 id="hints.padding">hints.padding</h3>
+<div class="paragraph"><p>Padding (in pixels) for hints.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Padding</a></p></div>
+<div class="paragraph"><p>Default:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>bottom</code>: <code>0</code>
+</p>
+</li>
+<li>
+<p>
+<code>left</code>: <code>3</code>
+</p>
+</li>
+<li>
+<p>
+<code>right</code>: <code>3</code>
+</p>
+</li>
+<li>
+<p>
+<code>top</code>: <code>0</code>
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
 <h3 id="hints.prev_regexes">hints.prev_regexes</h3>
 <div class="paragraph"><p>Comma-separated list of regular expressions to use for <em>prev</em> links.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">List of Regex</a></p></div>
@@ -5715,6 +5797,12 @@ Valid values are either a float value with a "pt" suffix, or an integer value wi
 </p>
 </li>
 </ul></div>
+</div>
+<div class="sect2">
+<h3 id="hints.radius">hints.radius</h3>
+<div class="paragraph"><p>Rounding radius (in pixels) for the edges of hints.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
+<div class="paragraph"><p>Default: <code>3</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="hints.scatter">hints.scatter</h3>
@@ -6198,7 +6286,7 @@ When <code>new_instance_open_target</code> is set to <code>window</code>, this i
 </div>
 <div class="sect2">
 <h3 id="prompt.filebrowser">prompt.filebrowser</h3>
-<div class="paragraph"><p>Show a filebrowser in upload/download prompts.</p></div>
+<div class="paragraph"><p>Show a filebrowser in download prompts.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -6401,6 +6489,13 @@ Note smooth scrolling does not work with the <code>:scroll-px</code> command.</p
 <div class="paragraph"><p>Find text on a page incrementally, renewing the search for each typed character.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="search.wrap">search.wrap</h3>
+<div class="paragraph"><p>Wrap around at the top and bottom of the page when advancing through text matches using <code>:search-next</code> and <code>:search-prev</code>.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
 </div>
 <div class="sect2">
 <h3 id="session.default_name">session.default_name</h3>
@@ -7397,9 +7492,38 @@ Use <code>about:blank</code> for a blank page.</p></div>
 </div>
 <div class="sect2">
 <h3 id="url.searchengines">url.searchengines</h3>
-<div class="paragraph"><p>Search engines which can be used via the address bar.
-Maps a search engine name (such as <code>DEFAULT</code>, or <code>ddg</code>) to a URL with a <code>{}</code> placeholder. The placeholder will be replaced by the search term, use <code>{{</code> and <code>}}</code> for literal <code>{</code>/<code>}</code> signs.
-The search engine named <code>DEFAULT</code> is used when <code>url.auto_search</code> is turned on and something else than a URL was entered to be opened. Other search engines can be used by prepending the search engine name to the search term, e.g.  <code>:open google qutebrowser</code>.</p></div>
+<div class="paragraph"><p>Search engines which can be used via the address bar.</p></div>
+<div class="paragraph"><p>Maps a search engine name (such as <code>DEFAULT</code>, or <code>ddg</code>) to a URL with a
+<code>{}</code> placeholder. The placeholder will be replaced by the search term, use
+<code>{{</code> and <code>}}</code> for literal <code>{</code>/<code>}</code> braces.</p></div>
+<div class="paragraph"><p>The following further placeholds are defined to configure how special
+characters in the search terms are replaced by safe characters (called
+<em>quoting</em>):</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>{}</code> and <code>{semiquoted}</code> quote everything except slashes; this is the most
+  sensible choice for almost all search engines (for the search term
+  <code>slash/and&amp;amp</code> this placeholder expands to <code>slash/and%26amp</code>).
+</p>
+</li>
+<li>
+<p>
+<code>{quoted}</code> quotes all characters (for <code>slash/and&amp;amp</code> this placeholder
+  expands to <code>slash%2Fand%26amp</code>).
+</p>
+</li>
+<li>
+<p>
+<code>{unquoted}</code> quotes nothing (for <code>slash/and&amp;amp</code> this placeholder
+  expands to <code>slash/and&amp;amp</code>).
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The search engine named <code>DEFAULT</code> is used when <code>url.auto_search</code> is turned
+on and something else than a URL was entered to be opened. Other search
+engines can be used by prepending the search engine name to the search
+term, e.g.  <code>:open google qutebrowser</code>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Dict</a></p></div>
 <div class="paragraph"><p>Default:</p></div>
 <div class="ulist"><ul>
@@ -7777,7 +7901,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-04-17 18:16:03 CEST
+ 2020-04-27 15:53:35 CEST
 </div>
 </div>
 </body>
