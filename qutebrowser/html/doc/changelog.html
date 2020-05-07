@@ -807,6 +807,27 @@ breaking changes (such as renamed commands) can happen in minor releases.</p></d
 </div>
 </div>
 <div class="sect1">
+<h2 id="_v1_11_1_2020_05_07">v1.11.1 (2020-05-07)</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_security">Security</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+CVE-2020-11054: After a certificate error was overridden by the user,
+  qutebrowser displays the URL as yellow (<code>colors.statusbar.url.warn.fg</code>).
+  However, when the affected website was subsequently loaded again, the URL was
+  mistakenly displayed as green (<code>colors.statusbar.url.success_https</code>). While
+  the user already has seen a certificate error prompt at this point (or set
+  <code>content.ssl_strict</code> to <code>false</code> which is not recommended), this could still
+  provide a false sense of security. This is now fixed.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_v1_11_0_2020_04_27">v1.11.0 (2020-04-27)</h2>
 <div class="sectionbody">
 <div class="sect2">
@@ -3241,7 +3262,7 @@ The <code>:buffer</code> completion now sorts tabs with indices &gt;= 10 correct
 <h2 id="_v1_4_1_2018_07_11">v1.4.1 (2018-07-11)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_security">Security</h3>
+<h3 id="_security_2">Security</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3643,7 +3664,7 @@ The <code>content.developer_extras</code> setting got removed. On QtWebKit, deve
 <h2 id="_v1_3_3_2018_06_21">v1.3.3 (2018-06-21)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_security_2">Security</h3>
+<h3 id="_security_3">Security</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -9714,7 +9735,7 @@ Ignore tab key presses if they&#8217;d switch focus.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_security_3">Security</h3>
+<h3 id="_security_4">Security</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -9834,7 +9855,7 @@ Handle <code>UnicodeDecodeError</code> when reading configs.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_security_4">Security</h3>
+<h3 id="_security_5">Security</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -10176,7 +10197,7 @@ Fix crash with <code>:zoom</code>.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-04-27 15:53:15 CEST
+ 2020-05-07 16:43:43 CEST
 </div>
 </div>
 </body>
