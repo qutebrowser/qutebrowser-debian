@@ -1,3 +1,9 @@
+qutebrowser (1.11.1-1) UNRELEASED; urgency=medium
+
+  * Low-severity security fix. Fixes: CVE-2020-11054
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Thu, 07 May 2020 18:28:04 +0200
+
 qutebrowser (1.11.0-1) unstable; urgency=medium
 
   * New upstream release with new small features 1.11.0
