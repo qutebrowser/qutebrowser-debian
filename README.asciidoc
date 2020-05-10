@@ -42,7 +42,7 @@ Downloads
 ---------
 
 See the https://github.com/qutebrowser/qutebrowser/releases[github releases
-page] for available downloads and the link:doc/install.asciidoc[INSTALL] file for
+page] for available downloads and the https://github.com/qutebrowser/qutebrowser/blob/master/doc/install.asciidoc[INSTALL] file for
 detailed instructions on how to get qutebrowser running on various platforms.
 
 Documentation
