@@ -1,6 +1,10 @@
 qutebrowser (1.11.1-1) UNRELEASED; urgency=medium
 
+  [ Fritz Reichwald ]
   * Low-severity security fix. Fixes: CVE-2020-11054
+
+  [ Axel Beckert ]
+  * Update debian/watch to also match upstream tar ball fixes.
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Thu, 07 May 2020 18:28:04 +0200
 
