@@ -6,6 +6,8 @@ qutebrowser (1.11.1.post1-1) UNRELEASED; urgency=medium
   [ Axel Beckert ]
   * Update debian/watch to also match upstream tar ball fixes.
   * Import fixed upstream tar ball "1.11.1.post1".
+  * Drop no more needed hunks from doc/faq.html (not html/doc/faq.html)
+    from replace-external-merch-images-with-links.patch and refresh it.
 
  -- Axel Beckert <abe@debian.org>  Mon, 11 May 2020 11:45:36 +0200
 
