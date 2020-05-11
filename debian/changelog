@@ -1,12 +1,13 @@
-qutebrowser (1.11.1-1) UNRELEASED; urgency=medium
+qutebrowser (1.11.1.post1-1) UNRELEASED; urgency=medium
 
   [ Fritz Reichwald ]
   * Low-severity security fix. Fixes: CVE-2020-11054
 
   [ Axel Beckert ]
   * Update debian/watch to also match upstream tar ball fixes.
+  * Import fixed upstream tar ball "1.11.1.post1".
 
- -- Fritz Reichwald <reichwald@b1-systems.de>  Thu, 07 May 2020 18:28:04 +0200
+ -- Axel Beckert <abe@debian.org>  Mon, 11 May 2020 11:45:36 +0200
 
 qutebrowser (1.11.0-1) unstable; urgency=medium
 
