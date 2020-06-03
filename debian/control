@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Fritz Reichwald <reichwald@b1-systems.de>
 Uploaders: Axel Beckert <abe@debian.org>
 Build-Depends: asciidoc,
-               debhelper-compat (= 12),
+               debhelper-compat (= 13),
 	       dh-python,
                docbook-xml,
                docbook-xsl,
