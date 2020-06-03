@@ -246,7 +246,7 @@ class _CrashDialog(QDialog):
         except Exception:
             self._crash_info.append(("Launch time", traceback.format_exc()))
         try:
-            self._crash_info.append(("Version info", version.version()))
+            self._crash_info.append(("Version info", version.version_info()))
         except Exception:
             self._crash_info.append(("Version info", traceback.format_exc()))
         try:
@@ -345,7 +345,7 @@ class _CrashDialog(QDialog):
             text: The paste text to show.
         """
         error_dlg = ReportErrorDialog(text, self._paste_text, self)
-        error_dlg.finished.connect(self.finish)  # type: ignore
+        error_dlg.finished.connect(self.finish)
         error_dlg.show()
 
     @pyqtSlot(str)
@@ -532,7 +532,7 @@ class FatalCrashDialog(_CrashDialog):
         if self._chk_history.isChecked():
             try:
                 if history.web_history is None:
-                    history_data = '<unavailable>'  # type: ignore
+                    history_data = '<unavailable>'  # type: ignore[unreachable]
                 else:
                     history_data = '\n'.join(str(e) for e in
                                              history.web_history.get_recent())
@@ -629,7 +629,7 @@ class ReportErrorDialog(QDialog):
         hbox = QHBoxLayout()
         hbox.addStretch()
         btn = QPushButton("Close")
-        btn.clicked.connect(self.close)  # type: ignore
+        btn.clicked.connect(self.close)  # type: ignore[arg-type]
         hbox.addWidget(btn)
         vbox.addLayout(hbox)
 
@@ -650,7 +650,7 @@ def dump_exception_info(exc, pages, cmdhist, qobjects):
     print(''.join(traceback.format_exception(*exc)), file=sys.stderr)
     print("\n---- Version info ----", file=sys.stderr)
     try:
-        print(version.version(), file=sys.stderr)
+        print(version.version_info(), file=sys.stderr)
     except Exception:
         traceback.print_exc()
     print("\n---- Config ----", file=sys.stderr)

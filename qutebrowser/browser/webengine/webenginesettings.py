@@ -362,7 +362,8 @@ def _init_profiles():
     default_profile = QWebEngineProfile.defaultProfile()
     init_user_agent()
 
-    default_profile.setter = ProfileSetter(default_profile)
+    default_profile.setter = ProfileSetter(  # type: ignore[attr-defined]
+        default_profile)
     default_profile.setCachePath(
         os.path.join(standarddir.cache(), 'webengine'))
     default_profile.setPersistentStoragePath(
@@ -372,7 +373,8 @@ def _init_profiles():
 
     if not qtutils.is_single_process():
         private_profile = QWebEngineProfile()
-        private_profile.setter = ProfileSetter(private_profile)
+        private_profile.setter = ProfileSetter(  # type: ignore[attr-defined]
+            private_profile)
         assert private_profile.isOffTheRecord()
         private_profile.setter.init_profile()
 
@@ -401,6 +403,7 @@ def _init_site_specific_quirks():
         'https://accounts.google.com/*': firefox_ua,
         'https://*.slack.com/*': new_chrome_ua,
         'https://docs.google.com/*': firefox_ua,
+        'https://drive.google.com/*': firefox_ua,
     }
 
     if not qtutils.version_check('5.9'):
@@ -414,9 +417,16 @@ def _init_site_specific_quirks():
 
 def _init_devtools_settings():
     """Make sure the devtools always get images/JS permissions."""
-    for setting in ['content.javascript.enabled', 'content.images']:
+    settings = [
+        ('content.javascript.enabled', True),
+        ('content.images', True)
+    ]  # type: typing.List[typing.Tuple[str, typing.Any]]
+    if qtutils.version_check('5.11'):
+        settings.append(('content.cookies.accept', 'all'))
+
+    for setting, value in settings:
         for pattern in ['chrome-devtools://*', 'devtools://*']:
-            config.instance.set_obj(setting, True,
+            config.instance.set_obj(setting, value,
                                     pattern=urlmatch.UrlPattern(pattern),
                                     hide_userconfig=True)
 
