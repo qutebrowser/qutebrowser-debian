@@ -31,6 +31,7 @@ import enum
 import datetime
 import getpass
 import typing
+import functools
 
 import attr
 import pkg_resources
@@ -43,7 +44,7 @@ from PyQt5.QtWidgets import QApplication
 try:
     from PyQt5.QtWebKit import qWebKitVersion
 except ImportError:  # pragma: no cover
-    qWebKitVersion = None  # type: ignore  # noqa: N816
+    qWebKitVersion = None  # type: ignore[assignment]  # noqa: N816
 
 import qutebrowser
 from qutebrowser.utils import log, utils, standarddir, usertypes, message
@@ -54,7 +55,7 @@ from qutebrowser.config import config
 try:
     from qutebrowser.browser.webengine import webenginesettings
 except ImportError:  # pragma: no cover
-    webenginesettings = None  # type: ignore
+    webenginesettings = None  # type: ignore[assignment]
 
 
 @attr.s
@@ -367,13 +368,13 @@ def _chromium_version() -> str:
 
     Qt 5.15: Chromium 80
              80.0.3987.163 (2020-04-02)
-             5.15.0: Security fixes up to 81.0.4044.122 (2020-04-21)
+             5.15.0: Security fixes up to 81.0.4044.138 (2020-05-05)
 
     Also see https://www.chromium.org/developers/calendar
     and https://chromereleases.googleblog.com/
     """
     if webenginesettings is None:
-        return 'unavailable'  # type: ignore
+        return 'unavailable'  # type: ignore[unreachable]
 
     if webenginesettings.parsed_user_agent is None:
         webenginesettings.init_user_agent()
@@ -411,7 +412,7 @@ def _config_py_loaded() -> str:
         return "no config.py was loaded"
 
 
-def version() -> str:
+def version_info() -> str:
     """Return a string with various version information."""
     lines = ["qutebrowser v{}".format(qutebrowser.__version__)]
     gitver = _git_str()
@@ -442,8 +443,8 @@ def version() -> str:
     if qapp:
         style = qapp.style()
         lines.append('Style: {}'.format(style.metaObject().className()))
-        platform_name = qapp.platformName()
-        lines.append('Platform plugin: {}'.format(platform_name))
+        lines.append('Platform plugin: {}'.format(qapp.platformName()))
+        lines.append('OpenGL: {}'.format(opengl_info()))
 
     importpath = os.path.dirname(os.path.abspath(qutebrowser.__file__))
 
@@ -487,7 +488,65 @@ def version() -> str:
     return '\n'.join(lines)
 
 
-def opengl_vendor() -> typing.Optional[str]:  # pragma: no cover
+@attr.s
+class OpenGLInfo:
+
+    """Information about the OpenGL setup in use."""
+
+    # If we're using OpenGL ES. If so, no further information is available.
+    gles = attr.ib(False)  # type: bool
+
+    # The name of the vendor. Examples:
+    # - nouveau
+    # - "Intel Open Source Technology Center", "Intel", "Intel Inc."
+    vendor = attr.ib(None)  # type: typing.Optional[str]
+
+    # The OpenGL version as a string. See tests for examples.
+    version_str = attr.ib(None)  # type: typing.Optional[str]
+
+    # The parsed version as a (major, minor) tuple of ints
+    version = attr.ib(None)  # type: typing.Optional[typing.Tuple[int, ...]]
+
+    # The vendor specific information following the version number
+    vendor_specific = attr.ib(None)  # type: typing.Optional[str]
+
+    def __str__(self) -> str:
+        if self.gles:
+            return 'OpenGL ES'
+        return '{}, {}'.format(self.vendor, self.version_str)
+
+    @classmethod
+    def parse(cls, *, vendor: str, version: str) -> 'OpenGLInfo':
+        """Parse OpenGL version info from a string.
+
+        The arguments should be the strings returned by OpenGL for GL_VENDOR
+        and GL_VERSION, respectively.
+
+        According to the OpenGL reference, the version string should have the
+        following format:
+
+        <major>.<minor>[.<release>] <vendor-specific info>
+        """
+        if ' ' not in version:
+            log.misc.warning("Failed to parse OpenGL version (missing space): "
+                             "{}".format(version))
+            return cls(vendor=vendor, version_str=version)
+
+        num_str, vendor_specific = version.split(' ', maxsplit=1)
+
+        try:
+            parsed_version = tuple(int(i) for i in num_str.split('.'))
+        except ValueError:
+            log.misc.warning("Failed to parse OpenGL version (parsing int): "
+                             "{}".format(version))
+            return cls(vendor=vendor, version_str=version)
+
+        return cls(vendor=vendor, version_str=version,
+                   version=parsed_version, vendor_specific=vendor_specific)
+
+
+@functools.lru_cache(maxsize=1)
+def opengl_info() -> typing.Optional[OpenGLInfo]:  # pragma: no cover
     """Get the OpenGL vendor used.
 
     This returns a string such as 'nouveau' or
@@ -496,10 +555,14 @@ def opengl_vendor() -> typing.Optional[str]:  # pragma: no cover
     """
     assert QApplication.instance()
 
-    override = os.environ.get('QUTE_FAKE_OPENGL_VENDOR')
+    # Some setups can segfault in here if we don't do this.
+    utils.libgl_workaround()
+
+    override = os.environ.get('QUTE_FAKE_OPENGL')
     if override is not None:
         log.init.debug("Using override {}".format(override))
-        return override
+        vendor, version = override.split(', ', maxsplit=1)
+        return OpenGLInfo.parse(vendor=vendor, version=version)
 
     old_context = typing.cast(typing.Optional[QOpenGLContext],
                               QOpenGLContext.currentContext())
@@ -522,7 +585,7 @@ def opengl_vendor() -> typing.Optional[str]:  # pragma: no cover
     try:
         if ctx.isOpenGLES():
             # Can't use versionFunctions there
-            return None
+            return OpenGLInfo(gles=True)
 
         vp = QOpenGLVersionProfile()
         vp.setVersion(2, 0)
@@ -537,7 +600,10 @@ def opengl_vendor() -> typing.Optional[str]:  # pragma: no cover
             log.init.debug("Getting version functions failed!")
             return None
 
-        return vf.glGetString(vf.GL_VENDOR)
+        vendor = vf.glGetString(vf.GL_VENDOR)
+        version = vf.glGetString(vf.GL_VERSION)
+
+        return OpenGLInfo.parse(vendor=vendor, version=version)
     finally:
         ctx.doneCurrent()
         if old_context and old_surface:
@@ -580,5 +646,5 @@ def pastebin_version(pbclient: pastebin.PastebinClient = None) -> None:
 
     pbclient.paste(getpass.getuser(),
                    "qute version info {}".format(qutebrowser.__version__),
-                   version(),
+                   version_info(),
                    private=True)

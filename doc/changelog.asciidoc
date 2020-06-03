@@ -15,6 +15,70 @@ breaking changes (such as renamed commands) can happen in minor releases.
 // `Fixed` for any bug fixes.
 // `Security` to invite users to upgrade in case of vulnerabilities.
 
+v1.12.0 (2020-06-01)
+--------------------
+
+Removed
+~~~~~~~
+
+- `tox -e mkvenv` which was deprecated in qutebrowser v1.10.0 is now
+  removed. Use the `mkvenv.py` script instead.
+- Support for using `config.bind(key, None)` in `config.py` to unbind a
+  key was deprecated in v1.8.2 and is now removed. Use
+  `config.unbind(key)` instead.
+- `:yank markdown` was deprecated in v1.7.0 and is now removed. Use
+  `:yank inline [{title}]({url})` instead.
+
+Added
+~~~~~
+
+- New `:debug-keytester` command, which shows a "key tester" widget.
+  Previously, that was only available as a separate application via `python3 -m
+  scripts.keytester`.
+- New `:config-diff` command which opens the `qute://configdiff` page.
+- New `--debug-flag log-cookies` to log cokies to the debug log for
+  debugging.
+- New `colors.contextmenu.disabled.{fg,bg}` settings to customize colors for
+  disabled items in the context menu.
+- New line selection mode (`:toggle-selection --line`), bound to `Shift-V` in caret mode.
+- New `colors.webpage.darkmode.*` settings to control Chromium's dark mode.
+  Note that those settings only work with QtWebEngine on Qt >= 5.14 and require
+  a restart of qutebrowser.
+
+Changed
+~~~~~~~
+
+- The `content.cookies.accept` setting now accepts URL patterns.
+- Tests are now included in release tarballs. Note that only running them with
+  the exact dependencies listed in
+  `misc/requirements/requirements-tests.txt{,-raw}` is supported.
+- The `:tab-focus` command now has completion for tabs in the current window.
+- The `bindings.key_mappings` setting now maps `<Ctrl+I>` to the tab key by default.
+- `:tab-give --private` now detaches a tab into a new private window.
+
+Fixed
+~~~~~
+
+- Using `:open -s` now only rewrites `http://` in URLs to `https://`, not other
+  schemes like `qute://`.
+- When an unhandled exception happens in certain parts of the code (outside of
+  the main thread), qutebrowser did crash or freeze when trying to show its
+  exception handler. This is now fixed.
+- `:inspector` now works correctly when cookies are disabled globally.
+- Added workaround for a (Gentoo?) PyQt/packaging issue related to the
+  `QWebEngineFindTextResult` handling added in v1.11.0.
+- When entering caret selection mode (`v, v`) very early before a page is
+  loaded, an error is now shown instead of a crash happening.
+- The workaround for session loading with Qt 5.15 now handles
+  `sessions.lazy_restore` so that the saved page is loaded instead of the
+  "stub" page with no possibility to get to the web page.
+- A site specific quirk to allow typing accented characters on Google
+  Docs was active for docs.google.com, but not drive.google.com. It is
+  now applied for both subdomains.
+- With older graphics hardware (OpenGL < 4.3) with Qt 5.14 on Wayland, WebGL
+  causes segfaults. Now qutebrowser detects that combination and suggests to
+  disable WebGL or use XWayland.
+
 v1.11.1 (2020-05-07)
 --------------------
 

@@ -41,6 +41,7 @@ from qutebrowser.browser.webengine import (webview, webengineelem, tabhistory,
 from qutebrowser.misc import miscwidgets, objects
 from qutebrowser.utils import (usertypes, qtutils, log, javascript, utils,
                                message, objreg, jinja, debug)
+from qutebrowser.keyinput import modeman
 from qutebrowser.qt import sip
 
 
@@ -124,7 +125,7 @@ class WebEngineAction(browsertab.AbstractAction):
             tb = objreg.get('tabbed-browser', scope='window',
                             window=self._tab.win_id)
             urlstr = self._tab.url().toString(
-                QUrl.RemoveUserInfo)  # type: ignore
+                QUrl.RemoveUserInfo)  # type: ignore[arg-type]
             # The original URL becomes the path of a view-source: URL
             # (without a host), but query/fragment should stay.
             url = QUrl('view-source:' + urlstr)
@@ -182,9 +183,23 @@ class _WebEngineSearchWrapHandler:
         Args:
             page: The QtWebEnginePage to connect to this handler.
         """
-        if qtutils.version_check("5.14"):
-            page.findTextFinished.connect(self._store_match_data)
-            self._nowrap_available = True
+        if not qtutils.version_check("5.14"):
+            return
+
+        try:
+            # pylint: disable=unused-import
+            from PyQt5.QtWebEngineCore import QWebEngineFindTextResult
+        except ImportError:
+            # WORKAROUND for some odd PyQt/packaging bug where the
+            # findTextResult signal is available, but QWebEngineFindTextResult
+            # is not. Seems to happen on e.g. Gentoo.
+            log.webview.warning("Could not import QWebEngineFindTextResult "
+                                "despite running on Qt 5.14. You might need "
+                                "to rebuild PyQtWebEngine.")
+            return
+
+        page.findTextFinished.connect(self._store_match_data)
+        self._nowrap_available = True
 
     def _store_match_data(self, result):
         """Store information on the last match.
@@ -240,10 +255,13 @@ class WebEngineSearch(browsertab.AbstractSearch):
 
     def __init__(self, tab, parent=None):
         super().__init__(tab, parent)
-        self._flags = QWebEnginePage.FindFlags(0)  # type: ignore
+        self._flags = self._empty_flags()
         self._pending_searches = 0
         # The API necessary to stop wrapping was added in this version
         self._wrap_handler = _WebEngineSearchWrapHandler()
+
+    def _empty_flags(self):
+        return QWebEnginePage.FindFlags(0)  # type: ignore[call-overload]
 
     def connect_signals(self):
         self._wrap_handler.connect_signal(self._widget.page())
@@ -295,7 +313,7 @@ class WebEngineSearch(browsertab.AbstractSearch):
             return
 
         self.text = text
-        self._flags = QWebEnginePage.FindFlags(0)  # type: ignore
+        self._flags = self._empty_flags()
         self._wrap_handler.reset_match_data()
         self._wrap_handler.flag_wrap = wrap
         if self._is_case_sensitive(ignore_case):
@@ -314,7 +332,8 @@ class WebEngineSearch(browsertab.AbstractSearch):
 
     def prev_result(self, *, result_cb=None):
         # The int() here makes sure we get a copy of the flags.
-        flags = QWebEnginePage.FindFlags(int(self._flags))  # type: ignore
+        flags = QWebEnginePage.FindFlags(
+            int(self._flags))  # type: ignore[call-overload]
         if flags & QWebEnginePage.FindBackward:
             if self._wrap_handler.prevent_wrapping(going_up=False):
                 return
@@ -335,6 +354,13 @@ class WebEngineSearch(browsertab.AbstractSearch):
 class WebEngineCaret(browsertab.AbstractCaret):
 
     """QtWebEngine implementations related to moving the cursor/selection."""
+
+    def __init__(self,
+                 tab: 'WebEngineTab',
+                 mode_manager: modeman.ModeManager,
+                 parent: QWidget = None) -> None:
+        super().__init__(mode_manager, parent)
+        self._tab = tab
 
     def _flags(self):
         """Get flags to pass to JS."""
@@ -369,7 +395,10 @@ class WebEngineCaret(browsertab.AbstractCaret):
         if enabled is None:
             log.webview.debug("Ignoring selection status None")
             return
-        self.selection_toggled.emit(enabled)
+        if enabled:
+            self.selection_toggled.emit(browsertab.SelectionState.normal)
+        else:
+            self.selection_toggled.emit(browsertab.SelectionState.none)
 
     @pyqtSlot(usertypes.KeyMode)
     def _on_mode_left(self, mode):
@@ -424,8 +453,9 @@ class WebEngineCaret(browsertab.AbstractCaret):
     def move_to_end_of_document(self):
         self._js_call('moveToEndOfDocument')
 
-    def toggle_selection(self):
-        self._js_call('toggleSelection', callback=self.selection_toggled.emit)
+    def toggle_selection(self, line=False):
+        self._js_call('toggleSelection', line,
+                      callback=self._toggle_sel_translate)
 
     def drop_selection(self):
         self._js_call('dropSelection')
@@ -499,6 +529,13 @@ class WebEngineCaret(browsertab.AbstractCaret):
     def _js_call(self, command, *args, callback=None):
         code = javascript.assemble('caret', command, *args)
         self._tab.run_js_async(code, callback)
+
+    def _toggle_sel_translate(self, state_str):
+        if state_str is None:
+            message.error("Error toggling caret selection")
+            return
+        state = browsertab.SelectionState[state_str]
+        self.selection_toggled.emit(state)
 
 
 class WebEngineScroller(browsertab.AbstractScroller):
@@ -648,7 +685,11 @@ class WebEngineHistoryPrivate(browsertab.AbstractHistoryPrivate):
         if qtutils.version_check('5.15', compiled=False):
             # WORKAROUND for https://github.com/qutebrowser/qutebrowser/issues/5359
             if items:
-                self._tab.load_url(items[-1].url)
+                url = items[-1].url
+                if ((url.scheme(), url.host()) == ('qute', 'back') and
+                        len(items) >= 2):
+                    url = items[-2].url
+                self._tab.load_url(url)
             return
 
         if items:
@@ -712,6 +753,10 @@ class WebEngineZoom(browsertab.AbstractZoom):
 class WebEngineElements(browsertab.AbstractElements):
 
     """QtWebEngine implemementations related to elements on the page."""
+
+    def __init__(self, tab: 'WebEngineTab') -> None:
+        super().__init__()
+        self._tab = tab
 
     def _js_cb_multiple(self, callback, error_cb, js_elems):
         """Handle found elements coming from JS and call the real callback.
@@ -816,7 +861,7 @@ class WebEngineAudio(browsertab.AbstractAudio):
 
     @pyqtSlot(QUrl)
     def _on_url_changed(self, url):
-        if self._overridden:
+        if self._overridden or not url.isValid():
             return
         mute = config.instance.get('content.mute', url=url)
         self.set_muted(mute)
@@ -1231,6 +1276,9 @@ class WebEngineTabPrivate(browsertab.AbstractTabPrivate):
         self._tab.action.exit_fullscreen()
         self._widget.shutdown()
 
+    def run_js_sync(self, code):
+        raise browsertab.UnsupportedOperationError
+
 
 class WebEngineTab(browsertab.AbstractTab):
 
@@ -1244,7 +1292,10 @@ class WebEngineTab(browsertab.AbstractTab):
     abort_questions = pyqtSignal()
 
     def __init__(self, *, win_id, mode_manager, private, parent=None):
-        super().__init__(win_id=win_id, private=private, parent=parent)
+        super().__init__(win_id=win_id,
+                         mode_manager=mode_manager,
+                         private=private,
+                         parent=parent)
         widget = webview.WebEngineView(tabdata=self.data, win_id=win_id,
                                        private=private)
         self.history = WebEngineHistory(tab=self)
@@ -1396,7 +1447,7 @@ class WebEngineTab(browsertab.AbstractTab):
         title_url = QUrl(url)
         title_url.setScheme('')
         title_url_str = title_url.toDisplayString(
-            QUrl.RemoveScheme)  # type: ignore
+            QUrl.RemoveScheme)  # type: ignore[arg-type]
         if title == title_url_str.strip('/'):
             title = ""
 
@@ -1418,12 +1469,15 @@ class WebEngineTab(browsertab.AbstractTab):
             title="Proxy authentication required", text=msg,
             mode=usertypes.PromptMode.user_pwd,
             abort_on=[self.abort_questions], url=urlstr)
+
         if answer is not None:
             authenticator.setUser(answer.user)
             authenticator.setPassword(answer.password)
         else:
             try:
-                sip.assign(authenticator, QAuthenticator())  # type: ignore
+                sip.assign(  # type: ignore[attr-defined]
+                    authenticator,
+                    QAuthenticator())
             except AttributeError:
                 self._show_error_page(url, "Proxy authentication required")
 
@@ -1444,7 +1498,8 @@ class WebEngineTab(browsertab.AbstractTab):
         if not netrc_success and answer is None:
             log.network.debug("Aborting auth")
             try:
-                sip.assign(authenticator, QAuthenticator())  # type: ignore
+                sip.assign(  # type: ignore[attr-defined]
+                    authenticator, QAuthenticator())
             except AttributeError:
                 # WORKAROUND for
                 # https://www.riverbankcomputing.com/pipermail/pyqt/2016-December/038400.html
@@ -1714,7 +1769,7 @@ class WebEngineTab(browsertab.AbstractTab):
 
         try:
             # pylint: disable=unused-import
-            from PyQt5.QtWebEngineWidgets import (  # type: ignore
+            from PyQt5.QtWebEngineWidgets import (
                 QWebEngineClientCertificateSelection)
         except ImportError:
             pass
@@ -1733,8 +1788,10 @@ class WebEngineTab(browsertab.AbstractTab):
         page.loadFinished.connect(self._on_load_finished)
 
         self.before_load_started.connect(self._on_before_load_started)
-        self.shutting_down.connect(self.abort_questions)  # type: ignore
-        self.load_started.connect(self.abort_questions)  # type: ignore
+        self.shutting_down.connect(
+            self.abort_questions)  # type: ignore[arg-type]
+        self.load_started.connect(
+            self.abort_questions)  # type: ignore[arg-type]
 
         # pylint: disable=protected-access
         self.audio._connect_signals()
