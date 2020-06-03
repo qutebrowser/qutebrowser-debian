@@ -905,6 +905,14 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Color of the scrollbar handle in the completion view.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.contextmenu.disabled.bg">colors.contextmenu.disabled.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of disabled items in the context menu.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.contextmenu.disabled.fg">colors.contextmenu.disabled.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of disabled items in the context menu.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.contextmenu.menu.bg">colors.contextmenu.menu.bg</a></p></td>
 <td align="left" valign="top"><p class="table">Background color of the context menu.</p></td>
 </tr>
@@ -1211,6 +1219,42 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.webpage.bg">colors.webpage.bg</a></p></td>
 <td align="left" valign="top"><p class="table">Background color for webpages if unset (or empty to use the theme&#8217;s color).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.algorithm">colors.webpage.darkmode.algorithm</a></p></td>
+<td align="left" valign="top"><p class="table">Which algorithm to use for modifying how colors are rendered with darkmode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.contrast">colors.webpage.darkmode.contrast</a></p></td>
+<td align="left" valign="top"><p class="table">Contrast for dark mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.enabled">colors.webpage.darkmode.enabled</a></p></td>
+<td align="left" valign="top"><p class="table">Render all web contents using a dark theme.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.grayscale.all">colors.webpage.darkmode.grayscale.all</a></p></td>
+<td align="left" valign="top"><p class="table">Render all colors as grayscale.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.grayscale.images">colors.webpage.darkmode.grayscale.images</a></p></td>
+<td align="left" valign="top"><p class="table">Desaturation factor for images in dark mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.policy.images">colors.webpage.darkmode.policy.images</a></p></td>
+<td align="left" valign="top"><p class="table">Which images to apply dark mode to.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.policy.page">colors.webpage.darkmode.policy.page</a></p></td>
+<td align="left" valign="top"><p class="table">Which pages to apply dark mode to.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.threshold.background">colors.webpage.darkmode.threshold.background</a></p></td>
+<td align="left" valign="top"><p class="table">Threshold for inverting background elements with dark mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.threshold.text">colors.webpage.darkmode.threshold.text</a></p></td>
+<td align="left" valign="top"><p class="table">Threshold for inverting text with dark mode.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.webpage.prefers_color_scheme_dark">colors.webpage.prefers_color_scheme_dark</a></p></td>
@@ -2271,6 +2315,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>V</code>: <code>toggle-selection --line</code>
+</p>
+</li>
+<li>
+<p>
 <code>Y</code>: <code>yank selection -s</code>
 </p>
 </li>
@@ -2979,6 +3028,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>V</code>: <code>enter-mode caret ;; toggle-selection --line</code>
+</p>
+</li>
+<li>
+<p>
 <code>ZQ</code>: <code>quit</code>
 </p>
 </li>
@@ -3663,6 +3717,11 @@ Note that when a key is bound (via <code>bindings.default</code> or <code>bindin
 </li>
 <li>
 <p>
+<code>&lt;Ctrl-I&gt;</code>: <code>&lt;Tab&gt;</code>
+</p>
+</li>
+<li>
+<p>
 <code>&lt;Ctrl-J&gt;</code>: <code>&lt;Return&gt;</code>
 </p>
 </li>
@@ -3800,6 +3859,20 @@ May be a single color to use for all columns or a list of three colors, one for 
 <div class="paragraph"><p>Color of the scrollbar handle in the completion view.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
 <div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.contextmenu.disabled.bg">colors.contextmenu.disabled.bg</h3>
+<div class="paragraph"><p>Background color of disabled items in the context menu.
+If set to null, the Qt default is used.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.contextmenu.disabled.fg">colors.contextmenu.disabled.fg</h3>
+<div class="paragraph"><p>Foreground color of disabled items in the context menu.
+If set to null, the Qt default is used.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.contextmenu.menu.bg">colors.contextmenu.menu.bg</h3>
@@ -4338,6 +4411,170 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 <div class="paragraph"><p>Default: <code>white</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="colors.webpage.darkmode.algorithm">colors.webpage.darkmode.algorithm</h3>
+<div class="paragraph"><p>Which algorithm to use for modifying how colors are rendered with darkmode.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>lightness-cielab</code>: Modify colors by converting them to CIELAB color space and inverting the L value.
+</p>
+</li>
+<li>
+<p>
+<code>lightness-hsl</code>: Modify colors by converting them to the HSL color space and inverting the lightness (i.e. the "L" in HSL).
+</p>
+</li>
+<li>
+<p>
+<code>brightness-rgb</code>: Modify colors by subtracting each of r, g, and b from their maximum value.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>lightness-cielab</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.webpage.darkmode.contrast">colors.webpage.darkmode.contrast</h3>
+<div class="paragraph"><p>Contrast for dark mode.
+This only has an effect when <code>colors.webpage.darkmode.algorithm</code> is set to <code>lightness-hsl</code> or <code>brightness-rgb</code>.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Float</a></p></div>
+<div class="paragraph"><p>Default: <code>0.0</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.webpage.darkmode.enabled">colors.webpage.darkmode.enabled</h3>
+<div class="paragraph"><p>Render all web contents using a dark theme.
+Example configurations from Chromium&#8217;s <code>chrome://flags</code>:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+"With simple HSL/CIELAB/RGB-based inversion": Set
+  <code>colors.webpage.darkmode.algorithm</code> accordingly.
+</p>
+</li>
+<li>
+<p>
+"With selective image inversion": Set
+  <code>colors.webpage.darkmode.policy.images</code> to <code>smart</code>.
+</p>
+</li>
+<li>
+<p>
+"With selective inversion of non-image elements": Set
+  <code>colors.webpage.darkmode.threshold.text</code> to 150 and
+  <code>colors.webpage.darkmode.threshold.background</code> to 205.
+</p>
+</li>
+<li>
+<p>
+"With selective inversion of everything": Combines the two variants
+  above.
+This setting requires a restart.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.webpage.darkmode.grayscale.all">colors.webpage.darkmode.grayscale.all</h3>
+<div class="paragraph"><p>Render all colors as grayscale.
+This only has an effect when <code>colors.webpage.darkmode.algorithm</code> is set to <code>lightness-hsl</code> or <code>brightness-rgb</code>.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.webpage.darkmode.grayscale.images">colors.webpage.darkmode.grayscale.images</h3>
+<div class="paragraph"><p>Desaturation factor for images in dark mode.
+If set to 0, images are left as-is. If set to 1, images are completely grayscale. Values between 0 and 1 desaturate the colors accordingly.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Float</a></p></div>
+<div class="paragraph"><p>Default: <code>0.0</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.webpage.darkmode.policy.images">colors.webpage.darkmode.policy.images</h3>
+<div class="paragraph"><p>Which images to apply dark mode to.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Apply dark mode filter to all images.
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Never apply dark mode filter to any images.
+</p>
+</li>
+<li>
+<p>
+<code>smart</code>: Apply dark mode based on image content.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>never</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.webpage.darkmode.policy.page">colors.webpage.darkmode.policy.page</h3>
+<div class="paragraph"><p>Which pages to apply dark mode to.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Apply dark mode filter to all frames, regardless of content.
+</p>
+</li>
+<li>
+<p>
+<code>smart</code>: Apply dark mode filter to frames based on background color.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>smart</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.webpage.darkmode.threshold.background">colors.webpage.darkmode.threshold.background</h3>
+<div class="paragraph"><p>Threshold for inverting background elements with dark mode.
+Background elements with brightness above this threshold will be inverted, and below it will be left as in the original, non-dark-mode page. Set to 256 to never invert the color or to 0 to always invert it.
+Note: This behavior is the opposite of <code>colors.webpage.darkmode.threshold.text</code>!
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
+<div class="paragraph"><p>Default: <code>0</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.webpage.darkmode.threshold.text">colors.webpage.darkmode.threshold.text</h3>
+<div class="paragraph"><p>Threshold for inverting text with dark mode.
+Text colors with brightness below this threshold will be inverted, and above it will be left as in the original, non-dark-mode page. Set to 256 to always invert text color or to 0 to never invert text color.
+This setting requires a restart.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
+<div class="paragraph"><p>Default: <code>256</code></p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+</div>
+<div class="sect2">
 <h3 id="colors.webpage.prefers_color_scheme_dark">colors.webpage.prefers_color_scheme_dark</h3>
 <div class="paragraph"><p>Force <code>prefers-color-scheme: dark</code> colors for websites.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
@@ -4580,7 +4817,10 @@ This setting requires a restart.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.cookies.accept">content.cookies.accept</h3>
-<div class="paragraph"><p>Which cookies to accept.</p></div>
+<div class="paragraph"><p>Which cookies to accept.
+With QtWebEngine, this setting also controls other features with tracking capabilities similar to those of cookies; including IndexedDB, DOM storage, filesystem API, service workers, and AppCache.
+Note that with QtWebKit, only <code>all</code> and <code>never</code> are supported as per-domain values. Setting <code>no-3rdparty</code> or <code>no-unknown-3rdparty</code> per-domain on QtWebKit will have the same effect as <code>all</code>.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -7523,7 +7763,7 @@ characters in the search terms are replaced by safe characters (called
 <div class="paragraph"><p>The search engine named <code>DEFAULT</code> is used when <code>url.auto_search</code> is turned
 on and something else than a URL was entered to be opened. Other search
 engines can be used by prepending the search engine name to the search
-term, e.g.  <code>:open google qutebrowser</code>.</p></div>
+term, e.g. <code>:open google qutebrowser</code>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Dict</a></p></div>
 <div class="paragraph"><p>Default:</p></div>
 <div class="ulist"><ul>
@@ -7901,7 +8141,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-05-10 20:55:33 CEST
+ 2020-06-01 16:03:02 CEST
 </div>
 </div>
 </body>

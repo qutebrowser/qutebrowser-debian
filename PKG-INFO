@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: qutebrowser
-Version: 1.11.1
+Version: 1.12.0
 Summary: A keyboard-driven, vim-like browser based on PyQt5.
 Home-page: https://www.qutebrowser.org/
 Author: Florian Bruhin
@@ -113,9 +113,10 @@ Description: // If you are reading this in plaintext or on PyPi:
         
         The following software and libraries are required to run qutebrowser:
         
-        * https://www.python.org/[Python] 3.5.2 or newer (3.6 recommended)
+        * https://www.python.org/[Python] 3.5.2 or newer (3.6 - 3.8 recommended;
+          support for 3.5 will be dropped with qutebrowser v2.0.0)
         * https://www.qt.io/[Qt] 5.7.1 or newer (5.14 recommended; support for < 5.11
-          will be dropped soon) with the following modules:
+          will be dropped with qutebrowser v2.0.0) with the following modules:
           - QtCore / qtbase
           - QtQuick (part of qtbase in some distributions)
           - QtSQL (part of qtbase in some distributions)
@@ -222,7 +223,7 @@ Description: // If you are reading this in plaintext or on PyPi:
         * https://fanglingsu.github.io/vimb/[vimb] (C, GTK+ with WebKit2)
         * https://luakit.github.io/luakit/[luakit] (C/Lua, GTK+ with WebKit2)
         * https://surf.suckless.org/[surf] (C, GTK+ with WebKit1/WebKit2)
-        * https://github.com/next-browser/next/[next] (Lisp, Emacs-like but also offers Vim bindings, various backends - note there was a http://jgkamat.gitlab.io/blog/next-rce.html[critical remote code execution] which was handled quite badly)
+        * https://next.atlas.engineer/[next] (Lisp, Emacs-like but also offers Vim bindings, various backends - note there was a http://jgkamat.gitlab.io/blog/next-rce.html[critical remote code execution] which was handled quite badly)
         * https://github.com/parkouss/webmacs/[webmacs] (Python, Emacs-like with QtWebEngine)
         * Chrome/Chromium addons:
           https://vimium.github.io/[Vimium],
@@ -307,6 +308,7 @@ Classifier: Programming Language :: Python :: 3
 Classifier: Programming Language :: Python :: 3.5
 Classifier: Programming Language :: Python :: 3.6
 Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
 Classifier: Topic :: Internet
 Classifier: Topic :: Internet :: WWW/HTTP
 Classifier: Topic :: Internet :: WWW/HTTP :: Browsers

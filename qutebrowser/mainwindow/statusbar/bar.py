@@ -21,7 +21,8 @@
 
 import enum
 import attr
-from PyQt5.QtCore import pyqtSignal, pyqtSlot, pyqtProperty, Qt, QSize, QTimer
+from PyQt5.QtCore import (pyqtSignal, pyqtSlot,  # type: ignore[attr-defined]
+                          pyqtProperty, Qt, QSize, QTimer)
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QStackedLayout, QSizePolicy
 
 from qutebrowser.browser import browsertab
@@ -372,12 +373,16 @@ class StatusBar(QWidget):
         self.maybe_hide()
         assert tab.is_private == self._color_flags.private
 
-    @pyqtSlot(bool)
-    def on_caret_selection_toggled(self, selection):
+    @pyqtSlot(browsertab.SelectionState)
+    def on_caret_selection_toggled(self, selection_state):
         """Update the statusbar when entering/leaving caret selection mode."""
-        log.statusbar.debug("Setting caret selection {}".format(selection))
-        if selection:
+        log.statusbar.debug("Setting caret selection {}"
+                            .format(selection_state))
+        if selection_state is browsertab.SelectionState.normal:
             self._set_mode_text("caret selection")
+            self._color_flags.caret = ColorFlags.CaretMode.selection
+        elif selection_state is browsertab.SelectionState.line:
+            self._set_mode_text("caret line selection")
             self._color_flags.caret = ColorFlags.CaretMode.selection
         else:
             self._set_mode_text("caret")

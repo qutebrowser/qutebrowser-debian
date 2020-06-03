@@ -96,7 +96,7 @@ def run(args):
     q_app.setApplicationVersion(qutebrowser.__version__)
 
     if args.version:
-        print(version.version())
+        print(version.version_info())
         sys.exit(usertypes.Exit.ok)
 
     quitter.init(args)
@@ -159,13 +159,13 @@ def init(*, args: argparse.Namespace) -> None:
     eventfilter.init()
 
     log.init.debug("Connecting signals...")
-    q_app.focusChanged.connect(on_focus_changed)  # type: ignore
+    q_app.focusChanged.connect(on_focus_changed)
 
     _process_args(args)
 
     for scheme in ['http', 'https', 'qute']:
         QDesktopServices.setUrlHandler(
-            scheme, open_desktopservices_url)  # type: ignore
+            scheme, open_desktopservices_url)
 
     log.init.debug("Init done!")
     crashsignal.crash_handler.raise_crashdlg()
@@ -173,7 +173,6 @@ def init(*, args: argparse.Namespace) -> None:
 
 def _init_icon():
     """Initialize the icon of qutebrowser."""
-    icon = QIcon()
     fallback_icon = QIcon()
     for size in [16, 24, 32, 48, 64, 96, 128, 256, 512]:
         filename = ':/icons/qutebrowser-{size}x{size}.png'.format(size=size)
@@ -483,7 +482,7 @@ class Application(QApplication):
         log.init.debug("Initializing application...")
 
         self.launch_time = datetime.datetime.now()
-        self.focusObjectChanged.connect(  # type: ignore
+        self.focusObjectChanged.connect(  # type: ignore[attr-defined]
             self.on_focus_object_changed)
         self.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
 
