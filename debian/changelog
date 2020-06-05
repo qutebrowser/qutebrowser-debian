@@ -1,6 +1,7 @@
-qutebrowser (1.12.0-1) UNRELEASED; urgency=medium
+qutebrowser (1.12.0-1) unstable; urgency=medium
 
   * New upstream release
+  * Bump debhelper dep to 13 #makeLintianHappyAgain
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Wed, 03 Jun 2020 07:28:35 +0200
 
