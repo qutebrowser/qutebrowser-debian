@@ -2,12 +2,12 @@
 .\"     Title: qutebrowser
 .\"    Author: [see the "AUTHOR" section]
 .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 06/01/2020
+.\"      Date: 06/26/2020
 .\"    Manual: qutebrowser manpage
 .\"    Source: qutebrowser
 .\"  Language: English
 .\"
-.TH "QUTEBROWSER" "1" "06/01/2020" "qutebrowser" "qutebrowser manpage"
+.TH "QUTEBROWSER" "1" "06/26/2020" "qutebrowser" "qutebrowser manpage"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -100,7 +100,7 @@ Which backend to use\&.
 .PP
 \fB\-\-enable\-webengine\-inspector\fR
 .RS 4
-Enable the web inspector for QtWebEngine\&. Note that this is a SECURITY RISK and you should not visit untrusted websites with the inspector turned on\&. See
+Enable the web inspector / devtools for QtWebEngine\&. Note that this is a SECURITY RISK and you should not visit untrusted websites with the inspector turned on\&. See
 https://bugreports\&.qt\&.io/browse/QTBUG\-50725
 for more details\&. This is not needed anymore since Qt 5\&.11 where the inspector is always enabled and secure\&.
 .RE
@@ -108,7 +108,7 @@ for more details\&. This is not needed anymore since Qt 5\&.11 where the inspect
 .PP
 \fB\-l\fR \fI{critical,error,warning,info,debug,vdebug}\fR, \fB\-\-loglevel\fR \fI{critical,error,warning,info,debug,vdebug}\fR
 .RS 4
-Set loglevel
+Override the configured console loglevel
 .RE
 .PP
 \fB\-\-logfilter\fR \fILOGFILTER\fR

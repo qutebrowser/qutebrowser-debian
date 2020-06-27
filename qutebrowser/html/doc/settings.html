@@ -1633,8 +1633,12 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Font used in the statusbar.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#fonts.tabs">fonts.tabs</a></p></td>
-<td align="left" valign="top"><p class="table">Font used in the tab bar.</p></td>
+<td align="left" valign="top"><p class="table"><a href="#fonts.tabs.selected">fonts.tabs.selected</a></p></td>
+<td align="left" valign="top"><p class="table">Font used for selected tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts.tabs.unselected">fonts.tabs.unselected</a></p></td>
+<td align="left" valign="top"><p class="table">Font used for unselected tabs.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#fonts.web.family.cursive">fonts.web.family.cursive</a></p></td>
@@ -1781,12 +1785,16 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Include hyperlinks in the keyboard focus chain when tabbing.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#input.partial_timeout">input.partial_timeout</a></p></td>
-<td align="left" valign="top"><p class="table">Timeout (in milliseconds) for partially typed key bindings.</p></td>
+<td align="left" valign="top"><p class="table"><a href="#input.mouse.back_forward_buttons">input.mouse.back_forward_buttons</a></p></td>
+<td align="left" valign="top"><p class="table">Enable back and forward buttons on the mouse.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#input.rocker_gestures">input.rocker_gestures</a></p></td>
+<td align="left" valign="top"><p class="table"><a href="#input.mouse.rocker_gestures">input.mouse.rocker_gestures</a></p></td>
 <td align="left" valign="top"><p class="table">Enable Opera-like mouse rocker gestures.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input.partial_timeout">input.partial_timeout</a></p></td>
+<td align="left" valign="top"><p class="table">Timeout (in milliseconds) for partially typed key bindings.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#input.spatial_navigation">input.spatial_navigation</a></p></td>
@@ -1803,6 +1811,14 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#keyhint.radius">keyhint.radius</a></p></td>
 <td align="left" valign="top"><p class="table">Rounding radius (in pixels) for the edges of the keyhint dialog.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#logging.level.console">logging.level.console</a></p></td>
+<td align="left" valign="top"><p class="table">Level for console (stdout/stderr) logs. Ignored if the <code>--loglevel</code> or <code>--debug</code> CLI flags are used.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#logging.level.ram">logging.level.ram</a></p></td>
+<td align="left" valign="top"><p class="table">Level for in-memory logs.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#messages.timeout">messages.timeout</a></p></td>
@@ -1854,7 +1870,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#scrolling.bar">scrolling.bar</a></p></td>
-<td align="left" valign="top"><p class="table">When to show the scrollbar.</p></td>
+<td align="left" valign="top"><p class="table">When/how to show the scrollbar.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#scrolling.smooth">scrolling.smooth</a></p></td>
@@ -1885,16 +1901,16 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Languages to use for spell checking.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#statusbar.hide">statusbar.hide</a></p></td>
-<td align="left" valign="top"><p class="table">Hide the statusbar unless a message is shown.</p></td>
-</tr>
-<tr>
 <td align="left" valign="top"><p class="table"><a href="#statusbar.padding">statusbar.padding</a></p></td>
 <td align="left" valign="top"><p class="table">Padding (in pixels) for the statusbar.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#statusbar.position">statusbar.position</a></p></td>
 <td align="left" valign="top"><p class="table">Position of the status bar.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#statusbar.show">statusbar.show</a></p></td>
+<td align="left" valign="top"><p class="table">When to show the statusbar.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#statusbar.widgets">statusbar.widgets</a></p></td>
@@ -3268,6 +3284,21 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>tCH</code>: <code>config-cycle -p -u *://*.{url:host}/* content.cookies.accept all no-3rdparty never ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tCh</code>: <code>config-cycle -p -u *://{url:host}/* content.cookies.accept all no-3rdparty never ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tCu</code>: <code>config-cycle -p -u {url} content.cookies.accept all no-3rdparty never ;; reload</code>
+</p>
+</li>
+<li>
+<p>
 <code>tIH</code>: <code>config-cycle -p -u *://*.{url:host}/* content.images ;; reload</code>
 </p>
 </li>
@@ -3309,6 +3340,21 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <li>
 <p>
 <code>tSu</code>: <code>config-cycle -p -u {url} content.javascript.enabled ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tcH</code>: <code>config-cycle -p -t -u *://*.{url:host}/* content.cookies.accept all no-3rdparty never ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tch</code>: <code>config-cycle -p -t -u *://{url:host}/* content.cookies.accept all no-3rdparty never ;; reload</code>
+</p>
+</li>
+<li>
+<p>
+<code>tcu</code>: <code>config-cycle -p -t -u {url} content.cookies.accept all no-3rdparty never ;; reload</code>
 </p>
 </li>
 <li>
@@ -3383,6 +3429,31 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>wIh</code>: <code>devtools left</code>
+</p>
+</li>
+<li>
+<p>
+<code>wIj</code>: <code>devtools bottom</code>
+</p>
+</li>
+<li>
+<p>
+<code>wIk</code>: <code>devtools top</code>
+</p>
+</li>
+<li>
+<p>
+<code>wIl</code>: <code>devtools right</code>
+</p>
+</li>
+<li>
+<p>
+<code>wIw</code>: <code>devtools window</code>
+</p>
+</li>
+<li>
+<p>
 <code>wO</code>: <code>set-cmd-text :open -w {url:pretty}</code>
 </p>
 </li>
@@ -3408,7 +3479,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>wi</code>: <code>inspector</code>
+<code>wi</code>: <code>devtools</code>
 </p>
 </li>
 <li>
@@ -4507,6 +4578,7 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.policy.images">colors.webpage.darkmode.policy.images</h3>
 <div class="paragraph"><p>Which images to apply dark mode to.
+WARNING: On Qt 5.15.0, this setting can cause frequent renderer process crashes due to a <a href="https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/304211">bug in Qt</a>.
 This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
@@ -4893,7 +4965,7 @@ On Qt &lt; 5.10, a dialog box is always displayed, even if this is set to "true"
 <div class="paragraph"><p>Try to pre-fetch DNS entries to speed up browsing.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.12 or newer.</p></div>
 </div>
 <div class="sect2">
@@ -5037,7 +5109,9 @@ This setting requires a restart.</p></div>
 </ul></div>
 <div class="paragraph"><p>The default value is equal to the unchanged user agent of
 QtWebKit/QtWebEngine.</p></div>
-<div class="paragraph"><p>Note that the value read from JavaScript is always the global value.</p></div>
+<div class="paragraph"><p>Note that the value read from JavaScript is always the global value. With
+QtWebEngine between 5.12 and 5.14 (inclusive), changing the value exposed
+to JavaScript requires a restart.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FormatString</a></p></div>
 <div class="paragraph"><p>Default: <code>Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}</code></p></div>
@@ -5518,7 +5592,7 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="content.xss_auditing">content.xss_auditing</h3>
 <div class="paragraph"><p>Monitor load requests for cross-site scripting attempts.
-Suspicious scripts will be blocked and reported in the inspector&#8217;s JavaScript console.
+Suspicious scripts will be blocked and reported in the devtools JavaScript console.
 Note that bypasses for the XSS auditor are widely known and it can be abused for cross-site info leaks in some scenarios, see: <a href="https://www.chromium.org/developers/design-documents/xss-auditor">https://www.chromium.org/developers/design-documents/xss-auditor</a></p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
@@ -5691,7 +5765,7 @@ If set to null, the Qt default is used.</p></div>
 <div class="sect2">
 <h3 id="fonts.debug_console">fonts.debug_console</h3>
 <div class="paragraph"><p>Font used for the debugging console.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">QtFont</a></p></div>
+<div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
 <div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
 </div>
 <div class="sect2">
@@ -5759,9 +5833,15 @@ Valid values are either a float value with a "pt" suffix, or an integer value wi
 <div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
 </div>
 <div class="sect2">
-<h3 id="fonts.tabs">fonts.tabs</h3>
-<div class="paragraph"><p>Font used in the tab bar.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">QtFont</a></p></div>
+<h3 id="fonts.tabs.selected">fonts.tabs.selected</h3>
+<div class="paragraph"><p>Font used for selected tabs.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
+<div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts.tabs.unselected">fonts.tabs.unselected</h3>
+<div class="paragraph"><p>Font used for unselected tabs.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
 <div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
 </div>
 <div class="sect2">
@@ -6411,18 +6491,24 @@ Patterns may be unreliable on this setting, and they may match the url you are n
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="input.mouse.back_forward_buttons">input.mouse.back_forward_buttons</h3>
+<div class="paragraph"><p>Enable back and forward buttons on the mouse.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="input.mouse.rocker_gestures">input.mouse.rocker_gestures</h3>
+<div class="paragraph"><p>Enable Opera-like mouse rocker gestures.
+This disables the context menu.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="input.partial_timeout">input.partial_timeout</h3>
 <div class="paragraph"><p>Timeout (in milliseconds) for partially typed key bindings.
 If the current input forms only partial matches, the keystring will be cleared after this time.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>5000</code></p></div>
-</div>
-<div class="sect2">
-<h3 id="input.rocker_gestures">input.rocker_gestures</h3>
-<div class="paragraph"><p>Enable Opera-like mouse rocker gestures.
-This disables the context menu.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="input.spatial_navigation">input.spatial_navigation</h3>
@@ -6450,6 +6536,84 @@ Globs are supported, so <code>;*</code> will blacklist all keychains starting wi
 <div class="paragraph"><p>Rounding radius (in pixels) for the edges of the keyhint dialog.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>6</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="logging.level.console">logging.level.console</h3>
+<div class="paragraph"><p>Level for console (stdout/stderr) logs. Ignored if the <code>--loglevel</code> or <code>--debug</code> CLI flags are used.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">LogLevel</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>vdebug</code>
+</p>
+</li>
+<li>
+<p>
+<code>debug</code>
+</p>
+</li>
+<li>
+<p>
+<code>info</code>
+</p>
+</li>
+<li>
+<p>
+<code>warning</code>
+</p>
+</li>
+<li>
+<p>
+<code>error</code>
+</p>
+</li>
+<li>
+<p>
+<code>critical</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>info</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="logging.level.ram">logging.level.ram</h3>
+<div class="paragraph"><p>Level for in-memory logs.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">LogLevel</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>vdebug</code>
+</p>
+</li>
+<li>
+<p>
+<code>debug</code>
+</p>
+</li>
+<li>
+<p>
+<code>info</code>
+</p>
+</li>
+<li>
+<p>
+<code>warning</code>
+</p>
+</li>
+<li>
+<p>
+<code>error</code>
+</p>
+</li>
+<li>
+<p>
+<code>critical</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>debug</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="messages.timeout">messages.timeout</h3>
@@ -6670,7 +6834,7 @@ This setting requires a restart.
 </div>
 <div class="sect2">
 <h3 id="scrolling.bar">scrolling.bar</h3>
-<div class="paragraph"><p>When to show the scrollbar.</p></div>
+<div class="paragraph"><p>When/how to show the scrollbar.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -6689,8 +6853,13 @@ This setting requires a restart.
 <code>when-searching</code>: Show the scrollbar when searching for text in the webpage. With the QtWebKit backend, this is equal to <code>never</code>.
 </p>
 </li>
+<li>
+<p>
+<code>overlay</code>: Show an overlay scrollbar. With Qt &lt; 5.11 or on macOS, this is unavailable and equal to <code>when-searching</code>; with the QtWebKit backend, this is equal to <code>never</code>. Enabling/disabling overlay scrollbars requires a restart.
+</p>
+</li>
 </ul></div>
-<div class="paragraph"><p>Default: <code>when-searching</code></p></div>
+<div class="paragraph"><p>Default: <code>overlay</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="scrolling.smooth">scrolling.smooth</h3>
@@ -6978,12 +7147,6 @@ You can check for available languages and install dictionaries using scripts/dic
 <div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 </div>
 <div class="sect2">
-<h3 id="statusbar.hide">statusbar.hide</h3>
-<div class="paragraph"><p>Hide the statusbar unless a message is shown.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
-</div>
-<div class="sect2">
 <h3 id="statusbar.padding">statusbar.padding</h3>
 <div class="paragraph"><p>Padding (in pixels) for the statusbar.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Padding</a></p></div>
@@ -7029,6 +7192,30 @@ You can check for available languages and install dictionaries using scripts/dic
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>bottom</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="statusbar.show">statusbar.show</h3>
+<div class="paragraph"><p>When to show the statusbar.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Always show the statusbar.
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Always hide the statusbar.
+</p>
+</li>
+<li>
+<p>
+<code>in-mode</code>: Show the statusbar when in modes other than normal mode.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>always</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="statusbar.widgets">statusbar.widgets</h3>
@@ -7668,6 +7855,11 @@ Note this setting only affects windows opened after it has been set.</p></div>
 <code>never</code>: Never search automatically.
 </p>
 </li>
+<li>
+<p>
+<code>schemeless</code>: Always search automatically unless URL explicitly contains a scheme.
+</p>
+</li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>naive</code></p></div>
 </div>
@@ -8045,6 +8237,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">A list of values, or a single value.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table">LogLevel</p></td>
+<td align="left" valign="top"><p class="table">A logging level.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table">NewTabPosition</p></td>
 <td align="left" valign="top"><p class="table">How new tabs are positioned.</p></td>
 </tr>
@@ -8077,11 +8273,6 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">QtColor</p></td>
 <td align="left" valign="top"><p class="table">A color value.</p>
 <p class="table">A value can be in one of the following formats: * <code>#RGB</code>/<code>#RRGGBB</code>/<code>#RRRGGGBBB</code>/<code>#RRRRGGGGBBBB</code> * An SVG color name as specified in <a href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">the W3C specification</a>. * transparent (no color) * <code>rgb(r, g, b)</code> / <code>rgba(r, g, b, a)</code> (values 0-255 or percentages) * <code>hsv(h, s, v)</code> / <code>hsva(h, s, v, a)</code> (values 0-255, hue 0-359)</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table">QtFont</p></td>
-<td align="left" valign="top"><p class="table">A font family, with optional style/weight/size.</p>
-<p class="table">* Style: <code>normal</code>/<code>italic</code>/<code>oblique</code> * Weight: <code>normal</code>, <code>bold</code>, <code>100</code>..<code>900</code> * Size: <em>number</em> <code>px</code>/<code>pt</code></p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table">Regex</p></td>
@@ -8141,7 +8332,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-06-01 16:03:02 CEST
+ 2020-06-26 08:56:45 CEST
 </div>
 </div>
 </body>
