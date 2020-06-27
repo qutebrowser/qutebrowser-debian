@@ -30,8 +30,8 @@ from PyQt5.QtCore import pyqtSlot, Qt, QUrl, QEvent, QUrlQuery
 from qutebrowser.commands import userscripts, runners
 from qutebrowser.api import cmdutils
 from qutebrowser.config import config, configdata
-from qutebrowser.browser import (urlmarks, browsertab, inspector, navigate,
-                                 webelem, downloads)
+from qutebrowser.browser import (urlmarks, browsertab, navigate, webelem,
+                                 downloads)
 from qutebrowser.keyinput import modeman, keyutils
 from qutebrowser.utils import (message, usertypes, log, qtutils, urlutils,
                                objreg, utils, standarddir, debug)
@@ -1240,28 +1240,6 @@ class CommandDispatcher:
             raise cmdutils.CommandError("Bookmark '{}' not found!".format(url))
         message.info("Removed bookmark {}".format(url))
 
-    @cmdutils.register(instance='command-dispatcher', name='inspector',
-                       scope='window')
-    def toggle_inspector(self):
-        """Toggle the web inspector.
-
-        Note: Due to a bug in Qt, the inspector will show incorrect request
-        headers in the network tab.
-        """
-        tab = self._current_widget()
-        # FIXME:qtwebengine have a proper API for this
-        page = tab._widget.page()  # pylint: disable=protected-access
-
-        try:
-            if tab.data.inspector is None:
-                tab.data.inspector = inspector.create()
-                tab.data.inspector.inspect(page)
-                tab.data.inspector.show()
-            else:
-                tab.data.inspector.toggle(page)
-        except inspector.WebInspectorError as e:
-            raise cmdutils.CommandError(e)
-
     @cmdutils.register(instance='command-dispatcher', scope='window')
     def download(self, url=None, *, mhtml_=False, dest=None):
         """Download a given URL, or current page if no URL given.
@@ -1384,24 +1362,40 @@ class CommandDispatcher:
         self._open(url, tab, bg, window)
 
     @cmdutils.register(instance='command-dispatcher', scope='window')
-    def messages(self, level='info', plain=False, tab=False, bg=False,
-                 window=False):
+    @cmdutils.argument('logfilter', flag='f')
+    def messages(self, level='info', *, plain=False, tab=False, bg=False,
+                 window=False, logfilter=None):
         """Show a log of past messages.
 
         Args:
             level: Include messages with `level` or higher severity.
                    Valid values: vdebug, debug, info, warning, error, critical.
             plain: Whether to show plaintext (as opposed to html).
+            logfilter: A comma-separated filter string of logging categories.
+                       If the filter string starts with an exclamation mark, it
+                       is negated.
             tab: Open in a new tab.
             bg: Open in a background tab.
             window: Open in a new window.
         """
         if level.upper() not in log.LOG_LEVELS:
             raise cmdutils.CommandError("Invalid log level {}!".format(level))
+
+        query = QUrlQuery()
+        query.addQueryItem('level', level)
         if plain:
-            url = QUrl('qute://plainlog?level={}'.format(level))
-        else:
-            url = QUrl('qute://log?level={}'.format(level))
+            query.addQueryItem('plain', typing.cast(str, None))
+
+        if logfilter:
+            try:
+                log.LogFilter.parse(logfilter)
+            except log.InvalidLogFilterError as e:
+                raise cmdutils.CommandError(e)
+            query.addQueryItem('logfilter', logfilter)
+
+        url = QUrl('qute://log')
+        url.setQuery(query)
+
         self._open(url, tab, bg, window)
 
     def _open_editor_cb(self, elem):
