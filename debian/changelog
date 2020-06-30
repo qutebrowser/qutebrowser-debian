@@ -1,4 +1,4 @@
-qutebrowser (1.13.0-1) UNRELEASED; urgency=medium
+qutebrowser (1.13.0-1) unstable; urgency=medium
 
   [ Fritz Reichwald ]
   * New upstream release
@@ -6,7 +6,7 @@ qutebrowser (1.13.0-1) UNRELEASED; urgency=medium
   [ Axel Beckert ]
   * Add lintian overrides for overzealous breakout-link tag on images.
 
- -- Axel Beckert <abe@debian.org>  Tue, 30 Jun 2020 18:55:36 +0200
+ -- Axel Beckert <abe@debian.org>  Tue, 30 Jun 2020 19:00:03 +0200
 
 qutebrowser (1.12.0-1) unstable; urgency=medium
 
