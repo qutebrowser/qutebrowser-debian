@@ -3,3 +3,6 @@ qutebrowser: command-in-menu-file-and-desktop-file qutebrowser usr/share/menu/qu
 
 # Directory-specific documentation
 qutebrowser: package-contains-documentation-outside-usr-share-doc usr/share/qutebrowser/userscripts/README.md
+
+# At most a minor upstream path choice issue, but definitely nothing as worse as lintian claims.
+qutebrowser: breakout-link usr/lib/python3/dist-packages/qutebrowser/*img/*.png -> usr/share/qutebrowser/img/*.png
