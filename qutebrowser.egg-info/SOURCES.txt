@@ -7,6 +7,7 @@ requirements.txt
 setup.py
 doc/changelog.asciidoc
 doc/faq.html
+doc/install.html
 doc/qutebrowser.1
 doc/qutebrowser.1.asciidoc
 doc/img/cheatsheet-big.png

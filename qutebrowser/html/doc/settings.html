@@ -4891,7 +4891,8 @@ This setting requires a restart.</p></div>
 <h3 id="content.cookies.accept">content.cookies.accept</h3>
 <div class="paragraph"><p>Which cookies to accept.
 With QtWebEngine, this setting also controls other features with tracking capabilities similar to those of cookies; including IndexedDB, DOM storage, filesystem API, service workers, and AppCache.
-Note that with QtWebKit, only <code>all</code> and <code>never</code> are supported as per-domain values. Setting <code>no-3rdparty</code> or <code>no-unknown-3rdparty</code> per-domain on QtWebKit will have the same effect as <code>all</code>.</p></div>
+Note that with QtWebKit, only <code>all</code> and <code>never</code> are supported as per-domain values. Setting <code>no-3rdparty</code> or <code>no-unknown-3rdparty</code> per-domain on QtWebKit will have the same effect as <code>all</code>.
+If this setting is used with URL patterns, the pattern gets applied to the origin/first party URL of the page making the request, not the request URL.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
@@ -5433,7 +5434,8 @@ Note that the files can still be downloaded by clicking the download button in t
 <div class="sect2">
 <h3 id="content.proxy">content.proxy</h3>
 <div class="paragraph"><p>Proxy to use.
-In addition to the listed values, you can use a <code>socks://...</code> or <code>http://...</code> URL.</p></div>
+In addition to the listed values, you can use a <code>socks://...</code> or <code>http://...</code> URL.
+Note that with QtWebEngine, it will take a couple of seconds until the change is applied, if this value is changed at runtime.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Proxy</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -8332,7 +8334,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-06-26 08:56:45 CEST
+ 2020-07-17 17:05:21 CEST
 </div>
 </div>
 </body>

@@ -144,6 +144,7 @@ def init(*, args: argparse.Namespace) -> None:
     quitter.instance.shutting_down.connect(QApplication.closeAllWindows)
 
     _init_icon()
+    _init_pulseaudio()
 
     loader.init()
     loader.load_components()
@@ -186,6 +187,22 @@ def _init_icon():
         log.init.warning("Failed to load icon")
     else:
         q_app.setWindowIcon(icon)
+
+
+def _init_pulseaudio():
+    """Set properties for PulseAudio.
+
+    WORKAROUND for https://bugreports.qt.io/browse/QTBUG-85363
+
+    Affected Qt versions:
+    - Older than 5.11
+    - 5.14.0 to 5.15.0 (inclusive)
+
+    However, we set this on all versions so that qutebrowser's icon gets picked
+    up as well.
+    """
+    for prop in ['application.name', 'application.icon_name']:
+        os.environ['PULSE_PROP_OVERRIDE_' + prop] = 'qutebrowser'
 
 
 def _process_args(args):
