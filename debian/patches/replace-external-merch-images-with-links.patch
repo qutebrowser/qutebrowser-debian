@@ -1,6 +1,6 @@
 Description: Sponsoring FAQ: link to external images of perks instead of including them
 Author: Axel Beckert <abe@debian.org>
-Forwarded: no
+Forwarded: not-needed
 
 --- a/qutebrowser/html/doc/faq.html
 +++ b/qutebrowser/html/doc/faq.html

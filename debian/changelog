@@ -1,6 +1,10 @@
 qutebrowser (1.13.1-1) UNRELEASED; urgency=medium
 
+  [ Fritz Reichwald ]
   * New upstream release
+
+  [ Axel Beckert ]
+  * Set "Forwarded: not-needed" for all patches. Thanks Lintian!
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Fri, 17 Jul 2020 18:21:36 +0200
 

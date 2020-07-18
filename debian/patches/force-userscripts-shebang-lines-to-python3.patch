@@ -1,5 +1,6 @@
 Description: Enforce python3 shebang line for Python 2+3 compatible userscripts
 Author: Axel Beckert <abe@debian.org>
+Forwarded: not-needed
 
 --- a/misc/userscripts/readability
 +++ b/misc/userscripts/readability
