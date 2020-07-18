@@ -1,4 +1,4 @@
-qutebrowser (1.13.1-1) UNRELEASED; urgency=medium
+qutebrowser (1.13.1-1) unstable; urgency=medium
 
   [ Fritz Reichwald ]
   * New upstream release
@@ -6,7 +6,7 @@ qutebrowser (1.13.1-1) UNRELEASED; urgency=medium
   [ Axel Beckert ]
   * Set "Forwarded: not-needed" for all patches. Thanks Lintian!
 
- -- Fritz Reichwald <reichwald@b1-systems.de>  Fri, 17 Jul 2020 18:21:36 +0200
+ -- Axel Beckert <abe@debian.org>  Sat, 18 Jul 2020 22:46:45 +0200
 
 qutebrowser (1.13.0-1) unstable; urgency=medium
 
