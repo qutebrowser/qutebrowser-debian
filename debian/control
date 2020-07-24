@@ -39,7 +39,7 @@ Depends: libqt5core5a (>= 5.7.1),
 Suggests: libjs-pdf,
           nodejs,
           python3-colorlog
-Provides: x-www-browser
+Provides: www-browser
 Description: Keyboard-driven, vim-like browser based on PyQt5
  qutebrowser is a keyboard-focused browser with a minimal GUI. It's
  based on Python and PyQt5 and was inspired by other browsers/addons
