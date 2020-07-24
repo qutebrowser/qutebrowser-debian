@@ -1,3 +1,10 @@
+qutebrowser (1.13.1-2) UNRELEASED; urgency=medium
+
+  * Add Provides: www-browser
+  * Remove Provides: x-www-browser
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Fri, 24 Jul 2020 23:04:07 +0200
+
 qutebrowser (1.13.1-1) unstable; urgency=medium
 
   [ Fritz Reichwald ]
