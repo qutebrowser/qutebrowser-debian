@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.10" />
+<meta name="generator" content="AsciiDoc 9.0.2" />
 <title>Setting reference</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -436,7 +436,7 @@ thead, p.table.header {
 p.table {
   margin-top: 0;
 }
-/* Because the table frame attribute is overriden by CSS in most browsers. */
+/* Because the table frame attribute is overridden by CSS in most browsers. */
 div.tableblock > table[frame="void"] {
   border-style: none;
 }
@@ -1461,8 +1461,16 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Enable support for HTML 5 local storage and Web SQL.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#content.media_capture">content.media_capture</a></p></td>
-<td align="left" valign="top"><p class="table">Allow websites to record audio/video.</p></td>
+<td align="left" valign="top"><p class="table"><a href="#content.media.audio_capture">content.media.audio_capture</a></p></td>
+<td align="left" valign="top"><p class="table">Allow websites to record audio.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content.media.audio_video_capture">content.media.audio_video_capture</a></p></td>
+<td align="left" valign="top"><p class="table">Allow websites to record audio and video.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content.media.video_capture">content.media.video_capture</a></p></td>
+<td align="left" valign="top"><p class="table">Allow websites to record video.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.mouse_lock">content.mouse_lock</a></p></td>
@@ -2030,7 +2038,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.undo_stack_size">tabs.undo_stack_size</a></p></td>
-<td align="left" valign="top"><p class="table">Number of close tab actions to remember, per window (-1 for no maximum).</p></td>
+<td align="left" valign="top"><p class="table">Number of closed tabs (per window) and closed windows to remember for :undo (-1 for no maximum).</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.width">tabs.width</a></p></td>
@@ -2137,7 +2145,9 @@ The keys of the given dictionary are the aliases, while the values are the comma
 </div>
 <div class="sect2">
 <h3 id="auto_save.session">auto_save.session</h3>
-<div class="paragraph"><p>Always restore open sites when qutebrowser is reopened.</p></div>
+<div class="paragraph"><p>Always restore open sites when qutebrowser is reopened.
+Without this option set, <code>:wq</code> (<code>:quit --save</code>) needs to be used to save open tabs (and restore them), while quitting qutebrowser in any other way will not save/restore the session.
+By default, this will save to the session which was last loaded. This behavior can be customized via the <code>session.default_name</code> setting.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
@@ -2146,8 +2156,8 @@ The keys of the given dictionary are the aliases, while the values are the comma
 <div class="paragraph"><p>Backend to use to display websites.
 qutebrowser supports two different web rendering engines / backends, QtWebKit and QtWebEngine.
 QtWebKit was discontinued by the Qt project with Qt 5.6, but picked up as a well maintained fork: <a href="https://github.com/annulen/webkit/wiki">https://github.com/annulen/webkit/wiki</a> - qutebrowser only supports the fork.
-QtWebEngine is Qt&#8217;s official successor to QtWebKit. It&#8217;s slightly more resource hungry than QtWebKit and has a couple of missing features in qutebrowser, but is generally the preferred choice.
-This setting requires a restart.</p></div>
+QtWebEngine is Qt&#8217;s official successor to QtWebKit. It&#8217;s slightly more resource hungry than QtWebKit and has a couple of missing features in qutebrowser, but is generally the preferred choice.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -2544,6 +2554,16 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <li>
 <p>
 <code>&lt;Escape&gt;</code>: <code>leave-mode</code>
+</p>
+</li>
+<li>
+<p>
+<code>&lt;PgDown&gt;</code>: <code>completion-item-focus next-page</code>
+</p>
+</li>
+<li>
+<p>
+<code>&lt;PgUp&gt;</code>: <code>completion-item-focus prev-page</code>
 </p>
 </li>
 <li>
@@ -3044,6 +3064,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>U</code>: <code>undo -w</code>
+</p>
+</li>
+<li>
+<p>
 <code>V</code>: <code>enter-mode caret ;; toggle-selection --line</code>
 </p>
 </li>
@@ -3425,6 +3450,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <li>
 <p>
 <code>wB</code>: <code>set-cmd-text -s :bookmark-load -w</code>
+</p>
+</li>
+<li>
+<p>
+<code>wIf</code>: <code>devtools-focus</code>
 </p>
 </li>
 <li>
@@ -4483,8 +4513,8 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.algorithm">colors.webpage.darkmode.algorithm</h3>
-<div class="paragraph"><p>Which algorithm to use for modifying how colors are rendered with darkmode.
-This setting requires a restart.</p></div>
+<div class="paragraph"><p>Which algorithm to use for modifying how colors are rendered with darkmode.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4511,8 +4541,8 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.contrast">colors.webpage.darkmode.contrast</h3>
 <div class="paragraph"><p>Contrast for dark mode.
-This only has an effect when <code>colors.webpage.darkmode.algorithm</code> is set to <code>lightness-hsl</code> or <code>brightness-rgb</code>.
-This setting requires a restart.</p></div>
+This only has an effect when <code>colors.webpage.darkmode.algorithm</code> is set to <code>lightness-hsl</code> or <code>brightness-rgb</code>.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Float</a></p></div>
 <div class="paragraph"><p>Default: <code>0.0</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
@@ -4546,10 +4576,10 @@ Example configurations from Chromium&#8217;s <code>chrome://flags</code>:</p></d
 <p>
 "With selective inversion of everything": Combines the two variants
   above.
-This setting requires a restart.
 </p>
 </li>
 </ul></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
@@ -4558,8 +4588,8 @@ This setting requires a restart.
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.grayscale.all">colors.webpage.darkmode.grayscale.all</h3>
 <div class="paragraph"><p>Render all colors as grayscale.
-This only has an effect when <code>colors.webpage.darkmode.algorithm</code> is set to <code>lightness-hsl</code> or <code>brightness-rgb</code>.
-This setting requires a restart.</p></div>
+This only has an effect when <code>colors.webpage.darkmode.algorithm</code> is set to <code>lightness-hsl</code> or <code>brightness-rgb</code>.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
@@ -4568,8 +4598,8 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.grayscale.images">colors.webpage.darkmode.grayscale.images</h3>
 <div class="paragraph"><p>Desaturation factor for images in dark mode.
-If set to 0, images are left as-is. If set to 1, images are completely grayscale. Values between 0 and 1 desaturate the colors accordingly.
-This setting requires a restart.</p></div>
+If set to 0, images are left as-is. If set to 1, images are completely grayscale. Values between 0 and 1 desaturate the colors accordingly.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Float</a></p></div>
 <div class="paragraph"><p>Default: <code>0.0</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
@@ -4578,8 +4608,8 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.policy.images">colors.webpage.darkmode.policy.images</h3>
 <div class="paragraph"><p>Which images to apply dark mode to.
-WARNING: On Qt 5.15.0, this setting can cause frequent renderer process crashes due to a <a href="https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/304211">bug in Qt</a>.
-This setting requires a restart.</p></div>
+WARNING: With QtWebengine 5.15.0, this setting can cause frequent renderer process crashes due to a <a href="https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/304211">bug in Qt</a>. Thus, the <em>smart</em> setting is ignored and treated like <em>never</em> in that case.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4599,14 +4629,14 @@ This setting requires a restart.</p></div>
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>Default: <code>never</code></p></div>
+<div class="paragraph"><p>Default: <code>smart</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
 <div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.policy.page">colors.webpage.darkmode.policy.page</h3>
-<div class="paragraph"><p>Which pages to apply dark mode to.
-This setting requires a restart.</p></div>
+<div class="paragraph"><p>Which pages to apply dark mode to.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4629,8 +4659,8 @@ This setting requires a restart.</p></div>
 <h3 id="colors.webpage.darkmode.threshold.background">colors.webpage.darkmode.threshold.background</h3>
 <div class="paragraph"><p>Threshold for inverting background elements with dark mode.
 Background elements with brightness above this threshold will be inverted, and below it will be left as in the original, non-dark-mode page. Set to 256 to never invert the color or to 0 to always invert it.
-Note: This behavior is the opposite of <code>colors.webpage.darkmode.threshold.text</code>!
-This setting requires a restart.</p></div>
+Note: This behavior is the opposite of <code>colors.webpage.darkmode.threshold.text</code>!</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>0</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
@@ -4639,8 +4669,8 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.threshold.text">colors.webpage.darkmode.threshold.text</h3>
 <div class="paragraph"><p>Threshold for inverting text with dark mode.
-Text colors with brightness below this threshold will be inverted, and above it will be left as in the original, non-dark-mode page. Set to 256 to always invert text color or to 0 to never invert text color.
-This setting requires a restart.</p></div>
+Text colors with brightness below this threshold will be inverted, and above it will be left as in the original, non-dark-mode page. Set to 256 to always invert text color or to 0 to never invert text color.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>256</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
@@ -4649,6 +4679,7 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="colors.webpage.prefers_color_scheme_dark">colors.webpage.prefers_color_scheme_dark</h3>
 <div class="paragraph"><p>Force <code>prefers-color-scheme: dark</code> colors for websites.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
@@ -4781,9 +4812,9 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="completion.timestamp_format">completion.timestamp_format</h3>
 <div class="paragraph"><p>Format of timestamps (e.g. for the history completion).
-See <a href="https://sqlite.org/lang_datefunc.html">https://sqlite.org/lang_datefunc.html</a> for allowed substitutions.</p></div>
+See <a href="https://sqlite.org/lang_datefunc.html">https://sqlite.org/lang_datefunc.html</a> and <a href="https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior">https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior</a> for allowed substitutions, qutebrowser uses both sqlite and Python to format its timestamps.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
-<div class="paragraph"><p>Default: <code>%Y-%m-%d</code></p></div>
+<div class="paragraph"><p>Default: <code>%Y-%m-%d %H:%M</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="completion.use_best_match">completion.use_best_match</h3>
@@ -4795,8 +4826,8 @@ See <a href="https://sqlite.org/lang_datefunc.html">https://sqlite.org/lang_date
 <h3 id="completion.web_history.exclude">completion.web_history.exclude</h3>
 <div class="paragraph"><p>A list of patterns which should not be shown in the history.
 This only affects the completion. Matching URLs are still saved in the history (and visible on the qute://history page), but hidden in the completion.
-Changing this setting will cause the completion history to be regenerated on the next start, which will take a short while.
-This setting requires a restart.</p></div>
+Changing this setting will cause the completion history to be regenerated on the next start, which will take a short while.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">List of UrlPattern</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
@@ -4881,8 +4912,8 @@ With QtWebEngine, the maximum supported value is 2147483647 (~2 GB).</p></div>
 <div class="sect2">
 <h3 id="content.canvas_reading">content.canvas_reading</h3>
 <div class="paragraph"><p>Allow websites to read canvas elements.
-Note this is needed for some websites to work properly.
-This setting requires a restart.</p></div>
+Note this is needed for some websites to work properly.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
@@ -5043,8 +5074,8 @@ When this is set to true, qutebrowser asks websites to not track your identity. 
 <h3 id="content.headers.referer">content.headers.referer</h3>
 <div class="paragraph"><p>When to send the Referer header.
 The Referer header tells websites from which website you were coming from when visiting them.
-No restart is needed with QtWebKit.
-This setting requires a restart.</p></div>
+No restart is needed with QtWebKit.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5094,7 +5125,8 @@ This setting requires a restart.</p></div>
 </li>
 <li>
 <p>
-<code>{upstream_browser_key}</code>: "Version" for QtWebKit, "Chrome" for QtWebEngine.
+<code>{upstream_browser_key}</code>: "Version" for QtWebKit, "Chrome" for
+  QtWebEngine.
 </p>
 </li>
 <li>
@@ -5282,8 +5314,60 @@ The following levels are valid: <code>none</code>, <code>debug</code>, <code>inf
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
-<h3 id="content.media_capture">content.media_capture</h3>
-<div class="paragraph"><p>Allow websites to record audio/video.</p></div>
+<h3 id="content.media.audio_capture">content.media.audio_capture</h3>
+<div class="paragraph"><p>Allow websites to record audio.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+<li>
+<p>
+<code>ask</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>ask</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="content.media.audio_video_capture">content.media.audio_video_capture</h3>
+<div class="paragraph"><p>Allow websites to record audio and video.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>true</code>
+</p>
+</li>
+<li>
+<p>
+<code>false</code>
+</p>
+</li>
+<li>
+<p>
+<code>ask</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>ask</code></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+</div>
+<div class="sect2">
+<h3 id="content.media.video_capture">content.media.video_capture</h3>
+<div class="paragraph"><p>Allow websites to record video.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
@@ -5488,8 +5572,8 @@ Note that with QtWebEngine, it will take a couple of seconds until the change is
 </div>
 <div class="sect2">
 <h3 id="content.site_specific_quirks">content.site_specific_quirks</h3>
-<div class="paragraph"><p>Enable quirks (such as faked user agent headers) needed to get specific sites to work properly.
-This setting requires a restart.</p></div>
+<div class="paragraph"><p>Enable quirks (such as faked user agent headers) needed to get specific sites to work properly.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -5561,8 +5645,8 @@ This setting requires a restart.</p></div>
 <div class="sect2">
 <h3 id="content.webrtc_ip_handling_policy">content.webrtc_ip_handling_policy</h3>
 <div class="paragraph"><p>Which interfaces to expose via WebRTC.
-On Qt 5.10, this option doesn&#8217;t work because of a Qt bug.
-This setting requires a restart.</p></div>
+On Qt 5.10, this option doesn&#8217;t work because of a Qt bug.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -6203,6 +6287,11 @@ Ignored for number hints.</p></div>
 </li>
 <li>
 <p>
+<code>[contenteditable:not([contenteditable=&quot;false&quot;])]</code>
+</p>
+</li>
+<li>
+<p>
 <code>[onclick]</code>
 </p>
 </li>
@@ -6333,6 +6422,11 @@ Ignored for number hints.</p></div>
 <li>
 <p>
 <code>input:not([type)]</code>
+</p>
+</li>
+<li>
+<p>
+<code>[contenteditable:not([contenteditable=&quot;false&quot;])]</code>
 </p>
 </li>
 <li>
@@ -6657,6 +6751,11 @@ See <code>new_instance_open_target_window</code> to customize in which window th
 <code>window</code>: Open in a new window.
 </p>
 </li>
+<li>
+<p>
+<code>private-window</code>: Open in a new private window.
+</p>
+</li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>tab</code></p></div>
 </div>
@@ -6705,32 +6804,32 @@ When <code>new_instance_open_target</code> is set to <code>window</code>, this i
 <div class="sect2">
 <h3 id="qt.args">qt.args</h3>
 <div class="paragraph"><p>Additional arguments to pass to Qt, without leading <code>--</code>.
-With QtWebEngine, some Chromium arguments (see <a href="https://peter.sh/experiments/chromium-command-line-switches/">https://peter.sh/experiments/chromium-command-line-switches/</a> for a list) will work.
-This setting requires a restart.</p></div>
+With QtWebEngine, some Chromium arguments (see <a href="https://peter.sh/experiments/chromium-command-line-switches/">https://peter.sh/experiments/chromium-command-line-switches/</a> for a list) will work.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">List of String</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="qt.force_platform">qt.force_platform</h3>
 <div class="paragraph"><p>Force a Qt platform to use.
-This sets the <code>QT_QPA_PLATFORM</code> environment variable and is useful to force using the XCB plugin when running QtWebEngine on Wayland.
-This setting requires a restart.</p></div>
+This sets the <code>QT_QPA_PLATFORM</code> environment variable and is useful to force using the XCB plugin when running QtWebEngine on Wayland.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="qt.force_platformtheme">qt.force_platformtheme</h3>
 <div class="paragraph"><p>Force a Qt platformtheme to use.
-This sets the <code>QT_QPA_PLATFORMTHEME</code> environment variable which controls dialogs like the filepicker. By default, Qt determines the platform theme based on the desktop environment.
-This setting requires a restart.</p></div>
+This sets the <code>QT_QPA_PLATFORMTHEME</code> environment variable which controls dialogs like the filepicker. By default, Qt determines the platform theme based on the desktop environment.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="qt.force_software_rendering">qt.force_software_rendering</h3>
 <div class="paragraph"><p>Force software rendering for QtWebEngine.
-This is needed for QtWebEngine to work with Nouveau drivers and can be useful in other scenarios related to graphic issues.
-This setting requires a restart.</p></div>
+This is needed for QtWebEngine to work with Nouveau drivers and can be useful in other scenarios related to graphic issues.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -6762,16 +6861,16 @@ This setting requires a restart.</p></div>
 <h3 id="qt.highdpi">qt.highdpi</h3>
 <div class="paragraph"><p>Turn on Qt HighDPI scaling.
 This is equivalent to setting QT_AUTO_SCREEN_SCALE_FACTOR=1 or QT_ENABLE_HIGHDPI_SCALING=1 (Qt &gt;= 5.14) in the environment.
-It&#8217;s off by default as it can cause issues with some bitmap fonts. As an alternative to this, it&#8217;s possible to set font sizes and the <code>zoom.default</code> setting.
-This setting requires a restart.</p></div>
+It&#8217;s off by default as it can cause issues with some bitmap fonts. As an alternative to this, it&#8217;s possible to set font sizes and the <code>zoom.default</code> setting.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="qt.low_end_device_mode">qt.low_end_device_mode</h3>
 <div class="paragraph"><p>When to use Chromium&#8217;s low-end device mode.
-This improves the RAM usage of renderer processes, at the expense of performance.
-This setting requires a restart.</p></div>
+This improves the RAM usage of renderer processes, at the expense of performance.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -6808,10 +6907,10 @@ See the following pages for more details:</p></div>
 <li>
 <p>
 <a href="https://doc.qt.io/qt-5/qtwebengine-features.html#process-models">https://doc.qt.io/qt-5/qtwebengine-features.html#process-models</a>
-This setting requires a restart.
 </p>
 </li>
 </ul></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -7753,12 +7852,18 @@ The following placeholders are defined:</p></div>
 </li>
 <li>
 <p>
-<code>{title_sep}</code>: The string ` - ` if a title is set, empty otherwise.
+<code>{title_sep}</code>: The string <code>" - "</code> if a title is set, empty otherwise.
 </p>
 </li>
 <li>
 <p>
 <code>{index}</code>: Index of this tab.
+</p>
+</li>
+<li>
+<p>
+<code>{aligned_index}</code>: Index of this tab padded with spaces to have the same
+  width.
 </p>
 </li>
 <li>
@@ -7778,7 +7883,7 @@ The following placeholders are defined:</p></div>
 </li>
 <li>
 <p>
-&#8216;{backend}`: Either <em>'webkit</em>&#8217; or <em>'webengine</em>'
+<code>{backend}</code>: Either <code>webkit</code> or <code>webengine</code>
 </p>
 </li>
 <li>
@@ -7820,7 +7925,7 @@ Note this setting only affects windows opened after it has been set.</p></div>
 </div>
 <div class="sect2">
 <h3 id="tabs.undo_stack_size">tabs.undo_stack_size</h3>
-<div class="paragraph"><p>Number of close tab actions to remember, per window (-1 for no maximum).</p></div>
+<div class="paragraph"><p>Number of closed tabs (per window) and closed windows to remember for :undo (-1 for no maximum).</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>100</code></p></div>
 </div>
@@ -8269,12 +8374,12 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table">QssColor</p></td>
 <td align="left" valign="top"><p class="table">A color value supporting gradients.</p>
-<p class="table">A value can be in one of the following formats: * <code>#RGB</code>/<code>#RRGGBB</code>/<code>#RRRGGGBBB</code>/<code>#RRRRGGGGBBBB</code> * An SVG color name as specified in <a href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">the W3C specification</a>. * transparent (no color) * <code>rgb(r, g, b)</code> / <code>rgba(r, g, b, a)</code> (values 0-255 or percentages) * <code>hsv(h, s, v)</code> / <code>hsva(h, s, v, a)</code> (values 0-255, hue 0-359) * A gradient as explained in <a href="http://doc.qt.io/qt-5/stylesheet-reference.html#list-of-property-types">the Qt documentation</a> under &#8220;Gradient&#8221;</p></td>
+<p class="table">A value can be in one of the following formats: * <code>#RGB</code>/<code>#RRGGBB</code>/<code>#AARRGGBB</code>/<code>#RRRGGGBBB</code>/<code>#RRRRGGGGBBBB</code> * An SVG color name as specified in <a href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">the W3C specification</a>. * transparent (no color) * <code>rgb(r, g, b)</code> / <code>rgba(r, g, b, a)</code> (values 0-255 or percentages) * <code>hsv(h, s, v)</code> / <code>hsva(h, s, v, a)</code> (values 0-255, hue 0-359) * A gradient as explained in <a href="http://doc.qt.io/qt-5/stylesheet-reference.html#list-of-property-types">the Qt documentation</a> under &#8220;Gradient&#8221;</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table">QtColor</p></td>
 <td align="left" valign="top"><p class="table">A color value.</p>
-<p class="table">A value can be in one of the following formats: * <code>#RGB</code>/<code>#RRGGBB</code>/<code>#RRRGGGBBB</code>/<code>#RRRRGGGGBBBB</code> * An SVG color name as specified in <a href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">the W3C specification</a>. * transparent (no color) * <code>rgb(r, g, b)</code> / <code>rgba(r, g, b, a)</code> (values 0-255 or percentages) * <code>hsv(h, s, v)</code> / <code>hsva(h, s, v, a)</code> (values 0-255, hue 0-359)</p></td>
+<p class="table">A value can be in one of the following formats: * <code>#RGB</code>/<code>#RRGGBB</code>/<code>#AARRGGBB</code>/<code>#RRRGGGBBB</code>/<code>#RRRRGGGGBBBB</code> * An SVG color name as specified in <a href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">the W3C specification</a>. * transparent (no color) * <code>rgb(r, g, b)</code> / <code>rgba(r, g, b, a)</code> (values 0-255 or percentages) * <code>hsv(h, s, v)</code> / <code>hsva(h, s, v, a)</code> (values 0-255, hue 0-359)</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table">Regex</p></td>
@@ -8334,7 +8439,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-07-17 17:05:21 CEST
+ 2020-10-15 14:48:10 CEST
 </div>
 </div>
 </body>

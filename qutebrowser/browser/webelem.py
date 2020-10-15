@@ -102,8 +102,8 @@ class AbstractWebElement(collections.abc.MutableMapping):
         """Get the geometry for this element."""
         raise NotImplementedError
 
-    def classes(self) -> typing.List[str]:
-        """Get a list of classes assigned to this element."""
+    def classes(self) -> typing.Set[str]:
+        """Get a set of classes assigned to this element."""
         raise NotImplementedError
 
     def tag_name(self) -> str:
@@ -171,6 +171,18 @@ class AbstractWebElement(collections.abc.MutableMapping):
             return self['contenteditable'].lower() not in ['false', 'inherit']
         except KeyError:
             return False
+
+    def is_content_editable_prop(self) -> bool:
+        """Get the value of this element's isContentEditable property.
+
+        The is_content_editable() method above checks for the "contenteditable"
+        HTML attribute, which does not handle inheritance. However, the actual
+        attribute value is still needed for certain cases (like strict=True).
+
+        This instead gets the isContentEditable JS property, which handles
+        inheritance.
+        """
+        raise NotImplementedError
 
     def _is_editable_object(self) -> bool:
         """Check if an object-element is editable."""
@@ -251,6 +263,9 @@ class AbstractWebElement(collections.abc.MutableMapping):
         elif tag in ['embed', 'applet']:
             # Flash/Java/...
             return config.val.input.insert_mode.plugins and not strict
+        elif (not strict and self.is_content_editable_prop() and
+              self.is_writable()):
+            return True
         elif tag == 'object':
             return self._is_editable_object() and not strict
         elif tag in ['div', 'pre', 'span']:
@@ -390,9 +405,7 @@ class AbstractWebElement(collections.abc.MutableMapping):
             from qutebrowser.mainwindow import mainwindow
             window = mainwindow.MainWindow(private=tabbed_browser.is_private)
             window.show()
-            # FIXME:typing Why can't mypy determine the type of
-            # window.tabbed_browser?
-            window.tabbed_browser.tabopen(url)  # type: ignore[has-type]
+            window.tabbed_browser.tabopen(url)
         else:
             raise ValueError("Unknown ClickTarget {}".format(click_target))
 

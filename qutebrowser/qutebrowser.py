@@ -77,7 +77,7 @@ def get_argparser():
                         action='store_true')
     parser.add_argument('--target', choices=['auto', 'tab', 'tab-bg',
                                              'tab-silent', 'tab-bg-silent',
-                                             'window'],
+                                             'window', 'private-window'],
                         help="How URLs should be opened if there is already a "
                              "qutebrowser instance running.")
     parser.add_argument('--backend', choices=['webkit', 'webengine'],
@@ -170,12 +170,14 @@ def debug_flag_error(flag):
         log-scroll-pos: Log all scrolling changes.
         stack: Enable Chromium stack logging.
         chromium: Enable Chromium logging.
+        wait-renderer-process: Wait for debugger in renderer process.
+        avoid-chromium-init: Enable `--version` without initializing Chromium.
         werror: Turn Python warnings into errors.
     """
     valid_flags = ['debug-exit', 'pdb-postmortem', 'no-sql-history',
                    'no-scroll-filtering', 'log-requests', 'log-cookies',
                    'lost-focusproxy', 'log-scroll-pos', 'stack', 'chromium',
-                   'werror']
+                   'wait-renderer-process', 'avoid-chromium-init', 'werror']
 
     if flag in valid_flags:
         return flag

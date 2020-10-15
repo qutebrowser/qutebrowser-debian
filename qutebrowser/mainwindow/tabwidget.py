@@ -60,8 +60,7 @@ class TabWidget(QTabWidget):
         bar = TabBar(win_id, self)
         self.setStyle(TabBarStyle())
         self.setTabBar(bar)
-        bar.tabCloseRequested.connect(
-            self.tabCloseRequested)  # type: ignore[arg-type]
+        bar.tabCloseRequested.connect(self.tabCloseRequested)
         bar.tabMoved.connect(functools.partial(
             QTimer.singleShot, 0, self.update_tab_titles))
         bar.currentChanged.connect(self._on_current_changed)
@@ -99,19 +98,6 @@ class TabWidget(QTabWidget):
         bar.set_tab_data(idx, 'indicator-color', color)
         bar.update(bar.tabRect(idx))
 
-    def set_tab_pinned(self, tab: QWidget,
-                       pinned: bool) -> None:
-        """Set the tab status as pinned.
-
-        Args:
-            tab: The tab to pin
-            pinned: Pinned tab state to set.
-        """
-        idx = self.indexOf(tab)
-        tab.data.pinned = pinned
-        self.update_tab_favicon(tab)
-        self.update_tab_title(idx)
-
     def tab_indicator_color(self, idx):
         """Get the tab indicator color for the given index."""
         return self.tabBar().tab_indicator_color(idx)
@@ -139,6 +125,7 @@ class TabWidget(QTabWidget):
             field: A field name which was updated. If given, the title
                    is only set if the given field is in the template.
         """
+        assert idx != -1
         tab = self.widget(idx)
         if tab.data.pinned:
             fmt = config.cache['tabs.title.format_pinned']
@@ -152,6 +139,7 @@ class TabWidget(QTabWidget):
         fields = self.get_tab_fields(idx)
         fields['current_title'] = fields['current_title'].replace('&', '&&')
         fields['index'] = idx + 1
+        fields['aligned_index'] = str(idx + 1).rjust(len(str(self.count())))
 
         title = '' if fmt is None else fmt.format(**fields)
         tabbar = self.tabBar()
@@ -343,14 +331,11 @@ class TabWidget(QTabWidget):
         """Update favicon of the given tab."""
         idx = self.indexOf(tab)
 
-        if tab.data.should_show_icon():
-            self.setTabIcon(idx, tab.icon())
-            if config.val.tabs.tabs_are_windows:
-                self.window().setWindowIcon(tab.icon())
-        else:
-            self.setTabIcon(idx, QIcon())
-            if config.val.tabs.tabs_are_windows:
-                self.window().setWindowIcon(self.window().windowIcon())
+        icon = tab.icon() if tab.data.should_show_icon() else QIcon()
+        self.setTabIcon(idx, icon)
+
+        if config.val.tabs.tabs_are_windows:
+            self.window().setWindowIcon(tab.icon())
 
     def setTabIcon(self, idx: int, icon: QIcon) -> None:
         """Always show tab icons for pinned tabs in some circumstances."""

@@ -63,28 +63,6 @@ class Font(QFont):
 
         return utils.get_repr(self, **kwargs)
 
-    @classmethod
-    def fromdesc(cls, desc):
-        """Get a Font based on a font description."""
-        f = cls()
-
-        f.setStyle(desc.style)
-        f.setWeight(desc.weight)
-
-        if desc.pt is not None and desc.pt != -1:
-            f.setPointSize(desc.pt)
-        if desc.px is not None and desc.pt != -1:
-            f.setPixelSize(desc.px)
-
-        f.setFamily(desc.family)
-        try:
-            f.setFamilies([desc.family])
-        except AttributeError:
-            # Added in Qt 5.13
-            pass
-
-        return f
-
 
 class RegexEq:
 
@@ -270,15 +248,10 @@ class TestAll:
                 configtypes.PercOrInt,  # ditto
         ]:
             return
-        elif (isinstance(typ, functools.partial) and
-              isinstance(typ.func, (configtypes.ListOrValue,
-                                    configtypes.List))):
+        elif (isinstance(klass, functools.partial) and
+              klass.func in [configtypes.ListOrValue, configtypes.List]):
             # ListOrValue: "- /" -> "/"
             # List: "- /" -> ["/"]
-            return
-        elif (isinstance(typ, configtypes.ListOrValue) and
-              isinstance(typ.valtype, configtypes.Int)):
-            # "00" -> "0"
             return
 
         assert converted == s
@@ -1287,6 +1260,7 @@ class TestQtColor:
     @pytest.mark.parametrize('val, expected', [
         ('#123', QColor('#123')),
         ('#112233', QColor('#112233')),
+        ('#44112233', QColor('#44112233')),
         ('#111222333', QColor('#111222333')),
         ('#111122223333', QColor('#111122223333')),
         ('red', QColor('red')),
@@ -1333,6 +1307,7 @@ class TestQssColor:
     @pytest.mark.parametrize('val', [
         '#123',
         '#112233',
+        '#44112233',
         '#111222333',
         '#111122223333',
         'red',
@@ -1430,10 +1405,6 @@ class TestFont:
 
     @pytest.fixture
     def klass(self):
-        return configtypes.Font
-
-    @pytest.fixture
-    def font_class(self):
         return configtypes.Font
 
     @pytest.mark.parametrize('val, desc', sorted(TESTS.items()))
@@ -1740,10 +1711,6 @@ class TestFile:
     @pytest.fixture(params=[configtypes.File, unrequired_class])
     def klass(self, request):
         return request.param
-
-    @pytest.fixture
-    def file_class(self):
-        return configtypes.File
 
     def test_to_py_does_not_exist_file(self, os_mock):
         """Test to_py with a file which does not exist (File)."""

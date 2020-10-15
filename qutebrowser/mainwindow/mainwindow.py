@@ -25,13 +25,14 @@ import itertools
 import functools
 import typing
 
-from PyQt5.QtCore import (pyqtSignal, pyqtSlot, QRect, QPoint, QTimer, Qt,
-                          QCoreApplication, QEventLoop)
+from PyQt5.QtCore import (pyqtBoundSignal, pyqtSlot, QRect, QPoint, QTimer, Qt,
+                          QCoreApplication, QEventLoop, QByteArray)
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QApplication, QSizePolicy
+from PyQt5.QtGui import QPalette
 
 from qutebrowser.commands import runners
 from qutebrowser.api import cmdutils
-from qutebrowser.config import config, configfiles, stylesheet
+from qutebrowser.config import config, configfiles, stylesheet, websettings
 from qutebrowser.utils import (message, log, usertypes, qtutils, objreg, utils,
                                jinja, debug)
 from qutebrowser.mainwindow import messageview, prompt
@@ -39,54 +40,43 @@ from qutebrowser.completion import completionwidget, completer
 from qutebrowser.keyinput import modeman
 from qutebrowser.browser import commands, downloadview, hints, downloads
 from qutebrowser.misc import crashsignal, keyhintwidget, sessions
+from qutebrowser.qt import sip
 
 
 win_id_gen = itertools.count(0)
 
 
-def get_window(via_ipc, force_window=False, force_tab=False,
-               force_target=None, no_raise=False):
+def get_window(*, via_ipc: bool,
+               target: str,
+               no_raise: bool = False) -> int:
     """Helper function for app.py to get a window id.
 
     Args:
         via_ipc: Whether the request was made via IPC.
-        force_window: Whether to force opening in a window.
-        force_tab: Whether to force opening in a tab.
-        force_target: Override the new_instance_open_target config
+        target: Where/how to open the window (via setting, command-line or
+                override).
         no_raise: suppress target window raising
 
     Return:
         ID of a window that was used to open URL
     """
-    if force_window and force_tab:
-        raise ValueError("force_window and force_tab are mutually exclusive!")
-
     if not via_ipc:
         # Initial main window
         return 0
-
-    open_target = config.val.new_instance_open_target
-
-    # Apply any target overrides, ordered by precedence
-    if force_target is not None:
-        open_target = force_target
-    if force_window:
-        open_target = 'window'
-    if force_tab and open_target == 'window':
-        # Command sent via IPC
-        open_target = 'tab-silent'
 
     window = None
     should_raise = False
 
     # Try to find the existing tab target if opening in a tab
-    if open_target != 'window':
+    if target not in {'window', 'private-window'}:
         window = get_target_window()
-        should_raise = open_target not in ['tab-silent', 'tab-bg-silent']
+        should_raise = target not in {'tab-silent', 'tab-bg-silent'}
+
+    is_private = target == 'private-window'
 
     # Otherwise, or if no window was found, create a new one
     if window is None:
-        window = MainWindow(private=None)
+        window = MainWindow(private=is_private)
         window.show()
         should_raise = True
 
@@ -104,7 +94,10 @@ def raise_window(window, alert=True):
     # WORKAROUND for https://bugreports.qt.io/browse/QTBUG-69568
     QCoreApplication.processEvents(  # type: ignore[call-overload]
         QEventLoop.ExcludeUserInputEvents | QEventLoop.ExcludeSocketNotifiers)
-    window.activateWindow()
+
+    if not sip.isdeleted(window):
+        # Could be deleted by the events run above
+        window.activateWindow()
 
     if alert:
         QApplication.instance().alert(window)
@@ -112,23 +105,20 @@ def raise_window(window, alert=True):
 
 def get_target_window():
     """Get the target window for new tabs, or None if none exist."""
+    getters = {
+        'last-focused': objreg.last_focused_window,
+        'first-opened': objreg.first_opened_window,
+        'last-opened': objreg.last_opened_window,
+        'last-visible': objreg.last_visible_window,
+    }
+    getter = getters[config.val.new_instance_open_target_window]
     try:
-        win_mode = config.val.new_instance_open_target_window
-        if win_mode == 'last-focused':
-            return objreg.last_focused_window()
-        elif win_mode == 'first-opened':
-            return objreg.window_by_index(0)
-        elif win_mode == 'last-opened':
-            return objreg.window_by_index(-1)
-        elif win_mode == 'last-visible':
-            return objreg.last_visible_window()
-        else:
-            raise ValueError("Invalid win_mode {}".format(win_mode))
+        return getter()
     except objreg.NoWindow:
         return None
 
 
-_OverlayInfoType = typing.Tuple[QWidget, pyqtSignal, bool, str]
+_OverlayInfoType = typing.Tuple[QWidget, pyqtBoundSignal, bool, str]
 
 
 class MainWindow(QWidget):
@@ -195,7 +185,10 @@ class MainWindow(QWidget):
         }
     """
 
-    def __init__(self, *, private, geometry=None, parent=None):
+    def __init__(self, *,
+                 private: bool,
+                 geometry: typing.Optional[QByteArray] = None,
+                 parent: typing.Optional[QWidget] = None) -> None:
         """Create a new main window.
 
         Args:
@@ -210,6 +203,8 @@ class MainWindow(QWidget):
         from qutebrowser.mainwindow.statusbar import bar
 
         self.setAttribute(Qt.WA_DeleteOnClose)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.palette().setColor(QPalette.Window, Qt.transparent)
         self._overlays = []  # type: typing.MutableSequence[_OverlayInfoType]
         self.win_id = next(win_id_gen)
         self.registry = objreg.ObjectRegistry()
@@ -233,15 +228,11 @@ class MainWindow(QWidget):
         self._downloadview = downloadview.DownloadView(
             model=self._download_model)
 
-        if config.val.content.private_browsing:
-            # This setting always trumps what's passed in.
-            private = True
-        else:
-            private = bool(private)
-        self._private = private
-        self.tabbed_browser = tabbedbrowser.TabbedBrowser(win_id=self.win_id,
-                                                          private=private,
-                                                          parent=self)
+        self.is_private = config.val.content.private_browsing or private
+
+        self.tabbed_browser = tabbedbrowser.TabbedBrowser(
+            win_id=self.win_id, private=self.is_private, parent=self
+        )  # type: tabbedbrowser.TabbedBrowser
         objreg.register('tabbed-browser', self.tabbed_browser, scope='window',
                         window=self.win_id)
         self._init_command_dispatcher()
@@ -249,7 +240,8 @@ class MainWindow(QWidget):
         # We need to set an explicit parent for StatusBar because it does some
         # show/hide magic immediately which would mean it'd show up as a
         # window.
-        self.status = bar.StatusBar(win_id=self.win_id, private=private,
+        self.status = bar.StatusBar(win_id=self.win_id,
+                                    private=self.is_private,
                                     parent=self)
 
         self._add_widgets()
@@ -316,12 +308,17 @@ class MainWindow(QWidget):
         if not widget.isVisible():
             return
 
-        size_hint = widget.sizeHint()
         if widget.sizePolicy().horizontalPolicy() == QSizePolicy.Expanding:
             width = self.width() - 2 * padding
+            if widget.hasHeightForWidth():
+                height = widget.heightForWidth(width)
+            else:
+                height = widget.sizeHint().height()
             left = padding
         else:
+            size_hint = widget.sizeHint()
             width = min(size_hint.width(), self.width() - 2 * padding)
+            height = size_hint.height()
             left = (self.width() - width) // 2 if centered else 0
 
         height_padding = 20
@@ -333,7 +330,7 @@ class MainWindow(QWidget):
             else:
                 status_height = 0
                 bottom = self.height()
-            top = self.height() - status_height - size_hint.height()
+            top = self.height() - status_height - height
             top = qtutils.check_overflow(top, 'int', fatal=False)
             topleft = QPoint(left, max(height_padding, top))
             bottomright = QPoint(left + width, bottom)
@@ -345,7 +342,7 @@ class MainWindow(QWidget):
                 status_height = 0
                 top = 0
             topleft = QPoint(left, top)
-            bottom = status_height + size_hint.height()
+            bottom = status_height + height
             bottom = qtutils.check_overflow(bottom, 'int', fatal=False)
             bottomright = QPoint(left + width,
                                  min(self.height() - height_padding, bottom))
@@ -501,20 +498,15 @@ class MainWindow(QWidget):
         mode_manager.entered.connect(self.status.on_mode_entered)
         mode_manager.left.connect(self.status.on_mode_left)
         mode_manager.left.connect(self.status.cmd.on_mode_left)
-        mode_manager.left.connect(
-            message.global_bridge.mode_left)  # type: ignore[arg-type]
+        mode_manager.left.connect(message.global_bridge.mode_left)
 
         # commands
         mode_manager.keystring_updated.connect(
             self.status.keystring.on_keystring_updated)
-        self.status.cmd.got_cmd[str].connect(  # type: ignore[index]
-            self._commandrunner.run_safely)
-        self.status.cmd.got_cmd[str, int].connect(  # type: ignore[index]
-            self._commandrunner.run_safely)
-        self.status.cmd.returnPressed.connect(
-            self.tabbed_browser.on_cmd_return_pressed)
-        self.status.cmd.got_search.connect(
-            self._command_dispatcher.search)
+        self.status.cmd.got_cmd[str].connect(self._commandrunner.run_safely)
+        self.status.cmd.got_cmd[str, int].connect(self._commandrunner.run_safely)
+        self.status.cmd.returnPressed.connect(self.tabbed_browser.on_cmd_return_pressed)
+        self.status.cmd.got_search.connect(self._command_dispatcher.search)
 
         # key hint popup
         mode_manager.keystring_updated.connect(self._keyhint.update_keyhint)
@@ -680,15 +672,28 @@ class MainWindow(QWidget):
 
         e.accept()
 
-        try:
-            last_visible = objreg.get('last-visible-main-window')
-            if self is last_visible:
-                objreg.delete('last-visible-main-window')
-        except KeyError:
-            pass
+        for key in ['last-visible-main-window', 'last-focused-main-window']:
+            try:
+                win = objreg.get(key)
+                if self is win:
+                    objreg.delete(key)
+            except KeyError:
+                pass
 
         sessions.session_manager.save_last_window_session()
         self._save_geometry()
+
+        # Wipe private data if we close the last private window, but there are
+        # still other windows
+        if (
+                self.is_private and
+                len(objreg.window_registry) > 1 and
+                len([window for window in objreg.window_registry.values()
+                     if window.is_private]) == 1
+        ):
+            log.destroy.debug("Wiping private data before closing last "
+                              "private window")
+            websettings.clear_private_data()
 
         log.destroy.debug("Closing window {}".format(self.win_id))
         self.tabbed_browser.shutdown()

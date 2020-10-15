@@ -19,12 +19,12 @@
 
 """Loader for qutebrowser extensions."""
 
-import importlib.abc
 import pkgutil
 import types
 import typing
 import sys
 import pathlib
+import importlib
 
 import attr
 

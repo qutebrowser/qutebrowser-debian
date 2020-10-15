@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.10" />
+<meta name="generator" content="AsciiDoc 9.0.2" />
 <title>Frequently asked questions</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -436,7 +436,7 @@ thead, p.table.header {
 p.table {
   margin-top: 0;
 }
-/* Because the table frame attribute is overriden by CSS in most browsers. */
+/* Because the table frame attribute is overridden by CSS in most browsers. */
 div.tableblock > table[frame="void"] {
   border-style: none;
 }
@@ -930,9 +930,15 @@ Is there an ad blocker?
 <p>
     There is a simple host-based ad blocker that takes <code>/etc/hosts</code>-like lists.
 </p>
-<div class="paragraph"><p>More advanced ad blockers can have a big impact on browsing speed and <a href="https://blog.mozilla.org/nnethercote/2014/05/14/adblock-pluss-effect-on-firefoxs-memory-usage/">RAM usage</a>, so implementing support for AdBlock Plus-like lists is not a priority.
-How can I get No-Script-like behavior?::
-    To disable JavaScript by default:</p></div>
+<div class="paragraph"><p>More advanced ad blockers can have a big impact on browsing speed and <a href="https://blog.mozilla.org/nnethercote/2014/05/14/adblock-pluss-effect-on-firefoxs-memory-usage/">RAM usage</a>, so implementing support for AdBlock Plus-like lists is not a priority.</p></div>
+</li>
+<li>
+<p><em>
+How can I get No-Script-like behavior?
+</em></p>
+<p>
+    To disable JavaScript by default:
+</p>
 <div class="listingblock">
 <div class="content">
 <pre><code>:set content.javascript.enabled false</code></pre>
@@ -1083,7 +1089,9 @@ Why does J move to the next (right) tab, and K to the previous (left) one?
     and qutebrowser&#8217;s keybindings are designed to be compatible with dwb&#8217;s.
     The rationale behind it is that J is "down" in vim, and K is "up", which
     corresponds nicely to "next"/"previous". It also makes much more sense with
-    vertical tabs (e.g. <code>:set tabs.position left</code>).
+    vertical tabs (e.g. <code>:set tabs.position left</code>). If you prefer swapped
+    bindings, you can run <code>:bind J tab-prev</code> and <code>:bind K tab-next</code> to swap
+    them.
 </p>
 </li>
 <li>
@@ -1110,7 +1118,7 @@ Why does it take longer to open a URL in qutebrowser than in chromium?
     One workaround is to use this
     <a href="https://github.com/qutebrowser/qutebrowser/blob/master/scripts/open_url_in_instance.sh">script</a>
     and place it in your $PATH with the name "qutebrowser". This
-    script passes the URL via an unix socket to qutebrowser (if its
+    script passes the URL via a unix socket to qutebrowser (if its
     running already) using socat which is much faster and starts a new
     qutebrowser if it is not running already.
 </p>
@@ -1237,6 +1245,48 @@ at the currently imported certificates using:</p></div>
 described above.</p></div>
 </li>
 </ol></div>
+</li>
+<li>
+<p><em>
+Is there a dark mode? How can I filter websites to be darker?
+</em></p>
+<p>
+There is a total of four possible approaches to get dark websites:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+The <code>colors.webpage.prefers_color_scheme_dark</code> setting tells websites that you prefer
+  a dark theme. However, this requires websites to ship an appropriate dark style sheet.
+  The setting requires a restart and QtWebEngine with at least Qt 5.14.
+</p>
+</li>
+<li>
+<p>
+The <code>colors.webpage.darkmode.*</code> settings enable the dark mode of the underlying
+  Chromium. Those setting require a restart and QtWebEngine with at least Qt 5.14. It&#8217;s
+  unfortunately not possible (due to limitations in Chromium and/or QtWebEngine) to
+  change them dynamically or to specify a list of excluded websites.
+</p>
+</li>
+<li>
+<p>
+The <code>content.user_stylesheets</code> setting allows specifying a custom CSS such as
+  <a href="https://github.com/alphapapa/solarized-everything-css/">Solarized Everything</a>. Despite
+  the name, the repository also offers themes other than just Solarized. This approach
+  often yields worse results compared to the above ones, but it&#8217;s possible to toggle it
+  dynamically using a binding like <code>:bind ,d 'config-cycle content.user_stylesheets
+  ~/path/to/solarized-everything-css/css/gruvbox/gruvbox-all-sites.css ""'</code>
+</p>
+</li>
+<li>
+<p>
+Finally, qutebrowser&#8217;s Greasemonkey support should allow for running a
+  <a href="https://github.com/darkreader/darkreader/issues/926#issuecomment-575893299">stripped down version</a>
+  of the Dark Reader extension. This is mostly untested, though.
+</p>
+</li>
+</ul></div>
 </li>
 </ol></div>
 </div>
@@ -1528,13 +1578,14 @@ answer the most common questions.</p></div>
 <div class="paragraph"><p>For any privacy questions, please contact <a href="mailto:privacy@qutebrowser.org">privacy@qutebrowser.org</a>.</p></div>
 <div class="sect2">
 <h3 id="_website">Website</h3>
-<div class="paragraph"><p>The qutebrowser.org website does not use any cookies or trackers.</p></div>
-<div class="paragraph"><p>However, IP addresses are currently (October 2019) logged and stored
-indefinitely. It&#8217;s planned to change this soon by migrating qutebrowser.org to
-a different server.</p></div>
+<div class="paragraph"><p>The qutebrowser.org website does not use any cookies or trackers. It does not
+store any logs, except in rare situations when those are explicitly (and
+temporarily) enabled to debug website issues. Even if enabled, IP addresses are
+partially redacted in the logs. As soon as debugging is finished, any logs
+are removed.</p></div>
 <div class="paragraph"><p>Note that some services related to qutebrowser are stored on third-party
-services such as GitHub, Travis CI or AppVeyor. By using their websites, you&#8217;re
-subject to their privacy policies.</p></div>
+services such as GitHub. By using their websites, you&#8217;re subject to their
+privacy policies.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_crash_reports">Crash reports</h3>
@@ -1574,7 +1625,7 @@ disable various features (usually at a cost of website compatibility).</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-07-17 17:05:11 CEST
+ 2020-10-15 14:48:04 CEST
 </div>
 </div>
 </body>

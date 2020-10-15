@@ -39,6 +39,7 @@ blocks and spins the Qt mainloop.
 
 import os
 import sys
+import functools
 import tempfile
 import datetime
 import argparse
@@ -51,7 +52,8 @@ from PyQt5.QtCore import pyqtSlot, QUrl, QObject, QEvent, pyqtSignal, Qt
 import qutebrowser
 import qutebrowser.resources
 from qutebrowser.commands import runners
-from qutebrowser.config import config, websettings, configfiles, configinit
+from qutebrowser.config import (config, websettings, configfiles, configinit,
+                                qtargs)
 from qutebrowser.browser import (urlmarks, history, browsertab,
                                  qtnetworkdownloads, downloads, greasemonkey)
 from qutebrowser.browser.network import proxy
@@ -59,7 +61,7 @@ from qutebrowser.browser.webkit import cookies, cache
 from qutebrowser.browser.webkit.network import networkmanager
 from qutebrowser.extensions import loader
 from qutebrowser.keyinput import macros, eventfilter
-from qutebrowser.mainwindow import mainwindow, prompt
+from qutebrowser.mainwindow import mainwindow, prompt, windowundo
 from qutebrowser.misc import (ipc, savemanager, sessions, crashsignal,
                               earlyinit, sql, cmdhistory, backendproblem,
                               objects, quitter)
@@ -79,6 +81,8 @@ def run(args):
     """Initialize everything and run the application."""
     if args.temp_basedir:
         args.basedir = tempfile.mkdtemp(prefix='qutebrowser-basedir-')
+
+    log.init.debug("Main process PID: {}".format(os.getpid()))
 
     log.init.debug("Initializing directories...")
     standarddir.init(args)
@@ -212,13 +216,15 @@ def _process_args(args):
 
     if not sessions.session_manager.did_load:
         log.init.debug("Initializing main window...")
-        if config.val.content.private_browsing and qtutils.is_single_process():
+        private = args.target == 'private-window'
+        if (config.val.content.private_browsing or
+                private) and qtutils.is_single_process():
             err = Exception("Private windows are unavailable with "
                             "the single-process process model.")
             error.handle_fatal_exc(err, 'Cannot start in private mode',
                                    no_err_windows=args.no_err_windows)
             sys.exit(usertypes.Exit.err_init)
-        window = mainwindow.MainWindow(private=None)
+        window = mainwindow.MainWindow(private=private)
         if not args.nowindow:
             window.show()
         q_app.setActiveWindow(window)
@@ -244,21 +250,32 @@ def process_pos_args(args, via_ipc=False, cwd=None, target_arg=None):
                     ipc. If the --target argument was not specified, target_arg
                     will be an empty string.
     """
+    new_window_target = ('private-window' if target_arg == 'private-window'
+                         else 'window')
+    command_target = config.val.new_instance_open_target
+    if command_target in {'window', 'private-window'}:
+        command_target = 'tab-silent'
+
+    win_id = None  # type: typing.Optional[int]
+
     if via_ipc and not args:
-        win_id = mainwindow.get_window(via_ipc, force_window=True)
+        win_id = mainwindow.get_window(via_ipc=via_ipc,
+                                       target=new_window_target)
         _open_startpage(win_id)
         return
-    win_id = None
+
     for cmd in args:
         if cmd.startswith(':'):
             if win_id is None:
-                win_id = mainwindow.get_window(via_ipc, force_tab=True)
+                win_id = mainwindow.get_window(via_ipc=via_ipc,
+                                               target=command_target)
             log.init.debug("Startup cmd {!r}".format(cmd))
             commandrunner = runners.CommandRunner(win_id)
             commandrunner.run_safely(cmd[1:])
         elif not cmd:
             log.init.debug("Empty argument")
-            win_id = mainwindow.get_window(via_ipc, force_window=True)
+            win_id = mainwindow.get_window(via_ipc=via_ipc,
+                                           target=new_window_target)
         else:
             if via_ipc and target_arg and target_arg != 'auto':
                 open_target = target_arg
@@ -289,7 +306,7 @@ def open_url(url, target=None, no_raise=False, via_ipc=True):
     """
     target = target or config.val.new_instance_open_target
     background = target in {'tab-bg', 'tab-bg-silent'}
-    win_id = mainwindow.get_window(via_ipc, force_target=target,
+    win_id = mainwindow.get_window(via_ipc=via_ipc, target=target,
                                    no_raise=no_raise)
     tabbed_browser = objreg.get('tabbed-browser', scope='window',
                                 window=win_id)
@@ -384,7 +401,8 @@ def on_focus_changed(_old, new):
 
 def open_desktopservices_url(url):
     """Handler to open a URL via QDesktopServices."""
-    win_id = mainwindow.get_window(via_ipc=True, force_window=False)
+    target = config.val.new_instance_open_target
+    win_id = mainwindow.get_window(via_ipc=True, target=target)
     tabbed_browser = objreg.get('tabbed-browser', scope='window',
                                 window=win_id)
     tabbed_browser.tabopen(url)
@@ -446,7 +464,6 @@ def _init_modules(*, args):
     cmdhistory.init()
     log.init.debug("Initializing sessions...")
     sessions.init(q_app)
-    quitter.instance.shutting_down.connect(sessions.shutdown)
 
     log.init.debug("Initializing websettings...")
     websettings.init(args)
@@ -470,14 +487,14 @@ def _init_modules(*, args):
     cache.init(q_app)
 
     log.init.debug("Initializing downloads...")
-    download_manager = qtnetworkdownloads.DownloadManager(parent=q_app)
-    objreg.register('qtnetwork-download-manager', download_manager)
+    qtnetworkdownloads.init()
 
     log.init.debug("Initializing Greasemonkey...")
     greasemonkey.init()
 
     log.init.debug("Misc initialization...")
     macros.init()
+    windowundo.init()
     # Init backend-specific stuff
     browsertab.init()
 
@@ -489,9 +506,14 @@ class Application(QApplication):
     Attributes:
         _args: ArgumentParser instance.
         _last_focus_object: The last focused object's repr.
+
+    Signals:
+        new_window: A new window was created.
+        window_closing: A window is being closed.
     """
 
     new_window = pyqtSignal(mainwindow.MainWindow)
+    window_closing = pyqtSignal(mainwindow.MainWindow)
 
     def __init__(self, args):
         """Constructor.
@@ -501,7 +523,7 @@ class Application(QApplication):
         """
         self._last_focus_object = None
 
-        qt_args = configinit.qt_args(args)
+        qt_args = qtargs.qt_args(args)
         log.init.debug("Commandline args: {}".format(sys.argv[1:]))
         log.init.debug("Parsed: {}".format(args))
         log.init.debug("Qt arguments: {}".format(qt_args[1:]))
@@ -515,6 +537,13 @@ class Application(QApplication):
         self.focusObjectChanged.connect(  # type: ignore[attr-defined]
             self.on_focus_object_changed)
         self.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+
+        self.new_window.connect(self._on_new_window)
+
+    @pyqtSlot(mainwindow.MainWindow)
+    def _on_new_window(self, window):
+        window.tabbed_browser.shutting_down.connect(functools.partial(
+            self.window_closing.emit, window))
 
     @pyqtSlot(QObject)
     def on_focus_object_changed(self, obj):

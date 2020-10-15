@@ -28,6 +28,7 @@ from PyQt5.QtCore import (pyqtSignal, pyqtSlot, QObject, QProcess,
 from qutebrowser.config import config
 from qutebrowser.utils import message, log
 from qutebrowser.misc import guiprocess
+from qutebrowser.qt import sip
 
 
 class ExternalEditor(QObject):
@@ -64,7 +65,9 @@ class ExternalEditor(QObject):
     def _cleanup(self):
         """Clean up temporary files after the editor closed."""
         assert self._remove_file is not None
-        if self._watcher is not None and self._watcher.files():
+        if (self._watcher is not None and
+                not sip.isdeleted(self._watcher) and
+                self._watcher.files()):
             failed = self._watcher.removePaths(self._watcher.files())
             if failed:
                 log.procs.error("Failed to unwatch paths: {}".format(failed))
@@ -89,6 +92,10 @@ class ExternalEditor(QObject):
 
         Callback for QProcess when the editor was closed.
         """
+        if sip.isdeleted(self):  # pragma: no cover
+            log.procs.debug("Ignoring _on_proc_closed for deleted editor")
+            return
+
         log.procs.debug("Editor closed")
         if exitstatus != QProcess.NormalExit:
             # No error/cleanup here, since we already handle this in
@@ -164,6 +171,9 @@ class ExternalEditor(QObject):
 
     def edit_file(self, filename):
         """Edit the file with the given filename."""
+        if not os.path.exists(filename):
+            with open(filename, 'w', encoding='utf-8'):
+                pass
         self._filename = filename
         self._remove_file = False
         self._start_editor()

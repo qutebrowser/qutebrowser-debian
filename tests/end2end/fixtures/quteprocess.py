@@ -33,7 +33,7 @@ import json
 
 import yaml
 import pytest
-from PyQt5.QtCore import pyqtSignal, QUrl, qVersion
+from PyQt5.QtCore import pyqtSignal, QUrl
 
 from qutebrowser.misc import ipc
 from qutebrowser.utils import log, utils, javascript, qtutils
@@ -114,6 +114,12 @@ def is_ignored_lowlevel_message(message):
         '*/QtWebEngineProcess: /lib/x86_64-linux-gnu/libdbus-1.so.3: no '
         'version information available (required by '
         '*/libQt5WebEngineCore.so.5)',
+
+        # hunter and Python 3.9
+        # https://github.com/ionelmc/python-hunter/issues/87
+        '<frozen importlib._bootstrap>:*: RuntimeWarning: builtins.type size changed, '
+        'may indicate binary incompatibility. Expected 872 from C header, got 880 from '
+        'PyObject',
     ]
     return any(testutils.pattern_match(pattern=pattern, value=message)
                for pattern in ignored_messages)
@@ -302,6 +308,14 @@ def is_ignored_chromium_message(line):
         'Could not open platform files for entry.',
         'Unable to terminate process *: No such process (3)',
         'Failed to read /proc/*/stat',
+
+        # Qt 5.15.1 debug build (Chromium 83)
+        # '[314297:7:0929/214605.491958:ERROR:context_provider_command_buffer.cc(145)]
+        # GpuChannelHost failed to create command buffer.'
+        'GpuChannelHost failed to create command buffer.',
+        # [338691:4:0929/220114.488847:WARNING:ipc_message_attachment_set.cc(49)]
+        # MessageAttachmentSet destroyed with unconsumed attachments: 0/1
+        'MessageAttachmentSet destroyed with unconsumed attachments: *',
     ]
     return any(testutils.pattern_match(pattern=pattern, value=message)
                for pattern in ignored_messages)
@@ -544,9 +558,10 @@ class QuteProc(testprocess.Process):
                 '--json-logging', '--loglevel', 'vdebug',
                 '--backend', backend, '--debug-flag', 'no-sql-history',
                 '--debug-flag', 'werror']
-        if qVersion() == '5.7.1':
-            # https://github.com/qutebrowser/qutebrowser/issues/3163
-            args += ['--qt-flag', 'disable-seccomp-filter-sandbox']
+
+        if self.request.config.webengine:
+            args += testutils.seccomp_args(qt_flag=True)
+
         args.append('about:blank')
         return args
 
@@ -682,13 +697,16 @@ class QuteProc(testprocess.Process):
             if bad_msgs:
                 text = 'Logged unexpected errors:\n\n' + '\n'.join(
                     str(e) for e in bad_msgs)
-                # We'd like to use pytrace=False here but don't as a WORKAROUND
-                # for https://github.com/pytest-dev/pytest/issues/1316
-                pytest.fail(text)
+                pytest.fail(text, pytrace=False)
             else:
                 self._maybe_skip()
         finally:
             super().after_test()
+
+    def _wait_for_ipc(self):
+        """Wait for an IPC message to arrive."""
+        self.wait_for(category='ipc', module='ipc', function='on_ready_read',
+                      message='Read from socket *')
 
     def send_ipc(self, commands, target_arg=''):
         """Send a raw command to the running IPC socket."""
@@ -697,8 +715,15 @@ class QuteProc(testprocess.Process):
 
         assert self._ipc_socket is not None
         ipc.send_to_running_instance(self._ipc_socket, commands, target_arg)
-        self.wait_for(category='ipc', module='ipc', function='on_ready_read',
-                      message='Read from socket *')
+
+        try:
+            self._wait_for_ipc()
+        except testprocess.WaitForTimeout:
+            # Sometimes IPC messages seem to get lost on Windows CI?
+            # Retry a second time as this shouldn't make tests fail.
+            ipc.send_to_running_instance(self._ipc_socket, commands,
+                                         target_arg)
+            self._wait_for_ipc()
 
     def start(self, *args, wait_focus=True,
               **kwargs):  # pylint: disable=arguments-differ
@@ -732,6 +757,7 @@ class QuteProc(testprocess.Process):
         Return:
             The parsed log line with "command called: ..." or None.
         """
+        __tracebackhide__ = lambda e: e.errisinstance(testprocess.WaitForTimeout)
         summary = command
         if count is not None:
             summary += ' (count {})'.format(count)

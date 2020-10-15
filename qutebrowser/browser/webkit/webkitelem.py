@@ -101,9 +101,9 @@ class WebKitElement(webelem.AbstractWebElement):
         self._check_vanished()
         return self._elem.geometry()
 
-    def classes(self) -> typing.List[str]:
+    def classes(self) -> typing.Set[str]:
         self._check_vanished()
-        return self._elem.classes()
+        return set(self._elem.classes())
 
     def tag_name(self) -> str:
         """Get the tag name for the current element."""
@@ -114,6 +114,12 @@ class WebKitElement(webelem.AbstractWebElement):
         """Get the full HTML representation of this element."""
         self._check_vanished()
         return self._elem.toOuterXml()
+
+    def is_content_editable_prop(self) -> bool:
+        self._check_vanished()
+        val = self._elem.evaluateJavaScript('this.isContentEditable || false')
+        assert isinstance(val, bool)
+        return val
 
     def value(self) -> webelem.JsValueType:
         self._check_vanished()
@@ -211,12 +217,14 @@ class WebKitElement(webelem.AbstractWebElement):
                     height *= zoom
                 rect = QRect(int(rect["left"]), int(rect["top"]),
                              int(width), int(height))
-                frame = self._elem.webFrame()
+
+                frame = typing.cast(typing.Optional[QWebFrame], self._elem.webFrame())
                 while frame is not None:
                     # Translate to parent frames' position (scroll position
                     # is taken care of inside getClientRects)
                     rect.translate(frame.geometry().topLeft())
                     frame = frame.parentFrame()
+
                 return rect
 
         return None
@@ -228,12 +236,14 @@ class WebKitElement(webelem.AbstractWebElement):
             geometry = self._elem.geometry()
         else:
             geometry = elem_geometry
-        frame = self._elem.webFrame()
         rect = QRect(geometry)
+
+        frame = typing.cast(typing.Optional[QWebFrame], self._elem.webFrame())
         while frame is not None:
             rect.translate(frame.geometry().topLeft())
             rect.translate(frame.scrollPosition() * -1)
-            frame = frame.parentFrame()
+            frame = typing.cast(typing.Optional[QWebFrame], frame.parentFrame())
+
         return rect
 
     def rect_on_view(self, *, elem_geometry: QRect = None,
@@ -267,6 +277,20 @@ class WebKitElement(webelem.AbstractWebElement):
         # No suitable rects found via JS, try via the QWebElement API
         return self._rect_on_view_python(elem_geometry)
 
+    def _is_hidden_css(self) -> bool:
+        """Check if the given element is hidden via CSS."""
+        attr_values = {
+            attr: self._elem.styleProperty(attr, QWebElement.ComputedStyle)
+            for attr in ['visibility', 'display', 'opacity']
+        }
+        invisible = attr_values['visibility'] == 'hidden'
+        none_display = attr_values['display'] == 'none'
+        zero_opacity = attr_values['opacity'] == '0'
+
+        is_framework = ('ace_text-input' in self.classes() or
+                        'custom-control-input' in self.classes())
+        return invisible or none_display or (zero_opacity and not is_framework)
+
     def _is_visible(self, mainframe: QWebFrame) -> bool:
         """Check if the given element is visible in the given frame.
 
@@ -275,16 +299,8 @@ class WebKitElement(webelem.AbstractWebElement):
         the tab API.
         """
         self._check_vanished()
-        # CSS attributes which hide an element
-        hidden_attributes = {
-            'visibility': 'hidden',
-            'display': 'none',
-            'opacity': '0',
-        }
-        for k, v in hidden_attributes.items():
-            if (self._elem.styleProperty(k, QWebElement.ComputedStyle) == v and
-                    'ace_text-input' not in self.classes()):
-                return False
+        if self._is_hidden_css():
+            return False
 
         elem_geometry = self._elem.geometry()
         if not elem_geometry.isValid() and elem_geometry.x() == 0:

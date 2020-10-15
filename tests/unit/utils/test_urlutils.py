@@ -21,11 +21,14 @@
 
 import os.path
 import logging
+import urllib.parse
 
 import attr
 from PyQt5.QtCore import QUrl
 from PyQt5.QtNetwork import QNetworkProxy
 import pytest
+import hypothesis
+import hypothesis.strategies
 
 from qutebrowser.api import cmdutils
 from qutebrowser.browser.network import pac
@@ -742,9 +745,6 @@ class TestProxyFromUrl:
     def test_proxy_from_url_valid(self, url, expected):
         assert urlutils.proxy_from_url(QUrl(url)) == expected
 
-    @pytest.mark.qt_log_ignore(
-        r'^QHttpNetworkConnectionPrivate::_q_hostLookupFinished could not '
-        r'de-queue request, failed to report HostNotFoundError')
     @pytest.mark.parametrize('scheme', ['pac+http', 'pac+https'])
     def test_proxy_from_url_pac(self, scheme, qapp):
         fetcher = urlutils.proxy_from_url(QUrl('{}://foo'.format(scheme)))
@@ -760,3 +760,44 @@ class TestProxyFromUrl:
     def test_invalid(self, url, exception):
         with pytest.raises(exception):
             urlutils.proxy_from_url(QUrl(url))
+
+
+class TestParseJavascriptUrl:
+
+    @pytest.mark.parametrize('url, message', [
+        (QUrl(), ""),
+        (QUrl('https://example.com'), "Expected a javascript:... URL"),
+        (QUrl('javascript://example.com'),
+         "URL contains unexpected components: example.com"),
+        (QUrl('javascript://foo:bar@example.com:1234'),
+         "URL contains unexpected components: foo:bar@example.com:1234"),
+    ])
+    def test_invalid(self, url, message):
+        with pytest.raises(urlutils.Error, match=message):
+            urlutils.parse_javascript_url(url)
+
+    @pytest.mark.parametrize('url, source', [
+        (QUrl('javascript:"hello" %0a "world"'), '"hello" \n "world"'),
+        (QUrl('javascript:/'), '/'),
+        (QUrl('javascript:///'), '///'),
+        # https://github.com/web-platform-tests/wpt/blob/master/html/browsers/browsing-the-web/navigating-across-documents/javascript-url-query-fragment-components.html
+        (QUrl('javascript:"nope" ? "yep" : "what";'), '"nope" ? "yep" : "what";'),
+        (QUrl('javascript:"wrong"; // # %0a "ok";'), '"wrong"; // # \n "ok";'),
+        (QUrl('javascript:"%252525 ? %252525 # %252525"'),
+         '"%2525 ? %2525 # %2525"'),
+    ])
+    def test_valid(self, url, source):
+        assert urlutils.parse_javascript_url(url) == source
+
+    @hypothesis.given(source=hypothesis.strategies.text())
+    def test_hypothesis(self, source):
+        scheme = 'javascript:'
+        url = QUrl(scheme + urllib.parse.quote(source))
+        hypothesis.assume(url.isValid())
+
+        try:
+            parsed = urlutils.parse_javascript_url(url)
+        except urlutils.Error:
+            pass
+        else:
+            assert parsed == source

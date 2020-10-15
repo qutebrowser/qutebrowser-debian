@@ -26,9 +26,10 @@ import logging
 import re
 
 import pytest
-from PyQt5.QtCore import QProcess, qVersion
+from PyQt5.QtCore import QProcess
 
 from helpers import utils
+from qutebrowser.utils import qtutils
 
 
 ascii_locale = pytest.mark.skipif(sys.hexversion >= 0x03070000,
@@ -43,9 +44,10 @@ def _base_args(config):
         args += ['--backend', 'webengine']
     else:
         args += ['--backend', 'webkit']
-    if qVersion() == '5.7.1':
-        # https://github.com/qutebrowser/qutebrowser/issues/3163
-        args += ['--qt-flag', 'disable-seccomp-filter-sandbox']
+
+    if config.webengine:
+        args += utils.seccomp_args(qt_flag=True)
+
     args.append('about:blank')
     return args
 
@@ -250,7 +252,10 @@ def test_version(request):
     print(stderr)
 
     assert ok
-    assert proc.exitStatus() == QProcess.NormalExit
+
+    if qtutils.version_check('5.9'):
+        # Segfaults on exit with Qt 5.7
+        assert proc.exitStatus() == QProcess.NormalExit
 
     match = re.search(r'^qutebrowser\s+v\d+(\.\d+)', stdout, re.MULTILINE)
     assert match is not None
