@@ -40,7 +40,7 @@ The following userscripts are included in the current directory.
 
 The following userscripts can be found on their own repositories.
 
-- [qurlshare](https://github.com/sim590/qurlshare): *secure* sharing of an URL between qutebrowser
+- [qurlshare](https://github.com/sim590/qurlshare): *secure* sharing of a URL between qutebrowser
   instances using a distributed hash table.
 - [qutebrowser-userscripts](https://github.com/cryzed/qutebrowser-userscripts):
   a small pack of userscripts.
@@ -61,6 +61,10 @@ The following userscripts can be found on their own repositories.
   Emacs's org-mode to a read-later file.
 - [qute-code-hint](https://github.com/LaurenceWarne/qute-code-hint): Copy code
   snippets on web pages to the clipboard via hints.
+- [Qute-Translate](https://github.com/AckslD/Qute-Translate): Translate URLs or
+  selections via Google Translate.
+- [qute-snippets](https://github.com/Aledosim/qute-snippets): Bind text snippets to a keyword
+   and retrieve they when you want.
 
 [Zotero]: https://www.zotero.org/
 [Pocket]: https://getpocket.com/

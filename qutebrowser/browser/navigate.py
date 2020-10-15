@@ -132,6 +132,8 @@ def path_up(url, count):
         url: The current url.
         count: The number of levels to go up in the url.
     """
+    urlutils.ensure_valid(url)
+    url = url.adjusted(QUrl.RemoveFragment | QUrl.RemoveQuery)
     path = url.path()
     if not path or path == '/':
         raise Error("Can't go up!")
@@ -142,15 +144,28 @@ def path_up(url, count):
     return url
 
 
+def strip(url, count):
+    """Strip fragment/query from a URL."""
+    if count != 1:
+        raise Error("Count is not supported when stripping URL components")
+    urlutils.ensure_valid(url)
+    return url.adjusted(QUrl.RemoveFragment | QUrl.RemoveQuery)
+
+
 def _find_prevnext(prev, elems):
     """Find a prev/next element in the given list of elements."""
-    # First check for <link rel="prev(ious)|next">
+    # First check for <link rel="prev(ious)|next"> as well as
+    # e.g. <a class="nav-(prev|next)"> (Hugo)
     rel_values = {'prev', 'previous'} if prev else {'next'}
+    classes = {'nav-prev'} if prev else {'nav-next'}
     for e in elems:
-        if e.tag_name() not in ['link', 'a'] or 'rel' not in e:
+        if e.tag_name() not in ['link', 'a']:
             continue
-        if set(e['rel'].split(' ')) & rel_values:
+        if 'rel' in e and set(e['rel'].split(' ')) & rel_values:
             log.hints.debug("Found {!r} with rel={}".format(e, e['rel']))
+            return e
+        elif e.classes() & classes:
+            log.hints.debug("Found {!r} with class={}".format(e, e.classes()))
             return e
 
     # Then check for regular links/buttons.

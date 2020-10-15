@@ -41,7 +41,7 @@ import hypothesis.strategies
 import qutebrowser
 from qutebrowser.config import config
 from qutebrowser.utils import version, usertypes, utils, standarddir
-from qutebrowser.misc import pastebin
+from qutebrowser.misc import pastebin, objects
 from qutebrowser.browser import pdfjs
 
 
@@ -806,8 +806,9 @@ class TestPDFJSVersion:
         assert version._pdfjs_version() == 'unknown (bundled)'
 
     @pytest.mark.parametrize('varname', [
-        'PDFJS.version',  # older versions
-        'var pdfjsVersion',  # newer versions
+        'PDFJS.version',  # v1.10.100 and older
+        'var pdfjsVersion',  # v2.0.943
+        'const pdfjsVersion',  # v2.5.207
     ])
     def test_known(self, monkeypatch, varname):
         pdfjs_code = textwrap.dedent("""
@@ -867,39 +868,49 @@ _QTWE_USER_AGENT = ("Mozilla/5.0 (X11; Linux x86_64) "
                     "QtWebEngine/5.14.0 Chrome/{} Safari/537.36")
 
 
-def test_chromium_version(monkeypatch, caplog):
-    pytest.importorskip('PyQt5.QtWebEngineWidgets')
+class TestChromiumVersion:
 
-    ver = '77.0.3865.98'
-    version.webenginesettings._init_user_agent_str(
-        _QTWE_USER_AGENT.format(ver))
+    @pytest.fixture(autouse=True)
+    def clear_parsed_ua(self, monkeypatch):
+        if version.webenginesettings is not None:
+            # Not available with QtWebKit
+            monkeypatch.setattr(version.webenginesettings, 'parsed_user_agent', None)
 
-    assert version._chromium_version() == ver
+    def test_fake_ua(self, monkeypatch, caplog):
+        pytest.importorskip('PyQt5.QtWebEngineWidgets')
 
+        ver = '77.0.3865.98'
+        version.webenginesettings._init_user_agent_str(
+            _QTWE_USER_AGENT.format(ver))
 
-def test_chromium_version_no_webengine(monkeypatch):
-    monkeypatch.setattr(version, 'webenginesettings', None)
-    assert version._chromium_version() == 'unavailable'
+        assert version._chromium_version() == ver
 
+    def test_no_webengine(self, monkeypatch):
+        monkeypatch.setattr(version, 'webenginesettings', None)
+        assert version._chromium_version() == 'unavailable'
 
-def test_chromium_version_prefers_saved_user_agent(monkeypatch):
-    pytest.importorskip('PyQt5.QtWebEngineWidgets')
-    version.webenginesettings._init_user_agent_str(_QTWE_USER_AGENT)
+    def test_prefers_saved_user_agent(self, monkeypatch):
+        pytest.importorskip('PyQt5.QtWebEngineWidgets')
+        version.webenginesettings._init_user_agent_str(_QTWE_USER_AGENT)
 
-    class FakeProfile:
-        def defaultProfile(self):
-            raise AssertionError("Should not be called")
+        class FakeProfile:
+            def defaultProfile(self):
+                raise AssertionError("Should not be called")
 
-    monkeypatch.setattr(version.webenginesettings, 'QWebEngineProfile',
-                        FakeProfile())
+        monkeypatch.setattr(version.webenginesettings, 'QWebEngineProfile',
+                            FakeProfile())
 
-    version._chromium_version()
+        version._chromium_version()
 
+    def test_unpatched(self, qapp, cache_tmpdir, data_tmpdir, config_stub):
+        pytest.importorskip('PyQt5.QtWebEngineWidgets')
+        unexpected = ['', 'unknown', 'unavailable', 'avoided']
+        assert version._chromium_version() not in unexpected
 
-def test_chromium_version_unpatched(qapp, cache_tmpdir, data_tmpdir,
-                                    config_stub):
-    pytest.importorskip('PyQt5.QtWebEngineWidgets')
-    assert version._chromium_version() not in ['', 'unknown', 'unavailable']
+    def test_avoided(self, monkeypatch):
+        pytest.importorskip('PyQt5.QtWebEngineWidgets')
+        monkeypatch.setattr(objects, 'debug_flags', ['avoid-chromium-init'])
+        assert version._chromium_version() == 'avoided'
 
 
 @attr.s
@@ -1099,12 +1110,6 @@ class TestOpenGLInfo:
         assert info.version_str == version_str
         assert vendor in str(info)
         assert version_str in str(info)
-
-        if info.version is not None:
-            reconstructed = ' '.join(['.'.join(str(part)
-                                               for part in info.version),
-                                      info.vendor_specific])
-            assert reconstructed == info.version_str
 
     @pytest.mark.parametrize('version_str, expected', [
         ("2.1 INTEL-10.36.26", (2, 1)),

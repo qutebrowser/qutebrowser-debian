@@ -27,7 +27,8 @@ import pytest
     ('textarea.html', 'qute-textarea', 'keypress', 'superqutebrowser'),
     ('input.html', 'qute-input', 'clipboard', 'amazingqutebrowser'),
     ('input.html', 'qute-input', 'keypress', 'awesomequtebrowser'),
-    ('autofocus.html', 'qute-input-autofocus', 'keypress', 'cutebrowser'),
+    pytest.param('autofocus.html', 'qute-input-autofocus', 'keypress',
+                 'cutebrowser', marks=pytest.mark.flaky),
 ])
 @pytest.mark.parametrize('zoom', [100, 125, 250])
 def test_insert_mode(file_name, elem_id, source, input_text, zoom,
@@ -57,6 +58,7 @@ def test_insert_mode(file_name, elem_id, source, input_text, zoom,
     (True, False, True),  # enabled and foreground tab
     (True, True, False),  # background tab
 ])
+@pytest.mark.flaky
 def test_auto_load(quteproc, auto_load, background, insert_mode):
     quteproc.set_setting('input.insert_mode.auto_load', str(auto_load))
     url_path = 'data/insert_mode_settings/html/autofocus.html'

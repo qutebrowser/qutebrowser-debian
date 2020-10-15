@@ -89,6 +89,10 @@ Feature: Various utility commands.
         When I run :jseval Array(5002).join("x")
         Then the message "x* [...trimmed...]" should be shown
 
+    Scenario: :jseval --url
+        When I run :jseval --url javascript:console.log("hello world?")
+        Then the javascript message "hello world?" should be logged
+
     @qtwebengine_skip
     Scenario: :jseval with --world on QtWebKit
         When I run :jseval --world=1 console.log("Hello from JS!");
@@ -536,7 +540,14 @@ Feature: Various utility commands.
         And I open data/numbers/3.txt
         Then no crash should happen
 
+    ## Other
+
     Scenario: Simple adblock update
         When I set up "simple" as block lists
         And I run :adblock-update
         Then the message "adblock: Read 1 hosts from 1 sources." should be shown
+
+    Scenario: Resource with invalid URL
+        When I open data/invalid_resource.html
+        Then "Ignoring invalid * URL: Invalid hostname (contains invalid characters); *" should be logged
+        And no crash should happen

@@ -353,9 +353,16 @@ class YamlMigrations(QObject):
                                   ('fonts.tabs.selected',
                                    'fonts.tabs.unselected'))
 
+        self._migrate_to_multiple('content.media_capture',
+                                  ('content.media.audio_capture',
+                                   'content.media.audio_video_capture',
+                                   'content.media.video_capture'))
+
         # content.headers.user_agent can't be empty to get the default anymore.
         setting = 'content.headers.user_agent'
         self._migrate_none(setting, configdata.DATA[setting].default)
+
+        self._remove_empty_patterns()
 
     def _migrate_configdata(self) -> None:
         """Migrate simple renamed/deleted options."""
@@ -500,6 +507,20 @@ class YamlMigrations(QObject):
                     self._settings[name][scope] = new_val
                     self.changed.emit()
 
+    def _remove_empty_patterns(self) -> None:
+        """Remove *. host patterns from the config.
+
+        Those used to be valid (and could be accidentally produced by using tSH
+        on about:blank), but aren't anymore.
+        """
+        scope = '*://*./*'
+        for name, values in self._settings.items():
+            if not isinstance(values, dict):
+                continue
+            if scope in values:
+                del self._settings[name][scope]
+                self.changed.emit()
+
 
 class ConfigAPI:
 
@@ -585,7 +606,9 @@ class ConfigAPI:
     def source(self, filename: str) -> None:
         """Read the given config file from disk."""
         if not os.path.isabs(filename):
-            filename = str(self.configdir / filename)
+            # We don't use self.configdir here so we get the proper file when starting
+            # with a --config-py argument given.
+            filename = os.path.join(os.path.dirname(standarddir.config_py()), filename)
 
         try:
             read_config_py(filename)

@@ -230,9 +230,10 @@ def suggested_fn_from_title(url_path, title=None):
 
     suggested_fn = None  # type: typing.Optional[str]
     if ext.lower() in ext_whitelist and title:
-        suggested_fn = utils.sanitize_filename(title)
+        suggested_fn = utils.sanitize_filename(title, shorten=True)
         if not suggested_fn.lower().endswith((".html", ".htm")):
             suggested_fn += ".html"
+            suggested_fn = utils.sanitize_filename(suggested_fn, shorten=True)
 
     return suggested_fn
 
@@ -426,6 +427,7 @@ class AbstractDownloadItem(QObject):
         raw_headers: The headers sent by the server.
         _filename: The filename of the download.
         _dead: Whether the Download has _die()'d.
+        _manager: The DownloadManager which started this download.
 
     Signals:
         data_changed: The downloads metadata changed.
@@ -447,8 +449,9 @@ class AbstractDownloadItem(QObject):
     remove_requested = pyqtSignal()
     pdfjs_requested = pyqtSignal(str, QUrl)
 
-    def __init__(self, parent=None):
+    def __init__(self, manager, parent=None):
         super().__init__(parent)
+        self._manager = manager
         self.done = False
         self.stats = DownloadItemStats(self)
         self.index = 0
@@ -619,7 +622,7 @@ class AbstractDownloadItem(QObject):
         raise NotImplementedError
 
     @pyqtSlot()
-    def open_file(self, cmdline=None):
+    def open_file(self, cmdline=None, open_dir=False):
         """Open the downloaded file.
 
         Args:
@@ -627,12 +630,15 @@ class AbstractDownloadItem(QObject):
                      filename. None means to use the system's default
                      application or `downloads.open_dispatcher` if set. If no
                      `{}` is found, the filename is appended to the cmdline.
+            open_dir: Specify whether to open the file's directory instead.
         """
         assert self.successful
         filename = self._get_open_filename()
         if filename is None:  # pragma: no cover
             log.downloads.error("No filename to open the download!")
             return
+        if open_dir:
+            filename = os.path.dirname(filename)
         # By using a singleshot timer, we ensure that we return fast. This
         # is important on systems where process creation takes long, as
         # otherwise the prompt might hang around and cause bugs
@@ -647,7 +653,7 @@ class AbstractDownloadItem(QObject):
         """Finish initialization based on self._filename."""
         raise NotImplementedError
 
-    def _ask_confirm_question(self, title, msg):
+    def _ask_confirm_question(self, title, msg, *, custom_yes_action=None):
         """Ask a confirmation question for the download."""
         raise NotImplementedError
 
@@ -742,7 +748,13 @@ class AbstractDownloadItem(QObject):
             last_used_directory = os.path.dirname(self._filename)
 
         log.downloads.debug("Setting filename to {}".format(self._filename))
-        if force_overwrite:
+        if self._get_conflicting_download():
+            txt = ("<b>{}</b> is already downloading. Cancel and "
+                   "re-download?".format(html.escape(self._filename)))
+            self._ask_confirm_question(
+                "Cancel other download?", txt,
+                custom_yes_action=self._cancel_conflicting_download)
+        elif force_overwrite:
             self._after_set_filename()
         elif os.path.isfile(self._filename):
             # The file already exists, so ask the user if it should be
@@ -758,6 +770,28 @@ class AbstractDownloadItem(QObject):
             self._ask_confirm_question("Overwrite special file?", txt)
         else:
             self._after_set_filename()
+
+    def _conflicts_with(self, other: 'AbstractDownloadItem') -> bool:
+        """Check if this download conflicts with the other given one."""
+        return (
+            other is not self and
+            other._filename == self._filename and  # pylint: disable=protected-access
+            not other.done
+        )
+
+    def _get_conflicting_download(self):
+        """Return another potential active download with the same name."""
+        for download in self._manager.downloads:
+            if self._conflicts_with(download):
+                return download
+        return None
+
+    def _cancel_conflicting_download(self):
+        """Cancel any conflicting download and call _after_set_filename."""
+        conflicting_download = self._get_conflicting_download()
+        if conflicting_download:
+            conflicting_download.cancel(remove_data=False)
+        self._after_set_filename()
 
     def _open_if_successful(self, cmdline):
         """Open the downloaded file, but only if it was successful.
@@ -943,6 +977,12 @@ class AbstractDownloadManager(QObject):
         download.cancelled.connect(question.abort)
         download.error.connect(question.abort)
 
+    @pyqtSlot()
+    def shutdown(self):
+        """Cancel all downloads when shutting down."""
+        for download in self.downloads:
+            download.cancel(remove_data=False)
+
 
 class DownloadModel(QAbstractListModel):
 
@@ -1093,7 +1133,8 @@ class DownloadModel(QAbstractListModel):
 
     @cmdutils.register(instance='download-model', scope='window', maxsplit=0)
     @cmdutils.argument('count', value=cmdutils.Value.count)
-    def download_open(self, cmdline: str = None, count: int = 0) -> None:
+    def download_open(self, cmdline: str = None, count: int = 0,
+                      dir_: bool = False) -> None:
         """Open the last/[count]th download.
 
         If no specific command is given, this will use the system's default
@@ -1105,6 +1146,7 @@ class DownloadModel(QAbstractListModel):
                      present, the filename is automatically appended to the
                      cmdline.
             count: The index of the download to open.
+            dir_: Whether to open the file's directory instead.
         """
         try:
             download = self[count - 1]
@@ -1115,7 +1157,7 @@ class DownloadModel(QAbstractListModel):
                 count = len(self)
             raise cmdutils.CommandError("Download {} is not done!"
                                         .format(count))
-        download.open_file(cmdline)
+        download.open_file(cmdline, open_dir=dir_)
 
     @cmdutils.register(instance='download-model', scope='window')
     @cmdutils.argument('count', value=cmdutils.Value.count)

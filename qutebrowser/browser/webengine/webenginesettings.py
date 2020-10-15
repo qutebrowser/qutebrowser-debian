@@ -55,45 +55,45 @@ class _SettingsWrapper:
     For read operations, the default profile value is always used.
     """
 
-    def __init__(self):
-        self._settings = [default_profile.settings()]
+    def _settings(self):
+        yield default_profile.settings()
         if private_profile:
-            self._settings.append(private_profile.settings())
+            yield private_profile.settings()
 
     def setAttribute(self, attribute, on):
-        for settings in self._settings:
+        for settings in self._settings():
             settings.setAttribute(attribute, on)
 
     def setFontFamily(self, which, family):
-        for settings in self._settings:
+        for settings in self._settings():
             settings.setFontFamily(which, family)
 
     def setFontSize(self, fonttype, size):
-        for settings in self._settings:
+        for settings in self._settings():
             settings.setFontSize(fonttype, size)
 
     def setDefaultTextEncoding(self, encoding):
-        for settings in self._settings:
+        for settings in self._settings():
             settings.setDefaultTextEncoding(encoding)
 
     def setUnknownUrlSchemePolicy(self, policy):
-        for settings in self._settings:
+        for settings in self._settings():
             settings.setUnknownUrlSchemePolicy(policy)
 
     def testAttribute(self, attribute):
-        return self._settings[0].testAttribute(attribute)
+        return default_profile.settings().testAttribute(attribute)
 
     def fontSize(self, fonttype):
-        return self._settings[0].fontSize(fonttype)
+        return default_profile.settings().fontSize(fonttype)
 
     def fontFamily(self, which):
-        return self._settings[0].fontFamily(which)
+        return default_profile.settings().fontFamily(which)
 
     def defaultTextEncoding(self):
-        return self._settings[0].defaultTextEncoding()
+        return default_profile.settings().defaultTextEncoding()
 
     def unknownUrlSchemePolicy(self):
-        return self._settings[0].unknownUrlSchemePolicy()
+        return default_profile.settings().unknownUrlSchemePolicy()
 
 
 class WebEngineSettings(websettings.AbstractSettings):
@@ -360,9 +360,9 @@ def init_user_agent():
     _init_user_agent_str(QWebEngineProfile.defaultProfile().httpUserAgent())
 
 
-def _init_profiles():
-    """Init the two used QWebEngineProfiles."""
-    global default_profile, private_profile
+def _init_default_profile():
+    """Init the default QWebEngineProfile."""
+    global default_profile
 
     default_profile = QWebEngineProfile.defaultProfile()
     init_user_agent()
@@ -376,6 +376,11 @@ def _init_profiles():
     default_profile.setter.init_profile()
     default_profile.setter.set_persistent_cookie_policy()
 
+
+def init_private_profile():
+    """Init the private QWebEngineProfile."""
+    global private_profile
+
     if not qtutils.is_single_process():
         private_profile = QWebEngineProfile()
         private_profile.setter = ProfileSetter(  # type: ignore[attr-defined]
@@ -385,9 +390,14 @@ def _init_profiles():
 
 
 def _init_site_specific_quirks():
+    """Add custom user-agent settings for problematic sites.
+
+    See https://github.com/qutebrowser/qutebrowser/issues/4810
+    """
     if not config.val.content.site_specific_quirks:
         return
 
+    # Please leave this here as a template for new UAs.
     # default_ua = ("Mozilla/5.0 ({os_info}) "
     #               "AppleWebKit/{webkit_version} (KHTML, like Gecko) "
     #               "{qt_key}/{qt_version} "
@@ -397,21 +407,37 @@ def _init_site_specific_quirks():
                   "AppleWebKit/{webkit_version} (KHTML, like Gecko) "
                   "{upstream_browser_key}/{upstream_browser_version} "
                   "Safari/{webkit_version}")
-    firefox_ua = "Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0"
     new_chrome_ua = ("Mozilla/5.0 ({os_info}) "
                      "AppleWebKit/537.36 (KHTML, like Gecko) "
                      "Chrome/99 "
                      "Safari/537.36")
+    edge_ua = ("Mozilla/5.0 ({os_info}) "
+               "AppleWebKit/{webkit_version} (KHTML, like Gecko) "
+               "{upstream_browser_key}/{upstream_browser_version} "
+               "Safari/{webkit_version} "
+               "Edg/{upstream_browser_version}")
 
     user_agents = {
+        # Needed to avoid a ""WhatsApp works with Google Chrome 36+" error
+        # page which doesn't allow to use WhatsApp Web at all. Also see the
+        # additional JS quirk: qutebrowser/javascript/whatsapp_web_quirk.user.js
+        # https://github.com/qutebrowser/qutebrowser/issues/4445
         'https://web.whatsapp.com/': no_qtwe_ua,
-        'https://accounts.google.com/*': firefox_ua,
+
+        # Needed to avoid a "you're using a browser [...] that doesn't allow us
+        # to keep your account secure" error.
+        # https://github.com/qutebrowser/qutebrowser/issues/5182
+        'https://accounts.google.com/*': edge_ua,
+
+        # Needed because Slack adds an error which prevents using it relatively
+        # aggressively, despite things actually working fine.
+        # September 2020: Qt 5.12 works, but Qt <= 5.11 shows the error.
+        # https://github.com/qutebrowser/qutebrowser/issues/4669
         'https://*.slack.com/*': new_chrome_ua,
-        'https://docs.google.com/*': firefox_ua,
-        'https://drive.google.com/*': firefox_ua,
     }
 
     if not qtutils.version_check('5.9'):
+        # Shows 502 Bad Gateway with the Qt 5.7 UA.
         user_agents['https://www.dell.com/support/*'] = new_chrome_ua
 
     for pattern, ua in user_agents.items():
@@ -445,7 +471,8 @@ def init(args):
     webenginequtescheme.init()
     spell.init()
 
-    _init_profiles()
+    _init_default_profile()
+    init_private_profile()
     config.instance.changed.connect(_update_settings)
 
     global global_settings

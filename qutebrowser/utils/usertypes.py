@@ -30,7 +30,19 @@ from PyQt5.QtCore import QUrl
 from qutebrowser.utils import log, qtutils, utils
 
 
-_T = typing.TypeVar('_T')
+if typing.TYPE_CHECKING:
+    # Protocol was added in Python 3.8
+    from typing import Protocol, Any
+
+    class SupportsLessThan(Protocol):
+
+        """Protocol for the _T TypeVar below."""
+
+        def __lt__(self, other: Any) -> bool:
+            ...
+
+
+_T = typing.TypeVar('_T', bound='SupportsLessThan')
 
 
 class Unset:

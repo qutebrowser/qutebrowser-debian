@@ -6,6 +6,7 @@ qutebrowser.py
 requirements.txt
 setup.py
 doc/changelog.asciidoc
+doc/changelog.html
 doc/faq.html
 doc/install.html
 doc/qutebrowser.1
@@ -41,8 +42,6 @@ misc/apparmor/usr.bin.qutebrowser
 misc/requirements/README.md
 misc/requirements/requirements-check-manifest.txt
 misc/requirements/requirements-check-manifest.txt-raw
-misc/requirements/requirements-codecov.txt
-misc/requirements/requirements-codecov.txt-raw
 misc/requirements/requirements-dev.txt
 misc/requirements/requirements-dev.txt-raw
 misc/requirements/requirements-flake8.txt
@@ -84,6 +83,8 @@ misc/requirements/requirements-tox.txt
 misc/requirements/requirements-tox.txt-raw
 misc/requirements/requirements-vulture.txt
 misc/requirements/requirements-vulture.txt-raw
+misc/requirements/requirements-yamllint.txt
+misc/requirements/requirements-yamllint.txt-raw
 misc/userscripts/README.md
 misc/userscripts/cast
 misc/userscripts/dmenu_qutebrowser
@@ -218,6 +219,7 @@ qutebrowser/config/configfiles.py
 qutebrowser/config/configinit.py
 qutebrowser/config/configtypes.py
 qutebrowser/config/configutils.py
+qutebrowser/config/qtargs.py
 qutebrowser/config/stylesheet.py
 qutebrowser/config/websettings.py
 qutebrowser/extensions/__init__.py
@@ -280,6 +282,7 @@ qutebrowser/mainwindow/messageview.py
 qutebrowser/mainwindow/prompt.py
 qutebrowser/mainwindow/tabbedbrowser.py
 qutebrowser/mainwindow/tabwidget.py
+qutebrowser/mainwindow/windowundo.py
 qutebrowser/mainwindow/statusbar/__init__.py
 qutebrowser/mainwindow/statusbar/backforward.py
 qutebrowser/mainwindow/statusbar/bar.py
@@ -369,6 +372,7 @@ tests/end2end/data/hello3.txt
 tests/end2end/data/hinting.txt
 tests/end2end/data/iframe_search.html
 tests/end2end/data/invalid_link.html
+tests/end2end/data/invalid_resource.html
 tests/end2end/data/issue2569.html
 tests/end2end/data/issue4011.html
 tests/end2end/data/l33t.txt
@@ -438,6 +442,8 @@ tests/end2end/data/hints/short_dict.html
 tests/end2end/data/hints/ace/ace.html
 tests/end2end/data/hints/ace/ace.js
 tests/end2end/data/hints/angular1/angular.min.js
+tests/end2end/data/hints/bootstrap/bootstrap.css
+tests/end2end/data/hints/bootstrap/checkbox.html
 tests/end2end/data/hints/html/README.md
 tests/end2end/data/hints/html/angular1.html
 tests/end2end/data/hints/html/click_handler.html
@@ -599,6 +605,7 @@ tests/unit/test_app.py
 tests/unit/test_qutebrowser.py
 tests/unit/api/test_cmdutils.py
 tests/unit/browser/test_caret.py
+tests/unit/browser/test_downloads.py
 tests/unit/browser/test_hints.py
 tests/unit/browser/test_history.py
 tests/unit/browser/test_inspector.py
@@ -616,7 +623,6 @@ tests/unit/browser/webengine/test_webenginesettings.py
 tests/unit/browser/webengine/test_webenginetab.py
 tests/unit/browser/webkit/test_cache.py
 tests/unit/browser/webkit/test_cookies.py
-tests/unit/browser/webkit/test_downloads.py
 tests/unit/browser/webkit/test_mhtml.py
 tests/unit/browser/webkit/test_tabhistory.py
 tests/unit/browser/webkit/test_webkitelem.py
@@ -651,6 +657,7 @@ tests/unit/config/test_configfiles.py
 tests/unit/config/test_configinit.py
 tests/unit/config/test_configtypes.py
 tests/unit/config/test_configutils.py
+tests/unit/config/test_qtargs.py
 tests/unit/config/test_stylesheet.py
 tests/unit/config/test_websettings.py
 tests/unit/extensions/test_loader.py
@@ -707,6 +714,7 @@ tests/unit/misc/test_split_hypothesis.py
 tests/unit/misc/test_sql.py
 tests/unit/misc/test_throttle.py
 tests/unit/misc/test_utilcmds.py
+tests/unit/misc/userscripts/test_qute_lastpass.py
 tests/unit/scripts/test_dictcli.py
 tests/unit/scripts/test_importer.py
 tests/unit/scripts/importer_sample/chrome/bookmarks

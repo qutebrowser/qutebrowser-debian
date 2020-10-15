@@ -28,7 +28,7 @@ from PyQt5.QtCore import QSettings
 
 from qutebrowser.config import (config, configfiles, configexc, configdata,
                                 configtypes)
-from qutebrowser.utils import utils, usertypes, urlmatch
+from qutebrowser.utils import utils, usertypes, urlmatch, standarddir
 from qutebrowser.keyinput import keyutils
 
 
@@ -617,6 +617,40 @@ class TestYamlMigrations:
         assert data['fonts.tabs.unselected']['global'] == val
         assert data['fonts.tabs.selected']['global'] == val
 
+    def test_content_media_capture(self, yaml, autoconfig):
+        val = 'ask'
+        autoconfig.write({'content.media_capture': {'global': val}})
+
+        yaml.load()
+        yaml._save()
+
+        data = autoconfig.read()
+        for setting in ['content.media.audio_capture',
+                        'content.media.audio_video_capture',
+                        'content.media.video_capture']:
+            assert data[setting]['global'] == val
+
+    def test_empty_pattern(self, yaml, autoconfig):
+        valid_pattern = 'https://example.com/*'
+        invalid_pattern = '*://*./*'
+        setting = 'content.javascript.enabled'
+
+        autoconfig.write({
+            setting: {
+                'global': False,
+                invalid_pattern: True,
+                valid_pattern: True,
+            }
+        })
+
+        yaml.load()
+        yaml._save()
+
+        data = autoconfig.read()
+        assert not data[setting]['global']
+        assert invalid_pattern not in data[setting]
+        assert data[setting][valid_pattern]
+
 
 class ConfPy:
 
@@ -1027,6 +1061,24 @@ class TestConfigPy:
                            encoding='utf-8')
         confpy.write("config.source({!r})".format(arg))
         confpy.read()
+
+        assert not config.instance.get_obj('content.javascript.enabled')
+
+    def test_source_configpy_arg(self, tmpdir, data_tmpdir, monkeypatch):
+        alt_filename = 'alt-config.py'
+
+        alt_confpy_dir = tmpdir / 'alt-confpy-dir'
+        alt_confpy_dir.ensure(dir=True)
+        monkeypatch.setattr(standarddir, 'config_py',
+                            lambda: str(alt_confpy_dir / alt_filename))
+
+        subfile = alt_confpy_dir / 'subfile.py'
+        subfile.write_text("c.content.javascript.enabled = False",
+                           encoding='utf-8')
+
+        alt_confpy = ConfPy(alt_confpy_dir, alt_filename)
+        alt_confpy.write("config.source('subfile.py')")
+        alt_confpy.read()
 
         assert not config.instance.get_obj('content.javascript.enabled')
 
