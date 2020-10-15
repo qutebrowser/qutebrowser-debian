@@ -1,7 +1,11 @@
-qutebrowser (1.13.1-2) UNRELEASED; urgency=medium
+qutebrowser (1.14.0-1) UNRELEASED; urgency=medium
 
+  [ Fritz Reichwald ]
   * Add Provides: www-browser
   * Remove Provides: x-www-browser
+
+  [ Axel Beckert ]
+  * Import new upstream release.
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Fri, 24 Jul 2020 23:04:07 +0200
 
