@@ -1,4 +1,4 @@
-qutebrowser (1.14.0-1) UNRELEASED; urgency=medium
+qutebrowser (1.14.0-1) unstable; urgency=medium
 
   [ Fritz Reichwald ]
   * Add Provides: www-browser
@@ -16,7 +16,7 @@ qutebrowser (1.14.0-1) UNRELEASED; urgency=medium
     + Override source-contains-prebuilt-javascript-object as upstream
       declared this as being intentional.
 
- -- Fritz Reichwald <reichwald@b1-systems.de>  Fri, 24 Jul 2020 23:04:07 +0200
+ -- Axel Beckert <abe@debian.org>  Sun, 18 Oct 2020 08:42:13 +0200
 
 qutebrowser (1.13.1-1) unstable; urgency=medium
 
