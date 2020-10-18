@@ -6,6 +6,15 @@ qutebrowser (1.14.0-1) UNRELEASED; urgency=medium
 
   [ Axel Beckert ]
   * Import new upstream release.
+  * Add version 1.6.4 of AngularJS as debian/missing-sources/angular.js to
+    complement tests/end2end/data/hints/angular1/angular.min.js which is
+    included in upstream's test suite (which itself is included on request
+    by Gentoo and Arch packagers since 1.12.0), but not in the preferred
+    form for modification, just minified.
+    + Fixes lintian-reported error "source-is-missing".
+    + Add according file stanzas and the MIT license to debian/copyright.
+    + Override source-contains-prebuilt-javascript-object as upstream
+      declared this as being intentional.
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Fri, 24 Jul 2020 23:04:07 +0200
 
