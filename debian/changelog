@@ -1,3 +1,9 @@
+qutebrowser (1.14.0-2) UNRELEASED; urgency=medium
+
+  * Fix distribution name in previous debian/changelog entry.
+
+ -- Axel Beckert <abe@debian.org>  Sun, 18 Oct 2020 08:56:42 +0200
+
 qutebrowser (1.14.0-1) unstable; urgency=medium
 
   [ Fritz Reichwald ]
@@ -9,7 +15,7 @@ qutebrowser (1.14.0-1) unstable; urgency=medium
   * Add version 1.6.4 of AngularJS as debian/missing-sources/angular.js to
     complement tests/end2end/data/hints/angular1/angular.min.js which is
     included in upstream's test suite (which itself is included on request
-    by Gentoo and Arch packagers since 1.12.0), but not in the preferred
+    by Gentoo and Alpine packagers since 1.12.0), but not in the preferred
     form for modification, just minified.
     + Fixes lintian-reported error "source-is-missing".
     + Add according file stanzas and the MIT license to debian/copyright.
