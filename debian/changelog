@@ -3,6 +3,7 @@ qutebrowser (1.14.1-1) UNRELEASED; urgency=medium
   * Import new upstream bugfix release.
   * Fix distribution name in previous debian/changelog entry.
   * Declare compliance with Debian Policy 4.5.1. (No changes needed.)
+  * Bump debian/watch version from 3 to 4. Thanks Lintian!
 
  -- Axel Beckert <abe@debian.org>  Sat, 05 Dec 2020 07:10:25 +0100
 
