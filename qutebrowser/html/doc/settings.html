@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.0.2" />
+<meta name="generator" content="AsciiDoc 9.0.4" />
 <title>Setting reference</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -2083,6 +2083,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#window.title_format">window.title_format</a></p></td>
 <td align="left" valign="top"><p class="table">Format to use for the window title. The same placeholders like for</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#window.transparent">window.transparent</a></p></td>
+<td align="left" valign="top"><p class="table">Set the main window background to transparent.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#zoom.default">zoom.default</a></p></td>
@@ -8132,6 +8136,17 @@ term, e.g. <code>:open google qutebrowser</code>.</p></div>
 <div class="paragraph"><p>Default: <code>{perc}{current_title}{title_sep}qutebrowser</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="window.transparent">window.transparent</h3>
+<div class="paragraph"><p>Set the main window background to transparent.</p></div>
+<div class="paragraph"><p>This allows having a transparent tab- or statusbar (might require a compositor such
+as picom). However, it breaks some functionality such as dmenu embedding via its
+<code>-w</code> option. On some systems, it was additionally reported that main window
+transparency negatively affects performance.</p></div>
+<div class="paragraph"><p>Note this setting only affects windows opened after setting it.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="zoom.default">zoom.default</h3>
 <div class="paragraph"><p>Default zoom level.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Perc</a></p></div>
@@ -8439,7 +8454,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-10-15 14:48:10 CEST
+ 2020-12-04 20:32:25 CET
 </div>
 </div>
 </body>

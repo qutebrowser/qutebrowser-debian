@@ -46,6 +46,7 @@ from qutebrowser.qt import sip
 
 
 _qute_scheme_handler = None
+req_interceptor = None
 
 
 def init():
@@ -54,6 +55,7 @@ def init():
     # won't work...
     # https://www.riverbankcomputing.com/pipermail/pyqt/2016-September/038075.html
     global _qute_scheme_handler
+    global req_interceptor
 
     app = QApplication.instance()
     log.init.debug("Initializing qute://* handler...")
@@ -1309,6 +1311,9 @@ class _WebEngineScripts(QObject):
             quirks.append(('globalthis_quirk',
                            QWebEngineScript.DocumentCreation,
                            QWebEngineScript.MainWorld))
+            quirks.append(('object_fromentries_quirk',
+                           QWebEngineScript.DocumentCreation,
+                           QWebEngineScript.MainWorld))
 
         for filename, injection_point, world in quirks:
             script = QWebEngineScript()
@@ -1869,7 +1874,6 @@ class WebEngineTab(browsertab.AbstractTab):
             # Added in Qt 5.15.0
             pass
 
-        self.before_load_started.connect(self._on_before_load_started)
         self.shutting_down.connect(self.abort_questions)
         self.load_started.connect(self.abort_questions)
 

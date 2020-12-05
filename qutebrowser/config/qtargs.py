@@ -79,6 +79,16 @@ def _darkmode_prefix() -> str:
 
 def _darkmode_settings() -> typing.Iterator[typing.Tuple[str, str]]:
     """Get necessary blink settings to configure dark mode for QtWebEngine."""
+    if (qtutils.version_check('5.15.2', compiled=False) and
+            config.val.colors.webpage.prefers_color_scheme_dark):
+        # With older Qt versions, this is passed in qtargs.py as --force-dark-mode
+        # instead.
+        #
+        # With Chromium 85 (> Qt 5.15.2), the enumeration has changed in Blink and this
+        # will need to be set to '0' instead:
+        # https://chromium-review.googlesource.com/c/chromium/src/+/2232922
+        yield "preferredColorScheme", "1"
+
     if not config.val.colors.webpage.darkmode.enabled:
         return
 
@@ -224,6 +234,16 @@ def _qtwebengine_enabled_features(
         if config.val.scrolling.bar == 'overlay':
             yield 'OverlayScrollbar'
 
+    if (qtutils.version_check('5.14', compiled=False) and
+            config.val.content.headers.referer == 'same-domain'):
+        # Handling of reduced-referrer-granularity in Chromium 76+
+        # https://chromium-review.googlesource.com/c/chromium/src/+/1572699
+        #
+        # Note that this is removed entirely (and apparently the default) starting with
+        # Chromium 89 (Qt 5.15.x or 6.x):
+        # https://chromium-review.googlesource.com/c/chromium/src/+/2545444
+        yield 'ReducedReferrerGranularity'
+
 
 def _qtwebengine_args(
         namespace: argparse.Namespace,
@@ -310,8 +330,6 @@ def _qtwebengine_settings_args() -> typing.Iterator[str]:
         },
         'content.headers.referer': {
             'always': None,
-            'never': '--no-referrers',
-            'same-domain': '--reduced-referrer-granularity',
         }
     }  # type: typing.Dict[str, typing.Dict[typing.Any, typing.Optional[str]]]
 
@@ -322,11 +340,29 @@ def _qtwebengine_settings_args() -> typing.Iterator[str]:
             False: '--autoplay-policy=user-gesture-required',
         }
 
-    if qtutils.version_check('5.14'):
+    if (qtutils.version_check('5.14', compiled=False) and
+            not qtutils.version_check('5.15.2', compiled=False)):
+        # In Qt 5.14 to 5.15.1, `--force-dark-mode` is used to set the
+        # preferred colorscheme. In Qt 5.15.2, this is handled by a
+        # blink-setting instead.
         settings['colors.webpage.prefers_color_scheme_dark'] = {
             True: '--force-dark-mode',
             False: None,
         }
+
+    referrer_setting = settings['content.headers.referer']
+    if qtutils.version_check('5.14', compiled=False):
+        # Starting with Qt 5.14, this is handled via --enable-features
+        referrer_setting['same-domain'] = None
+    else:
+        referrer_setting['same-domain'] = '--reduced-referrer-granularity'
+
+    can_override_referer = (
+        qtutils.version_check('5.12.4', compiled=False) and
+        not qtutils.version_check('5.13.0', compiled=False, exact=True)
+    )
+    # WORKAROUND for https://bugreports.qt.io/browse/QTBUG-60203
+    referrer_setting['never'] = None if can_override_referer else '--no-referrers'
 
     for setting, args in sorted(settings.items()):
         arg = args[config.instance.get(setting)]

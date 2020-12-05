@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.0.2" />
+<meta name="generator" content="AsciiDoc 9.0.3" />
 <title>Installing qutebrowser</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -786,94 +786,37 @@ distribution, typically once all couple of months to years.</p></div>
 <div class="paragraph"><p>How to install qutebrowser depends a lot on the version of Debian/Ubuntu you&#8217;re
 running.</p></div>
 <div class="sect2">
-<h3 id="ubuntu1604">Ubuntu 16.04 LTS / Linux Mint 18</h3>
+<h3 id="ubuntu1604">Debian Stretch / Ubuntu 16.04 LTS / Linux Mint 18</h3>
+<div class="paragraph"><p>Debian Stretch does have QtWebEngine packaged, but only in a very old and insecure
+version (Qt 5.7, based on a Chromium from March 2016). Furthermore, it packages Python
+3.5 which is not supported anymore since qutebrowser v2.0.0.</p></div>
 <div class="paragraph"><p>Ubuntu 16.04 doesn&#8217;t come with an up-to-date engine (a new enough QtWebKit, or
-QtWebEngine). However, it comes with Python 3.5, so you can
-<a href="#tox">install qutebrowser in a virtualenv</a>.</p></div>
-<div class="paragraph"><p>You&#8217;ll need some basic libraries to use the virtualenv-installed PyQt:</p></div>
+QtWebEngine) and also comes with Python 3.5.</p></div>
+<div class="paragraph"><p>You should be able to install a newer Python (3.6+) using the
+<a href="https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa">deadsnakes PPA</a> or
+<a href="https://github.com/pyenv/pyenv">pyenv</a>, and then proceed to
+<a href="#tox">install qutebrowser in a virtualenv</a>. However, this is currently untested. If you
+got this setup to work successfully, please submit a pull request to adjust these
+instructions!</p></div>
+<div class="paragraph"><p>Note you&#8217;ll need some basic libraries to use the virtualenv-installed PyQt:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code># apt install --no-install-recommends git ca-certificates python3 python3-venv asciidoc libglib2.0-0 libgl1 libfontconfig1 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libdbus-1-3 libyaml-dev gcc python3-dev</code></pre>
 </div></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">Support for Python 3.5 will be dropped with the qutebrowser v2.0.0
-release, preliminarily planned for late 2020. At that point, you will need to
-either upgrade to a newer Ubuntu release, or use something like the
-<a href="https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa">deadsnakes PPA</a> or
-<a href="https://github.com/pyenv/pyenv">pyenv</a> to install a newer Python.</td>
-</tr></table>
-</div>
 </div>
 <div class="sect2">
-<h3 id="_debian_stretch">Debian Stretch</h3>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">Debian Stretch packages Qt 5.7 which is very old (based on a Chromium
-from March 2016 with security fixes from November 2016) and insecure. It is also
-<a href="https://www.debian.org/releases/stretch/amd64/release-notes/ch-information.en.html#browser-security">not covered</a>
-by Debian&#8217;s security patches. Support for it will be dropped in qutebrowser
-v2.0.0, preliminarily planned for December 2020. It is recommended to
-<a href="#tox">install qutebrowser in a virtualenv</a> with a newer PyQt/Qt binary
-instead.</td>
-</tr></table>
-</div>
-<div class="paragraph"><p>Debian Stretch comes with QtWebEngine in the repositories. This makes it possible
-to install qutebrowser via the Debian package.</p></div>
-<div class="paragraph"><p>You&#8217;ll need to download three packages:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<a href="https://packages.debian.org/sid/all/python3-pypeg2/download">PyPEG2</a> (a library
-  used by qutebrowser which is not in the earlier repositories)
-</p>
-</li>
-<li>
-<p>
-<a href="https://packages.debian.org/sid/all/qutebrowser/download">qutebrowser</a> itself
-</p>
-</li>
-<li>
-<p>
-Either <a href="https://packages.debian.org/sid/all/qutebrowser-qtwebengine/download">qutebrowser-qtwebengine</a>
-  or <a href="https://packages.debian.org/sid/all/qutebrowser-qtwebkit/download">qutebrowser-qtwebkit</a>
-  (or both) depending on the backend you want to use. QtWebEngine is the
-  default/recommended choice.
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>After downloading, install the packages (make sure to install all the
-downloaded qutebrowser deb files in one apt command):</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code># apt install ./python3-pypeg2_*_all.deb
-# apt install ./qutebrowser*.deb</code></pre>
-</div></div>
-<div class="paragraph"><p>For an update after the initial install, you only need to download/install the
-qutebrowser package.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_debian_buster_ubuntu_18_04_lts_linux_mint_19_or_newer">Debian Buster / Ubuntu 18.04 LTS / Linux Mint 19 (or newer)</h3>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">Debian Buster packages Qt 5.11 which is very old (based on a Chromium
-from March 2018 with security fixes from November 2018) and insecure. It is also
+<h3 id="_debian_buster_ubuntu_18_04_lts_linux_mint_19">Debian Buster / Ubuntu 18.04 LTS / Linux Mint 19</h3>
+<div class="paragraph"><p>Debian Buster packages qutebrowser, but ships a very old version (v1.6.1 from March
+2019). The QtWebEngine library used for rendering web contents is also very old (Qt
+5.11, based on a Chromium from March 2018) and insecure. It is
 <a href="https://www.debian.org/releases/buster/amd64/release-notes/ch-information.en.html#browser-security">not covered</a>
-by Debian&#8217;s security patches. Support for it will be dropped in qutebrowser
-v2.0.0, preliminarily planned for December 2020. It is recommended to
-<a href="#tox">install qutebrowser in a virtualenv</a> with a newer PyQt/Qt binary
-instead.</td>
-</tr></table>
+by Debian&#8217;s security patches. It&#8217;s recommended to <a href="#tox">install qutebrowser in a virtualenv</a> with a newer PyQt/Qt binary instead.</p></div>
+<div class="paragraph"><p>With Ubuntu 18.04, the situation looks similar (but worse): There, qutebrowser v1.1.1
+from January 2018 is packaged, with QtWebEngine 5.9 based on a Chromium from January
+2017. It&#8217;s recommended to either upgrade to Ubuntu 20.04 LTS or <a href="#tox">install qutebrowser in a virtualenv</a> with a newer PyQt/Qt binary instead.</p></div>
 </div>
+<div class="sect2">
+<h3 id="_ubuntu_20_04_lts_linux_mint_20_or_newer">Ubuntu 20.04 LTS / Linux Mint 20 (or newer)</h3>
 <div class="paragraph"><p>With those distributions, qutebrowser is in the official repositories, and you
 can install it with apt:</p></div>
 <div class="listingblock">
@@ -887,7 +830,8 @@ can install it with apt:</p></div>
 <li>
 <p>
 If running from git, run the following to generate the documentation for the
-  <code>:help</code> command:
+  <code>:help</code> command (the <code>mkvenv.py</code> script used with a virtualenv install already does
+  this for you):
 </p>
 <div class="listingblock">
 <div class="content">
@@ -898,9 +842,9 @@ $ python3 scripts/asciidoc2html.py</code></pre>
 <li>
 <p>
 If you prefer using QtWebKit, there&#8217;s QtWebKit 5.212 available in
-  <a href="https://packages.debian.org/buster/libqt5webkit5">Debian Testing</a>. Note
-  however that it is based on an upstream WebKit from September 2016 with known
-  security issues and no sandboxing or process isolation.
+  Ubuntu 18.04 / Debian Buster or newer.  Note however that it is based on an upstream
+  WebKit from September 2016 with known security issues and no sandboxing or process
+  isolation.
 </p>
 </li>
 <li>
@@ -911,6 +855,7 @@ If video or sound don&#8217;t work with QtWebKit, try installing the gstreamer p
 <div class="content">
 <pre><code># apt install gstreamer1.0-plugins-{bad,base,good,ugly}</code></pre>
 </div></div>
+<div class="paragraph"><p>Note those are only needed with QtWebKit, not with the (default) QtWebEngine backend.</p></div>
 </li>
 </ul></div>
 </div>
@@ -1245,9 +1190,8 @@ binary, but has a few caveats:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Make sure your <code>python3</code> is Python 3.5 or newer, otherwise you&#8217;ll get a "No
-  matching distribution found" error. Note that qutebrowser itself also requires
-  this.
+Make sure your <code>python3</code> is Python 3.6 or newer, otherwise you&#8217;ll get a "No
+  matching distribution found" error and/or qutebrowser will not run.
 </p>
 </li>
 <li>
@@ -1332,7 +1276,7 @@ will recreate the virtualenv with updated dependencies.</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-09-29 15:43:43 CEST
+ 2020-11-03 20:27:17 CET
 </div>
 </div>
 </body>

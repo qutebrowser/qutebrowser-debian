@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.0.2" />
+<meta name="generator" content="AsciiDoc 9.0.4" />
 <title>Frequently asked questions</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -990,11 +990,6 @@ Remember to install the hunspell dictionaries if you don&#8217;t have them alrea
 </li>
 <li>
 <p>
-Make sure your versions of PyQt and Qt are 5.8 or higher.
-</p>
-</li>
-<li>
-<p>
 Use <code>dictcli.py</code> script to install dictionaries.
   Run the script with <code>-h</code> for the parameter description.
 </p>
@@ -1089,15 +1084,6 @@ that we fail to provide.</p></div>
 Some scripts expect <code>GM_xmlhttpRequest</code> to ignore Cross Origin Resource
   Sharing restrictions, this is currently not supported, so scripts making
   requests to third party sites will often fail to function correctly.
-</p>
-</li>
-<li>
-<p>
-If your backend is a QtWebEngine version 5.8, 5.9 or 5.10 then regular
-  expressions are not supported in <code>@include</code> or <code>@exclude</code> rules. If your
-  script uses them you can re-write them to use glob expressions or convert
-  them to <code>@match</code> rules.
-  See <a href="https://wiki.greasespot.net/Metadata_Block">the wiki</a> for more info.
 </p>
 </li>
 <li>
@@ -1203,7 +1189,9 @@ The <code>colors.webpage.prefers_color_scheme_dark</code> setting tells websites
 <p>
 The <code>colors.webpage.darkmode.*</code> settings enable the dark mode of the underlying
   Chromium. Those setting require a restart and QtWebEngine with at least Qt 5.14. It&#8217;s
-  unfortunately not possible (due to limitations in Chromium and/or QtWebEngine) to
+  unfortunately not possible (due to limitations
+  <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=952419">in Chromium</a> and/or
+  <a href="https://bugreports.qt.io/browse/QTBUG-84484">QtWebEngine</a>) to
   change them dynamically or to specify a list of excluded websites.
 </p>
 </li>
@@ -1563,7 +1551,7 @@ disable various features (usually at a cost of website compatibility).</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-09-29 17:51:41 CEST
+ 2020-11-18 15:26:33 CET
 </div>
 </div>
 </body>
