@@ -63,6 +63,8 @@ misc/requirements/requirements-pyqt-5.13.txt
 misc/requirements/requirements-pyqt-5.13.txt-raw
 misc/requirements/requirements-pyqt-5.14.txt
 misc/requirements/requirements-pyqt-5.14.txt-raw
+misc/requirements/requirements-pyqt-5.15.0.txt
+misc/requirements/requirements-pyqt-5.15.0.txt-raw
 misc/requirements/requirements-pyqt-5.15.txt
 misc/requirements/requirements-pyqt-5.15.txt-raw
 misc/requirements/requirements-pyqt-5.7.txt
@@ -262,6 +264,7 @@ qutebrowser/javascript/global_wrapper.js
 qutebrowser/javascript/globalthis_quirk.user.js
 qutebrowser/javascript/greasemonkey_wrapper.js
 qutebrowser/javascript/history.js
+qutebrowser/javascript/object_fromentries_quirk.user.js
 qutebrowser/javascript/pac_utils.js
 qutebrowser/javascript/position_caret.js
 qutebrowser/javascript/print.js
@@ -360,6 +363,7 @@ tests/end2end/test_hints_html.py
 tests/end2end/test_insert_mode.py
 tests/end2end/test_invocations.py
 tests/end2end/test_mhtml_e2e.py
+tests/end2end/test_mkvenv.py
 tests/end2end/data/blocked-hosts.gz
 tests/end2end/data/caret.html
 tests/end2end/data/click_element.html
@@ -387,6 +391,8 @@ tests/end2end/data/title with spaces.html
 tests/end2end/data/title.html
 tests/end2end/data/words.txt
 tests/end2end/data/äöü.html
+tests/end2end/data/adblock/external_logo.html
+tests/end2end/data/adblock/qutebrowser
 tests/end2end/data/adblock/simple
 tests/end2end/data/backforward/1.txt
 tests/end2end/data/backforward/2.txt
