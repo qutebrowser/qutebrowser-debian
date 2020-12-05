@@ -1,11 +1,11 @@
-qutebrowser (1.14.1-1) UNRELEASED; urgency=medium
+qutebrowser (1.14.1-1) unstable; urgency=medium
 
   * Import new upstream bugfix release.
   * Fix distribution name in previous debian/changelog entry.
   * Declare compliance with Debian Policy 4.5.1. (No changes needed.)
   * Bump debian/watch version from 3 to 4. Thanks Lintian!
 
- -- Axel Beckert <abe@debian.org>  Sat, 05 Dec 2020 07:10:25 +0100
+ -- Axel Beckert <abe@debian.org>  Sat, 05 Dec 2020 07:15:20 +0100
 
 qutebrowser (1.14.0-1) unstable; urgency=medium
 
