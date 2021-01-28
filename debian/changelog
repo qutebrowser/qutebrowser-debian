@@ -8,6 +8,8 @@ qutebrowser (2.0.1-1) UNRELEASED; urgency=medium
   * Drop dependencies
     + python3-attr
     + python3-pypeg2
+  * Remove force-userscripts-shebang-lines-to-python3.patch as the changes
+    were implemented upstream.
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Thu, 28 Jan 2021 12:27:26 +0100
 
