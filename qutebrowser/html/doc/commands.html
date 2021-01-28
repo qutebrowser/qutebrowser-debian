@@ -863,7 +863,7 @@ cellspacing="0" cellpadding="4">
 <tbody>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#adblock-update">adblock-update</a></p></td>
-<td align="left" valign="top"><p class="table">Update the adblock block lists.</p></td>
+<td align="left" valign="top"><p class="table">Update block lists for both the host- and the Brave ad blocker.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#back">back</a></p></td>
@@ -882,12 +882,12 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Delete a bookmark.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#bookmark-load">bookmark-load</a></p></td>
-<td align="left" valign="top"><p class="table">Load a bookmark.</p></td>
+<td align="left" valign="top"><p class="table"><a href="#bookmark-list">bookmark-list</a></p></td>
+<td align="left" valign="top"><p class="table">Show all bookmarks/quickmarks.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#buffer">buffer</a></p></td>
-<td align="left" valign="top"><p class="table">Select tab by index or url/title best match.</p></td>
+<td align="left" valign="top"><p class="table"><a href="#bookmark-load">bookmark-load</a></p></td>
+<td align="left" valign="top"><p class="table">Load a bookmark.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#clear-keychain">clear-keychain</a></p></td>
@@ -990,20 +990,16 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Open an editor to modify the current command.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#edit-text">edit-text</a></p></td>
+<td align="left" valign="top"><p class="table">Open an external editor with the currently selected form field.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#edit-url">edit-url</a></p></td>
 <td align="left" valign="top"><p class="table">Navigate to a url formed in an external editor.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#enter-mode">enter-mode</a></p></td>
-<td align="left" valign="top"><p class="table">Enter a key mode.</p></td>
-</tr>
-<tr>
 <td align="left" valign="top"><p class="table"><a href="#fake-key">fake-key</a></p></td>
 <td align="left" valign="top"><p class="table">Send a fake keypress or key string to the website or qutebrowser.</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table"><a href="#follow-selected">follow-selected</a></p></td>
-<td align="left" valign="top"><p class="table">Follow the selected text.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#forward">forward</a></p></td>
@@ -1054,6 +1050,14 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Execute a command after some time.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#macro-record">macro-record</a></p></td>
+<td align="left" valign="top"><p class="table">Start or stop recording a macro.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#macro-run">macro-run</a></p></td>
+<td align="left" valign="top"><p class="table">Run a recorded macro.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#message-error">message-error</a></p></td>
 <td align="left" valign="top"><p class="table">Show an error message in the statusbar.</p></td>
 </tr>
@@ -1070,6 +1074,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Show a log of past messages.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#mode-enter">mode-enter</a></p></td>
+<td align="left" valign="top"><p class="table">Enter a key mode.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#navigate">navigate</a></p></td>
 <td align="left" valign="top"><p class="table">Open typical prev/next links or navigate using the URL path.</p></td>
 </tr>
@@ -1080,10 +1088,6 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#open">open</a></p></td>
 <td align="left" valign="top"><p class="table">Open a URL in the current/[count]th tab.</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table"><a href="#open-editor">open-editor</a></p></td>
-<td align="left" valign="top"><p class="table">Open an external editor with the currently selected form field.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#print">print</a></p></td>
@@ -1110,10 +1114,6 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Quit qutebrowser.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#record-macro">record-macro</a></p></td>
-<td align="left" valign="top"><p class="table">Start or stop recording a macro.</p></td>
-</tr>
-<tr>
 <td align="left" valign="top"><p class="table"><a href="#reload">reload</a></p></td>
 <td align="left" valign="top"><p class="table">Reload the current/[count]th tab.</p></td>
 </tr>
@@ -1132,10 +1132,6 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#restart">restart</a></p></td>
 <td align="left" valign="top"><p class="table">Restart qutebrowser while keeping existing tabs open.</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table"><a href="#run-macro">run-macro</a></p></td>
-<td align="left" valign="top"><p class="table">Run a recorded macro.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#run-with-count">run-with-count</a></p></td>
@@ -1176,6 +1172,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#search-prev">search-prev</a></p></td>
 <td align="left" valign="top"><p class="table">Continue the search to the ([count]th) previous term.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#selection-follow">selection-follow</a></p></td>
+<td align="left" valign="top"><p class="table">Follow the selected text.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#session-delete">session-delete</a></p></td>
@@ -1250,6 +1250,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Switch to the previous tab, or switch [count] tabs back.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#tab-select">tab-select</a></p></td>
+<td align="left" valign="top"><p class="table">Select tab by index or url/title best match.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#tab-take">tab-take</a></p></td>
 <td align="left" valign="top"><p class="table">Take a tab from another window.</p></td>
 </tr>
@@ -1294,8 +1298,7 @@ cellspacing="0" cellpadding="4">
 </div>
 <div class="sect2">
 <h3 id="adblock-update">adblock-update</h3>
-<div class="paragraph"><p>Update the adblock block lists.</p></div>
-<div class="paragraph"><p>This updates <code>~/.local/share/qutebrowser/blocked-hosts</code> with downloaded host lists and re-reads <code>~/.config/qutebrowser/blocked-hosts</code>.</p></div>
+<div class="paragraph"><p>Update block lists for both the host- and the Brave ad blocker.</p></div>
 </div>
 <div class="sect2">
 <h3 id="back">back</h3>
@@ -1449,6 +1452,36 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 </div>
 <div class="sect2">
+<h3 id="bookmark-list">bookmark-list</h3>
+<div class="paragraph"><p>Syntax: <code>:bookmark-list [<strong>--jump</strong>] [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>]</code></p></div>
+<div class="paragraph"><p>Show all bookmarks/quickmarks.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_4">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-j</strong></code>, <code><strong>--jump</strong></code>: Jump to the "bookmarks" header.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Open in a new tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-b</strong></code>, <code><strong>--bg</strong></code>: Open in a background tab.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Open in a new window.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="bookmark-load">bookmark-load</h3>
 <div class="paragraph"><p>Syntax: <code>:bookmark-load [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>] [<strong>--delete</strong>] <em>url</em></code></p></div>
 <div class="paragraph"><p>Load a bookmark.</p></div>
@@ -1463,7 +1496,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_4">optional arguments</h4>
+<h4 id="_optional_arguments_5">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1499,36 +1532,6 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 </div>
 <div class="sect2">
-<h3 id="buffer">buffer</h3>
-<div class="paragraph"><p>Syntax: <code>:buffer [<em>index</em>]</code></p></div>
-<div class="paragraph"><p>Select tab by index or url/title best match.</p></div>
-<div class="paragraph"><p>Focuses window if necessary when index is given. If both index and count are given, use count. With neither index nor count given, open the qute://tabs page.</p></div>
-<div class="sect3">
-<h4 id="_positional_arguments_6">positional arguments</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<code><em>index</em></code>: The [win_id/]index of the tab to focus. Or a substring in which case the closest match will be focused.
-</p>
-</li>
-</ul></div>
-</div>
-<div class="sect3">
-<h4 id="_count_2">count</h4>
-<div class="paragraph"><p>The tab index to focus, starting with 1.</p></div>
-</div>
-<div class="sect3">
-<h4 id="_note_4">note</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-This command does not split arguments after the last argument and handles quotes literally.
-</p>
-</li>
-</ul></div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="clear-keychain">clear-keychain</h3>
 <div class="paragraph"><p>Clear the currently entered key chain.</p></div>
 </div>
@@ -1542,7 +1545,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Click the element matching the given filter.</p></div>
 <div class="paragraph"><p>The given filter needs to result in exactly one element, otherwise, an error is shown.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_7">positional arguments</h4>
+<h4 id="_positional_arguments_6">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1557,7 +1560,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_5">optional arguments</h4>
+<h4 id="_optional_arguments_6">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1581,7 +1584,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:config-clear [<strong>--save</strong>]</code></p></div>
 <div class="paragraph"><p>Set all settings back to their default.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_6">optional arguments</h4>
+<h4 id="_optional_arguments_7">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1593,10 +1596,10 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 <div class="sect2">
 <h3 id="config-cycle">config-cycle</h3>
-<div class="paragraph"><p>Syntax: <code>:config-cycle [<strong>--pattern</strong> <em>pattern</em>] [<strong>--temp</strong>] [<strong>--print</strong>] <em>option</em> [<em>values</em> [<em>values</em> &#8230;]]</code></p></div>
+<div class="paragraph"><p>Syntax: <code>:config-cycle [<strong>--pattern</strong> <em>pattern</em>] [<strong>--temp</strong>] [<strong>--print</strong>] <em>option</em> [<em>values</em> &#8230;]</code></p></div>
 <div class="paragraph"><p>Cycle an option between multiple values.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_8">positional arguments</h4>
+<h4 id="_positional_arguments_7">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1611,7 +1614,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_7">optional arguments</h4>
+<h4 id="_optional_arguments_8">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1636,7 +1639,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:config-dict-add [<strong>--temp</strong>] [<strong>--replace</strong>] <em>option</em> <em>key</em> <em>value</em></code></p></div>
 <div class="paragraph"><p>Add a key/value pair to a dictionary option.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_9">positional arguments</h4>
+<h4 id="_positional_arguments_8">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1656,7 +1659,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_8">optional arguments</h4>
+<h4 id="_optional_arguments_9">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1676,7 +1679,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:config-dict-remove [<strong>--temp</strong>] <em>option</em> <em>key</em></code></p></div>
 <div class="paragraph"><p>Remove a key from a dict.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_10">positional arguments</h4>
+<h4 id="_positional_arguments_9">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1691,7 +1694,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_9">optional arguments</h4>
+<h4 id="_optional_arguments_10">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1703,18 +1706,7 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 <div class="sect2">
 <h3 id="config-diff">config-diff</h3>
-<div class="paragraph"><p>Syntax: <code>:config-diff [<strong>--old</strong>]</code></p></div>
 <div class="paragraph"><p>Show all customized options.</p></div>
-<div class="sect3">
-<h4 id="_optional_arguments_10">optional arguments</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<code><strong>-o</strong></code>, <code><strong>--old</strong></code>: Show difference for the pre-v1.0 files (qutebrowser.conf/keys.conf).
-</p>
-</li>
-</ul></div>
-</div>
 </div>
 <div class="sect2">
 <h3 id="config-edit">config-edit</h3>
@@ -1736,7 +1728,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:config-list-add [<strong>--temp</strong>] <em>option</em> <em>value</em></code></p></div>
 <div class="paragraph"><p>Append a value to a config option that is a list.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_11">positional arguments</h4>
+<h4 id="_positional_arguments_10">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1766,7 +1758,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:config-list-remove [<strong>--temp</strong>] <em>option</em> <em>value</em></code></p></div>
 <div class="paragraph"><p>Remove a value from a list.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_12">positional arguments</h4>
+<h4 id="_positional_arguments_11">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1796,7 +1788,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:config-source [<strong>--clear</strong>] [<em>filename</em>]</code></p></div>
 <div class="paragraph"><p>Read a config.py file.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_13">positional arguments</h4>
+<h4 id="_positional_arguments_12">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1822,7 +1814,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Unset an option.</p></div>
 <div class="paragraph"><p>This sets an option back to its default and removes it from autoconfig.yml.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_14">positional arguments</h4>
+<h4 id="_positional_arguments_13">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1847,7 +1839,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:config-write-py [<strong>--force</strong>] [<strong>--defaults</strong>] [<em>filename</em>]</code></p></div>
 <div class="paragraph"><p>Write the current configuration to a config.py file.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_15">positional arguments</h4>
+<h4 id="_positional_arguments_14">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1877,7 +1869,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:devtools [<em>position</em>]</code></p></div>
 <div class="paragraph"><p>Toggle the developer tools (web inspector).</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_16">positional arguments</h4>
+<h4 id="_positional_arguments_15">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1896,7 +1888,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:download [<strong>--mhtml</strong>] [<strong>--dest</strong> <em>dest</em>] [<em>url</em>]</code></p></div>
 <div class="paragraph"><p>Download a given URL, or current page if no URL given.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_17">positional arguments</h4>
+<h4 id="_positional_arguments_16">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1936,7 +1928,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_3">count</h4>
+<h4 id="_count_2">count</h4>
 <div class="paragraph"><p>The index of the download to cancel.</p></div>
 </div>
 </div>
@@ -1948,7 +1940,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="download-delete">download-delete</h3>
 <div class="paragraph"><p>Delete the last/[count]th download from disk.</p></div>
 <div class="sect3">
-<h4 id="_count_4">count</h4>
+<h4 id="_count_3">count</h4>
 <div class="paragraph"><p>The index of the download to delete.</p></div>
 </div>
 </div>
@@ -1958,7 +1950,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Open the last/[count]th download.</p></div>
 <div class="paragraph"><p>If no specific command is given, this will use the system&#8217;s default application to open the file.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_18">positional arguments</h4>
+<h4 id="_positional_arguments_17">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1980,11 +1972,11 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_5">count</h4>
+<h4 id="_count_4">count</h4>
 <div class="paragraph"><p>The index of the download to open.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_note_5">note</h4>
+<h4 id="_note_4">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2009,7 +2001,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_6">count</h4>
+<h4 id="_count_5">count</h4>
 <div class="paragraph"><p>The index of the download to remove.</p></div>
 </div>
 </div>
@@ -2017,7 +2009,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="download-retry">download-retry</h3>
 <div class="paragraph"><p>Retry the first failed/[count]th download.</p></div>
 <div class="sect3">
-<h4 id="_count_7">count</h4>
+<h4 id="_count_6">count</h4>
 <div class="paragraph"><p>The index of the download to retry.</p></div>
 </div>
 </div>
@@ -2037,12 +2029,17 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 </div>
 <div class="sect2">
+<h3 id="edit-text">edit-text</h3>
+<div class="paragraph"><p>Open an external editor with the currently selected form field.</p></div>
+<div class="paragraph"><p>The editor which should be launched can be configured via the <code>editor.command</code> config option.</p></div>
+</div>
+<div class="sect2">
 <h3 id="edit-url">edit-url</h3>
 <div class="paragraph"><p>Syntax: <code>:edit-url [<strong>--bg</strong>] [<strong>--tab</strong>] [<strong>--window</strong>] [<strong>--private</strong>] [<strong>--related</strong>] [<em>url</em>]</code></p></div>
 <div class="paragraph"><p>Navigate to a url formed in an external editor.</p></div>
 <div class="paragraph"><p>The editor which should be launched can be configured via the <code>editor.command</code> config option.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_19">positional arguments</h4>
+<h4 id="_positional_arguments_18">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2083,28 +2080,12 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 </div>
 <div class="sect2">
-<h3 id="enter-mode">enter-mode</h3>
-<div class="paragraph"><p>Syntax: <code>:enter-mode <em>mode</em></code></p></div>
-<div class="paragraph"><p>Enter a key mode.</p></div>
-<div class="sect3">
-<h4 id="_positional_arguments_20">positional arguments</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<code><em>mode</em></code>: The mode to enter. See <code>:help bindings.commands</code> for the available modes, but note that hint/command/yesno/prompt mode
- can&#8217;t be entered manually.
-</p>
-</li>
-</ul></div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="fake-key">fake-key</h3>
 <div class="paragraph"><p>Syntax: <code>:fake-key [<strong>--global</strong>] <em>keystring</em></code></p></div>
 <div class="paragraph"><p>Send a fake keypress or key string to the website or qutebrowser.</p></div>
 <div class="paragraph"><p>:fake-key xy - sends the keychain <em>xy</em> :fake-key &lt;Ctrl-x&gt; - sends Ctrl-x :fake-key &lt;Escape&gt; - sends the escape key</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_21">positional arguments</h4>
+<h4 id="_positional_arguments_19">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2125,26 +2106,11 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 </div>
 <div class="sect2">
-<h3 id="follow-selected">follow-selected</h3>
-<div class="paragraph"><p>Syntax: <code>:follow-selected [<strong>--tab</strong>]</code></p></div>
-<div class="paragraph"><p>Follow the selected text.</p></div>
-<div class="sect3">
-<h4 id="_optional_arguments_24">optional arguments</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Load the selected link in a new tab.
-</p>
-</li>
-</ul></div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="forward">forward</h3>
 <div class="paragraph"><p>Syntax: <code>:forward [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>] [<em>index</em>]</code></p></div>
 <div class="paragraph"><p>Go forward in the history of the current tab.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_22">positional arguments</h4>
+<h4 id="_positional_arguments_20">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2154,7 +2120,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_25">optional arguments</h4>
+<h4 id="_optional_arguments_24">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2174,7 +2140,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_8">count</h4>
+<h4 id="_count_7">count</h4>
 <div class="paragraph"><p>How many pages to go forward.</p></div>
 </div>
 </div>
@@ -2183,7 +2149,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:fullscreen [<strong>--leave</strong>] [<strong>--enter</strong>]</code></p></div>
 <div class="paragraph"><p>Toggle fullscreen mode.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_26">optional arguments</h4>
+<h4 id="_optional_arguments_25">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2202,9 +2168,9 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="greasemonkey-reload">greasemonkey-reload</h3>
 <div class="paragraph"><p>Syntax: <code>:greasemonkey-reload [<strong>--force</strong>]</code></p></div>
 <div class="paragraph"><p>Re-read Greasemonkey scripts from disk.</p></div>
-<div class="paragraph"><p>The scripts are read from a <em>greasemonkey</em> subdirectory in qutebrowser&#8217;s data directory (see <code>:version</code>).</p></div>
+<div class="paragraph"><p>The scripts are read from a <em>greasemonkey</em> subdirectory in qutebrowser&#8217;s data or config directories (see <code>:version</code>).</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_27">optional arguments</h4>
+<h4 id="_optional_arguments_26">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2219,7 +2185,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:help [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>] [<em>topic</em>]</code></p></div>
 <div class="paragraph"><p>Show help about a command or setting.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_23">positional arguments</h4>
+<h4 id="_positional_arguments_21">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2241,7 +2207,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_28">optional arguments</h4>
+<h4 id="_optional_arguments_27">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2263,10 +2229,10 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 <div class="sect2">
 <h3 id="hint">hint</h3>
-<div class="paragraph"><p>Syntax: <code>:hint [<strong>--mode</strong> <em>mode</em>] [<strong>--add-history</strong>] [<strong>--rapid</strong>] [<strong>--first</strong>] [<em>group</em>] [<em>target</em>] [<em>args</em> [<em>args</em> &#8230;]]</code></p></div>
+<div class="paragraph"><p>Syntax: <code>:hint [<strong>--mode</strong> <em>mode</em>] [<strong>--add-history</strong>] [<strong>--rapid</strong>] [<strong>--first</strong>] [<em>group</em>] [<em>target</em>] [<em>args</em> &#8230;]</code></p></div>
 <div class="paragraph"><p>Start hinting.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_24">positional arguments</h4>
+<h4 id="_positional_arguments_22">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2428,7 +2394,7 @@ With <code>run</code>: Same as <code>fill</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_29">optional arguments</h4>
+<h4 id="_optional_arguments_28">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2474,7 +2440,7 @@ With <code>run</code>: Same as <code>fill</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_note_6">note</h4>
+<h4 id="_note_5">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2489,7 +2455,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:history [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>]</code></p></div>
 <div class="paragraph"><p>Show browsing history.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_30">optional arguments</h4>
+<h4 id="_optional_arguments_29">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2515,7 +2481,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Clear all browsing history.</p></div>
 <div class="paragraph"><p>Note this only clears the global history (e.g. <code>~/.local/share/qutebrowser/history</code> on Linux) but not cookies, the back/forward history of a tab, cache or other persistent data.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_31">optional arguments</h4>
+<h4 id="_optional_arguments_30">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2534,7 +2500,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:insert-text <em>text</em></code></p></div>
 <div class="paragraph"><p>Insert text at cursor position.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_25">positional arguments</h4>
+<h4 id="_positional_arguments_23">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2544,7 +2510,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_note_7">note</h4>
+<h4 id="_note_6">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2559,7 +2525,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:jseval [<strong>--file</strong>] [<strong>--url</strong>] [<strong>--quiet</strong>] [<strong>--world</strong> <em>world</em>] <em>js-code</em></code></p></div>
 <div class="paragraph"><p>Evaluate a JavaScript string.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_26">positional arguments</h4>
+<h4 id="_positional_arguments_24">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2569,7 +2535,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_32">optional arguments</h4>
+<h4 id="_optional_arguments_31">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2621,7 +2587,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_note_8">note</h4>
+<h4 id="_note_7">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2641,7 +2607,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div class="paragraph"><p>Syntax: <code>:jump-mark <em>key</em></code></p></div>
 <div class="paragraph"><p>Jump to the mark named by <code>key</code>.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_27">positional arguments</h4>
+<h4 id="_positional_arguments_25">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2653,14 +2619,14 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 </div>
 <div class="sect2">
 <h3 id="later">later</h3>
-<div class="paragraph"><p>Syntax: <code>:later <em>ms</em> <em>command</em></code></p></div>
+<div class="paragraph"><p>Syntax: <code>:later <em>duration</em> <em>command</em></code></p></div>
 <div class="paragraph"><p>Execute a command after some time.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_28">positional arguments</h4>
+<h4 id="_positional_arguments_26">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
-<code><em>ms</em></code>: How many milliseconds to wait.
+<code><em>duration</em></code>: Duration to wait in format XhYmZs or a number for milliseconds.
 </p>
 </li>
 <li>
@@ -2671,7 +2637,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_note_9">note</h4>
+<h4 id="_note_8">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2689,6 +2655,40 @@ This command does not replace variables like <code>{url}</code>.
 </p>
 </li>
 </ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="macro-record">macro-record</h3>
+<div class="paragraph"><p>Syntax: <code>:macro-record [<em>register</em>]</code></p></div>
+<div class="paragraph"><p>Start or stop recording a macro.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_27">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>register</em></code>: Which register to store the macro in.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="macro-run">macro-run</h3>
+<div class="paragraph"><p>Syntax: <code>:macro-run [<em>register</em>]</code></p></div>
+<div class="paragraph"><p>Run a recorded macro.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_28">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>register</em></code>: Which macro to run.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_8">count</h4>
+<div class="paragraph"><p>How many times to run the macro.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -2755,7 +2755,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_33">optional arguments</h4>
+<h4 id="_optional_arguments_32">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2787,12 +2787,28 @@ This command does not replace variables like <code>{url}</code>.
 </div>
 </div>
 <div class="sect2">
+<h3 id="mode-enter">mode-enter</h3>
+<div class="paragraph"><p>Syntax: <code>:mode-enter <em>mode</em></code></p></div>
+<div class="paragraph"><p>Enter a key mode.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_33">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>mode</em></code>: The mode to enter. See <code>:help bindings.commands</code> for the available modes, but note that hint/command/yesno/prompt mode
+ can&#8217;t be entered manually.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="navigate">navigate</h3>
 <div class="paragraph"><p>Syntax: <code>:navigate [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>] <em>where</em></code></p></div>
 <div class="paragraph"><p>Open typical prev/next links or navigate using the URL path.</p></div>
 <div class="paragraph"><p>This tries to automatically click on typical <em>Previous Page</em> or <em>Next Page</em> links using some heuristics. Alternatively it can navigate by changing the current URL.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_33">positional arguments</h4>
+<h4 id="_positional_arguments_34">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2838,7 +2854,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_34">optional arguments</h4>
+<h4 id="_optional_arguments_33">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2872,7 +2888,7 @@ This command does not replace variables like <code>{url}</code>.
 <div class="paragraph"><p>Open a URL in the current/[count]th tab.</p></div>
 <div class="paragraph"><p>If the URL contains newlines, each line gets opened in its own tab.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_34">positional arguments</h4>
+<h4 id="_positional_arguments_35">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2882,7 +2898,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_35">optional arguments</h4>
+<h4 id="_optional_arguments_34">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2921,7 +2937,7 @@ This command does not replace variables like <code>{url}</code>.
 <div class="paragraph"><p>The tab index to open the URL in.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_note_10">note</h4>
+<h4 id="_note_9">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2932,16 +2948,11 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 </div>
 <div class="sect2">
-<h3 id="open-editor">open-editor</h3>
-<div class="paragraph"><p>Open an external editor with the currently selected form field.</p></div>
-<div class="paragraph"><p>The editor which should be launched can be configured via the <code>editor.command</code> config option.</p></div>
-</div>
-<div class="sect2">
 <h3 id="print">print</h3>
 <div class="paragraph"><p>Syntax: <code>:print [<strong>--preview</strong>] [<strong>--pdf</strong> <em>file</em>]</code></p></div>
 <div class="paragraph"><p>Print the current/[count]th tab.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_36">optional arguments</h4>
+<h4 id="_optional_arguments_35">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2966,7 +2977,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Add a new quickmark.</p></div>
 <div class="paragraph"><p>You can view all saved quickmarks on the <a href="qute://bookmarks">bookmarks page</a>.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_35">positional arguments</h4>
+<h4 id="_positional_arguments_36">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2986,7 +2997,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:quickmark-del [<em>name</em>]</code></p></div>
 <div class="paragraph"><p>Delete a quickmark.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_36">positional arguments</h4>
+<h4 id="_positional_arguments_37">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2997,7 +3008,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_note_11">note</h4>
+<h4 id="_note_10">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3012,7 +3023,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:quickmark-load [<strong>--tab</strong>] [<strong>--bg</strong>] [<strong>--window</strong>] <em>name</em></code></p></div>
 <div class="paragraph"><p>Load a quickmark.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_37">positional arguments</h4>
+<h4 id="_positional_arguments_38">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3022,7 +3033,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_37">optional arguments</h4>
+<h4 id="_optional_arguments_36">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3042,7 +3053,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_note_12">note</h4>
+<h4 id="_note_11">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3061,7 +3072,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:quit [<strong>--save</strong>] [<em>session</em>]</code></p></div>
 <div class="paragraph"><p>Quit qutebrowser.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_38">positional arguments</h4>
+<h4 id="_positional_arguments_39">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3071,7 +3082,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_38">optional arguments</h4>
+<h4 id="_optional_arguments_37">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3082,26 +3093,11 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 </div>
 <div class="sect2">
-<h3 id="record-macro">record-macro</h3>
-<div class="paragraph"><p>Syntax: <code>:record-macro [<em>register</em>]</code></p></div>
-<div class="paragraph"><p>Start or stop recording a macro.</p></div>
-<div class="sect3">
-<h4 id="_positional_arguments_39">positional arguments</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<code><em>register</em></code>: Which register to store the macro in.
-</p>
-</li>
-</ul></div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="reload">reload</h3>
 <div class="paragraph"><p>Syntax: <code>:reload [<strong>--force</strong>]</code></p></div>
 <div class="paragraph"><p>Reload the current/[count]th tab.</p></div>
 <div class="sect3">
-<h4 id="_optional_arguments_39">optional arguments</h4>
+<h4 id="_optional_arguments_38">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3139,7 +3135,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Multiplies with <em>times</em> when given.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_note_13">note</h4>
+<h4 id="_note_12">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3192,31 +3188,12 @@ This command does not replace variables like <code>{url}</code>.
 <div class="paragraph"><p>Restart qutebrowser while keeping existing tabs open.</p></div>
 </div>
 <div class="sect2">
-<h3 id="run-macro">run-macro</h3>
-<div class="paragraph"><p>Syntax: <code>:run-macro [<em>register</em>]</code></p></div>
-<div class="paragraph"><p>Run a recorded macro.</p></div>
-<div class="sect3">
-<h4 id="_positional_arguments_42">positional arguments</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-<code><em>register</em></code>: Which macro to run.
-</p>
-</li>
-</ul></div>
-</div>
-<div class="sect3">
-<h4 id="_count_16">count</h4>
-<div class="paragraph"><p>How many times to run the macro.</p></div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="run-with-count">run-with-count</h3>
 <div class="paragraph"><p>Syntax: <code>:run-with-count <em>count-arg</em> <em>command</em></code></p></div>
 <div class="paragraph"><p>Run a command with the given count.</p></div>
 <div class="paragraph"><p>If run_with_count itself is run with a count, it multiplies count_arg.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_43">positional arguments</h4>
+<h4 id="_positional_arguments_42">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3231,11 +3208,11 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_17">count</h4>
+<h4 id="_count_16">count</h4>
 <div class="paragraph"><p>The count that run_with_count itself received.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_note_14">note</h4>
+<h4 id="_note_13">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3257,10 +3234,10 @@ This command does not replace variables like <code>{url}</code>.
 </div>
 <div class="sect2">
 <h3 id="save">save</h3>
-<div class="paragraph"><p>Syntax: <code>:save [<em>what</em> [<em>what</em> &#8230;]]</code></p></div>
+<div class="paragraph"><p>Syntax: <code>:save [<em>what</em> &#8230;]</code></p></div>
 <div class="paragraph"><p>Save configs and state.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_44">positional arguments</h4>
+<h4 id="_positional_arguments_43">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3276,7 +3253,7 @@ This command does not replace variables like <code>{url}</code>.
 <div class="paragraph"><p>Scroll the current tab in the given direction.</p></div>
 <div class="paragraph"><p>Note you can use <code>:run-with-count</code> to have a keybinding with a bigger scroll increment.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_45">positional arguments</h4>
+<h4 id="_positional_arguments_44">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3286,7 +3263,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_18">count</h4>
+<h4 id="_count_17">count</h4>
 <div class="paragraph"><p>multiplier</p></div>
 </div>
 </div>
@@ -3295,7 +3272,7 @@ This command does not replace variables like <code>{url}</code>.
 <div class="paragraph"><p>Syntax: <code>:scroll-page [<strong>--top-navigate</strong> <em>ACTION</em>] [<strong>--bottom-navigate</strong> <em>ACTION</em>] <em>x</em> <em>y</em></code></p></div>
 <div class="paragraph"><p>Scroll the frame page-wise.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_46">positional arguments</h4>
+<h4 id="_positional_arguments_45">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3310,7 +3287,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_40">optional arguments</h4>
+<h4 id="_optional_arguments_39">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3325,7 +3302,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_19">count</h4>
+<h4 id="_count_18">count</h4>
 <div class="paragraph"><p>multiplier</p></div>
 </div>
 </div>
@@ -3334,7 +3311,7 @@ This command does not replace variables like <code>{url}</code>.
 <div class="paragraph"><p>Syntax: <code>:scroll-px <em>dx</em> <em>dy</em></code></p></div>
 <div class="paragraph"><p>Scroll the current tab by <em>count * dx/dy</em> pixels.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_47">positional arguments</h4>
+<h4 id="_positional_arguments_46">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3349,7 +3326,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_20">count</h4>
+<h4 id="_count_19">count</h4>
 <div class="paragraph"><p>multiplier</p></div>
 </div>
 </div>
@@ -3358,7 +3335,7 @@ This command does not replace variables like <code>{url}</code>.
 <div class="paragraph"><p>Syntax: <code>:scroll-to-anchor <em>name</em></code></p></div>
 <div class="paragraph"><p>Scroll to the given anchor in the document.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_48">positional arguments</h4>
+<h4 id="_positional_arguments_47">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3374,7 +3351,7 @@ This command does not replace variables like <code>{url}</code>.
 <div class="paragraph"><p>Scroll to a specific percentage of the page.</p></div>
 <div class="paragraph"><p>The percentage can be given either as argument or as count. If no percentage is given, the page is scrolled to the end.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_49">positional arguments</h4>
+<h4 id="_positional_arguments_48">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3384,7 +3361,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_41">optional arguments</h4>
+<h4 id="_optional_arguments_40">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3394,7 +3371,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_21">count</h4>
+<h4 id="_count_20">count</h4>
 <div class="paragraph"><p>Percentage to scroll.</p></div>
 </div>
 </div>
@@ -3403,7 +3380,7 @@ This command does not replace variables like <code>{url}</code>.
 <div class="paragraph"><p>Syntax: <code>:search [<strong>--reverse</strong>] [<em>text</em>]</code></p></div>
 <div class="paragraph"><p>Search for a text on the current page. With no text, clear results.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_50">positional arguments</h4>
+<h4 id="_positional_arguments_49">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3413,7 +3390,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_optional_arguments_42">optional arguments</h4>
+<h4 id="_optional_arguments_41">optional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3423,7 +3400,7 @@ This command does not replace variables like <code>{url}</code>.
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_note_15">note</h4>
+<h4 id="_note_14">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3437,7 +3414,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="search-next">search-next</h3>
 <div class="paragraph"><p>Continue the search to the ([count]th) next term.</p></div>
 <div class="sect3">
-<h4 id="_count_22">count</h4>
+<h4 id="_count_21">count</h4>
 <div class="paragraph"><p>How many elements to ignore.</p></div>
 </div>
 </div>
@@ -3445,8 +3422,23 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="search-prev">search-prev</h3>
 <div class="paragraph"><p>Continue the search to the ([count]th) previous term.</p></div>
 <div class="sect3">
-<h4 id="_count_23">count</h4>
+<h4 id="_count_22">count</h4>
 <div class="paragraph"><p>How many elements to ignore.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="selection-follow">selection-follow</h3>
+<div class="paragraph"><p>Syntax: <code>:selection-follow [<strong>--tab</strong>]</code></p></div>
+<div class="paragraph"><p>Follow the selected text.</p></div>
+<div class="sect3">
+<h4 id="_optional_arguments_42">optional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><strong>-t</strong></code>, <code><strong>--tab</strong></code>: Load the selected link in a new tab.
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect2">
@@ -3454,7 +3446,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:session-delete [<strong>--force</strong>] <em>name</em></code></p></div>
 <div class="paragraph"><p>Delete a session.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_51">positional arguments</h4>
+<h4 id="_positional_arguments_50">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3479,7 +3471,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:session-load [<strong>--clear</strong>] [<strong>--temp</strong>] [<strong>--force</strong>] [<strong>--delete</strong>] <em>name</em></code></p></div>
 <div class="paragraph"><p>Load a session.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_52">positional arguments</h4>
+<h4 id="_positional_arguments_51">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3519,7 +3511,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:session-save [<strong>--current</strong>] [<strong>--quiet</strong>] [<strong>--force</strong>] [<strong>--only-active-window</strong>] [<strong>--with-private</strong>] [<em>name</em>]</code></p></div>
 <div class="paragraph"><p>Save a session.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_53">positional arguments</h4>
+<h4 id="_positional_arguments_52">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3565,7 +3557,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Set an option.</p></div>
 <div class="paragraph"><p>If the option name ends with <em>?</em> or no value is provided, the value of the option is shown instead. Using :set without any arguments opens a page where settings can be changed interactively.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_54">positional arguments</h4>
+<h4 id="_positional_arguments_53">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3605,7 +3597,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:set-cmd-text [<strong>--space</strong>] [<strong>--append</strong>] [<strong>--run-on-count</strong>] <em>text</em></code></p></div>
 <div class="paragraph"><p>Preset the statusbar to some text.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_55">positional arguments</h4>
+<h4 id="_positional_arguments_54">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3635,11 +3627,11 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_24">count</h4>
+<h4 id="_count_23">count</h4>
 <div class="paragraph"><p>The count if given.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_note_16">note</h4>
+<h4 id="_note_15">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3654,7 +3646,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Syntax: <code>:set-mark <em>key</em></code></p></div>
 <div class="paragraph"><p>Set a mark at the current scroll position in the current tab.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_56">positional arguments</h4>
+<h4 id="_positional_arguments_55">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3670,7 +3662,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Spawn an external command.</p></div>
 <div class="paragraph"><p>Note that the command is <strong>not</strong> run in a shell, so things like <code>$VAR</code> or <code>&gt; output</code> won&#8217;t have the desired effect.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_57">positional arguments</h4>
+<h4 id="_positional_arguments_56">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3718,17 +3710,17 @@ This command does not split arguments after the last argument and handles quotes
 </li>
 <li>
 <p>
-<code><strong>-d</strong></code>, <code><strong>--detach</strong></code>: Whether the command should be detached from qutebrowser.
+<code><strong>-d</strong></code>, <code><strong>--detach</strong></code>: Detach the command from qutebrowser so that it continues running when qutebrowser quits.
 </p>
 </li>
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_25">count</h4>
+<h4 id="_count_24">count</h4>
 <div class="paragraph"><p>Given to userscripts as $QUTE_COUNT.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_note_17">note</h4>
+<h4 id="_note_16">note</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3742,7 +3734,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="stop">stop</h3>
 <div class="paragraph"><p>Stop loading in the current/[count]th tab.</p></div>
 <div class="sect3">
-<h4 id="_count_26">count</h4>
+<h4 id="_count_25">count</h4>
 <div class="paragraph"><p>The tab index to stop.</p></div>
 </div>
 </div>
@@ -3796,7 +3788,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_27">count</h4>
+<h4 id="_count_26">count</h4>
 <div class="paragraph"><p>The tab index to close</p></div>
 </div>
 </div>
@@ -3806,7 +3798,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Select the tab given as argument/[count].</p></div>
 <div class="paragraph"><p>If neither count nor index are given, it behaves like tab-next. If both are given, use count.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_58">positional arguments</h4>
+<h4 id="_positional_arguments_57">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3829,7 +3821,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_28">count</h4>
+<h4 id="_count_27">count</h4>
 <div class="paragraph"><p>The tab index to focus, starting with 1.</p></div>
 </div>
 </div>
@@ -3839,7 +3831,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Give the current tab to a new or existing window if win_id given.</p></div>
 <div class="paragraph"><p>If no win_id is given, the tab will get detached into a new window.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_59">positional arguments</h4>
+<h4 id="_positional_arguments_58">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3864,7 +3856,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_29">count</h4>
+<h4 id="_count_28">count</h4>
 <div class="paragraph"><p>Overrides win_id (index starts at 1 for win_id=0).</p></div>
 </div>
 </div>
@@ -3874,7 +3866,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Move the current tab according to the argument and [count].</p></div>
 <div class="paragraph"><p>If neither is given, move it to the first position.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_60">positional arguments</h4>
+<h4 id="_positional_arguments_59">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3885,7 +3877,7 @@ This command does not split arguments after the last argument and handles quotes
 </ul></div>
 </div>
 <div class="sect3">
-<h4 id="_count_30">count</h4>
+<h4 id="_count_29">count</h4>
 <div class="paragraph"><p>If moving relatively: Offset. If moving absolutely: New position (default: 0). This
  overrides the index argument, if given.</p></div>
 </div>
@@ -3894,7 +3886,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="tab-mute">tab-mute</h3>
 <div class="paragraph"><p>Mute/Unmute the current/[count]th tab.</p></div>
 <div class="sect3">
-<h4 id="_count_31">count</h4>
+<h4 id="_count_30">count</h4>
 <div class="paragraph"><p>The tab index to mute or unmute</p></div>
 </div>
 </div>
@@ -3902,7 +3894,7 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="tab-next">tab-next</h3>
 <div class="paragraph"><p>Switch to the next tab, or switch [count] tabs forward.</p></div>
 <div class="sect3">
-<h4 id="_count_32">count</h4>
+<h4 id="_count_31">count</h4>
 <div class="paragraph"><p>How many tabs to switch forward.</p></div>
 </div>
 </div>
@@ -3936,7 +3928,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>Pin/Unpin the current/[count]th tab.</p></div>
 <div class="paragraph"><p>Pinning a tab shrinks it to the size of its title text. Attempting to close a pinned tab will cause a confirmation, unless --force is passed.</p></div>
 <div class="sect3">
-<h4 id="_count_33">count</h4>
+<h4 id="_count_32">count</h4>
 <div class="paragraph"><p>The tab index to pin or unpin</p></div>
 </div>
 </div>
@@ -3944,8 +3936,38 @@ This command does not split arguments after the last argument and handles quotes
 <h3 id="tab-prev">tab-prev</h3>
 <div class="paragraph"><p>Switch to the previous tab, or switch [count] tabs back.</p></div>
 <div class="sect3">
-<h4 id="_count_34">count</h4>
+<h4 id="_count_33">count</h4>
 <div class="paragraph"><p>How many tabs to switch back.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tab-select">tab-select</h3>
+<div class="paragraph"><p>Syntax: <code>:tab-select [<em>index</em>]</code></p></div>
+<div class="paragraph"><p>Select tab by index or url/title best match.</p></div>
+<div class="paragraph"><p>Focuses window if necessary when index is given. If both index and count are given, use count. With neither index nor count given, open the qute://tabs page.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_60">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>index</em></code>: The [win_id/]index of the tab to focus. Or a substring in which case the closest match will be focused.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_count_34">count</h4>
+<div class="paragraph"><p>The tab index to focus, starting with 1.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_note_17">note</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+This command does not split arguments after the last argument and handles quotes literally.
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect2">
@@ -4069,6 +4091,7 @@ This command does not split arguments after the last argument and handles quotes
 <code><strong>-p</strong></code>, <code><strong>--pygments</strong></code>: Use pygments to generate the view. This is always the case for QtWebKit. For QtWebEngine it may display
  slightly different source.
  Some JavaScript processing may be applied.
+ Needs the optional Pygments dependency for highlighting.
 </p>
 </li>
 </ul></div>
@@ -4263,15 +4286,11 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Yank the current completion item into the clipboard.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#drop-selection">drop-selection</a></p></td>
-<td align="left" valign="top"><p class="table">Drop selection and keep selection mode enabled.</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table"><a href="#follow-hint">follow-hint</a></p></td>
+<td align="left" valign="top"><p class="table"><a href="#hint-follow">hint-follow</a></p></td>
 <td align="left" valign="top"><p class="table">Follow a hint.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#leave-mode">leave-mode</a></p></td>
+<td align="left" valign="top"><p class="table"><a href="#mode-leave">mode-leave</a></p></td>
 <td align="left" valign="top"><p class="table">Leave the mode we&#8217;re currently in.</p></td>
 </tr>
 <tr>
@@ -4351,10 +4370,6 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Yank URL to clipboard or primary selection.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#reverse-selection">reverse-selection</a></p></td>
-<td align="left" valign="top"><p class="table">Swap the stationary and moving end of the current selection.</p></td>
-</tr>
-<tr>
 <td align="left" valign="top"><p class="table"><a href="#rl-backward-char">rl-backward-char</a></p></td>
 <td align="left" valign="top"><p class="table">Move back a character.</p></td>
 </tr>
@@ -4415,7 +4430,15 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Paste the most recently deleted text.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#toggle-selection">toggle-selection</a></p></td>
+<td align="left" valign="top"><p class="table"><a href="#selection-drop">selection-drop</a></p></td>
+<td align="left" valign="top"><p class="table">Drop selection and keep selection mode enabled.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#selection-reverse">selection-reverse</a></p></td>
+<td align="left" valign="top"><p class="table">Swap the stationary and moving end of the current selection.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#selection-toggle">selection-toggle</a></p></td>
 <td align="left" valign="top"><p class="table">Toggle caret selection mode.</p></td>
 </tr>
 </tbody>
@@ -4490,12 +4513,8 @@ cellspacing="0" cellpadding="4">
 </div>
 </div>
 <div class="sect2">
-<h3 id="drop-selection">drop-selection</h3>
-<div class="paragraph"><p>Drop selection and keep selection mode enabled.</p></div>
-</div>
-<div class="sect2">
-<h3 id="follow-hint">follow-hint</h3>
-<div class="paragraph"><p>Syntax: <code>:follow-hint [<strong>--select</strong>] [<em>keystring</em>]</code></p></div>
+<h3 id="hint-follow">hint-follow</h3>
+<div class="paragraph"><p>Syntax: <code>:hint-follow [<strong>--select</strong>] [<em>keystring</em>]</code></p></div>
 <div class="paragraph"><p>Follow a hint.</p></div>
 <div class="sect3">
 <h4 id="_positional_arguments_67">positional arguments</h4>
@@ -4519,7 +4538,7 @@ cellspacing="0" cellpadding="4">
 </div>
 </div>
 <div class="sect2">
-<h3 id="leave-mode">leave-mode</h3>
+<h3 id="mode-leave">mode-leave</h3>
 <div class="paragraph"><p>Leave the mode we&#8217;re currently in.</p></div>
 </div>
 <div class="sect2">
@@ -4720,10 +4739,6 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 </div>
 <div class="sect2">
-<h3 id="reverse-selection">reverse-selection</h3>
-<div class="paragraph"><p>Swap the stationary and moving end of the current selection.</p></div>
-</div>
-<div class="sect2">
 <h3 id="rl-backward-char">rl-backward-char</h3>
 <div class="paragraph"><p>Move back a character.</p></div>
 <div class="paragraph"><p>This acts like readline&#8217;s backward-char.</p></div>
@@ -4799,8 +4814,16 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>This acts like readline&#8217;s yank.</p></div>
 </div>
 <div class="sect2">
-<h3 id="toggle-selection">toggle-selection</h3>
-<div class="paragraph"><p>Syntax: <code>:toggle-selection [<strong>--line</strong>]</code></p></div>
+<h3 id="selection-drop">selection-drop</h3>
+<div class="paragraph"><p>Drop selection and keep selection mode enabled.</p></div>
+</div>
+<div class="sect2">
+<h3 id="selection-reverse">selection-reverse</h3>
+<div class="paragraph"><p>Swap the stationary and moving end of the current selection.</p></div>
+</div>
+<div class="sect2">
+<h3 id="selection-toggle">selection-toggle</h3>
+<div class="paragraph"><p>Syntax: <code>:selection-toggle [<strong>--line</strong>]</code></p></div>
 <div class="paragraph"><p>Toggle caret selection mode.</p></div>
 <div class="sect3">
 <h4 id="_optional_arguments_70">optional arguments</h4>
@@ -5092,7 +5115,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <h3 id="debug-webaction">debug-webaction</h3>
 <div class="paragraph"><p>Syntax: <code>:debug-webaction <em>action</em></code></p></div>
 <div class="paragraph"><p>Execute a webaction.</p></div>
-<div class="paragraph"><p>Available actions: <a href="http://doc.qt.io/archives/qt-5.5/qwebpage.html#WebAction-enum">http://doc.qt.io/archives/qt-5.5/qwebpage.html#WebAction-enum</a> (WebKit) <a href="http://doc.qt.io/qt-5/qwebenginepage.html#WebAction-enum">http://doc.qt.io/qt-5/qwebenginepage.html#WebAction-enum</a> (WebEngine)</p></div>
+<div class="paragraph"><p>Available actions: <a href="https://doc.qt.io/archives/qt-5.5/qwebpage.html#WebAction-enum">https://doc.qt.io/archives/qt-5.5/qwebpage.html#WebAction-enum</a> (WebKit) <a href="https://doc.qt.io/qt-5/qwebenginepage.html#WebAction-enum">https://doc.qt.io/qt-5/qwebenginepage.html#WebAction-enum</a> (WebEngine)</p></div>
 <div class="sect3">
 <h4 id="_positional_arguments_79">positional arguments</h4>
 <div class="ulist"><ul>
@@ -5115,7 +5138,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-12-04 20:32:24 CET
+ 2021-01-28 08:38:19 CET
 </div>
 </div>
 </body>

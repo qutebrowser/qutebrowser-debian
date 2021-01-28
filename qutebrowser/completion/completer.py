@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,11 +15,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Completer attached to a CompletionView."""
 
-import attr
+import dataclasses
+from typing import TYPE_CHECKING
+
 from PyQt5.QtCore import pyqtSlot, QObject, QTimer
 
 from qutebrowser.config import config
@@ -27,17 +29,19 @@ from qutebrowser.commands import runners
 from qutebrowser.misc import objects
 from qutebrowser.utils import log, utils, debug, objreg
 from qutebrowser.completion.models import miscmodels
+if TYPE_CHECKING:
+    from qutebrowser.browser import browsertab
 
 
-@attr.s
+@dataclasses.dataclass
 class CompletionInfo:
 
     """Context passed into all completion functions."""
 
-    config = attr.ib()
-    keyconf = attr.ib()
-    win_id = attr.ib()
-    cur_tab = attr.ib()
+    config: config.Config
+    keyconf: config.KeyConfig
+    win_id: int
+    cur_tab: 'browsertab.AbstractTab'
 
 
 class Completer(QObject):
@@ -150,7 +154,7 @@ class Completer(QObject):
                     parts.insert(i, '')
                 prefix = [x.strip() for x in parts[:i]]
                 center = parts[i].strip()
-                # strip trailing whitepsace included as a separate token
+                # strip trailing whitespace included as a separate token
                 postfix = [x.strip() for x in parts[i+1:] if not x.isspace()]
                 log.completion.debug(
                     "partitioned: {} '{}' {}".format(prefix, center, postfix))

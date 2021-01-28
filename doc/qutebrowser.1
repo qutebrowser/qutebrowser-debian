@@ -2,12 +2,12 @@
 .\"     Title: qutebrowser
 .\"    Author: [see the "AUTHOR" section]
 .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 12/04/2020
+.\"      Date: 01/28/2021
 .\"    Manual: qutebrowser manpage
 .\"    Source: qutebrowser
 .\"  Language: English
 .\"
-.TH "QUTEBROWSER" "1" "12/04/2020" "qutebrowser" "qutebrowser manpage"
+.TH "QUTEBROWSER" "1" "01/28/2021" "qutebrowser" "qutebrowser manpage"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -98,11 +98,10 @@ How URLs should be opened if there is already a qutebrowser instance running\&.
 Which backend to use\&.
 .RE
 .PP
-\fB\-\-enable\-webengine\-inspector\fR
+\fB\-\-desktop\-file\-name\fR \fIDESKTOP_FILE_NAME\fR
 .RS 4
-Enable the web inspector / devtools for QtWebEngine\&. Note that this is a SECURITY RISK and you should not visit untrusted websites with the inspector turned on\&. See
-https://bugreports\&.qt\&.io/browse/QTBUG\-50725
-for more details\&. This is not needed anymore since Qt 5\&.11 where the inspector is always enabled and secure\&.
+Set the base name of the desktop entry for this application\&. Used to set the app_id under Wayland\&. See
+https://doc\&.qt\&.io/qt\-5/qguiapplication\&.html#desktopFileName\-prop
 .RE
 .SS "debug arguments"
 .PP
@@ -245,7 +244,7 @@ This program is free software: you can redistribute it and/or modify it under th
 .sp
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE\&. See the GNU General Public License for more details\&.
 .sp
-You should have received a copy of the GNU General Public License along with this program\&. If not, see http://www\&.gnu\&.org/licenses/\&.
+You should have received a copy of the GNU General Public License along with this program\&. If not, see https://www\&.gnu\&.org/licenses/\&.
 .SH "RESOURCES"
 .sp
 .RS 4

@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2015-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2015-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,7 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Steps for bdd-like tests."""
 
@@ -381,7 +381,7 @@ def hint_and_follow(quteproc, args, letter):
     args = args.replace('(python-executable)', sys.executable)
     quteproc.send_cmd(':hint {}'.format(args))
     quteproc.wait_for(message='hints: *')
-    quteproc.send_cmd(':follow-hint {}'.format(letter))
+    quteproc.send_cmd(':hint-follow {}'.format(letter))
 
 
 @bdd.when("I wait until the scroll position changed")
@@ -562,6 +562,9 @@ def check_header(quteproc, header, value):
     print(data)
     if value == '<unset>':
         assert header not in data['headers']
+    elif value.startswith("'") and value.endswith("'"):  # literal match
+        actual = data['headers'][header]
+        assert actual == value[1:-1]
     else:
         actual = data['headers'][header]
         assert testutils.pattern_match(pattern=value, value=actual)

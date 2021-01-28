@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,7 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Initialization of qutebrowser and application-wide things.
 
@@ -43,7 +43,7 @@ import functools
 import tempfile
 import datetime
 import argparse
-import typing
+from typing import Iterable, Optional, cast
 
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtGui import QDesktopServices, QPixmap, QIcon
@@ -66,7 +66,7 @@ from qutebrowser.misc import (ipc, savemanager, sessions, crashsignal,
                               earlyinit, sql, cmdhistory, backendproblem,
                               objects, quitter)
 from qutebrowser.utils import (log, version, message, utils, urlutils, objreg,
-                               usertypes, standarddir, error, qtutils)
+                               usertypes, standarddir, error, qtutils, debug)
 # pylint: disable=unused-import
 # We import those to run the cmdutils.register decorators.
 from qutebrowser.mainwindow.statusbar import command
@@ -74,7 +74,7 @@ from qutebrowser.misc import utilcmds
 # pylint: enable=unused-import
 
 
-q_app = typing.cast(QApplication, None)
+q_app = cast(QApplication, None)
 
 
 def run(args):
@@ -92,19 +92,20 @@ def run(args):
     configinit.early_init(args)
 
     log.init.debug("Initializing application...")
-    global q_app
-    q_app = Application(args)
-    q_app.setOrganizationName("qutebrowser")
-    q_app.setApplicationName("qutebrowser")
-    q_app.setDesktopFileName("org.qutebrowser.qutebrowser")
-    q_app.setApplicationVersion(qutebrowser.__version__)
+    app = Application(args)
+    objects.qapp = app
+    app.setOrganizationName("qutebrowser")
+    app.setApplicationName("qutebrowser")
+    # Default DesktopFileName is org.qutebrowser.qutebrowser, set in `get_argparser()`
+    app.setDesktopFileName(args.desktop_file_name)
+    app.setApplicationVersion(qutebrowser.__version__)
 
     if args.version:
         print(version.version_info())
         sys.exit(usertypes.Exit.ok)
 
     quitter.init(args)
-    crashsignal.init(q_app=q_app, args=args, quitter=quitter.instance)
+    crashsignal.init(q_app=app, args=args, quitter=quitter.instance)
 
     try:
         server = ipc.send_or_listen(args)
@@ -135,7 +136,7 @@ def qt_mainloop():
     WARNING: misc/crashdialog.py checks the stacktrace for this function
     name, so if this is changed, it should be changed there as well!
     """
-    return q_app.exec_()
+    return objects.qapp.exec()
 
 
 def init(*, args: argparse.Namespace) -> None:
@@ -144,7 +145,7 @@ def init(*, args: argparse.Namespace) -> None:
 
     crashsignal.crash_handler.init_faulthandler()
 
-    q_app.setQuitOnLastWindowClosed(False)
+    objects.qapp.setQuitOnLastWindowClosed(False)
     quitter.instance.shutting_down.connect(QApplication.closeAllWindows)
 
     _init_icon()
@@ -164,7 +165,7 @@ def init(*, args: argparse.Namespace) -> None:
     eventfilter.init()
 
     log.init.debug("Connecting signals...")
-    q_app.focusChanged.connect(on_focus_changed)
+    objects.qapp.focusChanged.connect(on_focus_changed)
 
     _process_args(args)
 
@@ -190,7 +191,7 @@ def _init_icon():
     if icon.isNull():
         log.init.warning("Failed to load icon")
     else:
-        q_app.setWindowIcon(icon)
+        objects.qapp.setWindowIcon(icon)
 
 
 def _init_pulseaudio():
@@ -199,7 +200,7 @@ def _init_pulseaudio():
     WORKAROUND for https://bugreports.qt.io/browse/QTBUG-85363
 
     Affected Qt versions:
-    - Older than 5.11
+    - Older than 5.11 (which is unsupported)
     - 5.14.0 to 5.15.0 (inclusive)
 
     However, we set this on all versions so that qutebrowser's icon gets picked
@@ -227,7 +228,7 @@ def _process_args(args):
         window = mainwindow.MainWindow(private=private)
         if not args.nowindow:
             window.show()
-        q_app.setActiveWindow(window)
+        objects.qapp.setActiveWindow(window)
 
     process_pos_args(args.command)
     _open_startpage()
@@ -256,7 +257,7 @@ def process_pos_args(args, via_ipc=False, cwd=None, target_arg=None):
     if command_target in {'window', 'private-window'}:
         command_target = 'tab-silent'
 
-    win_id = None  # type: typing.Optional[int]
+    win_id: Optional[int] = None
 
     if via_ipc and not args:
         win_id = mainwindow.get_window(via_ipc=via_ipc,
@@ -325,7 +326,7 @@ def _open_startpage(win_id=None):
                 If set, open the startpage in the given window.
     """
     if win_id is not None:
-        window_ids = [win_id]  # type: typing.Iterable[int]
+        window_ids: Iterable[int] = [win_id]
     else:
         window_ids = objreg.window_registry
     for cur_win_id in list(window_ids):  # Copying as the dict could change
@@ -366,19 +367,47 @@ def _open_special_pages(args):
          objects.backend == usertypes.Backend.QtWebKit,
          'qute://warning/webkit'),
 
-        ('old-qt-warning-shown',
-         not qtutils.version_check('5.11'),
-         'qute://warning/old-qt'),
-
         ('session-warning-shown',
          qtutils.version_check('5.15', compiled=False),
          'qute://warning/sessions'),
     ]
 
+    if 'quickstart-done' not in general_sect:
+        # New users aren't going to be affected by the Qt 5.15 session change much, as
+        # they aren't used to qutebrowser saving the full back/forward history in
+        # sessions.
+        general_sect['session-warning-shown'] = '1'
+
     for state, condition, url in pages:
         if general_sect.get(state) != '1' and condition:
             tabbed_browser.tabopen(QUrl(url), background=False)
             general_sect[state] = '1'
+
+    # Show changelog on new releases
+    change = configfiles.state.qutebrowser_version_changed
+    if change == configfiles.VersionChange.equal:
+        return
+
+    setting = config.val.changelog_after_upgrade
+    if not change.matches_filter(setting):
+        log.init.debug(
+            f"Showing changelog is disabled (setting {setting}, change {change})")
+        return
+
+    try:
+        changelog = utils.read_file('html/doc/changelog.html')
+    except OSError as e:
+        log.init.warning(f"Not showing changelog due to {e}")
+        return
+
+    qbversion = qutebrowser.__version__
+    if f'id="v{qbversion}"' not in changelog:
+        log.init.warning("Not showing changelog (anchor not found)")
+        return
+
+    message.info(f"Showing changelog after upgrade to qutebrowser v{qbversion}.")
+    changelog_url = f'qute://help/changelog.html#v{qbversion}'
+    tabbed_browser.tabopen(QUrl(changelog_url), background=False)
 
 
 def on_focus_changed(_old, new):
@@ -409,7 +438,7 @@ def open_desktopservices_url(url):
 
 
 # This is effectively a @config.change_filter
-# Howerver, logging is initialized too early to use that annotation
+# However, logging is initialized too early to use that annotation
 def _on_config_changed(name: str) -> None:
     if name.startswith('logging.'):
         log.init_from_config(config.val)
@@ -426,7 +455,7 @@ def _init_modules(*, args):
     config.instance.changed.connect(_on_config_changed)
 
     log.init.debug("Initializing save manager...")
-    save_manager = savemanager.SaveManager(q_app)
+    save_manager = savemanager.SaveManager(objects.qapp)
     objreg.register('save-manager', save_manager)
     quitter.instance.shutting_down.connect(save_manager.shutdown)
     configinit.late_init(save_manager)
@@ -448,22 +477,23 @@ def _init_modules(*, args):
     downloads.init()
     quitter.instance.shutting_down.connect(downloads.shutdown)
 
-    try:
-        log.init.debug("Initializing SQL...")
-        sql.init(os.path.join(standarddir.data(), 'history.sqlite'))
+    with debug.log_time("init", "Initializing SQL/history"):
+        try:
+            log.init.debug("Initializing SQL...")
+            sql.init(os.path.join(standarddir.data(), 'history.sqlite'))
 
-        log.init.debug("Initializing web history...")
-        history.init(q_app)
-    except sql.KnownError as e:
-        error.handle_fatal_exc(e, 'Error initializing SQL',
-                               pre_text='Error initializing SQL',
-                               no_err_windows=args.no_err_windows)
-        sys.exit(usertypes.Exit.err_init)
+            log.init.debug("Initializing web history...")
+            history.init(objects.qapp)
+        except sql.KnownError as e:
+            error.handle_fatal_exc(e, 'Error initializing SQL',
+                                   pre_text='Error initializing SQL',
+                                   no_err_windows=args.no_err_windows)
+            sys.exit(usertypes.Exit.err_init)
 
     log.init.debug("Initializing command history...")
     cmdhistory.init()
     log.init.debug("Initializing sessions...")
-    sessions.init(q_app)
+    sessions.init(objects.qapp)
 
     log.init.debug("Initializing websettings...")
     websettings.init(args)
@@ -473,18 +503,18 @@ def _init_modules(*, args):
         crashsignal.crash_handler.display_faulthandler()
 
     log.init.debug("Initializing quickmarks...")
-    quickmark_manager = urlmarks.QuickmarkManager(q_app)
+    quickmark_manager = urlmarks.QuickmarkManager(objects.qapp)
     objreg.register('quickmark-manager', quickmark_manager)
 
     log.init.debug("Initializing bookmarks...")
-    bookmark_manager = urlmarks.BookmarkManager(q_app)
+    bookmark_manager = urlmarks.BookmarkManager(objects.qapp)
     objreg.register('bookmark-manager', bookmark_manager)
 
     log.init.debug("Initializing cookies...")
-    cookies.init(q_app)
+    cookies.init(objects.qapp)
 
     log.init.debug("Initializing cache...")
-    cache.init(q_app)
+    cache.init(objects.qapp)
 
     log.init.debug("Initializing downloads...")
     qtnetworkdownloads.init()
@@ -495,8 +525,6 @@ def _init_modules(*, args):
     log.init.debug("Misc initialization...")
     macros.init()
     windowundo.init()
-    # Init backend-specific stuff
-    browsertab.init()
 
 
 class Application(QApplication):
@@ -536,7 +564,9 @@ class Application(QApplication):
         self.launch_time = datetime.datetime.now()
         self.focusObjectChanged.connect(  # type: ignore[attr-defined]
             self.on_focus_object_changed)
+
         self.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+        self.setAttribute(Qt.AA_MacDontSwapCtrlAndMeta, True)
 
         self.new_window.connect(self._on_new_window)
 
@@ -555,14 +585,14 @@ class Application(QApplication):
 
     def event(self, e):
         """Handle macOS FileOpen events."""
-        if e.type() == QEvent.FileOpen:
-            url = e.url()
-            if url.isValid():
-                open_url(url, no_raise=True)
-            else:
-                message.error("Invalid URL: {}".format(url.errorString()))
-        else:
+        if e.type() != QEvent.FileOpen:
             return super().event(e)
+
+        url = e.url()
+        if url.isValid():
+            open_url(url, no_raise=True)
+        else:
+            message.error("Invalid URL: {}".format(url.errorString()))
 
         return True
 

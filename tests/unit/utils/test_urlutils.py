@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,15 +15,15 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Tests for qutebrowser.utils.urlutils."""
 
 import os.path
 import logging
+import dataclasses
 import urllib.parse
 
-import attr
 from PyQt5.QtCore import QUrl
 from PyQt5.QtNetwork import QNetworkProxy
 import pytest
@@ -33,7 +33,6 @@ import hypothesis.strategies
 from qutebrowser.api import cmdutils
 from qutebrowser.browser.network import pac
 from qutebrowser.utils import utils, urlutils, usertypes
-from helpers import utils as testutils
 
 
 class FakeDNS:
@@ -51,10 +50,10 @@ class FakeDNS:
                 when fromname_mock is called.
     """
 
-    @attr.s
+    @dataclasses.dataclass
     class FakeDNSAnswer:
 
-        error = attr.ib()
+        error: bool
 
     def __init__(self):
         self.used = False
@@ -216,15 +215,11 @@ class TestFuzzyUrl:
         assert url == QUrl('http://foo')
 
     @pytest.mark.parametrize('do_search', [True, False])
-    def test_invalid_url(self, do_search, is_url_mock, monkeypatch,
-                         caplog):
+    def test_invalid_url(self, do_search, caplog):
         """Test with an invalid URL."""
-        is_url_mock.return_value = True
-        monkeypatch.setattr(urlutils, 'qurl_from_user_input',
-                            lambda url: QUrl())
         with pytest.raises(urlutils.InvalidUrlError):
             with caplog.at_level(logging.ERROR):
-                urlutils.fuzzy_url('foo', do_search=do_search)
+                urlutils.fuzzy_url('', do_search=do_search)
 
     @pytest.mark.parametrize('url', ['', ' '])
     def test_empty(self, url):
@@ -355,14 +350,14 @@ def test_get_search_url_invalid(url):
         urlutils._get_search_url(url)
 
 
-@attr.s
+@dataclasses.dataclass
 class UrlParams:
 
-    url = attr.ib()
-    is_url = attr.ib(True)
-    is_url_no_autosearch = attr.ib(True)
-    use_dns = attr.ib(True)
-    is_url_in_schemeless = attr.ib(False)
+    url: QUrl
+    is_url: bool = True
+    is_url_no_autosearch: bool = True
+    use_dns: bool = True
+    is_url_in_schemeless: bool = False
 
 
 @pytest.mark.parametrize('auto_search',
@@ -490,29 +485,6 @@ def test_searchengine_is_url(config_stub, auto_search, open_base_url, is_url):
     assert urlutils.is_url('test') == is_url
 
 
-@pytest.mark.parametrize('user_input, output', [
-    ('qutebrowser.org', 'http://qutebrowser.org'),
-    ('http://qutebrowser.org', 'http://qutebrowser.org'),
-    ('::1/foo', 'http://[::1]/foo'),
-    ('[::1]/foo', 'http://[::1]/foo'),
-    ('http://[::1]', 'http://[::1]'),
-    ('qutebrowser.org', 'http://qutebrowser.org'),
-    ('http://qutebrowser.org', 'http://qutebrowser.org'),
-    ('::1/foo', 'http://[::1]/foo'),
-    ('[::1]/foo', 'http://[::1]/foo'),
-    ('http://[::1]', 'http://[::1]'),
-])
-def test_qurl_from_user_input(user_input, output):
-    """Test qurl_from_user_input.
-
-    Args:
-        user_input: The string to pass to qurl_from_user_input.
-        output: The expected QUrl string.
-    """
-    url = urlutils.qurl_from_user_input(user_input)
-    assert url.toString() == output
-
-
 @pytest.mark.parametrize('url, valid, has_err_string', [
     ('http://www.example.com/', True, False),
     ('', False, False),
@@ -580,9 +552,20 @@ def test_raise_cmdexc_if_invalid(url, valid, has_err_string):
     (QUrl('http://user:password@qutebrowser.org/foo?bar=baz#fish'), 'foo'),
     (QUrl('http://qutebrowser.org/'), 'qutebrowser.org.html'),
     (QUrl('qute://'), None),
+    # data URL support
+    (QUrl('data:text/plain,'), 'download.txt'),
+    (QUrl('data:application/pdf,'), 'download.pdf'),
+    (QUrl('data:foo/bar,'), 'download'),  # unknown extension
+    (QUrl('data:text/xul,'), 'download.xul'),  # strict=False
+    (QUrl('data:'), None),  # invalid data URL
 ])
 def test_filename_from_url(qurl, output):
     assert urlutils.filename_from_url(qurl) == output
+
+
+@pytest.mark.parametrize('qurl', [QUrl(), QUrl('qute://'), QUrl('data:')])
+def test_filename_from_url_fallback(qurl):
+    assert urlutils.filename_from_url(qurl, fallback='fallback') == 'fallback'
 
 
 @pytest.mark.parametrize('qurl, expected', [
@@ -705,12 +688,8 @@ def test_data_url():
     (QUrl('http://www.example.xn--p1ai'),
      '(www.example.xn--p1ai) http://www.example.рф'),
     # https://bugreports.qt.io/browse/QTBUG-60364
-    pytest.param(QUrl('http://www.xn--80ak6aa92e.com'),
-                 '(unparseable URL!) http://www.аррӏе.com',
-                 marks=testutils.qt58),
-    pytest.param(QUrl('http://www.xn--80ak6aa92e.com'),
-                 'http://www.xn--80ak6aa92e.com',
-                 marks=testutils.qt59),
+    (QUrl('http://www.xn--80ak6aa92e.com'),
+     'http://www.xn--80ak6aa92e.com'),
 ])
 def test_safe_display_string(url, expected):
     assert urlutils.safe_display_string(url) == expected
@@ -719,11 +698,6 @@ def test_safe_display_string(url, expected):
 def test_safe_display_string_invalid():
     with pytest.raises(urlutils.InvalidUrlError):
         urlutils.safe_display_string(QUrl())
-
-
-def test_query_string():
-    url = QUrl('https://www.example.com/?foo=bar')
-    assert urlutils.query_string(url) == 'foo=bar'
 
 
 class TestProxyFromUrl:

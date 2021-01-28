@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,27 +15,25 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Get arguments to pass to Qt."""
 
 import os
 import sys
-import typing
 import argparse
-
-try:
-    from PyQt5.QtWebEngine import PYQT_WEBENGINE_VERSION
-except ImportError:  # pragma: no cover
-    # Added in PyQt 5.13
-    PYQT_WEBENGINE_VERSION = None  # type: ignore[assignment]
+from typing import Any, Dict, Iterator, List, Optional, Sequence, Tuple
 
 from qutebrowser.config import config
 from qutebrowser.misc import objects
-from qutebrowser.utils import usertypes, qtutils, utils, log
+from qutebrowser.utils import usertypes, qtutils, utils
 
 
-def qt_args(namespace: argparse.Namespace) -> typing.List[str]:
+_ENABLE_FEATURES = '--enable-features='
+_DISABLE_FEATURES = '--disable-features='
+
+
+def qt_args(namespace: argparse.Namespace) -> List[str]:
     """Get the Qt QApplication arguments based on an argparse namespace.
 
     Args:
@@ -59,144 +57,34 @@ def qt_args(namespace: argparse.Namespace) -> typing.List[str]:
         assert objects.backend == usertypes.Backend.QtWebKit, objects.backend
         return argv
 
-    feature_flags = [flag for flag in argv
-                     if flag.startswith('--enable-features=')]
-    argv = [flag for flag in argv if not flag.startswith('--enable-features=')]
+    feature_prefixes = (_ENABLE_FEATURES, _DISABLE_FEATURES)
+    feature_flags = [flag for flag in argv if flag.startswith(feature_prefixes)]
+    argv = [flag for flag in argv if not flag.startswith(feature_prefixes)]
     argv += list(_qtwebengine_args(namespace, feature_flags))
 
     return argv
 
 
-def _darkmode_prefix() -> str:
-    """Return the prefix to use for darkmode settings."""
-    if (PYQT_WEBENGINE_VERSION is None or  # type: ignore[unreachable]
-            PYQT_WEBENGINE_VERSION < 0x050f02):
-        return 'darkMode'
-    else:
-        # QtWebEngine 5.15.2 comes with Chromium 83
-        return 'forceDarkMode'
-
-
-def _darkmode_settings() -> typing.Iterator[typing.Tuple[str, str]]:
-    """Get necessary blink settings to configure dark mode for QtWebEngine."""
-    if (qtutils.version_check('5.15.2', compiled=False) and
-            config.val.colors.webpage.prefers_color_scheme_dark):
-        # With older Qt versions, this is passed in qtargs.py as --force-dark-mode
-        # instead.
-        #
-        # With Chromium 85 (> Qt 5.15.2), the enumeration has changed in Blink and this
-        # will need to be set to '0' instead:
-        # https://chromium-review.googlesource.com/c/chromium/src/+/2232922
-        yield "preferredColorScheme", "1"
-
-    if not config.val.colors.webpage.darkmode.enabled:
-        return
-
-    # Mapping from a colors.webpage.darkmode.algorithm setting value to
-    # Chromium's DarkModeInversionAlgorithm enum values.
-    algorithms = {
-        # 0: kOff (not exposed)
-        # 1: kSimpleInvertForTesting (not exposed)
-        'brightness-rgb': 2,  # kInvertBrightness
-        'lightness-hsl': 3,  # kInvertLightness
-        'lightness-cielab': 4,  # kInvertLightnessLAB
-    }
-
-    # Mapping from a colors.webpage.darkmode.policy.images setting value to
-    # Chromium's DarkModeImagePolicy enum values.
-    image_policies = {
-        'always': 0,  # kFilterAll
-        'never': 1,  # kFilterNone
-        'smart': 2,  # kFilterSmart
-    }
-
-    # Mapping from a colors.webpage.darkmode.policy.page setting value to
-    # Chromium's DarkModePagePolicy enum values.
-    page_policies = {
-        'always': 0,  # kFilterAll
-        'smart': 1,  # kFilterByBackground
-    }
-
-    bools = {
-        True: 'true',
-        False: 'false',
-    }
-
-    # Our defaults for policy.images are different from Chromium's, so we mark it as
-    # mandatory setting - except on Qt 5.15.0 where we don't, so we don't get the
-    # workaround warning below if the setting wasn't explicitly customized.
-    smart_image_policy_broken = PYQT_WEBENGINE_VERSION == 0x050f00
-    mandatory_settings = set()
-    if not smart_image_policy_broken:
-        mandatory_settings.add('policy.images')
-
-    _setting_description_type = typing.Tuple[
-        str,  # qutebrowser option name
-        str,  # darkmode setting name
-        # Mapping from the config value to a string (or something convertable
-        # to a string) which gets passed to Chromium.
-        typing.Optional[typing.Mapping[typing.Any, typing.Union[str, int]]],
-    ]
-    if qtutils.version_check('5.15', compiled=False):
-        settings = [
-            ('enabled', 'Enabled', bools),
-            ('algorithm', 'InversionAlgorithm', algorithms),
-        ]  # type: typing.List[_setting_description_type]
-        mandatory_settings.add('enabled')
-    else:
-        settings = [
-            ('algorithm', '', algorithms),
-        ]
-        mandatory_settings.add('algorithm')
-
-    settings += [
-        ('policy.images', 'ImagePolicy', image_policies),
-        ('policy.page', 'PagePolicy', page_policies),
-        ('contrast', 'Contrast', None),
-        ('threshold.text', 'TextBrightnessThreshold', None),
-        ('threshold.background', 'BackgroundBrightnessThreshold', None),
-        ('grayscale.all', 'Grayscale', bools),
-        ('grayscale.images', 'ImageGrayscale', None),
-    ]
-
-    for setting, key, mapping in settings:
-        # To avoid blowing up the commandline length, we only pass modified
-        # settings to Chromium, as our defaults line up with Chromium's.
-        # However, we always pass enabled/algorithm to make sure dark mode gets
-        # actually turned on.
-        value = config.instance.get(
-            'colors.webpage.darkmode.' + setting,
-            fallback=setting in mandatory_settings)
-        if isinstance(value, usertypes.Unset):
-            continue
-
-        if (setting == 'policy.images' and value == 'smart' and
-                smart_image_policy_broken):
-            # WORKAROUND for
-            # https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/304211
-            log.init.warning("Ignoring colors.webpage.darkmode.policy.images = smart "
-                             "because of Qt 5.15.0 bug")
-            continue
-
-        if mapping is not None:
-            value = mapping[value]
-
-        yield _darkmode_prefix() + key, str(value)
-
-
-def _qtwebengine_enabled_features(
-        feature_flags: typing.Sequence[str],
-) -> typing.Iterator[str]:
-    """Get --enable-features flags for QtWebEngine.
+def _qtwebengine_features(
+        feature_flags: Sequence[str],
+) -> Tuple[Sequence[str], Sequence[str]]:
+    """Get a tuple of --enable-features/--disable-features flags for QtWebEngine.
 
     Args:
         feature_flags: Existing flags passed via the commandline.
     """
+    enabled_features = []
+    disabled_features = []
+
     for flag in feature_flags:
-        prefix = '--enable-features='
-        assert flag.startswith(prefix), flag
-        flag = flag[len(prefix):]
-        yield from iter(flag.split(','))
+        if flag.startswith(_ENABLE_FEATURES):
+            flag = flag[len(_ENABLE_FEATURES):]
+            enabled_features += flag.split(',')
+        elif flag.startswith(_DISABLE_FEATURES):
+            flag = flag[len(_DISABLE_FEATURES):]
+            disabled_features += flag.split(',')
+        else:
+            raise utils.Unreachable(flag)
 
     if qtutils.version_check('5.15', compiled=False) and utils.is_linux:
         # Enable WebRTC PipeWire for screen capturing on Wayland.
@@ -216,9 +104,9 @@ def _qtwebengine_enabled_features(
         # This only should be enabled on Wayland, but it's too early to check
         # that, as we don't have a QApplication available at this point. Thus,
         # just turn it on unconditionally on Linux, which shouldn't hurt.
-        yield 'WebRTCPipeWireCapturer'
+        enabled_features.append('WebRTCPipeWireCapturer')
 
-    if qtutils.version_check('5.11', compiled=False) and not utils.is_mac:
+    if not utils.is_mac:
         # Enable overlay scrollbars.
         #
         # There are two additional flags in Chromium:
@@ -232,7 +120,7 @@ def _qtwebengine_enabled_features(
         # latter flashes *all* scrollbars when a scrollable area was entered,
         # which doesn't seem to make much sense.
         if config.val.scrolling.bar == 'overlay':
-            yield 'OverlayScrollbar'
+            enabled_features.append('OverlayScrollbar')
 
     if (qtutils.version_check('5.14', compiled=False) and
             config.val.content.headers.referer == 'same-domain'):
@@ -242,24 +130,27 @@ def _qtwebengine_enabled_features(
         # Note that this is removed entirely (and apparently the default) starting with
         # Chromium 89 (Qt 5.15.x or 6.x):
         # https://chromium-review.googlesource.com/c/chromium/src/+/2545444
-        yield 'ReducedReferrerGranularity'
+        enabled_features.append('ReducedReferrerGranularity')
+
+    if qtutils.version_check('5.15.2', compiled=False, exact=True):
+        # WORKAROUND for https://bugreports.qt.io/browse/QTBUG-89740
+        # FIXME Not needed anymore with QtWebEngne 5.15.3 (or Qt 6), but we'll probably
+        # have no way to detect that...
+        disabled_features.append('InstalledApp')
+
+    return (enabled_features, disabled_features)
 
 
 def _qtwebengine_args(
         namespace: argparse.Namespace,
-        feature_flags: typing.Sequence[str],
-) -> typing.Iterator[str]:
+        feature_flags: Sequence[str],
+) -> Iterator[str]:
     """Get the QtWebEngine arguments to use based on the config."""
     is_qt_514 = (qtutils.version_check('5.14', compiled=False) and
                  not qtutils.version_check('5.15', compiled=False))
 
-    if not qtutils.version_check('5.11', compiled=False) or is_qt_514:
-        # WORKAROUND equivalent to
-        # https://codereview.qt-project.org/#/c/217932/
-        # Needed for Qt < 5.9.5 and < 5.10.1
-        #
-        # For Qt 5,14, WORKAROUND for
-        # https://bugreports.qt.io/browse/QTBUG-82105
+    if is_qt_514:
+        # WORKAROUND for https://bugreports.qt.io/browse/QTBUG-82105
         yield '--disable-shared-workers'
 
     # WORKAROUND equivalent to
@@ -282,20 +173,22 @@ def _qtwebengine_args(
     if 'wait-renderer-process' in namespace.debug_flags:
         yield '--renderer-startup-dialog'
 
-    blink_settings = list(_darkmode_settings())
+    from qutebrowser.browser.webengine import darkmode
+    blink_settings = list(darkmode.settings())
     if blink_settings:
-        yield '--blink-settings=' + ','.join('{}={}'.format(k, v)
-                                             for k, v in blink_settings)
+        yield '--blink-settings=' + ','.join(f'{k}={v}' for k, v in blink_settings)
 
-    enabled_features = list(_qtwebengine_enabled_features(feature_flags))
+    enabled_features, disabled_features = _qtwebengine_features(feature_flags)
     if enabled_features:
-        yield '--enable-features=' + ','.join(enabled_features)
+        yield _ENABLE_FEATURES + ','.join(enabled_features)
+    if disabled_features:
+        yield _DISABLE_FEATURES + ','.join(disabled_features)
 
     yield from _qtwebengine_settings_args()
 
 
-def _qtwebengine_settings_args() -> typing.Iterator[str]:
-    settings = {
+def _qtwebengine_settings_args() -> Iterator[str]:
+    settings: Dict[str, Dict[Any, Optional[str]]] = {
         'qt.force_software_rendering': {
             'software-opengl': None,
             'qt-quick': None,
@@ -331,20 +224,13 @@ def _qtwebengine_settings_args() -> typing.Iterator[str]:
         'content.headers.referer': {
             'always': None,
         }
-    }  # type: typing.Dict[str, typing.Dict[typing.Any, typing.Optional[str]]]
-
-    if not qtutils.version_check('5.11'):
-        # On Qt 5.11, we can control this via QWebEngineSettings
-        settings['content.autoplay'] = {
-            True: None,
-            False: '--autoplay-policy=user-gesture-required',
-        }
+    }
 
     if (qtutils.version_check('5.14', compiled=False) and
             not qtutils.version_check('5.15.2', compiled=False)):
         # In Qt 5.14 to 5.15.1, `--force-dark-mode` is used to set the
         # preferred colorscheme. In Qt 5.15.2, this is handled by a
-        # blink-setting instead.
+        # blink-setting in browser/webengine/darkmode.py instead.
         settings['colors.webpage.prefers_color_scheme_dark'] = {
             True: '--force-dark-mode',
             False: None,
@@ -396,3 +282,9 @@ def init_envvars() -> None:
                    if qtutils.version_check('5.14', compiled=False)
                    else 'QT_AUTO_SCREEN_SCALE_FACTOR')
         os.environ[env_var] = '1'
+
+    for var, val in config.val.qt.environ.items():
+        if val is None and var in os.environ:
+            del os.environ[var]
+        elif val is not None:
+            os.environ[var] = val

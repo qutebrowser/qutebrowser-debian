@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2016-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2016-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,7 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Bridge from QWebEngineSettings to our own settings.
 
@@ -26,26 +26,34 @@ Module attributes:
 
 import os
 import operator
-import typing
+from typing import cast, Any, List, Optional, Tuple, Union, TYPE_CHECKING
 
 from PyQt5.QtGui import QFont
-from PyQt5.QtWebEngineWidgets import (QWebEngineSettings, QWebEngineProfile,
-                                      QWebEnginePage)
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWebEngineWidgets import QWebEngineSettings, QWebEngineProfile
 
-from qutebrowser.browser.webengine import spell, webenginequtescheme
+from qutebrowser.browser import history
+from qutebrowser.browser.webengine import (spell, webenginequtescheme, cookies,
+                                           webenginedownloads)
 from qutebrowser.config import config, websettings
 from qutebrowser.config.websettings import AttributeInfo as Attr
-from qutebrowser.utils import (utils, standarddir, qtutils, message, log,
+from qutebrowser.utils import (standarddir, qtutils, message, log,
                                urlmatch, usertypes, objreg)
+if TYPE_CHECKING:
+    from qutebrowser.browser.webengine import interceptor
 
 # The default QWebEngineProfile
-default_profile = typing.cast(QWebEngineProfile, None)
+default_profile = cast(QWebEngineProfile, None)
 # The QWebEngineProfile used for private (off-the-record) windows
-private_profile = None  # type: typing.Optional[QWebEngineProfile]
+private_profile: Optional[QWebEngineProfile] = None
 # The global WebEngineSettings object
-global_settings = typing.cast('WebEngineSettings', None)
+_global_settings = cast('WebEngineSettings', None)
 
 parsed_user_agent = None
+
+_qute_scheme_handler = cast(webenginequtescheme.QuteSchemeHandler, None)
+_req_interceptor = cast('interceptor.RequestInterceptor', None)
+_download_manager = cast(webenginedownloads.DownloadManager, None)
 
 
 class _SettingsWrapper:
@@ -126,8 +134,7 @@ class WebEngineSettings(websettings.AbstractSettings):
         'content.desktop_capture':
             Attr(QWebEngineSettings.ScreenCaptureEnabled,
                  converter=lambda val: True if val == 'ask' else val),
-        # 'ask' is handled via the permission system,
-        # or a hardcoded dialog on Qt < 5.10
+        # 'ask' is handled via the permission system
 
         'input.spatial_navigation':
             Attr(QWebEngineSettings.SpatialNavigationEnabled),
@@ -136,6 +143,20 @@ class WebEngineSettings(websettings.AbstractSettings):
 
         'scrolling.smooth':
             Attr(QWebEngineSettings.ScrollAnimatorEnabled),
+
+        'content.print_element_backgrounds':
+            Attr(QWebEngineSettings.PrintElementBackgrounds),
+
+        'content.autoplay':
+            Attr(QWebEngineSettings.PlaybackRequiresUserGesture,
+                 converter=operator.not_),
+
+        'content.dns_prefetch':
+            Attr(QWebEngineSettings.DnsPrefetchEnabled),
+
+        'tabs.favicons.show':
+            Attr(QWebEngineSettings.AutoLoadIconsForPage,
+                 converter=lambda val: val != 'never'),
     }
 
     _FONT_SIZES = {
@@ -158,18 +179,14 @@ class WebEngineSettings(websettings.AbstractSettings):
         'fonts.web.family.fantasy': QWebEngineSettings.FantasyFont,
     }
 
-    # Only Qt >= 5.11 support UnknownUrlSchemePolicy
-    try:
-        _UNKNOWN_URL_SCHEME_POLICY = {
-            'disallow':
-                QWebEngineSettings.DisallowUnknownUrlSchemes,
-            'allow-from-user-interaction':
-                QWebEngineSettings.AllowUnknownUrlSchemesFromUserInteraction,
-            'allow-all':
-                QWebEngineSettings.AllowAllUnknownUrlSchemes,
-        }
-    except AttributeError:
-        _UNKNOWN_URL_SCHEME_POLICY = None
+    _UNKNOWN_URL_SCHEME_POLICY = {
+        'disallow':
+            QWebEngineSettings.DisallowUnknownUrlSchemes,
+        'allow-from-user-interaction':
+            QWebEngineSettings.AllowUnknownUrlSchemesFromUserInteraction,
+        'allow-all':
+            QWebEngineSettings.AllowAllUnknownUrlSchemes,
+    }
 
     # Mapping from WebEngineSettings::initDefaults in
     # qtwebengine/src/core/web_engine_settings.cpp
@@ -183,7 +200,7 @@ class WebEngineSettings(websettings.AbstractSettings):
     }
 
     def set_unknown_url_scheme_policy(
-            self, policy: typing.Union[str, usertypes.Unset]) -> bool:
+            self, policy: Union[str, usertypes.Unset]) -> bool:
         """Set the UnknownUrlSchemePolicy to use.
 
         Return:
@@ -200,38 +217,12 @@ class WebEngineSettings(websettings.AbstractSettings):
 
     def _update_setting(self, setting, value):
         if setting == 'content.unknown_url_scheme_policy':
-            if self._UNKNOWN_URL_SCHEME_POLICY:
-                return self.set_unknown_url_scheme_policy(value)
-            return False
+            return self.set_unknown_url_scheme_policy(value)
         return super()._update_setting(setting, value)
 
     def init_settings(self):
         super().init_settings()
         self.update_setting('content.unknown_url_scheme_policy')
-
-    def __init__(self, settings):
-        super().__init__(settings)
-        # Attributes which don't exist in all Qt versions.
-        new_attributes = {
-            # Qt 5.8
-            'content.print_element_backgrounds':
-                ('PrintElementBackgrounds', None),
-
-            # Qt 5.11
-            'content.autoplay':
-                ('PlaybackRequiresUserGesture', operator.not_),
-
-            # Qt 5.12
-            'content.dns_prefetch':
-                ('DnsPrefetchEnabled', None),
-        }
-        for name, (attribute, converter) in new_attributes.items():
-            try:
-                value = getattr(QWebEngineSettings, attribute)
-            except AttributeError:
-                continue
-
-            self._ATTRIBUTES[name] = Attr(value, converter=converter)
 
 
 class ProfileSetter:
@@ -240,14 +231,33 @@ class ProfileSetter:
 
     def __init__(self, profile):
         self._profile = profile
+        self._name_to_method = {
+            'content.cache.size': self.set_http_cache_size,
+            'content.cookies.store': self.set_persistent_cookie_policy,
+            'spellcheck.languages': self.set_dictionary_language,
+        }
+
+        # WORKAROUND for https://bugreports.qt.io/browse/QTBUG-75884
+        # (note this isn't actually fixed properly before Qt 5.15)
+        header_bug_fixed = qtutils.version_check('5.15', compiled=False)
+        if header_bug_fixed:
+            for name in ['user_agent', 'accept_language']:
+                self._name_to_method[f'content.headers.{name}'] = self.set_http_headers
+
+    def update_setting(self, name):
+        """Update a setting based on its name."""
+        try:
+            meth = self._name_to_method[name]
+        except KeyError:
+            return
+        meth()
 
     def init_profile(self):
         """Initialize settings on the given profile."""
         self.set_http_headers()
         self.set_http_cache_size()
         self._set_hardcoded_settings()
-        if qtutils.version_check('5.8'):
-            self.set_dictionary_language()
+        self.set_dictionary_language()
 
     def _set_hardcoded_settings(self):
         """Set up settings with a fixed value."""
@@ -255,13 +265,8 @@ class ProfileSetter:
 
         settings.setAttribute(
             QWebEngineSettings.FullScreenSupportEnabled, True)
-
-        try:
-            settings.setAttribute(
-                QWebEngineSettings.FocusOnNavigationEnabled, False)
-        except AttributeError:
-            # Added in Qt 5.8
-            pass
+        settings.setAttribute(
+            QWebEngineSettings.FocusOnNavigationEnabled, False)
 
         try:
             settings.setAttribute(QWebEngineSettings.PdfViewerEnabled, False)
@@ -296,20 +301,21 @@ class ProfileSetter:
 
     def set_persistent_cookie_policy(self):
         """Set the HTTP Cookie size for the given profile."""
-        assert not self._profile.isOffTheRecord()
+        if self._profile.isOffTheRecord():
+            return
         if config.val.content.cookies.store:
             value = QWebEngineProfile.AllowPersistentCookies
         else:
             value = QWebEngineProfile.NoPersistentCookies
         self._profile.setPersistentCookiesPolicy(value)
 
-    def set_dictionary_language(self, warn=True):
+    def set_dictionary_language(self):
         """Load the given dictionaries."""
         filenames = []
         for code in config.val.spellcheck.languages or []:
             local_filename = spell.local_filename(code)
             if not local_filename:
-                if warn:
+                if not self._profile.isOffTheRecord():
                     message.warning("Language {} is not installed - see "
                                     "scripts/dictcli.py in qutebrowser's "
                                     "sources".format(code))
@@ -324,31 +330,10 @@ class ProfileSetter:
 
 def _update_settings(option):
     """Update global settings when qwebsettings changed."""
-    global_settings.update_setting(option)
-
-    # WORKAROUND for https://bugreports.qt.io/browse/QTBUG-75884
-    # (note this isn't actually fixed properly before Qt 5.15)
-    header_bug_fixed = (not qtutils.version_check('5.12', compiled=False) or
-                        qtutils.version_check('5.15', compiled=False))
-
-    if option in ['content.headers.user_agent',
-                  'content.headers.accept_language'] and header_bug_fixed:
-        default_profile.setter.set_http_headers()
-        if private_profile:
-            private_profile.setter.set_http_headers()
-    elif option == 'content.cache.size':
-        default_profile.setter.set_http_cache_size()
-        if private_profile:
-            private_profile.setter.set_http_cache_size()
-    elif (option == 'content.cookies.store' and
-          # https://bugreports.qt.io/browse/QTBUG-58650
-          qtutils.version_check('5.9', compiled=False)):
-        default_profile.setter.set_persistent_cookie_policy()
-        # We're not touching the private profile's cookie policy.
-    elif option == 'spellcheck.languages':
-        default_profile.setter.set_dictionary_language()
-        if private_profile:
-            private_profile.setter.set_dictionary_language(warn=False)
+    _global_settings.update_setting(option)
+    default_profile.setter.update_setting(option)
+    if private_profile:
+        private_profile.setter.update_setting(option)
 
 
 def _init_user_agent_str(ua):
@@ -360,48 +345,54 @@ def init_user_agent():
     _init_user_agent_str(QWebEngineProfile.defaultProfile().httpUserAgent())
 
 
+def _init_profile(profile: QWebEngineProfile) -> None:
+    """Initialize a new QWebEngineProfile.
+
+    This currently only contains the steps which are shared between a private and a
+    non-private profile (at the moment, only the default profile).
+    """
+    profile.setter = ProfileSetter(profile)  # type: ignore[attr-defined]
+    profile.setter.init_profile()
+
+    _qute_scheme_handler.install(profile)
+    _req_interceptor.install(profile)
+    _download_manager.install(profile)
+    cookies.install_filter(profile)
+
+    # Clear visited links on web history clear
+    history.web_history.history_cleared.connect(profile.clearAllVisitedLinks)
+    history.web_history.url_cleared.connect(
+        lambda url: profile.clearVisitedLinks([url]))
+
+    _global_settings.init_settings()
+
+
 def _init_default_profile():
     """Init the default QWebEngineProfile."""
     global default_profile
 
     default_profile = QWebEngineProfile.defaultProfile()
+
     init_user_agent()
 
-    default_profile.setter = ProfileSetter(  # type: ignore[attr-defined]
-        default_profile)
     default_profile.setCachePath(
         os.path.join(standarddir.cache(), 'webengine'))
     default_profile.setPersistentStoragePath(
         os.path.join(standarddir.data(), 'webengine'))
-    default_profile.setter.init_profile()
-    default_profile.setter.set_persistent_cookie_policy()
+
+    _init_profile(default_profile)
 
 
 def init_private_profile():
     """Init the private QWebEngineProfile."""
     global private_profile
 
-    if not qtutils.is_single_process():
-        is_first_time = private_profile is None
-        private_profile = QWebEngineProfile()
-        private_profile.setter = ProfileSetter(  # type: ignore[attr-defined]
-            private_profile)
-        assert private_profile.isOffTheRecord()
-        private_profile.setter.init_profile()
+    if qtutils.is_single_process():
+        return
 
-        if not is_first_time:
-            # pylint: disable=protected-access
-            from qutebrowser.browser.webengine import webenginetab
-
-            assert webenginetab._qute_scheme_handler is not None
-            assert webenginetab.req_interceptor is not None
-            webenginetab._qute_scheme_handler.install(private_profile)
-            webenginetab.req_interceptor.install(private_profile)
-
-            objreg.get('webengine-download-manager').install(private_profile)
-
-            from qutebrowser.browser.webengine import cookies
-            cookies.install_filter(private_profile)
+    private_profile = QWebEngineProfile()
+    assert private_profile.isOffTheRecord()
+    _init_profile(private_profile)
 
 
 def _init_site_specific_quirks():
@@ -435,7 +426,7 @@ def _init_site_specific_quirks():
     user_agents = {
         # Needed to avoid a ""WhatsApp works with Google Chrome 36+" error
         # page which doesn't allow to use WhatsApp Web at all. Also see the
-        # additional JS quirk: qutebrowser/javascript/whatsapp_web_quirk.user.js
+        # additional JS quirk: qutebrowser/javascript/quirks/whatsapp_web.user.js
         # https://github.com/qutebrowser/qutebrowser/issues/4445
         'https://web.whatsapp.com/': no_qtwe_ua,
 
@@ -451,10 +442,6 @@ def _init_site_specific_quirks():
         'https://*.slack.com/*': new_chrome_ua,
     }
 
-    if not qtutils.version_check('5.9'):
-        # Shows 502 Bad Gateway with the Qt 5.7 UA.
-        user_agents['https://www.dell.com/support/*'] = new_chrome_ua
-
     for pattern, ua in user_agents.items():
         config.instance.set_obj('content.headers.user_agent', ua,
                                 pattern=urlmatch.UrlPattern(pattern),
@@ -463,12 +450,11 @@ def _init_site_specific_quirks():
 
 def _init_devtools_settings():
     """Make sure the devtools always get images/JS permissions."""
-    settings = [
+    settings: List[Tuple[str, Any]] = [
         ('content.javascript.enabled', True),
-        ('content.images', True)
-    ]  # type: typing.List[typing.Tuple[str, typing.Any]]
-    if qtutils.version_check('5.11'):
-        settings.append(('content.cookies.accept', 'all'))
+        ('content.images', True),
+        ('content.cookies.accept', 'all'),
+    ]
 
     for setting, value in settings:
         for pattern in ['chrome-devtools://*', 'devtools://*']:
@@ -477,22 +463,37 @@ def _init_devtools_settings():
                                     hide_userconfig=True)
 
 
-def init(args):
+def init():
     """Initialize the global QWebSettings."""
-    if (args.enable_webengine_inspector and
-            not hasattr(QWebEnginePage, 'setInspectedPage')):  # only Qt < 5.11
-        os.environ['QTWEBENGINE_REMOTE_DEBUGGING'] = str(utils.random_port())
-
     webenginequtescheme.init()
     spell.init()
+
+    # For some reason we need to keep a reference, otherwise the scheme handler
+    # won't work...
+    # https://www.riverbankcomputing.com/pipermail/pyqt/2016-September/038075.html
+    global _qute_scheme_handler
+    app = QApplication.instance()
+    log.init.debug("Initializing qute://* handler...")
+    _qute_scheme_handler = webenginequtescheme.QuteSchemeHandler(parent=app)
+
+    global _req_interceptor
+    log.init.debug("Initializing request interceptor...")
+    from qutebrowser.browser.webengine import interceptor
+    _req_interceptor = interceptor.RequestInterceptor(parent=app)
+
+    global _download_manager
+    log.init.debug("Initializing QtWebEngine downloads...")
+    _download_manager = webenginedownloads.DownloadManager(parent=app)
+    objreg.register('webengine-download-manager', _download_manager)
+    from qutebrowser.misc import quitter
+    quitter.instance.shutting_down.connect(_download_manager.shutdown)
+
+    global _global_settings
+    _global_settings = WebEngineSettings(_SettingsWrapper())
 
     _init_default_profile()
     init_private_profile()
     config.instance.changed.connect(_update_settings)
-
-    global global_settings
-    global_settings = WebEngineSettings(_SettingsWrapper())
-    global_settings.init_settings()
 
     _init_site_specific_quirks()
     _init_devtools_settings()

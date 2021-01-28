@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,15 +15,15 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """The tab widget used for TabbedBrowser from browser.py."""
 
-import typing
 import functools
 import contextlib
+import dataclasses
+from typing import Optional, cast
 
-import attr
 from PyQt5.QtCore import (pyqtSignal, pyqtSlot, Qt, QSize, QRect, QPoint,
                           QTimer, QUrl)
 from PyQt5.QtWidgets import (QTabWidget, QTabBar, QSizePolicy, QCommonStyle,
@@ -212,7 +212,7 @@ class TabWidget(QTabWidget):
         Every single call to setTabText calls the size hinting functions for
         every single tab, which are slow. Since we know we are updating all
         the tab's titles, we can delay this processing by making the tab
-        non-visible. To avoid flickering, disable repaint updates whlie we
+        non-visible. To avoid flickering, disable repaint updates while we
         work.
         """
         bar = self.tabBar()
@@ -339,8 +339,7 @@ class TabWidget(QTabWidget):
 
     def setTabIcon(self, idx: int, icon: QIcon) -> None:
         """Always show tab icons for pinned tabs in some circumstances."""
-        tab = typing.cast(typing.Optional[browsertab.AbstractTab],
-                          self.widget(idx))
+        tab = cast(Optional[browsertab.AbstractTab], self.widget(idx))
         if (icon.isNull() and
                 config.cache['tabs.favicons.show'] != 'never' and
                 config.cache['tabs.pinned.shrink'] and
@@ -713,7 +712,7 @@ class TabBar(QTabBar):
             tabbed_browser.wheelEvent(e)
 
 
-@attr.s
+@dataclasses.dataclass
 class Layouts:
 
     """Layout information for tab.
@@ -721,9 +720,9 @@ class Layouts:
     Used by TabBarStyle._tab_layout().
     """
 
-    text = attr.ib()
-    icon = attr.ib()
-    indicator = attr.ib()
+    text: QRect
+    icon: QRect
+    indicator: QRect
 
 
 class TabBarStyle(QCommonStyle):
@@ -740,7 +739,7 @@ class TabBarStyle(QCommonStyle):
 
     Based on:
 
-    http://stackoverflow.com/a/17294081
+    https://stackoverflow.com/a/17294081
     https://code.google.com/p/makehuman/source/browse/trunk/makehuman/lib/qtgui.py
     """
 

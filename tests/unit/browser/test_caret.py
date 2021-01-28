@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2018-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2018-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,7 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Tests for caret browsing mode."""
 
@@ -324,9 +324,6 @@ def test_drop_selection(caret, selection):
 
 class TestSearch:
 
-    # https://bugreports.qt.io/browse/QTBUG-60673
-
-    @pytest.mark.qtbug60673
     @pytest.mark.no_xvfb
     def test_yanking_a_searched_line(self, caret, selection, mode_manager, web_tab, qtbot):
         mode_manager.leave(usertypes.KeyMode.caret)
@@ -339,7 +336,6 @@ class TestSearch:
         caret.move_to_end_of_line()
         selection.check('five six')
 
-    @pytest.mark.qtbug60673
     @pytest.mark.no_xvfb
     def test_yanking_a_searched_line_with_multiple_matches(self, caret, selection, mode_manager, web_tab, qtbot):
         mode_manager.leave(usertypes.KeyMode.caret)
