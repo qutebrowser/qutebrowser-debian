@@ -9,7 +9,7 @@ Build-Depends: asciidoc,
                docbook-xml,
                docbook-xsl,
                libxml2-utils,
-               python3 (>= 3.5),
+               python3 (>= 3.6.1),
                python3-setuptools,
                source-highlight,
                xsltproc
@@ -21,12 +21,10 @@ Rules-Requires-Root: no
 
 Package: qutebrowser
 Architecture: all
-Depends: libqt5core5a (>= 5.7.1),
+Depends: libqt5core5a (>= 5.12),
          libqt5sql5-sqlite,
-         python3 (>= 3.5.2),
-         python3-attr,
+         python3 (>= 3.6.1),
          python3-pkg-resources,
-         python3-pypeg2,
          python3-pyqt5,
          python3-pyqt5.qtopengl,
          python3-pyqt5.qtquick,
@@ -50,8 +48,8 @@ Description: Keyboard-driven, vim-like browser based on PyQt5
 
 Package: qutebrowser-qtwebengine
 Architecture: all
-Depends: libqt5webenginecore5 (>= 5.7.1),
-         python3-pyqt5.qtwebengine (>= 5.7),
+Depends: libqt5webenginecore5 (>= 5.12),
+         python3-pyqt5.qtwebengine (>= 5.12),
          qutebrowser (= ${source:Version}),
          ${misc:Depends}
 Description: QtWebEngine backend dependency package for qutebrowser
