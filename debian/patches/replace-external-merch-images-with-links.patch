@@ -12,7 +12,7 @@ Forwarded: not-needed
  
  dl {
    margin-top: 0.8em;
-@@ -1458,7 +1457,7 @@
+@@ -1500,7 +1499,7 @@
  </p>
  <div class="paragraph"><p><span class="image">
  <a class="image" href="https://qutebrowser.org/img/sponsors/stickers.jpg">
@@ -21,7 +21,7 @@ Forwarded: not-needed
  </a>
  </span></p></div>
  </dd>
-@@ -1471,7 +1470,7 @@
+@@ -1513,7 +1512,7 @@
  </p>
  <div class="paragraph"><p><span class="image">
  <a class="image" href="https://qutebrowser.org/img/sponsors/swag.jpg">
@@ -29,8 +29,8 @@ Forwarded: not-needed
 +Picture of the swag
  </a>
  </span></p></div>
- <div class="paragraph"><p>It&#8217;s planned to order more swag, depending on the exact demand. Possibilites
-@@ -1512,7 +1511,7 @@
+ <div class="paragraph"><p>It&#8217;s planned to order more swag, depending on the exact demand. Possibilities
+@@ -1554,7 +1553,7 @@
  2016 crowdfunding:</p></div>
  <div class="paragraph"><p><span class="image">
  <a class="image" href="https://qutebrowser.org/img/sponsors/shirt.jpg">
