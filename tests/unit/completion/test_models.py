@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2016-2020 Ryan Roden-Corrent (rcorre) <ryan@rcorre.net>
+# Copyright 2016-2021 Ryan Roden-Corrent (rcorre) <ryan@rcorre.net>
 #
 # This file is part of qutebrowser.
 #
@@ -15,17 +15,20 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Tests for completion models."""
 
 import collections
+import os
 import random
 import string
 import time
 from datetime import datetime
 from unittest import mock
 
+import hypothesis
+import hypothesis.strategies
 import pytest
 from PyQt5.QtCore import QUrl, QDateTime
 try:
@@ -37,7 +40,8 @@ except ImportError:
 
 from qutebrowser.misc import objects
 from qutebrowser.completion import completer
-from qutebrowser.completion.models import miscmodels, urlmodel, configmodel
+from qutebrowser.completion.models import (
+    configmodel, listcategory, miscmodels, urlmodel, filepathcategory)
 from qutebrowser.config import configdata, configtypes
 from qutebrowser.utils import usertypes
 from qutebrowser.mainwindow import tabbedbrowser
@@ -191,6 +195,15 @@ def bookmarks(bookmark_manager_stub):
         ('http://qutebrowser.org', 'qutebrowser | qutebrowser'),
     ])
     return bookmark_manager_stub
+
+
+@pytest.fixture
+def local_files_path(tmp_path):
+    files_dir = tmp_path / 'files'
+    files_dir.mkdir()
+    (files_dir / 'file1.txt').touch()
+    (files_dir / 'file2.txt').touch()
+    return files_dir
 
 
 @pytest.fixture
@@ -394,6 +407,86 @@ def test_open_categories_remove_one(qtmodeltester, config_stub, web_history_popu
     })
 
 
+@pytest.mark.parametrize('method', ['normal', 'url', 'home'])
+def test_filesystem_completion(qtmodeltester, config_stub, info,
+                               web_history_populated, quickmarks, bookmarks,
+                               local_files_path, monkeypatch, method):
+    file_1 = local_files_path / 'file1.txt'
+    file_2 = local_files_path / 'file2.txt'
+
+    if method == 'normal':
+        base = str(local_files_path)
+        expected_1 = str(file_1)
+        expected_2 = str(file_2)
+    elif method == 'url':
+        base = local_files_path.as_uri()
+        expected_1 = file_1.as_uri()
+        expected_2 = file_2.as_uri()
+    elif method == 'home':
+        homedir = str(local_files_path)
+        monkeypatch.setenv('HOME', homedir)  # POSIX
+        monkeypatch.setenv('USERPROFILE', homedir)  # Windows
+        assert os.path.expanduser('~') == homedir
+
+        base = '~'
+        expected_1 = os.path.join('~', 'file1.txt')
+        expected_2 = os.path.join('~', 'file2.txt')
+
+    config_stub.val.completion.open_categories = ['filesystem']
+    model = urlmodel.url(info=info)
+    model.set_pattern(base + os.sep)
+    qtmodeltester.check(model)
+
+    _check_completions(model, {
+        "Filesystem": [
+            (expected_1, None, None),
+            (expected_2, None, None),
+        ]
+    })
+
+
+def test_filesystem_completion_model_interface(info, local_files_path):
+    model = filepathcategory.FilePathCategory('filepaths')
+    model.set_pattern(str(local_files_path) + os.sep)
+
+    index = model.index(0, 0)
+    assert index.isValid()
+    assert model.rowCount(parent=index) == 0
+
+    index2 = model.index(0, 5)
+    assert not index2.isValid()
+    assert model.data(index2) is None
+
+
+@hypothesis.given(
+    as_uri=hypothesis.strategies.booleans(),
+    add_sep=hypothesis.strategies.booleans(),
+    text=hypothesis.strategies.text(),
+)
+def test_filesystem_completion_hypothesis(info, as_uri, add_sep, text):
+    if as_uri:
+        text = 'file:///' + text
+    if add_sep:
+        text += os.sep
+
+    model = filepathcategory.FilePathCategory('filepaths')
+    model.set_pattern(text)
+
+
+def test_default_filesystem_completion(qtmodeltester, config_stub, info,
+                                       web_history_populated, quickmarks, bookmarks,
+                                       local_files_path):
+    config_stub.val.completion.open_categories = ['filesystem']
+    config_stub.val.completion.favorite_paths = [str(local_files_path)]
+    model = urlmodel.url(info=info)
+    model.set_pattern('')
+    qtmodeltester.check(model)
+
+    _check_completions(model, {
+        "Filesystem": [(str(local_files_path), None, None)]
+    })
+
+
 def test_quickmark_completion(qtmodeltester, quickmarks):
     """Test the results of quickmark completion."""
     model = miscmodels.quickmark()
@@ -563,6 +656,7 @@ def test_url_completion_no_quickmarks(qtmodeltester, web_history_populated,
             ('https://python.org', 'Welcome to Python.org', '2016-03-08'),
             ('http://qutebrowser.org', 'qutebrowser', '2015-09-05'),
         ],
+        'Filesystem': [],
     })
 
 
@@ -584,6 +678,7 @@ def test_url_completion_no_bookmarks(qtmodeltester, web_history_populated,
             ('https://python.org', 'Welcome to Python.org', '2016-03-08'),
             ('http://qutebrowser.org', 'qutebrowser', '2015-09-05'),
         ],
+        'Filesystem': [],
     })
 
 
@@ -721,7 +816,7 @@ def test_tab_completion(qtmodeltester, fake_web_tab, win_registry,
     tabbed_browser_stubs[1].widget.tabs = [
         fake_web_tab(QUrl('https://wiki.archlinux.org'), 'ArchWiki', 0),
     ]
-    model = miscmodels.buffer()
+    model = miscmodels.tabs()
     model.set_pattern('')
     qtmodeltester.check(model)
 
@@ -748,7 +843,7 @@ def test_tab_completion_delete(qtmodeltester, fake_web_tab, win_registry,
     tabbed_browser_stubs[1].widget.tabs = [
         fake_web_tab(QUrl('https://wiki.archlinux.org'), 'ArchWiki', 0),
     ]
-    model = miscmodels.buffer()
+    model = miscmodels.tabs()
     model.set_pattern('')
     qtmodeltester.check(model)
 
@@ -782,7 +877,7 @@ def test_tab_completion_not_sorted(qtmodeltester, fake_web_tab, win_registry,
         fake_web_tab(QUrl(tab[1]), tab[2], idx)
         for idx, tab in enumerate(expected)
     ]
-    model = miscmodels.buffer()
+    model = miscmodels.tabs()
     model.set_pattern('')
     qtmodeltester.check(model)
 
@@ -806,7 +901,7 @@ def test_tab_completion_tabs_are_windows(qtmodeltester, fake_web_tab,
     ]
 
     config_stub.val.tabs.tabs_are_windows = True
-    model = miscmodels.buffer()
+    model = miscmodels.tabs()
     model.set_pattern('')
     qtmodeltester.check(model)
 
@@ -820,8 +915,8 @@ def test_tab_completion_tabs_are_windows(qtmodeltester, fake_web_tab,
     })
 
 
-def test_other_buffer_completion(qtmodeltester, fake_web_tab, win_registry,
-                                 tabbed_browser_stubs, info):
+def test_other_tabs_completion(qtmodeltester, fake_web_tab, win_registry,
+                               tabbed_browser_stubs, info):
     tabbed_browser_stubs[0].widget.tabs = [
         fake_web_tab(QUrl('https://github.com'), 'GitHub', 0),
         fake_web_tab(QUrl('https://wikipedia.org'), 'Wikipedia', 1),
@@ -831,7 +926,7 @@ def test_other_buffer_completion(qtmodeltester, fake_web_tab, win_registry,
         fake_web_tab(QUrl('https://wiki.archlinux.org'), 'ArchWiki', 0),
     ]
     info.win_id = 1
-    model = miscmodels.other_buffer(info=info)
+    model = miscmodels.other_tabs(info=info)
     model.set_pattern('')
     qtmodeltester.check(model)
 
@@ -844,8 +939,8 @@ def test_other_buffer_completion(qtmodeltester, fake_web_tab, win_registry,
     })
 
 
-def test_other_buffer_completion_id0(qtmodeltester, fake_web_tab,
-                                     win_registry, tabbed_browser_stubs, info):
+def test_other_tabs_completion_id0(qtmodeltester, fake_web_tab,
+                                   win_registry, tabbed_browser_stubs, info):
     tabbed_browser_stubs[0].widget.tabs = [
         fake_web_tab(QUrl('https://github.com'), 'GitHub', 0),
         fake_web_tab(QUrl('https://wikipedia.org'), 'Wikipedia', 1),
@@ -855,7 +950,7 @@ def test_other_buffer_completion_id0(qtmodeltester, fake_web_tab,
         fake_web_tab(QUrl('https://wiki.archlinux.org'), 'ArchWiki', 0),
     ]
     info.win_id = 0
-    model = miscmodels.other_buffer(info=info)
+    model = miscmodels.other_tabs(info=info)
     model.set_pattern('')
     qtmodeltester.check(model)
 
@@ -1324,3 +1419,34 @@ def test_undo_completion(tabbed_browser_stubs, info):
              "2020-01-01 00:00"),
         ],
     })
+
+
+def undo_completion_retains_sort_order(tabbed_browser_stubs, info):
+    """Test :undo completion sort order with > 10 entries."""
+    created_dt = datetime(2020, 1, 1)
+    created_str = "2020-01-02 00:00"
+
+    tabbed_browser_stubs[0].undo_stack = [
+        tabbedbrowser._UndoEntry(
+            url=QUrl(f'https://example.org/{idx}'),
+            history=None, index=None, pinned=None,
+            created_at=created_dt,
+        )
+        for idx in range(1, 11)
+    ]
+
+    model = miscmodels.undo(info=info)
+    model.set_pattern('')
+
+    expected = [
+        (str(idx), f'https://example.org/{idx}', created_str)
+        for idx in range(1, 11)
+    ]
+    _check_completions(model, {"Closed tabs": expected})
+
+
+@hypothesis.given(text=hypothesis.strategies.text())
+def test_listcategory_hypothesis(text):
+    """Make sure we can't produce invalid patterns."""
+    cat = listcategory.ListCategory("test", [])
+    cat.set_pattern(text)

@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2018-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2018-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,7 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Tests for qutebrowser.utils.urlmatch.
 
@@ -28,7 +28,6 @@ Currently not tested:
 - Any other features we don't need, such as .GetAsString() or set operations.
 """
 
-import sys
 import string
 
 import pytest
@@ -89,11 +88,7 @@ from qutebrowser.utils import urlmatch
     ("http://foo:/", "Invalid port: Port is empty"),
     ("http://*.foo:/", "Invalid port: Port is empty"),
     ("http://foo:com/", "Invalid port: .* 'com'"),
-    pytest.param("http://foo:123456/",
-                 "Invalid port: Port out of range 0-65535",
-                 marks=pytest.mark.skipif(
-                     sys.hexversion < 0x03060000,
-                     reason="Doesn't show an error on Python 3.5")),
+    ("http://foo:123456/", "Invalid port: Port out of range 0-65535"),
     ("http://foo:80:80/monkey", "Invalid port: .* '80:80'"),
     ("chrome://foo:1234/bar", "Ports are unsupported with chrome scheme"),
     # No port specified, but port separator.

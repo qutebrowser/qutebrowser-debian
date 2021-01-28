@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2016-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2016-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,11 +15,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Showing messages above the statusbar."""
 
-import typing
+from typing import MutableSequence
 
 from PyQt5.QtCore import pyqtSlot, pyqtSignal, QTimer, Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QSizePolicy
@@ -76,7 +76,7 @@ class MessageView(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self._messages = []  # type: typing.MutableSequence[Message]
+        self._messages: MutableSequence[Message] = []
         self._vbox = QVBoxLayout(self)
         self._vbox.setContentsMargins(0, 0, 0, 0)
         self._vbox.setSpacing(0)

@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2016-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2016-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,13 +15,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Implementation of :navigate."""
 
 import re
 import posixpath
-import typing
+from typing import Optional, Set
 
 from PyQt5.QtCore import QUrl
 
@@ -97,9 +97,9 @@ def incdec(url, count, inc_or_dec):
         window: Open the link in a new window.
     """
     urlutils.ensure_valid(url)
-    segments = (
+    segments: Optional[Set[str]] = (
         set(config.val.url.incdec_segments)
-    )  # type: typing.Optional[typing.Set[str]]
+    )
 
     if segments is None:
         segments = {'path', 'query'}
@@ -174,9 +174,7 @@ def _find_prevnext(prev, elems):
     if not elems:
         return None
 
-    # pylint: disable=bad-config-option
     for regex in getattr(config.val.hints, option):
-        # pylint: enable=bad-config-option
         log.hints.vdebug(  # type: ignore[attr-defined]
             "== Checking regex '{}'.".format(regex.pattern))
         for e in elems:

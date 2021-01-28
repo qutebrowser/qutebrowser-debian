@@ -1,5 +1,5 @@
 /**
- * Copyright 2016-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+ * Copyright 2016-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
  *
  * This file is part of qutebrowser.
  *
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+ * along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 /**
@@ -67,25 +67,6 @@ window._qutebrowser.webelem = (function() {
         };
     }
 
-    function get_caret_position(elem, frame) {
-        // With older Chromium versions (and QtWebKit), InvalidStateError will
-        // be thrown if elem doesn't have selectionStart.
-        // With newer Chromium versions (>= Qt 5.10), we get null.
-        try {
-            return elem.selectionStart;
-        } catch (err) {
-            if ((err instanceof DOMException ||
-                 (frame && err instanceof frame.DOMException)) &&
-                err.name === "InvalidStateError") {
-                // nothing to do, caret_position is already null
-            } else {
-                // not the droid we're looking for
-                throw err;
-            }
-        }
-        return null;
-    }
-
     function serialize_elem(elem, frame = null) {
         if (!elem) {
             return null;
@@ -94,7 +75,7 @@ window._qutebrowser.webelem = (function() {
         const id = elements.length;
         elements[id] = elem;
 
-        const caret_position = get_caret_position(elem, frame);
+        const caret_position = elem.selectionStart;
 
         // isContentEditable occasionally returns undefined.
         const is_content_editable = elem.isContentEditable || false;
@@ -326,6 +307,9 @@ window._qutebrowser.webelem = (function() {
     funcs.find_at_pos = (x, y) => {
         const elem = document.elementFromPoint(x, y);
 
+        if (!elem) {
+            return null;
+        }
 
         // Check if we got an iframe, and if so, recurse inside of it
         const frame_elem = call_if_frame(elem,

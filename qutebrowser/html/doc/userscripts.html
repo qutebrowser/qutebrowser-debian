@@ -814,7 +814,7 @@ FIFO. Note they are <strong>not</strong> related to Greasemonkey userscripts.</p
 mpv, a simple key binding to something like <code>:spawn mpv {url}</code> should suffice.</p></div>
 <div class="paragraph"><p>Also note userscripts need to have the executable bit set (<code>chmod +x</code>) for
 qutebrowser to run them.</p></div>
-<div class="paragraph"><p>To call a userscript, it needs to be stored in your data directory under
+<div class="paragraph"><p>To call a userscript, it needs to be stored in your config or data directory under
 <code>userscripts</code> (for example: <code>~/.local/share/qutebrowser/userscripts/myscript</code>),
 or just use an absolute path.</p></div>
 <div class="admonitionblock">
@@ -875,7 +875,18 @@ or just use an absolute path.</p></div>
 </li>
 <li>
 <p>
-<code>QUTE_COMMANDLINE_TEXT</code>: Text currently in qutebrowser&#8217;s command line.
+<code>QUTE_COMMANDLINE_TEXT</code>: Text currently in qutebrowser&#8217;s command line. Note
+  this is only useful for userscripts spawned (e.g. via a keybinding) when
+  qutebrowser is still in command mode. If you want to receive arguments passed
+  to your userscript via <code>:spawn</code>, use the normal way of getting commandline
+  arguments (e.g. <code>$@</code> in bash or <code>sys.argv</code> / <code>argparse</code> / &#8230; in Python).
+</p>
+</li>
+<li>
+<p>
+<code>QUTE_VERSION</code>: The version of qutebrowser, as a string like "2.0.0". Note that this
+  was added in v2.0.0, thus older versions can only be detected by the absence of this
+  variable.
 </p>
 </li>
 </ul></div>
@@ -937,11 +948,11 @@ you should append to the file (<code>&gt;&gt;</code> in bash) rather than overwr
 <div class="sect1">
 <h2 id="_examples">Examples</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Opening the currently selected word on <a href="http://www.dict.cc/">dict.cc</a>:</p></div>
+<div class="paragraph"><p>Opening the currently selected word on <a href="https://www.dict.cc/">dict.cc</a>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
-<span class="nb">echo</span> <span class="s2">&quot;open -t http://www.dict.cc/?s=</span><span class="nv">$QUTE_SELECTED_TEXT</span><span class="s2">&quot;</span> &gt;&gt; <span class="s2">&quot;</span><span class="nv">$QUTE_FIFO</span><span class="s2">&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;open -t https://www.dict.cc/?s=</span><span class="nv">$QUTE_SELECTED_TEXT</span><span class="s2">&quot;</span> &gt;&gt; <span class="s2">&quot;</span><span class="nv">$QUTE_FIFO</span><span class="s2">&quot;</span>
 </pre></div></div></div>
 </div>
 </div>
@@ -968,7 +979,7 @@ Node.js: <a href="https://www.npmjs.com/package/qutejs">qutejs</a>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-12-04 20:32:22 CET
+ 2021-01-28 08:38:17 CET
 </div>
 </div>
 </body>

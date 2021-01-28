@@ -1,5 +1,5 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-# Copyright 2017-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2017-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 
 # This file is part of qutebrowser.
 #
@@ -14,23 +14,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 import sys
 import os
-import logging
 
 import pytest
 
-try:
-    from PyQt5.QtWebEngine import PYQT_WEBENGINE_VERSION
-except ImportError:
-    # Added in PyQt 5.13
-    PYQT_WEBENGINE_VERSION = None
-
 from qutebrowser import qutebrowser
-from qutebrowser.config import qtargs, configdata
-from qutebrowser.utils import usertypes, version
+from qutebrowser.config import qtargs
+from qutebrowser.utils import usertypes
 from helpers import utils
 
 
@@ -101,8 +94,7 @@ class TestQtArgs:
     ])
     def test_shared_workers(self, config_stub, monkeypatch, parser,
                             backend, expected):
-        monkeypatch.setattr(qtargs.qtutils, 'version_check',
-                            lambda version, compiled=False, exact=False: False)
+        monkeypatch.setattr(qtargs.qtutils, 'qVersion', lambda: '5.14.0')
         monkeypatch.setattr(qtargs.objects, 'backend', backend)
         parsed = parser.parse_args([])
         args = qtargs.qt_args(parsed)
@@ -174,26 +166,6 @@ class TestQtArgs:
         args = qtargs.qt_args(parsed)
         assert ('--disable-gpu' in args) == added
 
-    @utils.qt510
-    @pytest.mark.parametrize('new_version, autoplay, added', [
-        (True, False, False),  # new enough to not need it
-        (False, True, False),  # autoplay enabled
-        (False, False, True),
-    ])
-    def test_autoplay(self, config_stub, monkeypatch, parser,
-                      new_version, autoplay, added):
-        monkeypatch.setattr(qtargs.objects, 'backend',
-                            usertypes.Backend.QtWebEngine)
-        config_stub.val.content.autoplay = autoplay
-        monkeypatch.setattr(qtargs.qtutils, 'version_check',
-                            lambda version, compiled=False, exact=False:
-                            new_version)
-
-        parsed = parser.parse_args([])
-        args = qtargs.qt_args(parsed)
-        assert ('--autoplay-policy=user-gesture-required' in args) == added
-
-    @utils.qt59
     @pytest.mark.parametrize('policy, arg', [
         ('all-interfaces', None),
 
@@ -344,26 +316,20 @@ class TestQtArgs:
 
         assert ('--force-dark-mode' in args) == added
 
-    @pytest.mark.parametrize('bar, new_qt, is_mac, added', [
+    @pytest.mark.parametrize('bar, is_mac, added', [
         # Overlay bar enabled
-        ('overlay', True, False, True),
+        ('overlay', False, True),
         # No overlay on mac
-        ('overlay', True, True, False),
-        ('overlay', False, True, False),
-        # No overlay on old Qt
-        ('overlay', False, False, False),
+        ('overlay', True, False),
         # Overlay disabled
-        ('when-searching', True, False, False),
-        ('always', True, False, False),
-        ('never', True, False, False),
+        ('when-searching', False, False),
+        ('always', False, False),
+        ('never', False, False),
     ])
     def test_overlay_scrollbar(self, config_stub, monkeypatch, parser,
-                               bar, new_qt, is_mac, added):
+                               bar, is_mac, added):
         monkeypatch.setattr(qtargs.objects, 'backend',
                             usertypes.Backend.QtWebEngine)
-        monkeypatch.setattr(qtargs.qtutils, 'version_check',
-                            lambda version, exact=False, compiled=True:
-                            new_qt)
         monkeypatch.setattr(qtargs.utils, 'is_mac', is_mac)
         # Avoid WebRTC pipewire feature
         monkeypatch.setattr(qtargs.utils, 'is_linux', False)
@@ -374,6 +340,18 @@ class TestQtArgs:
         args = qtargs.qt_args(parsed)
 
         assert ('--enable-features=OverlayScrollbar' in args) == added
+
+    @pytest.fixture
+    def feature_flag_patch(self, monkeypatch):
+        """Patch away things affecting feature flags."""
+        monkeypatch.setattr(qtargs.objects, 'backend',
+                            usertypes.Backend.QtWebEngine)
+        monkeypatch.setattr(qtargs.qtutils, 'version_check',
+                            lambda version, exact=False, compiled=True:
+                            True)
+        monkeypatch.setattr(qtargs.utils, 'is_mac', False)
+        # Avoid WebRTC pipewire feature
+        monkeypatch.setattr(qtargs.utils, 'is_linux', False)
 
     @pytest.mark.parametrize('via_commandline', [True, False])
     @pytest.mark.parametrize('overlay, passed_features, expected_features', [
@@ -387,21 +365,11 @@ class TestQtArgs:
          'CustomFeature',
          'CustomFeature'),
     ])
-    def test_overlay_features_flag(self, config_stub, monkeypatch, parser,
+    def test_overlay_features_flag(self, config_stub, parser, feature_flag_patch,
                                    via_commandline, overlay, passed_features,
                                    expected_features):
         """If enable-features is already specified, we should combine both."""
-        monkeypatch.setattr(qtargs.objects, 'backend',
-                            usertypes.Backend.QtWebEngine)
-        monkeypatch.setattr(qtargs.qtutils, 'version_check',
-                            lambda version, exact=False, compiled=True:
-                            True)
-        monkeypatch.setattr(qtargs.utils, 'is_mac', False)
-        # Avoid WebRTC pipewire feature
-        monkeypatch.setattr(qtargs.utils, 'is_linux', False)
-
-        stripped_prefix = 'enable-features='
-        config_flag = stripped_prefix + passed_features
+        config_flag = qtargs._ENABLE_FEATURES.lstrip('-') + passed_features
 
         config_stub.val.scrolling.bar = 'overlay' if overlay else 'never'
         config_stub.val.qt.args = ([] if via_commandline else [config_flag])
@@ -410,210 +378,79 @@ class TestQtArgs:
                                    if via_commandline else [])
         args = qtargs.qt_args(parsed)
 
-        prefix = '--' + stripped_prefix
-        overlay_flag = prefix + 'OverlayScrollbar'
-        combined_flag = prefix + expected_features
-        assert len([arg for arg in args if arg.startswith(prefix)]) == 1
+        overlay_flag = qtargs._ENABLE_FEATURES + 'OverlayScrollbar'
+        combined_flag = qtargs._ENABLE_FEATURES + expected_features
+
+        enable_features_args = [
+            arg for arg in args
+            if arg.startswith(qtargs._ENABLE_FEATURES)
+        ]
+        assert len(enable_features_args) == 1
         assert combined_flag in args
         assert overlay_flag not in args
 
-    @utils.qt514
-    def test_blink_settings(self, config_stub, monkeypatch, parser):
+    @pytest.mark.parametrize('via_commandline', [True, False])
+    @pytest.mark.parametrize('passed_features', [
+        ['CustomFeature'],
+        ['CustomFeature1', 'CustomFeature2'],
+    ])
+    def test_disable_features_passthrough(self, config_stub, parser, feature_flag_patch,
+                                          via_commandline, passed_features):
+        flag = qtargs._DISABLE_FEATURES + ','.join(passed_features)
+
+        config_flag = flag.lstrip('-')
+        config_stub.val.qt.args = ([] if via_commandline else [config_flag])
+        parsed = parser.parse_args(['--qt-flag', config_flag]
+                                   if via_commandline else [])
+        args = qtargs.qt_args(parsed)
+
+        disable_features_args = [
+            arg for arg in args
+            if arg.startswith(qtargs._DISABLE_FEATURES)
+        ]
+        assert len(disable_features_args) == 1
+        features = set(disable_features_args[0].split('=')[1].split(','))
+        features -= {'InstalledApp'}
+        assert features == set(passed_features)
+
+    @pytest.mark.parametrize('qt_version, has_workaround', [
+        ('5.14.0', False),
+        ('5.15.1', False),
+        ('5.15.2', True),
+        ('5.15.3', False),
+        ('6.0.0', False),
+    ])
+    def test_installedapp_workaround(self, parser, monkeypatch, qt_version, has_workaround):
+        monkeypatch.setattr(qtargs.qtutils, 'qVersion', lambda: qt_version)
         monkeypatch.setattr(qtargs.objects, 'backend',
                             usertypes.Backend.QtWebEngine)
-        monkeypatch.setattr(qtargs.qtutils, 'version_check',
-                            lambda version, exact=False, compiled=True:
-                            True)
+
+        parsed = parser.parse_args([])
+        args = qtargs.qt_args(parsed)
+        disable_features_args = [
+            arg for arg in args
+            if arg.startswith(qtargs._DISABLE_FEATURES)
+        ]
+
+        expected = ['--disable-features=InstalledApp'] if has_workaround else []
+        assert disable_features_args == expected
+
+    def test_blink_settings(self, config_stub, monkeypatch, parser):
+        from qutebrowser.browser.webengine import darkmode
+        monkeypatch.setattr(qtargs.objects, 'backend',
+                            usertypes.Backend.QtWebEngine)
+        monkeypatch.setattr(darkmode, '_variant',
+                            lambda: darkmode.Variant.qt_515_2)
 
         config_stub.val.colors.webpage.darkmode.enabled = True
 
         parsed = parser.parse_args([])
         args = qtargs.qt_args(parsed)
 
-        old = '--blink-settings=darkModeEnabled=true'
-        new = '--blink-settings=forceDarkModeEnabled=true'
-        if not smart_image_policy_broken:
-            old += ',darkModeImagePolicy=2'
-            new += ',forceDarkModeImagePolicy=2'
+        expected = ('--blink-settings=forceDarkModeEnabled=true,'
+                    'forceDarkModeImagePolicy=2')
 
-        assert old in args or new in args
-
-
-def add_prefix(name):
-    return qtargs._darkmode_prefix() + name
-
-
-smart_image_policy_broken = PYQT_WEBENGINE_VERSION == 0x050f00
-
-
-class TestDarkMode:
-
-    pytestmark = utils.qt514
-
-    @pytest.fixture(autouse=True)
-    def patch_backend(self, monkeypatch):
-        monkeypatch.setattr(qtargs.objects, 'backend',
-                            usertypes.Backend.QtWebEngine)
-
-    @pytest.mark.parametrize('settings, new_qt, expected', [
-        # Disabled
-        ({}, True, []),
-        ({}, False, []),
-
-        # Enabled without customization
-        (
-            {'enabled': True},
-            True,
-            [(add_prefix('Enabled'), 'true')]
-        ),
-        (
-            {'enabled': True},
-            False,
-            [(add_prefix(''), '4')]
-        ),
-
-        # Algorithm
-        (
-            {'enabled': True, 'algorithm': 'brightness-rgb'},
-            True,
-            [(add_prefix('Enabled'), 'true'),
-             (add_prefix('InversionAlgorithm'), '2')],
-        ),
-        (
-            {'enabled': True, 'algorithm': 'brightness-rgb'},
-            False,
-            [(add_prefix(''), '2')],
-        ),
-
-    ])
-    def test_basics(self, config_stub, monkeypatch,
-                    settings, new_qt, expected):
-        for k, v in settings.items():
-            config_stub.set_obj('colors.webpage.darkmode.' + k, v)
-        monkeypatch.setattr(qtargs.qtutils, 'version_check',
-                            lambda version, exact=False, compiled=True:
-                            new_qt)
-
-        if expected and not smart_image_policy_broken:
-            expected.append((add_prefix('ImagePolicy'), '2'))
-
-        assert list(qtargs._darkmode_settings()) == expected
-
-    @pytest.mark.parametrize('setting, value, exp_key, exp_val', [
-        ('contrast', -0.5,
-         'Contrast', '-0.5'),
-        ('policy.page', 'smart',
-         'PagePolicy', '1'),
-        pytest.param(
-            'policy.images', 'smart',
-            'ImagePolicy', '2',
-            marks=pytest.mark.skipif(
-                PYQT_WEBENGINE_VERSION == 0x050f00,
-                reason='smart setting is broken with QtWebEngine 5.15.0'
-            )
-        ),
-        ('threshold.text', 100,
-         'TextBrightnessThreshold', '100'),
-        ('threshold.background', 100,
-         'BackgroundBrightnessThreshold', '100'),
-        ('grayscale.all', True,
-         'Grayscale', 'true'),
-        ('grayscale.images', 0.5,
-         'ImageGrayscale', '0.5'),
-    ])
-    def test_customization(self, config_stub, monkeypatch,
-                           setting, value, exp_key, exp_val):
-        config_stub.val.colors.webpage.darkmode.enabled = True
-        config_stub.set_obj('colors.webpage.darkmode.' + setting, value)
-        monkeypatch.setattr(qtargs.qtutils, 'version_check',
-                            lambda version, exact=False, compiled=True:
-                            True)
-
-        expected = []
-        expected.append((add_prefix('Enabled'), 'true'))
-        if exp_key != 'ImagePolicy' and not smart_image_policy_broken:
-            expected.append((add_prefix('ImagePolicy'), '2'))
-        expected.append((add_prefix(exp_key), exp_val))
-
-        assert list(qtargs._darkmode_settings()) == expected
-
-    @pytest.mark.parametrize('webengine_version, expected', [
-        (None, 'darkMode'),
-        (0x050e00, 'darkMode'),  # 5.14
-        (0x050f00, 'darkMode'),  # 5.15.0
-        (0x050f01, 'darkMode'),  # 5.15.0
-        (0x050f02, 'forceDarkMode'),  # 5.15.2
-        (0x050f02, 'forceDarkMode'),  # 5.15.2
-        (0x060000, 'forceDarkMode'),  # 6
-    ])
-    def test_darkmode_prefix(self, monkeypatch, webengine_version, expected):
-        monkeypatch.setattr(qtargs, 'PYQT_WEBENGINE_VERSION', webengine_version)
-        assert qtargs._darkmode_prefix() == expected
-
-    def test_broken_smart_images_policy(self, config_stub, monkeypatch, caplog):
-        config_stub.val.colors.webpage.darkmode.enabled = True
-        config_stub.val.colors.webpage.darkmode.policy.images = 'smart'
-        monkeypatch.setattr(qtargs, 'PYQT_WEBENGINE_VERSION', 0x050f00)
-
-        with caplog.at_level(logging.WARNING):
-            settings = list(qtargs._darkmode_settings())
-
-        assert caplog.messages[-1] == (
-            'Ignoring colors.webpage.darkmode.policy.images = smart because of '
-            'Qt 5.15.0 bug')
-
-        expected = [
-            [('darkModeEnabled', 'true')],  # Qt 5.15
-            [('darkMode', '4')],  # Qt 5.14
-        ]
-        assert settings in expected
-
-    def test_new_chromium(self):
-        """Fail if we encounter an unknown Chromium version.
-
-        Dark mode in Chromium currently is undergoing various changes (as it's
-        relatively recent), and Qt 5.15 is supposed to update the underlying
-        Chromium at some point.
-
-        Make this test fail deliberately with newer Chromium versions, so that
-        we can test whether dark mode still works manually, and adjust if not.
-        """
-        assert version._chromium_version() in [
-            'unavailable',  # QtWebKit
-            '77.0.3865.129',  # Qt 5.14
-            '80.0.3987.163',  # Qt 5.15.0
-            '83.0.4103.122',  # Qt 5.15.2
-        ]
-
-    def test_options(self, configdata_init):
-        """Make sure all darkmode options have the right attributes set."""
-        for name, opt in configdata.DATA.items():
-            if not name.startswith('colors.webpage.darkmode.'):
-                continue
-
-            backends = {'QtWebEngine': 'Qt 5.14', 'QtWebKit': False}
-            assert not opt.supports_pattern, name
-            assert opt.restart, name
-            assert opt.raw_backends == backends, name
-
-    @pytest.mark.parametrize('qversion, enabled, expected', [
-        # Disabled or nothing set
-        ("5.14", False, []),
-        ("5.15.0", False, []),
-        ("5.15.1", False, []),
-        ("5.15.2", False, []),
-
-        # Enabled in configuration
-        ("5.14", True, []),
-        ("5.15.0", True, []),
-        ("5.15.1", True, []),
-        ("5.15.2", True, [("preferredColorScheme", "1")]),
-    ])
-    @utils.qt514
-    def test_colorscheme(self, config_stub, monkeypatch, qversion, enabled, expected):
-        monkeypatch.setattr(qtargs.qtutils, 'qVersion', lambda: qversion)
-        config_stub.val.colors.webpage.prefers_color_scheme_dark = enabled
-        assert list(qtargs._darkmode_settings()) == expected
+        assert expected in args
 
 
 class TestEnvVars:
@@ -642,6 +479,47 @@ class TestEnvVars:
         qtargs.init_envvars()
 
         assert os.environ[envvar] == expected
+
+    @pytest.mark.parametrize('init_val, config_val', [
+        (   # Test changing a set variable
+            {'QT_SCALE_FACTOR': '2'},
+            {'QT_SCALE_FACTOR': '4'},
+        ),
+        (   # Test setting an unset variable
+            {'QT_SCALE_FACTOR': None},
+            {'QT_SCALE_FACTOR': '3'},
+        ),
+        (   # Test unsetting a variable which is set
+            {'QT_SCALE_FACTOR': '3'},
+            {'QT_SCALE_FACTOR': None},
+        ),
+        (   # Test unsetting a variable which is unset
+            {'QT_SCALE_FACTOR': None},
+            {'QT_SCALE_FACTOR': None},
+        ),
+        (   # Test setting multiple variables
+            {'QT_SCALE_FACTOR': '0', 'QT_PLUGIN_PATH': '/usr/bin', 'QT_NEWVAR': None},
+            {'QT_SCALE_FACTOR': '3', 'QT_PLUGIN_PATH': '/tmp/', 'QT_NEWVAR': 'newval'},
+        )
+    ])
+    def test_environ_settings(self, monkeypatch, config_stub,
+                              init_val, config_val):
+        """Test setting environment variables using qt.environ."""
+        for var, val in init_val.items():
+            if val is None:
+                monkeypatch.setenv(var, '0')
+                monkeypatch.delenv(var, raising=False)
+            else:
+                monkeypatch.setenv(var, val)
+
+        config_stub.val.qt.environ = config_val
+        qtargs.init_envvars()
+
+        for var, result in config_val.items():
+            if result is None:
+                assert var not in os.environ
+            else:
+                assert os.environ[var] == result
 
     @pytest.mark.parametrize('new_qt', [True, False])
     def test_highdpi(self, monkeypatch, config_stub, new_qt):

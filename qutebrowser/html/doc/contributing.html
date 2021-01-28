@@ -870,7 +870,7 @@ want to contribute where it&#8217;s most needed, please consider reviewing or te
 open pull requests.</td>
 </tr></table>
 </div>
-<div class="paragraph"><p>I <code>&amp;lt;3</code> <span class="footnote"><br />[Of course, that says <code>&lt;3</code> in HTML.]<br /></span> contributors!</p></div>
+<div class="paragraph"><p>I <code>&amp;lt;3</code> <span class="footnote"><br />[<code>&lt;3</code> in HTML]<br /></span> contributors!</p></div>
 <div class="paragraph"><p>This document contains guidelines for contributing to qutebrowser, as well as
 useful hints when doing so.</p></div>
 <div class="paragraph"><p>If anything mentioned here would prevent you from contributing, please let me
@@ -891,7 +891,7 @@ first).
 <li>
 <p>
 Join the IRC channel <a href="irc://irc.freenode.org/#qutebrowser"><code>#qutebrowser</code></a> on
-<a href="http://freenode.net/">Freenode</a>
+<a href="https://freenode.net/">Freenode</a>
 (<a href="https://webchat.freenode.net/?channels=#qutebrowser">webchat</a>).
 </p>
 </li>
@@ -957,13 +957,13 @@ Help on the website and graphics (logo, etc.).
 <div class="sect1">
 <h2 id="_using_git">Using git</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>qutebrowser uses <a href="http://git-scm.com/">git</a> for its development. You can clone
+<div class="paragraph"><p>qutebrowser uses <a href="https://git-scm.com/">git</a> for its development. You can clone
 the repo like this:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code>git clone https://github.com/qutebrowser/qutebrowser.git</code></pre>
 </div></div>
-<div class="paragraph"><p>If you don&#8217;t know git, a <a href="http://git-scm.com/">git cheatsheet</a> might come in
+<div class="paragraph"><p>If you don&#8217;t know git, a <a href="https://git-scm.com/">git cheatsheet</a> might come in
 handy. Of course, if using git is the issue which prevents you from
 contributing, feel free to send normal patches instead, e.g., generated via
 <code>diff -Nur</code>.</p></div>
@@ -1025,17 +1025,17 @@ Tests using <a href="https://www.pytest.org">pytest</a>:
 <div class="ulist"><ul>
 <li>
 <p>
-<code>py35</code>, <code>py36</code>: Run pytest for python 3.5/3.6 with the system-wide PyQt.
+<code>py36</code>, <code>py37</code>, &#8230;: Run pytest for python 3.6/3.7/&#8230; with the system-wide PyQt.
 </p>
 </li>
 <li>
 <p>
-<code>py36-pyqt57</code>, &#8230;, <code>py36-pyqt59</code>: Run pytest with the given PyQt version (<code>py35-*</code> also works).
+<code>py36-pyqt512</code>, &#8230;, <code>py36-pyqt515</code>: Run pytest with the given PyQt version (<code>py35-*</code> also works).
 </p>
 </li>
 <li>
 <p>
-<code>py36-pyqt59-cov</code>: Run with coverage support (other Python/PyQt versions work too).
+<code>py36-pyqt515-cov</code>: Run with coverage support (other Python/PyQt versions work too).
 </p>
 </li>
 </ul></div>
@@ -1053,7 +1053,7 @@ Tests using <a href="https://www.pytest.org">pytest</a>:
 </li>
 <li>
 <p>
-<code>pylint</code>: Run <a href="http://pylint.org/">pylint</a> static code analysis.
+<code>pylint</code>: Run <a href="https://pylint.org/">pylint</a> static code analysis.
 </p>
 </li>
 <li>
@@ -1064,7 +1064,7 @@ Tests using <a href="https://www.pytest.org">pytest</a>:
 </li>
 <li>
 <p>
-<code>eslint</code>: Run <a href="http://eslint.org/">ESLint</a> javascript checker.
+<code>eslint</code>: Run <a href="https://eslint.org/">ESLint</a> javascript checker.
 </p>
 </li>
 <li>
@@ -1172,12 +1172,12 @@ qutebrowser instance, waits for it to exit and then shows the graph.</p></div>
 </li>
 <li>
 <p>
-<a href="https://pypi.python.org/pypi/pyprof2calltree/">pyprof2calltree</a> and <a href="http://kcachegrind.sourceforge.net/html/Home.html">KCacheGrind</a> (<code>--profile-tool=kcachegrind</code>)
+<a href="https://pypi.python.org/pypi/pyprof2calltree/">pyprof2calltree</a> and <a href="https://kcachegrind.github.io/">KCacheGrind</a> (<code>--profile-tool=kcachegrind</code>)
 </p>
 </li>
 <li>
 <p>
-<a href="https://github.com/jrfonseca/gprof2dot">gprof2dot</a> (<code>--profile-tool=gprof2dot</code>, needs <code>dot</code> from <a href="http://graphviz.org/">Graphviz</a> and <a href="http://feh.finalrewind.org/">feh</a>)
+<a href="https://github.com/jrfonseca/gprof2dot">gprof2dot</a> (<code>--profile-tool=gprof2dot</code>, needs <code>dot</code> from <a href="https://graphviz.org/">Graphviz</a> and <a href="https://feh.finalrewind.org/">feh</a>)
 </p>
 </li>
 <li>
@@ -1206,7 +1206,7 @@ memory leaks.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<a href="http://doc.qt.io/qt-5/classes.html">The Qt5 reference</a>
+<a href="https://doc.qt.io/qt-5/classes.html">The Qt5 reference</a>
 </p>
 </li>
 <li>
@@ -1216,7 +1216,7 @@ memory leaks.</p></div>
 </li>
 <li>
 <p>
-<a href="http://httpbin.org/">httpbin, a test service for HTTP requests/responses</a>
+<a href="https://httpbin.org/">httpbin, a test service for HTTP requests/responses</a>
 </p>
 </li>
 <li>
@@ -1229,27 +1229,17 @@ memory leaks.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<a href="http://jinja.pocoo.org/docs/dev/">jinja2</a>
+<a href="https://jinja.palletsprojects.com/">jinja2</a>
 </p>
 </li>
 <li>
 <p>
-<a href="http://pygments.org/docs/">pygments</a>
+<a href="https://pygments.org/docs/">pygments</a>
 </p>
 </li>
 <li>
 <p>
-<a href="http://fdik.org/pyPEG/index.html">pyPEG2</a>
-</p>
-</li>
-<li>
-<p>
-<a href="http://pythonhosted.org/setuptools/">setuptools</a>
-</p>
-</li>
-<li>
-<p>
-<a href="http://www.pyinstaller.org/">PyInstaller</a>
+<a href="https://www.pyinstaller.org/">PyInstaller</a>
 </p>
 </li>
 <li>
@@ -1265,69 +1255,69 @@ memory leaks.</p></div>
 <li>
 <p>
 <a href="https://tools.ietf.org/html/rfc2616">RFC 2616 - Hypertext Transfer Protocol&#8201;&#8212;&#8201;HTTP/1.1</a>
-(<a href="http://www.rfc-editor.org/errata_search.php?rfc=2616">Errata</a>)
+(<a href="https://www.rfc-editor.org/errata_search.php?rfc=2616">Errata</a>)
 </p>
 </li>
 <li>
 <p>
 <a href="https://tools.ietf.org/html/rfc7230">RFC 7230 - Hypertext Transfer Protocol
 (HTTP/1.1): Message Syntax and Routing</a>
-(<a href="http://www.rfc-editor.org/errata_search.php?rfc=7230">Errata</a>)
+(<a href="https://www.rfc-editor.org/errata_search.php?rfc=7230">Errata</a>)
 </p>
 </li>
 <li>
 <p>
 <a href="https://tools.ietf.org/html/rfc7231">RFC 7231 - Hypertext Transfer Protocol
 (HTTP/1.1): Semantics and Content</a>
-(<a href="http://www.rfc-editor.org/errata_search.php?rfc=7231">Errata</a>)
+(<a href="https://www.rfc-editor.org/errata_search.php?rfc=7231">Errata</a>)
 </p>
 </li>
 <li>
 <p>
 <a href="https://tools.ietf.org/html/rfc7232">RFC 7232 - Hypertext Transfer Protocol
 (HTTP/1.1): Conditional Requests</a>
-(<a href="http://www.rfc-editor.org/errata_search.php?rfc=7232">Errata</a>)
+(<a href="https://www.rfc-editor.org/errata_search.php?rfc=7232">Errata</a>)
 </p>
 </li>
 <li>
 <p>
 <a href="https://tools.ietf.org/html/rfc7233">RFC 7233 - Hypertext Transfer Protocol
 (HTTP/1.1): Range Requests</a>
-(<a href="http://www.rfc-editor.org/errata_search.php?rfc=7233">Errata</a>)
+(<a href="https://www.rfc-editor.org/errata_search.php?rfc=7233">Errata</a>)
 </p>
 </li>
 <li>
 <p>
 <a href="https://tools.ietf.org/html/rfc7234">RFC 7234 - Hypertext Transfer Protocol
 (HTTP/1.1): Caching</a>
-(<a href="http://www.rfc-editor.org/errata_search.php?rfc=7234">Errata</a>)
+(<a href="https://www.rfc-editor.org/errata_search.php?rfc=7234">Errata</a>)
 </p>
 </li>
 <li>
 <p>
 <a href="https://tools.ietf.org/html/rfc7235">RFC 7235 - Hypertext Transfer Protocol
 (HTTP/1.1): Authentication</a>
-(<a href="http://www.rfc-editor.org/errata_search.php?rfc=7235">Errata</a>)
+(<a href="https://www.rfc-editor.org/errata_search.php?rfc=7235">Errata</a>)
 </p>
 </li>
 <li>
 <p>
 <a href="https://tools.ietf.org/html/rfc5987">RFC 5987 - Character Set and Language
 Encoding for Hypertext Transfer Protocol (HTTP) Header Field Parameters</a>
-(<a href="http://www.rfc-editor.org/errata_search.php?rfc=5987">Errata</a>)
+(<a href="https://www.rfc-editor.org/errata_search.php?rfc=5987">Errata</a>)
 </p>
 </li>
 <li>
 <p>
 <a href="https://tools.ietf.org/html/rfc6266">RFC 6266 - Use of the
 Content-Disposition Header Field in the Hypertext Transfer Protocol (HTTP)</a>
-(<a href="http://www.rfc-editor.org/errata_search.php?rfc=6266">Errata</a>)
+(<a href="https://www.rfc-editor.org/errata_search.php?rfc=6266">Errata</a>)
 </p>
 </li>
 <li>
 <p>
-<a href="http://tools.ietf.org/html/rfc6265">RFC 6265 - HTTP State Management Mechanism
-(Cookies)</a> (<a href="http://www.rfc-editor.org/errata_search.php?rfc=6265">Errata</a>)
+<a href="https://tools.ietf.org/html/rfc6265">RFC 6265 - HTTP State Management Mechanism
+(Cookies)</a> (<a href="https://www.rfc-editor.org/errata_search.php?rfc=6265">Errata</a>)
 </p>
 </li>
 <li>
@@ -1343,49 +1333,48 @@ Content-Disposition Header Field in the Hypertext Transfer Protocol (HTTP)</a>
 <li>
 <p>
 <a href="https://tools.ietf.org/html/rfc5646">RFC 5646 - Tags for Identifying
-Languages</a> (<a href="http://www.rfc-editor.org/errata_search.php?rfc=5646">Errata</a>)
+Languages</a> (<a href="https://www.rfc-editor.org/errata_search.php?rfc=5646">Errata</a>)
 </p>
 </li>
 <li>
 <p>
-<a href="http://www.w3.org/TR/CSS2/">Cascading Style Sheets Level 2 Revision 1 (CSS
+<a href="https://www.w3.org/TR/CSS2/">Cascading Style Sheets Level 2 Revision 1 (CSS
 2.1) Specification</a>
 </p>
 </li>
 <li>
 <p>
-<a href="http://doc.qt.io/qt-5/stylesheet-reference.html">Qt Style Sheets Reference</a>
+<a href="https://doc.qt.io/qt-5/stylesheet-reference.html">Qt Style Sheets Reference</a>
 </p>
 </li>
 <li>
 <p>
-<a href="http://mimesniff.spec.whatwg.org/">MIME Sniffing Standard</a>
+<a href="https://mimesniff.spec.whatwg.org/">MIME Sniffing Standard</a>
 </p>
 </li>
 <li>
 <p>
-<a href="http://spec.whatwg.org/">WHATWG specifications</a>
+<a href="https://spec.whatwg.org/">WHATWG specifications</a>
 </p>
 </li>
 <li>
 <p>
-<a href="http://www.w3.org/html/wg/drafts/html/master/Overview.html">HTML 5.1 Nightly</a>
+<a href="https://www.w3.org/html/wg/drafts/html/master/Overview.html">HTML 5.1 Nightly</a>
 </p>
 </li>
 <li>
 <p>
-<a href="http://www.w3.org/TR/webstorage/">Web Storage</a>
+<a href="https://www.w3.org/TR/webstorage/">Web Storage</a>
 </p>
 </li>
 <li>
 <p>
-<a href="http://www.brynosaurus.com/cachedir/spec.html">Cache directory tagging
-standard</a>
+<a href="https://bford.info/cachedir/">Cache directory tagging standard</a>
 </p>
 </li>
 <li>
 <p>
-<a href="http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html">XDG
+<a href="https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html">XDG
 basedir specification</a>
 </p>
 </li>
@@ -1480,7 +1469,7 @@ window=<em>win-id</em>, tab=<em>tab-id</em>])</code>. The default scope is <code
 <code>:debug-all-objects</code> command.</p></div>
 <div class="paragraph"><p>The registry is mainly used for <a href="#commands">command handlers</a>, but it can
 also be useful in places where using Qt&#8217;s
-<a href="http://doc.qt.io/qt-5/signalsandslots.html">signals and slots</a> mechanism would
+<a href="https://doc.qt.io/qt-5/signalsandslots.html">signals and slots</a> mechanism would
 be difficult.</p></div>
 </div>
 <div class="sect2">
@@ -1562,7 +1551,7 @@ registered; see the class documentation for <code>register</code> in
 e.g., an argument <code>foo=True</code> will be converted to a flag <code>-f</code>/<code>--foo</code> in
 qutebrowser&#8217;s commandline.</p></div>
 <div class="paragraph"><p>The type can be overridden using Python&#8217;s
-<a href="http://legacy.python.org/dev/peps/pep-3107/">function annotations</a>:</p></div>
+<a href="https://www.python.org/dev/peps/pep-3107/">function annotations</a>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">baz</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -1717,7 +1706,7 @@ always could be an invalid QUrl (if nothing is loaded yet).
 <div class="sect2">
 <h3 id="_running_valgrind_on_qtwebkit">Running valgrind on QtWebKit</h3>
 <div class="paragraph"><p>If you want to run qutebrowser (and thus QtWebKit) with
-<a href="http://valgrind.org/">valgrind</a>, you&#8217;ll need to pass <code>--smc-check=all</code> to it or
+<a href="https://valgrind.org/">valgrind</a>, you&#8217;ll need to pass <code>--smc-check=all</code> to it or
 recompile QtWebKit with the Javascript JIT disabled.</p></div>
 <div class="paragraph"><p>This is needed so valgrind handles self-modifying code correctly:</p></div>
 <div class="quoteblock">
@@ -1866,17 +1855,17 @@ chrome://ppapiflashhang/
 </li>
 <li>
 <p>
-chrome://quota-internals/ (Qt 5.11)
+chrome://quota-internals/
 </p>
 </li>
 <li>
 <p>
-chrome://taskscheduler-internals/ (Qt 5.11)
+chrome://taskscheduler-internals/
 </p>
 </li>
 <li>
 <p>
-chrome://sandbox/ (Qt 5.11, Linux only)
+chrome://sandbox/ (Linux only)
 </p>
 </li>
 </ul></div>
@@ -1908,7 +1897,7 @@ The view also has a layout with exactly one element (which also is its <code>foc
 </li>
 <li>
 <p>
-That element is the  <a href="http://code.qt.io/cgit/qt/qtwebengine.git/tree/src/webenginewidgets/render_widget_host_view_qt_delegate_widget.cpp">RenderWidgetHostViewQtDelegateWidget</a> (it inherits <a href="https://doc.qt.io/qt-5/qquickwidget.html">QQuickWidget</a>) - also often referred to as RWHV or RWHVQDW. It can be obtained via <code>sip.cast(tab._widget.focusProxy(), QQuickWidget)</code>.
+That element is the  <a href="https://code.qt.io/cgit/qt/qtwebengine.git/tree/src/webenginewidgets/render_widget_host_view_qt_delegate_widget.cpp">RenderWidgetHostViewQtDelegateWidget</a> (it inherits <a href="https://doc.qt.io/qt-5/qquickwidget.html">QQuickWidget</a>) - also often referred to as RWHV or RWHVQDW. It can be obtained via <code>sip.cast(tab._widget.focusProxy(), QQuickWidget)</code>.
 </p>
 </li>
 <li>
@@ -1924,7 +1913,7 @@ Calling <code>rootObject()</code> on that gives us the <a href="https://doc.qt.i
 <h2 id="_style_conventions">Style conventions</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>qutebrowser&#8217;s coding conventions are based on
-<a href="http://legacy.python.org/dev/peps/pep-0008/">PEP8</a> and the <a href="https://google.github.io/styleguide/pyguide.html">Google Python style guidelines</a> with some additions:</p></div>
+<a href="https://www.python.org/dev/peps/pep-0008/">PEP8</a> and the <a href="https://google.github.io/styleguide/pyguide.html">Google Python style guidelines</a> with some additions:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1944,7 +1933,7 @@ Everything else does though, even slots.
 <li>
 <p>
 Docstrings should look like described in
-<a href="http://legacy.python.org/dev/peps/pep-0257/">PEP257</a> and the google guidelines.
+<a href="https://www.python.org/dev/peps/pep-0257/">PEP257</a> and the google guidelines.
 </p>
 </li>
 <li>
@@ -2236,7 +2225,7 @@ Post announcement mail to subreddit
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-12-04 20:32:20 CET
+ 2021-01-28 08:38:15 CET
 </div>
 </div>
 </body>

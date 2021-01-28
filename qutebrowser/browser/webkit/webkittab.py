@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2016-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2016-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,14 +15,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Wrapper over our (QtWebKit) WebView."""
 
 import re
 import functools
 import xml.etree.ElementTree
-import typing
+from typing import cast, Iterable, Optional
 
 from PyQt5.QtCore import pyqtSlot, Qt, QUrl, QPoint, QTimer, QSizeF, QSize
 from PyQt5.QtGui import QIcon
@@ -80,9 +80,6 @@ class WebKitPrinting(browsertab.AbstractPrinting):
     """QtWebKit implementations related to printing."""
 
     def check_pdf_support(self):
-        pass
-
-    def check_printer_support(self):
         pass
 
     def check_preview_support(self):
@@ -201,8 +198,7 @@ class WebKitCaret(browsertab.AbstractCaret):
                  tab: 'WebKitTab',
                  mode_manager: modeman.ModeManager,
                  parent: QWidget = None) -> None:
-        super().__init__(mode_manager, parent)
-        self._tab = tab
+        super().__init__(tab, mode_manager, parent)
         self._selection_state = browsertab.SelectionState.none
 
     @pyqtSlot(usertypes.KeyMode)
@@ -625,7 +621,7 @@ class WebKitHistoryPrivate(browsertab.AbstractHistoryPrivate):
 
     def __init__(self, tab: 'WebKitTab') -> None:
         self._tab = tab
-        self._history = typing.cast(QWebHistory, None)
+        self._history = cast(QWebHistory, None)
 
     def serialize(self):
         return qtutils.serialize(self._history)
@@ -691,11 +687,9 @@ class WebKitHistory(browsertab.AbstractHistory):
 
 class WebKitElements(browsertab.AbstractElements):
 
-    """QtWebKit implemementations related to elements on the page."""
+    """QtWebKit implementations related to elements on the page."""
 
-    def __init__(self, tab: 'WebKitTab') -> None:
-        super().__init__()
-        self._tab = tab
+    _tab: 'WebKitTab'
 
     def find_css(self, selector, callback, error_cb, *, only_visible=False):
         utils.unused(error_cb)
@@ -706,8 +700,7 @@ class WebKitElements(browsertab.AbstractElements):
         elems = []
         frames = webkitelem.get_child_frames(mainframe)
         for f in frames:
-            frame_elems = typing.cast(
-                typing.Iterable[QWebElement], f.findAllElements(selector))
+            frame_elems = cast(Iterable[QWebElement], f.findAllElements(selector))
             for elem in frame_elems:
                 elems.append(webkitelem.WebKitElement(elem, tab=self._tab))
 
@@ -772,7 +765,7 @@ class WebKitElements(browsertab.AbstractElements):
         except webkitelem.IsNullError:
             # For some reason, the hit result element can be a null element
             # sometimes (e.g. when clicking the timetable fields on
-            # http://www.sbb.ch/ ).
+            # https://www.sbb.ch/ ).
             log.webview.debug("Hit test result element is null!")
             callback(None)
             return
@@ -854,9 +847,8 @@ class WebKitTab(browsertab.AbstractTab):
         settings = widget.settings()
         settings.setAttribute(QWebSettings.PrivateBrowsingEnabled, True)
 
-    def load_url(self, url, *, emit_before_load_started=True):
-        self._load_url_prepare(
-            url, emit_before_load_started=emit_before_load_started)
+    def load_url(self, url):
+        self._load_url_prepare(url)
         self._widget.load(url)
 
     def url(self, *, requested=False):
@@ -895,6 +887,9 @@ class WebKitTab(browsertab.AbstractTab):
 
     def title(self):
         return self._widget.title()
+
+    def renderer_process_pid(self) -> Optional[int]:
+        return None
 
     @pyqtSlot()
     def _on_history_trigger(self):

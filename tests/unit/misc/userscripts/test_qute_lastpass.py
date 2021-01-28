@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2020-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,15 +15,15 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Tests for misc.userscripts.qute-lastpass."""
 
 import json
+import dataclasses
 from types import SimpleNamespace
 from unittest.mock import ANY, call
 
-import attr
 import pytest
 
 from helpers import utils
@@ -41,10 +41,16 @@ default_lpass_match = [
 ]
 
 
-@attr.s
+@dataclasses.dataclass
 class FakeOutput:
-    stdout = attr.ib(default='', converter=str.encode)
-    stderr = attr.ib(default='', converter=str.encode)
+
+    stdout: bytes = b''
+    stderr: bytes = b''
+
+    @classmethod
+    def json(cls, obj):
+        """Get a FakeOutput for a json-encoded object."""
+        return cls(stdout=json.dumps(obj).encode('ascii'))
 
 
 @pytest.fixture
@@ -82,10 +88,11 @@ class TestQuteLastPassComponents:
 
     def test_fake_key_raw(self, qutecommand_mock):
         """Test if fake_key_raw properly escapes characters."""
-        qute_lastpass.fake_key_raw('john.doe@example.com ')
+        qute_lastpass.fake_key_raw('john.<<doe>>@example.com ')
 
         qutecommand_mock.assert_called_once_with(
-            'fake-key \\j\\o\\h\\n\\.\\d\\o\\e\\@\\e\\x\\a\\m\\p\\l\\e\\.\\c\\o\\m" "'
+            'fake-key \\j\\o\\h\\n\\.<less><less>\\d\\o\\e<greater><greater>\\@'
+            '\\e\\x\\a\\m\\p\\l\\e\\.\\c\\o\\m" "'
         )
 
     def test_dmenu(self, subprocess_mock):
@@ -95,7 +102,7 @@ class TestQuteLastPassComponents:
             "2345 | example2.com | https://www.example2.com | jane.doe@example.com",
         ]
 
-        subprocess_mock.return_value = FakeOutput(stdout=entries[1])
+        subprocess_mock.return_value = FakeOutput(stdout=entries[1].encode('ascii'))
 
         selected = qute_lastpass.dmenu(entries, 'rofi -dmenu', 'UTF-8')
 
@@ -108,7 +115,7 @@ class TestQuteLastPassComponents:
 
     def test_pass_subprocess_args(self, subprocess_mock):
         """Test if pass_ calls subprocess with correct arguments."""
-        subprocess_mock.return_value = FakeOutput(stdout='[{}]')
+        subprocess_mock.return_value = FakeOutput(stdout=b'[{}]')
 
         qute_lastpass.pass_('example.com', 'utf-8')
 
@@ -118,8 +125,7 @@ class TestQuteLastPassComponents:
 
     def test_pass_returns_candidates(self, subprocess_mock):
         """Test if pass_ returns expected lpass site entry."""
-        subprocess_mock.return_value = FakeOutput(
-            stdout=json.dumps(default_lpass_match))
+        subprocess_mock.return_value = FakeOutput.json(default_lpass_match)
 
         response = qute_lastpass.pass_('www.example.com', 'utf-8')
         assert response[1] == ''
@@ -131,7 +137,7 @@ class TestQuteLastPassComponents:
 
     def test_pass_no_accounts(self, subprocess_mock):
         """Test if pass_ handles no accounts as an empty lpass result."""
-        error_message = 'Error: Could not find specified account(s).'
+        error_message = b'Error: Could not find specified account(s).'
         subprocess_mock.return_value = FakeOutput(stderr=error_message)
 
         response = qute_lastpass.pass_('www.example.com', 'utf-8')
@@ -140,9 +146,9 @@ class TestQuteLastPassComponents:
 
     def test_pass_returns_error(self, subprocess_mock):
         """Test if pass_ returns error from lpass."""
-        # pylint: disable=line-too-long
-        error_message = 'Error: Could not find decryption key. Perhaps you need to login with `lpass login`.'
-        subprocess_mock.return_value = FakeOutput(stderr=error_message)
+        error_message = ('Error: Could not find decryption key. '
+                         'Perhaps you need to login with `lpass login`.')
+        subprocess_mock.return_value = FakeOutput(stderr=error_message.encode('ascii'))
 
         response = qute_lastpass.pass_('www.example.com', 'utf-8')
         assert response[0] == []
@@ -155,8 +161,7 @@ class TestQuteLastPassMain:
     def test_main_happy_path(self, subprocess_mock, arguments_mock,
                              qutecommand_mock):
         """Test sending username/password to qutebrowser on *single* match."""
-        subprocess_mock.return_value = FakeOutput(
-            stdout=json.dumps(default_lpass_match))
+        subprocess_mock.return_value = FakeOutput.json(default_lpass_match)
 
         arguments_mock.url = default_lpass_match[0]['url']
         exit_code = qute_lastpass.main(arguments_mock)
@@ -167,14 +172,14 @@ class TestQuteLastPassMain:
             call('fake-key \\f\\a\\k\\e\\@\\f\\a\\k\\e\\.\\c\\o\\m'),
             call('fake-key <Tab>'),
             call('fake-key \\f\\o\\o\\b\\a\\r'),
-            call('enter-mode insert')
+            call('mode-enter insert')
         ])
 
     def test_main_no_candidates(self, subprocess_mock, arguments_mock,
                                 stderr_mock,
                                 qutecommand_mock):
         """Test correct exit code and message returned on no entries."""
-        error_message = 'Error: Could not find specified account(s).'
+        error_message = b'Error: Could not find specified account(s).'
         subprocess_mock.return_value = FakeOutput(stderr=error_message)
 
         arguments_mock.url = default_lpass_match[0]['url']
@@ -189,8 +194,8 @@ class TestQuteLastPassMain:
                                 stderr_mock,
                                 qutecommand_mock):
         """Test correct exit code and message on lpass failure."""
-        # pylint: disable=line-too-long
-        error_message = 'Error: Could not find decryption key. Perhaps you need to login with `lpass login`.'
+        error_message = (b'Error: Could not find decryption key. '
+                         b'Perhaps you need to login with `lpass login`.')
         subprocess_mock.return_value = FakeOutput(stderr=error_message)
 
         arguments_mock.url = default_lpass_match[0]['url']
@@ -205,8 +210,7 @@ class TestQuteLastPassMain:
     def test_main_username_only_flag(self, subprocess_mock, arguments_mock,
                                      qutecommand_mock):
         """Test if --username-only flag sends username only."""
-        subprocess_mock.return_value = FakeOutput(
-            stdout=json.dumps(default_lpass_match))
+        subprocess_mock.return_value = FakeOutput.json(default_lpass_match)
 
         arguments_mock.url = default_lpass_match[0]['url']
         arguments_mock.username_only = True
@@ -214,14 +218,13 @@ class TestQuteLastPassMain:
 
         qutecommand_mock.assert_has_calls([
             call('fake-key \\f\\a\\k\\e\\@\\f\\a\\k\\e\\.\\c\\o\\m'),
-            call('enter-mode insert')
+            call('mode-enter insert')
         ])
 
     def test_main_password_only_flag(self, subprocess_mock, arguments_mock,
                                      qutecommand_mock):
         """Test if --password-only flag sends password only."""
-        subprocess_mock.return_value = FakeOutput(
-            stdout=json.dumps(default_lpass_match))
+        subprocess_mock.return_value = FakeOutput.json(default_lpass_match)
 
         arguments_mock.url = default_lpass_match[0]['url']
         arguments_mock.password_only = True
@@ -229,7 +232,7 @@ class TestQuteLastPassMain:
 
         qutecommand_mock.assert_has_calls([
             call('fake-key \\f\\o\\o\\b\\a\\r'),
-            call('enter-mode insert')
+            call('mode-enter insert')
         ])
 
     def test_main_multiple_candidates(self, subprocess_mock, arguments_mock,
@@ -246,9 +249,9 @@ class TestQuteLastPassMain:
             }
         )
 
-        lpass_response = FakeOutput(stdout=json.dumps(multiple_matches))
+        lpass_response = FakeOutput.json(multiple_matches)
         dmenu_response = FakeOutput(
-            stdout='23456 | Sites/www.example.com | https://www.example.com | john.doe@fake.com')
+            stdout=b'23456 | Sites/www.example.com | https://www.example.com | john.doe@fake.com')
 
         subprocess_mock.side_effect = [lpass_response, dmenu_response]
 
@@ -270,7 +273,7 @@ class TestQuteLastPassMain:
                 'fake-key \\j\\o\\h\\n\\.\\d\\o\\e\\@\\f\\a\\k\\e\\.\\c\\o\\m'),
             call('fake-key <Tab>'),
             call('fake-key \\b\\a\\r\\f\\o\\o'),
-            call('enter-mode insert')
+            call('mode-enter insert')
         ])
 
     def test_main_merge_candidates(self, subprocess_mock, arguments_mock,
@@ -304,12 +307,11 @@ class TestQuteLastPassMain:
             }
         ]
 
-        fqdn_response = FakeOutput(stdout=json.dumps(fqdn_matches))
-        domain_response = FakeOutput(stdout=json.dumps(domain_matches))
-        no_response = FakeOutput(
-            stderr='Error: Could not find specified account(s).')
+        fqdn_response = FakeOutput.json(fqdn_matches)
+        domain_response = FakeOutput.json(domain_matches)
+        no_response = FakeOutput(stderr=b'Error: Could not find specified account(s).')
         dmenu_response = FakeOutput(
-            stdout='23456 | Sites/www.example.com | https://www.example.com | john.doe@fake.com')
+            stdout=b'23456 | Sites/www.example.com | https://www.example.com | john.doe@fake.com')
 
         # lpass command will return results for search against
         # www.example.com, example.com, but not wwwexample.com and its ipv4
@@ -342,5 +344,5 @@ class TestQuteLastPassMain:
                 'fake-key \\j\\o\\h\\n\\.\\d\\o\\e\\@\\f\\a\\k\\e\\.\\c\\o\\m'),
             call('fake-key <Tab>'),
             call('fake-key \\b\\a\\r\\f\\o\\o'),
-            call('enter-mode insert')
+            call('mode-enter insert')
         ])

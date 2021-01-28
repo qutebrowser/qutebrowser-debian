@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2020-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,31 +15,33 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Code for :undo --window."""
 
 import collections
-import typing
+import dataclasses
+from typing import MutableSequence, cast, TYPE_CHECKING
 
-import attr
-from PyQt5.QtCore import QObject
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtCore import QObject, QByteArray
 
 from qutebrowser.config import config
 from qutebrowser.mainwindow import mainwindow
+from qutebrowser.misc import objects
+if TYPE_CHECKING:
+    from qutebrowser.mainwindow import tabbedbrowser
 
 
-instance = typing.cast('WindowUndoManager', None)
+instance = cast('WindowUndoManager', None)
 
 
-@attr.s
+@dataclasses.dataclass
 class _WindowUndoEntry:
 
     """Information needed for :undo -w."""
 
-    geometry = attr.ib()
-    tab_stack = attr.ib()
+    geometry: QByteArray
+    tab_stack: 'tabbedbrowser.UndoStackType'
 
 
 class WindowUndoManager(QObject):
@@ -48,10 +50,8 @@ class WindowUndoManager(QObject):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self._undos = (
-            collections.deque()
-        )  # type: typing.MutableSequence[_WindowUndoEntry]
-        QApplication.instance().window_closing.connect(self._on_window_closing)
+        self._undos: MutableSequence[_WindowUndoEntry] = collections.deque()
+        objects.qapp.window_closing.connect(self._on_window_closing)
         config.instance.changed.connect(self._on_config_changed)
 
     @config.change_filter('tabs.undo_stack_size')
@@ -90,4 +90,4 @@ class WindowUndoManager(QObject):
 
 def init():
     global instance
-    instance = WindowUndoManager(parent=QApplication.instance())
+    instance = WindowUndoManager(parent=objects.qapp)

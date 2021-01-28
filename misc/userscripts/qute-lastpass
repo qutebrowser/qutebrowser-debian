@@ -16,7 +16,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """
 Insert login information using lastpass CLI and a dmenu-compatible application (e.g. dmenu, rofi -dmenu, ...).
@@ -102,12 +102,14 @@ def dmenu(items, invocation, encoding):
 
 
 def fake_key_raw(text):
-    sequence = ''
-
-    for character in text:
-        # Escape all characters by default, space requires special handling
-        sequence += ('" "' if character == ' ' else '\\{}'.format(character))
-    qute_command('fake-key {}'.format(sequence))
+    # Escape all characters by default, space, '<' and '>' requires special handling
+    special_escapes = {
+        ' ': '" "',
+        '<': '<less>',
+        '>': '<greater>',
+    }
+    sequence = ''.join([special_escapes.get(c, '\\{}'.format(c)) for c in text])
+    qute_command(f'fake-key {sequence}')
 
 
 def main(arguments):
@@ -171,7 +173,7 @@ def main(arguments):
         fake_key_raw(password)
 
     if arguments.insert_mode:
-        qute_command('enter-mode insert')
+        qute_command('mode-enter insert')
 
     return ExitCodes.SUCCESS
 

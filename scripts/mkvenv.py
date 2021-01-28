@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2020-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 
 # This file is part of qutebrowser.
 #
@@ -16,7 +16,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 
 """Create a local virtualenv with a PyQt install."""
@@ -57,6 +57,9 @@ def print_command(*cmd: Union[str, pathlib.Path], venv: bool) -> None:
 def parse_args(argv: List[str] = None) -> argparse.Namespace:
     """Parse commandline arguments."""
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--update',
+                        action='store_true',
+                        help="Run 'git pull' before creating the environment.")
     parser.add_argument('--keep',
                         action='store_true',
                         help="Reuse an existing virtualenv.")
@@ -118,7 +121,7 @@ def run_venv(
         *args: str,
         capture_output=False,
         capture_error=False,
-        env=None
+        env=None,
 ) -> subprocess.CompletedProcess:
     """Run the given command inside the virtualenv."""
     subdir = 'Scripts' if os.name == 'nt' else 'bin'
@@ -273,8 +276,8 @@ def apply_xcb_util_workaround(
 
     if len(libxcb_util_libs) > 1:
         utils.print_error(
-            'Workaround failed: Multiple matching libxcb-util found: {}'
-            .format(libxcb_util_libs))
+            f'Workaround failed: Multiple matching libxcb-util found: '
+            f'{libxcb_util_libs}')
         return
 
     libxcb_util_path = pathlib.Path(libxcb_util_libs[0])
@@ -298,7 +301,7 @@ def apply_xcb_util_workaround(
 
 def _find_libs() -> Dict[Tuple[str, str], List[str]]:
     """Find all system-wide .so libraries."""
-    all_libs = {}  # type: Dict[Tuple[str, str], List[str]]
+    all_libs: Dict[Tuple[str, str], List[str]] = {}
 
     if pathlib.Path("/sbin/ldconfig").exists():
         # /sbin might not be in PATH on e.g. Debian
@@ -309,7 +312,7 @@ def _find_libs() -> Dict[Tuple[str, str], List[str]]:
         [ldconfig_bin, '-p'],
         check=True,
         stdout=subprocess.PIPE,
-        universal_newlines=True,
+        encoding=sys.getfilesystemencoding(),
     )
 
     pattern = re.compile(r'(?P<name>\S+) \((?P<abi_type>[^)]+)\) => (?P<path>.*)')
@@ -317,8 +320,7 @@ def _find_libs() -> Dict[Tuple[str, str], List[str]]:
         match = pattern.fullmatch(line.strip())
         if match is None:
             if 'libs found in cache' not in line:
-                utils.print_col(
-                    'Failed to match ldconfig output: {}'.format(line), 'yellow')
+                utils.print_col(f'Failed to match ldconfig output: {line}', 'yellow')
             continue
 
         key = match.group('name'), match.group('abi_type')
@@ -337,10 +339,10 @@ def run_qt_smoke_test(venv_dir: pathlib.Path) -> None:
         'import sys',
         'from PyQt5.QtWidgets import QApplication',
         'from PyQt5.QtCore import qVersion, QT_VERSION_STR, PYQT_VERSION_STR',
-        'print("Python: {}".format(sys.version))',
-        'print("qVersion: {}".format(qVersion()))',
-        'print("QT_VERSION_STR: {}".format(QT_VERSION_STR))',
-        'print("PYQT_VERSION_STR: {}".format(PYQT_VERSION_STR))',
+        'print(f"Python: {sys.version}")',
+        'print(f"qVersion: {qVersion()}")',
+        'print(f"QT_VERSION_STR: {QT_VERSION_STR}")',
+        'print(f"PYQT_VERSION_STR: {PYQT_VERSION_STR}")',
         'QApplication([])',
         'print("Qt seems to work properly!")',
         'print()',
@@ -357,10 +359,8 @@ def run_qt_smoke_test(venv_dir: pathlib.Path) -> None:
         assert isinstance(proc_e, subprocess.CalledProcessError), proc_e
         print(proc_e.stderr)
         raise Error(
-            "Smoke test failed with status {}. "
-            "You might find additional information in the debug output above."
-            .format(proc_e.returncode)
-        )
+            f"Smoke test failed with status {proc_e.returncode}. "
+            "You might find additional information in the debug output above.")
 
 
 def install_requirements(venv_dir: pathlib.Path) -> None:
@@ -398,10 +398,35 @@ def regenerate_docs(venv_dir: pathlib.Path,
     run_venv(venv_dir, 'python', str(script_path), *a2h_args)
 
 
+def update_repo():
+    """Update the git repository via git pull."""
+    print_command('git pull', venv=False)
+    try:
+        subprocess.run(['git', 'pull'], check=True)
+    except subprocess.CalledProcessError as e:
+        raise Error("git pull failed, exiting") from e
+
+
+def install_pyqt(venv_dir, args):
+    """Install PyQt in the virtualenv."""
+    if args.pyqt_type == 'binary':
+        install_pyqt_binary(venv_dir, args.pyqt_version)
+    elif args.pyqt_type == 'source':
+        install_pyqt_source(venv_dir, args.pyqt_version)
+    elif args.pyqt_type == 'link':
+        install_pyqt_link(venv_dir)
+    elif args.pyqt_type == 'wheels':
+        wheels_dir = pathlib.Path(args.pyqt_wheels_dir)
+        install_pyqt_wheels(venv_dir, wheels_dir)
+    elif args.pyqt_type == 'skip':
+        pass
+    else:
+        raise AssertionError
+
+
 def run(args) -> None:
     """Install qutebrowser in a virtualenv.."""
     venv_dir = pathlib.Path(args.venv_dir)
-    wheels_dir = pathlib.Path(args.pyqt_wheels_dir)
     utils.change_cwd()
 
     if (args.pyqt_version != 'auto' and
@@ -413,25 +438,17 @@ def run(args) -> None:
         raise Error('The --pyqt-wheels-dir option is only available when installing '
                     'PyQt from wheels')
 
+    if args.update:
+        utils.print_title("Updating repository")
+        update_repo()
+
     if not args.keep:
         utils.print_title("Creating virtual environment")
         delete_old_venv(venv_dir)
         create_venv(venv_dir, use_virtualenv=args.virtualenv)
 
     upgrade_seed_pkgs(venv_dir)
-
-    if args.pyqt_type == 'binary':
-        install_pyqt_binary(venv_dir, args.pyqt_version)
-    elif args.pyqt_type == 'source':
-        install_pyqt_source(venv_dir, args.pyqt_version)
-    elif args.pyqt_type == 'link':
-        install_pyqt_link(venv_dir)
-    elif args.pyqt_type == 'wheels':
-        install_pyqt_wheels(venv_dir, wheels_dir)
-    elif args.pyqt_type == 'skip':
-        pass
-    else:
-        raise AssertionError
+    install_pyqt(venv_dir, args)
 
     apply_xcb_util_workaround(venv_dir, args.pyqt_type, args.pyqt_version)
     if args.pyqt_type != 'skip' and not args.skip_smoke_test:

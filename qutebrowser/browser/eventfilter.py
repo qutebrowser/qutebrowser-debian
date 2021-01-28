@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2016-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2016-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,53 +15,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Event handling for a browser tab."""
 
 from PyQt5.QtCore import QObject, QEvent, Qt, QTimer
 
 from qutebrowser.config import config
-from qutebrowser.utils import message, log, usertypes, qtutils, objreg
+from qutebrowser.utils import message, log, usertypes, qtutils
 from qutebrowser.misc import objects
 from qutebrowser.keyinput import modeman
-
-
-class FocusWorkaroundEventFilter(QObject):
-
-    """An event filter working Qt 5.11 keyboard focus issues.
-
-    WORKAROUND for https://bugreports.qt.io/browse/QTBUG-68076
-    """
-
-    def __init__(self, win_id, widget, parent=None):
-        super().__init__(parent)
-        self._win_id = win_id
-        self._widget = widget
-
-    def eventFilter(self, _obj, event):
-        """Act on ChildAdded events."""
-        if event.type() != QEvent.ChildAdded:
-            return False
-
-        pass_modes = [usertypes.KeyMode.command,
-                      usertypes.KeyMode.prompt,
-                      usertypes.KeyMode.yesno]
-
-        if modeman.instance(self._win_id).mode in pass_modes:
-            return False
-
-        tabbed_browser = objreg.get('tabbed-browser', scope='window',
-                                    window=self._win_id)
-        current_index = tabbed_browser.widget.currentIndex()
-        try:
-            widget_index = tabbed_browser.widget.indexOf(self._widget.parent())
-        except RuntimeError:
-            widget_index = -1
-        if current_index == widget_index:
-            QTimer.singleShot(0, self._widget.setFocus)
-
-        return False
 
 
 class ChildEventFilter(QObject):
@@ -204,13 +167,6 @@ class TabEventFilter(QObject):
             message.info("Zoom level: {}%".format(perc), replace=True)
             self._tab.zoom.set_factor(factor)
             return True
-        elif (e.modifiers() & Qt.ShiftModifier and
-              not qtutils.version_check('5.9', compiled=False)):
-            if e.angleDelta().y() > 0:
-                self._tab.scroller.left()
-            else:
-                self._tab.scroller.right()
-            return True
 
         return False
 
@@ -226,7 +182,6 @@ class TabEventFilter(QObject):
             True if the event should be filtered, False otherwise.
         """
         return (e.isAutoRepeat() and
-                qtutils.version_check('5.10', compiled=False) and
                 not qtutils.version_check('5.14', compiled=False) and
                 objects.backend == usertypes.Backend.QtWebEngine)
 

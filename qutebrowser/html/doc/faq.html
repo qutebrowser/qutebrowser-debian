@@ -919,7 +919,7 @@ process isolation or sandboxing. See
 <div class="paragraph"><p>Security issues in qutebrowser&#8217;s code happen very rarely (as per September 2019,
 there have been three security issues caused by qutebrowser in almost 6 years).
 Those were handled appropriately
-(<a href="http://seclists.org/oss-sec/2018/q3/29">example</a>) and fixed timely. To report
+(<a href="https://seclists.org/oss-sec/2018/q3/29">example</a>) and fixed timely. To report
 security bugs, please contact me directly at <a href="mailto:mail@qutebrowser.org">mail@qutebrowser.org</a>, GPG ID
 <a href="https://www.the-compiler.org/pubkey.asc">0x916eb0c8fd55a072</a>.</p></div>
 </li>
@@ -1052,11 +1052,6 @@ Remember to install the hunspell dictionaries if you don&#8217;t have them alrea
 </li>
 <li>
 <p>
-Make sure your versions of PyQt and Qt are 5.8 or higher.
-</p>
-</li>
-<li>
-<p>
 Use <code>dictcli.py</code> script to install dictionaries.
   Run the script with <code>-h</code> for the parameter description.
 </p>
@@ -1151,15 +1146,6 @@ that we fail to provide.</p></div>
 Some scripts expect <code>GM_xmlhttpRequest</code> to ignore Cross Origin Resource
   Sharing restrictions, this is currently not supported, so scripts making
   requests to third party sites will often fail to function correctly.
-</p>
-</li>
-<li>
-<p>
-If your backend is a QtWebEngine version 5.8, 5.9 or 5.10 then regular
-  expressions are not supported in <code>@include</code> or <code>@exclude</code> rules. If your
-  script uses them you can re-write them to use glob expressions or convert
-  them to <code>@match</code> rules.
-  See <a href="https://wiki.greasespot.net/Metadata_Block">the wiki</a> for more info.
 </p>
 </li>
 <li>
@@ -1265,8 +1251,14 @@ The <code>colors.webpage.prefers_color_scheme_dark</code> setting tells websites
 <p>
 The <code>colors.webpage.darkmode.*</code> settings enable the dark mode of the underlying
   Chromium. Those setting require a restart and QtWebEngine with at least Qt 5.14. It&#8217;s
-  unfortunately not possible (due to limitations in Chromium and/or QtWebEngine) to
+  unfortunately not possible (due to limitations
+  <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=952419">in Chromium</a> and/or
+  <a href="https://bugreports.qt.io/browse/QTBUG-84484">QtWebEngine</a>) to
   change them dynamically or to specify a list of excluded websites.
+  There is some remaining hope to
+  <a href="https://github.com/qutebrowser/qutebrowser/issues/5542">allow for this</a>
+  using HTML/CSS features, but so far nobody has been able to get things to
+  work (even with Chromium) - help welcome!
 </p>
 </li>
 <li>
@@ -1524,7 +1516,7 @@ Can you share details on the swag?
 <img src="https://qutebrowser.org/img/sponsors/swag.jpg" alt="swag" width="300" />
 </a>
 </span></p></div>
-<div class="paragraph"><p>It&#8217;s planned to order more swag, depending on the exact demand. Possibilites
+<div class="paragraph"><p>It&#8217;s planned to order more swag, depending on the exact demand. Possibilities
 would include:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -1625,7 +1617,7 @@ disable various features (usually at a cost of website compatibility).</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-12-04 20:32:19 CET
+ 2021-01-28 08:38:14 CET
 </div>
 </div>
 </body>

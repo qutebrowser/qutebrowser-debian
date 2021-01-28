@@ -817,9 +817,7 @@ information elsewhere might be outdated.</td>
 <h2 id="_qutebrowser_8217_s_config_files">qutebrowser&#8217;s config files</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>qutebrowser releases before v1.0.0 had a <code>qutebrowser.conf</code> and <code>keys.conf</code>
-file. Those are not used anymore since that release - see
-<a href="#migrating">"Migrating older configurations"</a> for information on how to
-migrate to the new config.</p></div>
+file. Those are not used anymore since v1.0.0.</p></div>
 <div class="paragraph"><p>When using <code>:set</code> and <code>:bind</code>, changes are saved to an <code>autoconfig.yml</code> file
 automatically. If you don&#8217;t want to have a config file which is curated by
 hand, you can simply use those - see
@@ -932,7 +930,7 @@ Dictionaries:
 <div class="ulist"><ul>
 <li>
 <p>
-<code>c.headers.custom = {'X-Hello': 'World', 'X-Awesome': 'yes'}</code> to override
+<code>c.content.headers.custom = {'X-Hello': 'World', 'X-Awesome': 'yes'}</code> to override
     any other values in the dictionary.
 </p>
 </li>
@@ -1227,8 +1225,8 @@ stable across qutebrowser versions):</p></div>
 <div class="content"><div class="highlight"><pre><span></span><span class="c1"># pylint: disable=C0111</span>
 <span class="kn">from</span> <span class="nn">qutebrowser.config.configfiles</span> <span class="kn">import</span> <span class="n">ConfigAPI</span>  <span class="c1"># noqa: F401</span>
 <span class="kn">from</span> <span class="nn">qutebrowser.config.config</span> <span class="kn">import</span> <span class="n">ConfigContainer</span>  <span class="c1"># noqa: F401</span>
-<span class="n">config</span> <span class="o">=</span> <span class="n">config</span>  <span class="c1"># type: ConfigAPI # noqa: F821 pylint: disable=E0602,C0103</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">c</span>  <span class="c1"># type: ConfigContainer # noqa: F821 pylint: disable=E0602,C0103</span>
+<span class="n">config</span><span class="p">:</span> <span class="n">ConfigAPI</span> <span class="o">=</span> <span class="n">config</span>  <span class="c1"># noqa: F821 pylint: disable=E0602,C0103</span>
+<span class="n">c</span><span class="p">:</span> <span class="n">ConfigContainer</span> <span class="o">=</span> <span class="n">c</span>  <span class="c1"># noqa: F821 pylint: disable=E0602,C0103</span>
 </pre></div></div></div>
 </div>
 <div class="sect3">
@@ -1247,7 +1245,7 @@ stable across qutebrowser versions):</p></div>
 </li>
 <li>
 <p>
-<a href="http://me0w.net/pit/1540882719">nm0i</a>
+<a href="https://me0w.net/pit/1540882719">nm0i</a>
 </p>
 </li>
 <li>
@@ -1263,53 +1261,12 @@ stable across qutebrowser versions):</p></div>
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="migrating">Migrating older configurations</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>qutebrowser does no automatic migration for the new configuration. However,
-there&#8217;s a special <a href="qute://configdiff/old">configdiff</a> page
-(<code>qute://configdiff/old</code>) in qutebrowser, which will show you the changes you
-did in your old configuration, compared to the old defaults.</p></div>
-<div class="paragraph"><p>Other changes in default settings:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-In v1.1.x and newer, <code>&lt;Up&gt;</code> and <code>&lt;Down&gt;</code> navigate through command history
-  if no text was entered yet.
-  With v1.0.x, they always navigate through command history instead of selecting
-  completion items. Use <code>&lt;Tab&gt;</code>/<code>&lt;Shift-Tab&gt;</code> to cycle through the completion
-  instead.
-  You can get back the old behavior by doing:
-</p>
-<div class="listingblock">
-<div class="content">
-<pre><code>:bind -m command &lt;Up&gt; completion-item-focus prev
-:bind -m command &lt;Down&gt; completion-item-focus next</code></pre>
-</div></div>
-<div class="paragraph"><p>or always navigate through command history with</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>:bind -m command &lt;Up&gt; command-history-prev
-:bind -m command &lt;Down&gt; command-history-next</code></pre>
-</div></div>
-</li>
-<li>
-<p>
-The default for <code>completion.web_history.max_items</code> is now set to <code>-1</code>, showing
-  an unlimited number of items in the completion for <code>:open</code> as the new
-  sqlite-based completion is much faster. If the <code>:open</code> completion is too slow
-  on your machine, set an appropriate limit again.
-</p>
-</li>
-</ul></div>
-</div>
-</div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2020-12-04 20:32:22 CET
+ 2021-01-28 08:38:17 CET
 </div>
 </div>
 </body>

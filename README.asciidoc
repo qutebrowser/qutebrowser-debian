@@ -44,46 +44,11 @@ See the https://github.com/qutebrowser/qutebrowser/releases[github releases
 page] for available downloads and the link:doc/install.asciidoc[INSTALL] file for
 detailed instructions on how to get qutebrowser running on various platforms.
 
-Documentation
--------------
+Documentation and getting help
+------------------------------
 
-In addition to the topics mentioned in this README, the following documents are
-available:
-
-* https://raw.githubusercontent.com/qutebrowser/qutebrowser/master/doc/img/cheatsheet-big.png[Key binding cheatsheet]: +
-image:https://raw.githubusercontent.com/qutebrowser/qutebrowser/master/doc/img/cheatsheet-small.png["qutebrowser key binding cheatsheet",link="https://raw.githubusercontent.com/qutebrowser/qutebrowser/master/doc/img/cheatsheet-big.png"]
-* link:doc/quickstart.asciidoc[Quick start guide]
-* https://www.shortcutfoo.com/app/dojos/qutebrowser[Free training course] to remember those key bindings
-* link:doc/faq.asciidoc[Frequently asked questions]
-* link:doc/help/configuring.asciidoc[Configuring qutebrowser]
-* link:doc/contributing.asciidoc[Contributing to qutebrowser]
-* link:doc/install.asciidoc[Installing qutebrowser]
-* link:doc/changelog.asciidoc[Change Log]
-* link:doc/stacktrace.asciidoc[Reporting segfaults]
-* link:doc/userscripts.asciidoc[How to write userscripts]
-
-Getting help
-------------
-
-You can get help in the IRC channel
-irc://irc.freenode.org/#qutebrowser[`#qutebrowser`] on
-https://freenode.net/[Freenode]
-(https://webchat.freenode.net/?channels=#qutebrowser[webchat]), or by writing a
-message to the
-https://lists.schokokeks.org/mailman/listinfo.cgi/qutebrowser[mailinglist] at
-mailto:qutebrowser@lists.qutebrowser.org[].
-
-There's also an https://lists.schokokeks.org/mailman/listinfo.cgi/qutebrowser-announce[announce-only mailinglist]
-at mailto:qutebrowser-announce@lists.qutebrowser.org[] (the announcements also
-get sent to the general qutebrowser@ list).
-
-If you're a reddit user, there's a
-https://www.reddit.com/r/qutebrowser/[/r/qutebrowser] subreddit there.
-
-Finally, qutebrowser is participating in the Beta for GitHub's new Discussions
-feature, so you can also use the
-https://github.com/qutebrowser/qutebrowser/discussions[discussions tab] on
-GitHub to get in touch.
+Please see the link:doc/help/index.asciidoc[help page] for available documentation
+pages and support channels.
 
 Contributions / Bugs
 --------------------
@@ -109,37 +74,38 @@ Requirements
 
 The following software and libraries are required to run qutebrowser:
 
-* https://www.python.org/[Python] 3.5.2 or newer (3.6 - 3.8 recommended;
-  support for 3.5 will be dropped with qutebrowser v2.0.0)
-* https://www.qt.io/[Qt] 5.7.1 or newer (5.14 recommended; support for < 5.11
-  will be dropped with qutebrowser v2.0.0) with the following modules:
+* https://www.python.org/[Python] 3.6.1 or newer
+* https://www.qt.io/[Qt] 5.12.0 or newer (5.12 LTS or 5.15 recommended)
+  with the following modules:
   - QtCore / qtbase
-  - QtQuick (part of qtbase in some distributions)
+  - QtQuick (part of qtbase or qtdeclarative in some distributions)
   - QtSQL (part of qtbase in some distributions)
   - QtOpenGL
   - QtWebEngine, or
-  - alternatively QtWebKit - only the
-    link:https://github.com/qtwebkit/qtwebkit/wiki[updated fork] (5.212) is
-    supported. **Note: The latest QtWebKit release is based on old WebKit
-    revision with known unpatched vulnerabilities. Please use it carefully and
-    avoid visiting untrusted websites and using it for transmission of
-    sensitive data.**
-* https://www.riverbankcomputing.com/software/pyqt/intro[PyQt] 5.7.0 or newer
-  (5.14 recommended, support for < 5.11 will be dropped soon) for Python 3
-* https://pypi.python.org/pypi/setuptools/[pkg_resources/setuptools]
-* https://fdik.org/pyPEG/[pyPEG2]
-* http://jinja.pocoo.org/[jinja2]
-* http://pygments.org/[pygments]
+  - alternatively QtWebKit (5.212) - **This is not recommended** due to known security
+    issues in QtWebKit, you most likely want to use qutebrowser with the
+    default QtWebEngine backend (based on Chromium) instead. Quoting the
+    https://github.com/qtwebkit/qtwebkit/releases[QtWebKit releases page]:
+    _[The latest QtWebKit] release is based on [an] old WebKit revision with known
+unpatched vulnerabilities. Please use it carefully and avoid visiting untrusted
+websites and using it for transmission of sensitive data._
+* https://www.riverbankcomputing.com/software/pyqt/intro[PyQt] 5.12.0 or newer
+  for Python 3
+* https://palletsprojects.com/p/jinja/[jinja2]
+* https://pygments.org/[pygments]
 * https://github.com/yaml/pyyaml[PyYAML]
-* https://www.attrs.org/[attrs]
+
+On older Python versions (3.6/3.7/3.8), the following backports are also required:
+
+* https://importlib-resources.readthedocs.io/[importlib_resources] (Python 3.8 or older)
+* https://github.com/ericvsmith/dataclasses[dataclasses] (Python 3.6 only)
 
 The following libraries are optional:
 
-* http://cthedot.de/cssutils/[cssutils] (for an improved `:download --mhtml`
-  with QtWebKit).
+* https://pypi.org/project/adblock/[adblock] (for improved adblocking using ABP syntax)
 * On Windows, https://pypi.python.org/pypi/colorama/[colorama] for colored log
   output.
-* http://asciidoc.org/[asciidoc] to generate the documentation for the `:help`
+* https://asciidoc.org/[asciidoc] to generate the documentation for the `:help`
   command, when using the git repository (rather than a release).
 
 See link:doc/install.asciidoc[the documentation] for directions on how to
@@ -218,7 +184,7 @@ Active
 
 * https://fanglingsu.github.io/vimb/[vimb] (C, GTK+ with WebKit2)
 * https://luakit.github.io/luakit/[luakit] (C/Lua, GTK+ with WebKit2)
-* https://nyxt.atlas.engineer/[Nyxt browser] (formerly "Next browser", Lisp, Emacs-like but also offers Vim bindings, QtWebKit or GTK+/WebKit2 - note there was a http://jgkamat.gitlab.io/blog/next-rce.html[critical remote code execution] which was handled quite badly)
+* https://nyxt.atlas.engineer/[Nyxt browser] (formerly "Next browser", Lisp, Emacs-like but also offers Vim bindings, QtWebKit or GTK+/WebKit2 - note there was a https://jgkamat.gitlab.io/blog/next-rce.html[critical remote code execution] which was handled quite badly)
 * https://vieb.dev/[Vieb] (JavaScript, Electron)
 * Chrome/Chromium addons:
   https://vimium.github.io/[Vimium],

@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,16 +15,17 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Tests for the webelement utils."""
 
+from typing import TYPE_CHECKING
 from unittest import mock
 import collections.abc
 import operator
 import itertools
+import dataclasses
 
-import attr
 import pytest
 from PyQt5.QtCore import QRect, QPoint, QUrl
 QWebElement = pytest.importorskip('PyQt5.QtWebKit').QWebElement
@@ -33,6 +34,8 @@ from qutebrowser.browser import browsertab
 from qutebrowser.browser.webkit import webkitelem
 from qutebrowser.misc import objects
 from qutebrowser.utils import usertypes
+if TYPE_CHECKING:
+    from helpers import stubs
 
 
 def get_webelem(geometry=None, frame=None, *, null=False, style=None,
@@ -527,12 +530,12 @@ class TestIsVisibleIframe:
         elem1-elem4: FakeWebElements to test.
     """
 
-    @attr.s
+    @dataclasses.dataclass
     class Objects:
 
-        frame = attr.ib()
-        iframe = attr.ib()
-        elems = attr.ib()
+        frame: 'stubs.FakeWebFrame'
+        iframe: 'stubs.FakeWebFrame'
+        elems: webkitelem.WebKitElement
 
     @pytest.fixture
     def objects(self, stubs):

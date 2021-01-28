@@ -1,5 +1,5 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-# Copyright 2017-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2017-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 
 # This file is part of qutebrowser.
 #
@@ -14,10 +14,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Tests for qutebrowser.config.configinit."""
 
+import builtins
 import logging
 import unittest.mock
 
@@ -63,7 +64,8 @@ def configdata_init(monkeypatch):
 class TestEarlyInit:
 
     def test_config_py_path(self, args, init_patch, config_py_arg):
-        config_py_arg.write('c.colors.hints.bg = "red"\n')
+        config_py_arg.write('\n'.join(['config.load_autoconfig()',
+                                       'c.colors.hints.bg = "red"']))
         configinit.early_init(args)
         expected = 'colors.hints.bg = red'
         assert config.instance.dump_userconfig() == expected
@@ -75,7 +77,8 @@ class TestEarlyInit:
         config_py_file = config_tmpdir / 'config.py'
 
         if config_py:
-            config_py_lines = ['c.colors.hints.bg = "red"']
+            config_py_lines = ['c.colors.hints.bg = "red"',
+                               'config.load_autoconfig(False)']
             if config_py == 'error':
                 config_py_lines.append('c.foo = 42')
             config_py_file.write_text('\n'.join(config_py_lines),
@@ -108,7 +111,7 @@ class TestEarlyInit:
             expected = '<Default configuration>'
         assert config.instance.dump_userconfig() == expected
 
-    @pytest.mark.parametrize('load_autoconfig', [True, False])  # noqa
+    @pytest.mark.parametrize('load_autoconfig', [True, False])
     @pytest.mark.parametrize('config_py', [True, 'error', False])
     @pytest.mark.parametrize('invalid_yaml', ['42', 'list', 'unknown',
                                               'wrong-type', False])
@@ -147,8 +150,7 @@ class TestEarlyInit:
 
         if config_py:
             config_py_lines = ['c.colors.hints.bg = "red"']
-            if load_autoconfig:
-                config_py_lines.append('config.load_autoconfig()')
+            config_py_lines.append('config.load_autoconfig({})'.format(load_autoconfig))
             if config_py == 'error':
                 config_py_lines.append('c.foo = 42')
             config_py_file.write_text('\n'.join(config_py_lines),
@@ -310,6 +312,7 @@ class TestLateInit:
         elif method == 'py':
             config_py_file = config_tmpdir / 'config.py'
             lines = ["c.{} = '{}'".format(k, v) for k, v in settings]
+            lines.append("config.load_autoconfig(False)")
             config_py_file.write_text('\n'.join(lines), 'utf-8', ensure=True)
 
         configinit.early_init(args)
@@ -388,6 +391,6 @@ def test_get_backend(monkeypatch, args, config_stub,
 
     args.backend = arg
     config_stub.val.backend = confval
-    monkeypatch.setattr('builtins.__import__', fake_import)
+    monkeypatch.setattr(builtins, '__import__', fake_import)
 
     assert configinit.get_backend(args) == used

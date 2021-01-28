@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,12 +15,12 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Functions that return miscellaneous completion models."""
 
 import datetime
-import typing
+from typing import List, Sequence, Tuple
 
 from qutebrowser.config import config, configdata
 from qutebrowser.utils import objreg, log, utils
@@ -53,7 +53,7 @@ def helptopic(*, info):
 
 def quickmark(*, info=None):
     """A CompletionModel filled with all quickmarks."""
-    def delete(data: typing.Sequence[str]) -> None:
+    def delete(data: Sequence[str]) -> None:
         """Delete a quickmark from the completion menu."""
         name = data[0]
         quickmark_manager = objreg.get('quickmark-manager')
@@ -71,7 +71,7 @@ def quickmark(*, info=None):
 
 def bookmark(*, info=None):
     """A CompletionModel filled with all bookmarks."""
-    def delete(data: typing.Sequence[str]) -> None:
+    def delete(data: Sequence[str]) -> None:
         """Delete a bookmark from the completion menu."""
         urlstr = data[0]
         log.completion.debug('Deleting bookmark {}'.format(urlstr))
@@ -102,26 +102,26 @@ def session(*, info=None):
     return model
 
 
-def _buffer(*, win_id_filter=lambda _win_id: True, add_win_id=True):
-    """Helper to get the completion model for buffer/other_buffer.
+def _tabs(*, win_id_filter=lambda _win_id: True, add_win_id=True):
+    """Helper to get the completion model for tabs/other_tabs.
 
     Args:
         win_id_filter: A filter function for window IDs to include.
                        Should return True for all included windows.
         add_win_id: Whether to add the window ID to the completion items.
     """
-    def delete_buffer(data):
+    def delete_tab(data):
         """Close the selected tab."""
         win_id, tab_index = data[0].split('/')
         tabbed_browser = objreg.get('tabbed-browser', scope='window',
                                     window=int(win_id))
         tabbed_browser.on_tab_close_requested(int(tab_index) - 1)
 
-    model = completionmodel.CompletionModel(column_widths=(6, 40, 54))
+    model = completionmodel.CompletionModel(column_widths=(6, 40, 46, 8))
 
     tabs_are_windows = config.val.tabs.tabs_are_windows
     # list storing all single-tabbed windows when tabs_are_windows
-    windows = []  # type: typing.List[typing.Tuple[str, str, str]]
+    windows: List[Tuple[str, str, str, str]] = []
 
     for win_id in objreg.window_registry:
         if not win_id_filter(win_id):
@@ -131,52 +131,58 @@ def _buffer(*, win_id_filter=lambda _win_id: True, add_win_id=True):
                                     window=win_id)
         if tabbed_browser.is_shutting_down:
             continue
-        tabs = []  # type: typing.List[typing.Tuple[str, str, str]]
+        tab_entries: List[Tuple[str, str, str, str]] = []
         for idx in range(tabbed_browser.widget.count()):
             tab = tabbed_browser.widget.widget(idx)
             tab_str = ("{}/{}".format(win_id, idx + 1) if add_win_id
                        else str(idx + 1))
-            tabs.append((tab_str,
-                         tab.url().toDisplayString(),
-                         tabbed_browser.widget.page_title(idx)))
+
+            pid = tab.renderer_process_pid()
+
+            tab_entries.append((
+                tab_str,
+                tab.url().toDisplayString(),
+                tabbed_browser.widget.page_title(idx),
+                "" if pid is None else f"PID {pid}",
+            ))
 
         if tabs_are_windows:
-            windows += tabs
+            windows += tab_entries
         else:
             title = str(win_id) if add_win_id else "Tabs"
             cat = listcategory.ListCategory(
-                title, tabs, delete_func=delete_buffer, sort=False)
+                title, tab_entries, delete_func=delete_tab, sort=False)
             model.add_category(cat)
 
     if tabs_are_windows:
         win = listcategory.ListCategory(
-            "Windows", windows, delete_func=delete_buffer, sort=False)
+            "Windows", windows, delete_func=delete_tab, sort=False)
         model.add_category(win)
 
     return model
 
 
-def buffer(*, info=None):
+def tabs(*, info=None):
     """A model to complete on open tabs across all windows.
 
-    Used for switching the buffer command.
+    Used for the tab-select command (and others).
     """
     utils.unused(info)
-    return _buffer()
+    return _tabs()
 
 
-def other_buffer(*, info):
+def other_tabs(*, info):
     """A model to complete on open tabs across all windows except the current.
 
     Used for the tab-take command.
     """
-    return _buffer(win_id_filter=lambda win_id: win_id != info.win_id)
+    return _tabs(win_id_filter=lambda win_id: win_id != info.win_id)
 
 
 def tab_focus(*, info):
     """A model to complete on open tabs in the current window."""
-    model = _buffer(win_id_filter=lambda win_id: win_id == info.win_id,
-                    add_win_id=False)
+    model = _tabs(win_id_filter=lambda win_id: win_id == info.win_id,
+                  add_win_id=False)
 
     special = [
         ("last", "Focus the last-focused tab"),
@@ -293,6 +299,6 @@ def undo(*, info):
         enumerate(reversed(tabbed_browser.undo_stack), start=1)
     ]
 
-    cat = listcategory.ListCategory("Closed tabs", entries)
+    cat = listcategory.ListCategory("Closed tabs", entries, sort=False)
     model.add_category(cat)
     return model

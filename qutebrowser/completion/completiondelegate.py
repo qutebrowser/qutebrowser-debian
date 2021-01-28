@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2014-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,7 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Completion item delegate for CompletionView.
 
@@ -47,6 +47,7 @@ class _Highlighter(QSyntaxHighlighter):
         self._expression = QRegularExpression(
             pat, QRegularExpression.CaseInsensitiveOption
         )
+        qtutils.ensure_valid(self._expression)
 
     def highlightBlock(self, text):
         """Override highlightBlock for custom highlighting."""

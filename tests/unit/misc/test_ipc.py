@@ -1,6 +1,6 @@
 # vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
 
-# Copyright 2015-2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# Copyright 2015-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # This file is part of qutebrowser.
 #
@@ -15,7 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <http://www.gnu.org/licenses/>.
+# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
 
 """Tests for qutebrowser.misc.ipc."""
 
@@ -25,9 +25,10 @@ import getpass
 import logging
 import json
 import hashlib
+import dataclasses
 from unittest import mock
+from typing import Optional, List
 
-import attr
 import pytest
 from PyQt5.QtCore import pyqtSignal, QObject
 from PyQt5.QtNetwork import QLocalServer, QLocalSocket, QAbstractSocket
@@ -616,13 +617,13 @@ def test_ipcserver_socket_none_error(ipc_server, caplog):
 
 class TestSendOrListen:
 
-    @attr.s
+    @dataclasses.dataclass
     class Args:
 
-        no_err_windows = attr.ib()
-        basedir = attr.ib()
-        command = attr.ib()
-        target = attr.ib()
+        no_err_windows: bool
+        basedir: str
+        command: List[str]
+        target: Optional[str]
 
     @pytest.fixture
     def args(self):
@@ -767,7 +768,7 @@ def test_long_username(monkeypatch):
     """See https://github.com/qutebrowser/qutebrowser/issues/888."""
     username = 'alexandercogneau'
     basedir = '/this_is_a_long_basedir'
-    monkeypatch.setattr('getpass.getuser', lambda: username)
+    monkeypatch.setattr(getpass, 'getuser', lambda: username)
     name = ipc._get_socketname(basedir=basedir)
     server = ipc.IPCServer(name)
     expected_md5 = md5('{}-{}'.format(username, basedir))
