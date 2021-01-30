@@ -1,0 +1,33 @@
+From 9e8a5c157fe65ba2567fe540d911bbc4870b0552 Mon Sep 17 00:00:00 2001
+From: Florian Bruhin <me@the-compiler.org>
+Date: Fri, 29 Jan 2021 10:22:09 +0100
+Subject: [PATCH] Fix crash when right-clicking download view
+
+This is a regression introduced in
+68b81511e5a0228cd37b2907065fd6d96aa7876f.
+
+See #1078
+Fixes #6087
+
+(cherry picked from commit d832ce5f8de04ba94eb11738619a384c796ad300)
+---
+ qutebrowser/browser/downloadview.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/qutebrowser/browser/downloadview.py b/qutebrowser/browser/downloadview.py
+index 7d1ec38481..69c58741a7 100644
+--- a/qutebrowser/browser/downloadview.py
++++ b/qutebrowser/browser/downloadview.py
+@@ -140,8 +140,10 @@ def _get_menu_actions(
+             actions.append(("Remove", item.remove))
+         else:
+             actions.append(("Cancel", item.cancel))
+-        actions.append(("Copy URL", functools.partial(
+-            utils.set_clipboard, item.url().toDisplayString())))
++
++        if item is not None:
++            actions.append(("Copy URL", functools.partial(
++                utils.set_clipboard, item.url().toDisplayString())))
+         if model.can_clear():
+             actions.append((None, None))
+             actions.append(("Remove all finished", model.download_clear))
