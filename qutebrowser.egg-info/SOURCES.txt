@@ -623,6 +623,7 @@ tests/unit/test_qutebrowser.py
 tests/unit/api/test_cmdutils.py
 tests/unit/browser/test_caret.py
 tests/unit/browser/test_downloads.py
+tests/unit/browser/test_downloadview.py
 tests/unit/browser/test_hints.py
 tests/unit/browser/test_history.py
 tests/unit/browser/test_inspector.py
