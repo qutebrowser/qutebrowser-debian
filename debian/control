@@ -24,20 +24,18 @@ Architecture: all
 Depends: libqt5core5a (>= 5.12),
          libqt5sql5-sqlite,
          python3 (>= 3.7),
-         python3-pkg-resources,
          python3-pyqt5,
          python3-pyqt5.qtopengl,
          python3-pyqt5.qtquick,
          python3-pyqt5.qtsql,
-         python3-ruamel.yaml,
+         python3-yaml,
          python3-sip,
-         python3-importlib-resources | python3.9,
+         python3-importlib-resources | python3 (>= 3.9),
          qutebrowser-qtwebengine | qutebrowser-qtwebkit,
          ${misc:Depends},
          ${python3:Depends}
 Suggests: libjs-pdf,
-          nodejs,
-          python3-colorlog
+          nodejs
 Provides: www-browser
 Description: Keyboard-driven, vim-like browser based on PyQt5
  qutebrowser is a keyboard-focused browser with a minimal GUI. It's
@@ -53,6 +51,7 @@ Depends: libqt5webenginecore5 (>= 5.12),
          python3-pyqt5.qtwebengine (>= 5.12),
          qutebrowser (= ${source:Version}),
          ${misc:Depends}
+Suggests: python3-pygments
 Description: QtWebEngine backend dependency package for qutebrowser
  qutebrowser is a keyboard-focused browser with a minimal GUI. It's
  based on Python and PyQt5 and was inspired by other browsers/addons
@@ -63,10 +62,11 @@ Description: QtWebEngine backend dependency package for qutebrowser
 
 Package: qutebrowser-qtwebkit
 Architecture: all
-Depends: python3-pyqt5.qtwebkit (>= 5.7),
+Depends: python3-pyqt5.qtwebkit (>= 5.12),
          libqt5webkit5 (>= 5.212),
          qutebrowser (= ${source:Version}),
          ${misc:Depends}
+Recommends: python3-pygments
 Description: QtWebKit backend dependency package for qutebrowser
  qutebrowser is a keyboard-focused browser with a minimal GUI. It's
  based on Python and PyQt5 and was inspired by other browsers/addons

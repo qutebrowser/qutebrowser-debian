@@ -2,6 +2,14 @@ qutebrowser (2.0.2-1) UNRELEASED; urgency=medium
 
   * New upstream bugfix release.
     + Drop cherry-picked patch.
+  * Finetune package dependencies according to upstream:
+    + Drop dependency on python3-pkg-resources, no more needed.
+    + Replace derivative python3-ruamel.yaml with standard python3-yaml.
+    + Replace "| python3.9" with "| python3 (>= 3.9)" to be future-proof.
+    + Drop suggestion on python3-colorlog.
+    + Recommend python3-pygments in qutebrowser-qtwebkit (for syntax
+      highlighting of website source code) and suggest it for
+      qutebrowser-qtwebengine (for alternative syntax highlighting).
 
  -- Axel Beckert <abe@debian.org>  Fri, 05 Feb 2021 00:48:34 +0100
 
