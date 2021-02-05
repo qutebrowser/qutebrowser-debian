@@ -10,6 +10,8 @@ qutebrowser (2.0.2-1) UNRELEASED; urgency=medium
     + Recommend python3-pygments in qutebrowser-qtwebkit (for syntax
       highlighting of website source code) and suggest it for
       qutebrowser-qtwebengine (for alternative syntax highlighting).
+  * Recommend ca-certificates in qutebrowser-qtwebkit as HTTPS isn't
+    usable in the WebKit backend without ca-certificates.
 
  -- Axel Beckert <abe@debian.org>  Fri, 05 Feb 2021 00:48:34 +0100
 
