@@ -1,4 +1,4 @@
-qutebrowser (2.0.2-1) UNRELEASED; urgency=medium
+qutebrowser (2.0.2-1) unstable; urgency=medium
 
   * New upstream bugfix release.
     + Drop cherry-picked patch.
@@ -13,7 +13,7 @@ qutebrowser (2.0.2-1) UNRELEASED; urgency=medium
   * Recommend ca-certificates in qutebrowser-qtwebkit as HTTPS isn't
     usable in the WebKit backend without ca-certificates.
 
- -- Axel Beckert <abe@debian.org>  Fri, 05 Feb 2021 00:48:34 +0100
+ -- Axel Beckert <abe@debian.org>  Fri, 05 Feb 2021 04:27:06 +0100
 
 qutebrowser (2.0.1-3) unstable; urgency=medium
 
