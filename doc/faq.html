@@ -1,0 +1,1586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 9.1.0" />
+<title>Frequently asked questions</title>
+<style type="text/css">
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+.monospaced, code, pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: inherit;
+  color: navy;
+  padding: 0;
+  margin: 0;
+}
+pre {
+  white-space: pre-wrap;
+}
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #888;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; vertical-align: text-bottom; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overridden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install();
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>Frequently asked questions</h1>
+<span id="author">The Compiler</span><br />
+<span id="email"><code>&lt;<a href="mailto:mail@qutebrowser.org">mail@qutebrowser.org</a>&gt;</code></span><br />
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="qlist qanda"><ol>
+<li>
+<p><em>
+What is qutebrowser based on?
+</em></p>
+<p>
+    qutebrowser uses <a href="https://www.python.org/">Python</a>, <a href="https://www.qt.io/">Qt</a> and
+    <a href="https://www.riverbankcomputing.com/software/pyqt/intro">PyQt</a>.
+</p>
+<div class="paragraph"><p>The concept of it is largely inspired by <a href="https://bitbucket.org/portix/dwb/">dwb</a>
+and <a href="http://www.vimperator.org/vimperator">Vimperator</a>. Many actions and
+key bindings are similar to dwb.</p></div>
+</li>
+<li>
+<p><em>
+Why another browser?
+</em></p>
+<p>
+    It might be hard to believe, but I didn&#8217;t find any browser which I was
+    happy with, so I started to write my own. Also, I needed a project to get
+    into writing GUI applications with Python and
+    <a href="https://www.qt.io/">Qt</a>/<a href="https://www.riverbankcomputing.com/software/pyqt/intro">PyQt</a>.
+</p>
+<div class="paragraph"><p>Read the next few questions to find out why I was unhappy with existing
+software.</p></div>
+</li>
+<li>
+<p><em>
+What&#8217;s wrong with <a href="https://bitbucket.org/portix/dwb/">dwb</a>/<a href="https://sourceforge.net/projects/vimprobable/">vimprobable</a>/<a href="https://luakit.github.io/">luakit</a>/jumanji/&#8230; (projects based on WebKitGTK)?
+</em></p>
+<p>
+    Most of them are based on the <a href="https://webkitgtk.org/">WebKitGTK+</a>
+    <a href="https://webkitgtk.org/reference/webkitgtk/stable/index.html">WebKit1</a> API,
+    which causes a lot of crashes. As the GTK API using WebKit1 is
+    <a href="https://lists.webkit.org/pipermail/webkit-gtk/2014-March/001821.html">deprecated</a>,
+    these bugs are never going to be fixed.
+</p>
+<div class="paragraph"><p>When qutebrowser was created, the newer
+<a href="https://webkitgtk.org/reference/webkit2gtk/stable/index.html">WebKit2 API</a> lacked
+basic features like proxy support, and almost no projects have started porting
+to WebKit2. In the meantime, this situation has improved a bit, but there are
+still only a few projects which have some kind of WebKit2 support (see the
+<a href="https://github.com/qutebrowser/qutebrowser#similar-projects">list of
+alternatives</a>).</p></div>
+<div class="paragraph"><p>qutebrowser uses <a href="https://www.qt.io/">Qt</a> and
+<a href="https://wiki.qt.io/QtWebEngine">QtWebEngine</a> by default (and supports
+<a href="https://wiki.qt.io/QtWebKit">QtWebKit</a> optionally). QtWebEngine is based on
+Google&#8217;s <a href="https://www.chromium.org/Home">Chromium</a>. With an up-to-date Qt, it has
+much more man-power behind it than WebKitGTK+ has, and thus supports more modern
+web features - it&#8217;s also arguably more secure.</p></div>
+</li>
+<li>
+<p><em>
+What&#8217;s the difference to Firefox/Chromium addons like <a href="https://github.com/tridactyl/tridactyl">Tridactyl</a> or <a href="https://vimium.github.io/">Vimium</a>?
+</em></p>
+<p>
+    The WebExtensions API doesn&#8217;t seem to allow much freedom for plugin
+    writers, which results in Vimium/Tridactyl not really having all the
+    features you&#8217;d expect from a proper minimal, vim-like browser. Due to the
+    same reason, those addons are quite inconsistent - on some pages, they
+    can&#8217;t run and intercept keyboard inputs correctly. Tridactyl gets around
+    those limitations with various measures (such as a native messenger written
+    in Python doing some work which can&#8217;t be done from the addon directly), but
+    there&#8217;s only so much that can be done.
+</p>
+</li>
+<li>
+<p><em>
+Why Python?
+</em></p>
+<p>
+    I enjoy writing Python since 2011, which made it one of the possible
+    choices. I wanted to use <a href="https://www.qt.io/">Qt</a> because of
+    <a href="https://wiki.qt.io/QtWebKit">QtWebKit</a> so I didn&#8217;t have
+    <a href="https://wiki.qt.io/Category:LanguageBindings">many other choices</a>. At that
+    point, I wasn&#8217;t comfortable with C++ so that wasn&#8217;t an alternative.
+</p>
+</li>
+<li>
+<p><em>
+But isn&#8217;t Python too slow for a browser?
+</em></p>
+<p>
+    <a href="https://www.infoworld.com/d/application-development/van-rossum-python-not-too-slow-188715">It&#8217;s generally less of a problem than one would expect.</a>
+    Most of the heavy lifting of qutebrowser is done by Qt and
+    QtWebKit/QtWebEngine in C++, with the
+    <a href="https://wiki.python.org/moin/GlobalInterpreterLock">GIL</a> released.
+</p>
+<div class="paragraph"><p>It can be problematic in some areas, but various performance optimizations have
+been carried out to problematic portions of the code.</p></div>
+</li>
+<li>
+<p><em>
+Is qutebrowser secure?
+</em></p>
+<p>
+    Most security issues are in the backend (which handles networking,
+    rendering, JavaScript, etc.) and not qutebrowser itself.
+</p>
+<div class="paragraph"><p>qutebrowser uses <a href="https://wiki.qt.io/QtWebEngine">QtWebEngine</a> by default.
+QtWebEngine is based on Google&#8217;s <a href="https://www.chromium.org/Home">Chromium</a>. While
+Qt only updates to a new Chromium release on every minor Qt release (all ~6
+months), every patch release backports security fixes from newer Chromium
+versions. In other words: As long as you&#8217;re using an up-to-date Qt, you should
+be receiving security updates on a regular basis, without qutebrowser having to
+do anything. Chromium&#8217;s process isolation and
+<a href="https://chromium.googlesource.com/chromium/src/+/master/docs/design/sandbox.md">sandboxing</a>
+features are also enabled as a second line of defense.</p></div>
+<div class="paragraph"><p><a href="https://wiki.qt.io/QtWebKit">QtWebKit</a> is also supported as an alternative
+backend, but hasn&#8217;t seen new releases
+<a href="https://github.com/annulen/webkit/releases">in a while</a>. It also doesn&#8217;t have any
+process isolation or sandboxing. See
+<a href="https://github.com/qutebrowser/qutebrowser/issues/4039">#4039</a> for more details.</p></div>
+<div class="paragraph"><p>Security issues in qutebrowser&#8217;s code happen very rarely (as per September 2019,
+there have been three security issues caused by qutebrowser in almost 6 years).
+Those were handled appropriately
+(<a href="https://seclists.org/oss-sec/2018/q3/29">example</a>) and fixed timely. To report
+security bugs, please contact me directly at <a href="mailto:mail@qutebrowser.org">mail@qutebrowser.org</a>, GPG ID
+<a href="https://www.the-compiler.org/pubkey.asc">0x916eb0c8fd55a072</a>.</p></div>
+</li>
+<li>
+<p><em>
+Is there an ad blocker?
+</em></p>
+<p>
+    Since version 2.0.0, if the
+    <a href="https://pypi.org/project/adblock/">Python <code>adblock</code> library</a> is available,
+    it will be used to integrate
+    <a href="https://github.com/brave/adblock-rust">Brave&#8217;s Rust adblocker library</a>
+    for improved adblocking, based on
+    <a href="https://help.eyeo.com/en/adblockplus/how-to-write-filters">ABP-like filter lists</a>
+    (such as <a href="https://easylist.to/">EasyList</a>).
+    If that library is unavailable or on older versions of qutebrowser, a
+    simpler built-in ad blocker is used instead. It takes <code>/etc/hosts</code>-like lists
+    and thus is only able to block entire hosts.
+</p>
+<div class="paragraph"><p>Note that even the more sophisticated blocker
+<a href="https://github.com/qutebrowser/qutebrowser/issues/5754">does not support element hiding</a>
+(cosmetic filtering) yet, it only blocks network requests.</p></div>
+</li>
+<li>
+<p><em>
+How can I get No-Script-like behavior?
+</em></p>
+<p>
+    To disable JavaScript by default:
+</p>
+<div class="listingblock">
+<div class="content">
+<pre><code>:set content.javascript.enabled false</code></pre>
+</div></div>
+<div class="paragraph"><p>The basic keybinding for enabling JavaScript for the current host is <code>tsh</code>.
+This will allow JavaScript execution for the current session.
+Use <code>S</code> instead of <code>s</code> to make the exception permanent.
+With <code>H</code> instead of <code>h</code>, subdomains are included.
+With <code>u</code> instead of <code>h</code>, JavaScript is allowed for the current URL only (not the whole host).</p></div>
+<div class="paragraph"><p>The list of domains that have been permanently granted permission to execute
+JavaScript will be written to <code>autoconfig.yml</code>.</p></div>
+</li>
+<li>
+<p><em>
+How do I play Youtube videos with mpv?
+</em></p>
+<p>
+    You can easily add a key binding to play youtube videos inside a real video
+    player - optionally even with hinting for links:
+</p>
+<div class="listingblock">
+<div class="content">
+<pre><code>:bind ,m spawn mpv {url}
+:bind ,M hint links spawn mpv {hint-url}</code></pre>
+</div></div>
+<div class="paragraph"><p>The comma prefix is used to make sure user-defined bindings don&#8217;t conflict with
+the built-in ones.</p></div>
+<div class="paragraph"><p>Note that you might need an additional package (e.g.
+<a href="https://www.archlinux.org/packages/community/any/youtube-dl/">youtube-dl</a> on
+Archlinux) to play web videos with mpv.</p></div>
+<div class="paragraph"><p>There is a very useful script for mpv, which emulates "unique application"
+functionality. This way you can add links to the mpv playlist instead of
+playing them all at once.</p></div>
+<div class="paragraph"><p>You can find the script here: <a href="https://github.com/mpv-player/mpv/blob/master/TOOLS/umpv">https://github.com/mpv-player/mpv/blob/master/TOOLS/umpv</a></p></div>
+<div class="paragraph"><p>It also works nicely with rapid hints:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>:bind ,m spawn umpv {url}
+:bind ,M hint links spawn umpv {hint-url}
+:bind ;M hint --rapid links spawn umpv {hint-url}</code></pre>
+</div></div>
+</li>
+<li>
+<p><em>
+How do I use qutebrowser with mutt?
+</em></p>
+<p>
+    For security reasons, local files without <code>.html</code> extensions aren&#8217;t
+    rendered as HTML, see
+    <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=777737">this Chromium issue</a>
+    for details. You can do this in your <code>mailcap</code> file to get a proper
+    extension:
+</p>
+<div class="listingblock">
+<div class="content">
+<pre><code>    text/html; qutebrowser %s; needsterminal; nametemplate=%s.html</code></pre>
+</div></div>
+</li>
+<li>
+<p><em>
+What is the difference between bookmarks and quickmarks?
+</em></p>
+<p>
+    Bookmarks will always use the title of the website as their name, but with quickmarks
+    you can set your own title.
+</p>
+<div class="paragraph"><p>For example, if you bookmark multiple food recipe websites and use <code>:open</code>,
+you have to type the title or address of the website.</p></div>
+<div class="paragraph"><p>When using quickmark, you can give them all names, like
+<code>foodrecipes1</code>, <code>foodrecipes2</code> and so on. When you type
+<code>:open foodrecipes</code>, you will see a list of all the food recipe sites,
+without having to remember the exact website title or address.</p></div>
+</li>
+<li>
+<p><em>
+How do I use spell checking?
+</em></p>
+<p>
+        Configuring spell checking in qutebrowser depends on the backend in use
+    (see <a href="https://github.com/qutebrowser/qutebrowser/issues/700">#700</a> for
+        a more detailed discussion).
+</p>
+<div class="paragraph"><p>For QtWebKit:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Install <a href="https://github.com/QupZilla/qtwebkit-plugins">qtwebkit-plugins</a>.
+</p>
+</li>
+<li>
+<p>
+Note: with QtWebKit reloaded you may experience some issues. See
+    <a href="https://github.com/QupZilla/qtwebkit-plugins/issues/10">#10</a>.
+</p>
+</li>
+<li>
+<p>
+The dictionary to use is taken from the <code>DICTIONARY</code> environment variable.
+  The default is <code>en_US</code>. For example to use Dutch spell check set <code>DICTIONARY</code>
+  to <code>nl_NL</code>; you can&#8217;t use multiple dictionaries or change them at runtime at
+  the moment.
+  (also see the README file for <code>qtwebkit-plugins</code>).
+</p>
+</li>
+<li>
+<p>
+Remember to install the hunspell dictionaries if you don&#8217;t have them already
+  (most distros should have packages for this).
+</p>
+<div class="paragraph"><p>For QtWebEngine:</p></div>
+</li>
+<li>
+<p>
+Use <code>dictcli.py</code> script to install dictionaries.
+  Run the script with <code>-h</code> for the parameter description.
+</p>
+</li>
+<li>
+<p>
+Set <code>spellcheck.languages</code> to the desired list of languages, e.g.:
+  <code>:set spellcheck.languages "['en-US', 'pl-PL']"</code>
+</p>
+</li>
+</ol></div>
+</li>
+<li>
+<p><em>
+How do I use Tor with qutebrowser?
+</em></p>
+<p>
+    Start tor on your machine, and do <code>:set content.proxy socks://localhost:9050/</code>
+    in qutebrowser. Note this won&#8217;t give you the same amount of fingerprinting
+    protection that the Tor Browser does, but it&#8217;s useful to be able to access
+    <code>.onion</code> sites.
+</p>
+</li>
+<li>
+<p><em>
+Why does J move to the next (right) tab, and K to the previous (left) one?
+</em></p>
+<p>
+    One reason is because <a href="https://bitbucket.org/portix/dwb">dwb</a> did it that way,
+    and qutebrowser&#8217;s keybindings are designed to be compatible with dwb&#8217;s.
+    The rationale behind it is that J is "down" in vim, and K is "up", which
+    corresponds nicely to "next"/"previous". It also makes much more sense with
+    vertical tabs (e.g. <code>:set tabs.position left</code>). If you prefer swapped
+    bindings, you can run <code>:bind J tab-prev</code> and <code>:bind K tab-next</code> to swap
+    them.
+</p>
+</li>
+<li>
+<p><em>
+What&#8217;s the difference between insert and passthrough mode?
+</em></p>
+<p>
+    They are quite similar, but insert mode has some bindings (like <code>Ctrl-e</code> to
+    open an editor) while passthrough mode only has shift+escape bound. This is
+    because shift+escape is unlikely to be a useful binding to be passed to a
+    webpage. However, any other keys may be assigned to leaving passthrough mode
+    instead of shift+escape should this be desired.
+</p>
+</li>
+<li>
+<p><em>
+Why does it take longer to open a URL in qutebrowser than in chromium?
+</em></p>
+<p>
+    When opening a URL in an existing instance, the normal qutebrowser
+    Python script is started and a few PyQt libraries need to be
+    loaded until it is detected that there is an instance running
+    to which the URL is then passed. This takes some time.
+    One workaround is to use this
+    <a href="https://github.com/qutebrowser/qutebrowser/blob/master/scripts/open_url_in_instance.sh">script</a>
+    and place it in your $PATH with the name "qutebrowser". This
+    script passes the URL via a unix socket to qutebrowser (if its
+    running already) using socat which is much faster and starts a new
+    qutebrowser if it is not running already.
+</p>
+</li>
+<li>
+<p><em>
+How do I make qutebrowser use greasemonkey scripts?
+</em></p>
+<p>
+    There is currently no UI elements to handle managing greasemonkey scripts.
+    All management of what scripts are installed or disabled is done in the
+    filesystem by you. qutebrowser reads all files that have an extension of
+    <code>.js</code> from the <code>&lt;data&gt;/greasemonkey/</code> folder and attempts to load them.
+    Where <code>&lt;data&gt;</code> is the qutebrowser data directory shown in the <code>Paths</code>
+    section of the page displayed by <code>:version</code>. If you want to disable a
+    script just rename it, for example, to have <code>.disabled</code> on the end, after
+    the <code>.js</code> extension. To reload scripts from that directory run the command
+    <code>:greasemonkey-reload</code>.
+</p>
+<div class="paragraph"><p>Troubleshooting: to check that your script is being loaded when
+<code>:greasemonkey-reload</code> runs you can start qutebrowser with the arguments
+<code>--debug --logfilter greasemonkey,js</code> and check the messages on the
+program&#8217;s standard output for errors parsing or loading your script.
+You may also see javascript errors if your script is expecting an environment
+that we fail to provide.</p></div>
+<div class="paragraph"><p>Note that there are some missing features which you may run into:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Some scripts expect <code>GM_xmlhttpRequest</code> to ignore Cross Origin Resource
+  Sharing restrictions, this is currently not supported, so scripts making
+  requests to third party sites will often fail to function correctly.
+</p>
+</li>
+<li>
+<p>
+Any greasemonkey API function to do with adding UI elements is not currently
+  supported. That means context menu extentensions and background pages.
+</p>
+</li>
+</ol></div>
+</li>
+<li>
+<p><em>
+How do I change the <code>WM_CLASS</code> used by qutebrowser windows?
+</em></p>
+<p>
+    Qt only supports setting <code>WM_CLASS</code> globally, which you can do by starting
+    with <code>--qt-arg name foo</code>. Note that all windows are part of the same
+    qutebrowser instance (unless you use <code>--temp-basedir</code> or <code>--basedir</code>), so
+    they all will share the same <code>WM_CLASS</code>.
+</p>
+</li>
+<li>
+<p><em>
+How do I use X.509 Client Certificates?
+</em></p>
+<p>
+Right now there is no certificate-chooser prompt implemented when there are
+multiple matches. Subscribe to <a href="https://github.com/qutebrowser/qutebrowser/issues/4587">Issue#4587</a>
+for progress notifications.
+</p>
+<div class="paragraph"><p>QtWebEngine will attempt to use certificates stored in <code>${HOME}/.pki/nssdb</code>. If
+you have Chromium installed, you can import the certificate there and
+qutebrowser will pick it up as well. Alternatively, you can use the <code>certutil</code>
+commandline tool:</p></div>
+<div class="paragraph"><p>Assuming you have a CA Certificate and a
+Client Certificate that you want for authenticating yourself on a web
+service that validates against this CA Certificate, you need to perform
+the following steps.</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Import the CA Certificate
+</p>
+<div class="listingblock">
+<div class="content">
+<pre><code>certutil -d "sql:${HOME}/.pki/nssdb" -A -i &lt;path_to_ca_cert.pem&gt; -n "My Fancy CA" -t "TC,C,T"</code></pre>
+</div></div>
+</li>
+<li>
+<p>
+Merge your <code>&lt;cert.crt&gt;</code> and <code>&lt;privkey.pem&gt;</code> files into a single <code>PKCS#12</code>
+certificate file (optional, skip if your Client Certificate already is in
+<code>PKCS#12</code> format)
+</p>
+<div class="listingblock">
+<div class="content">
+<pre><code>openssl pkcs12 -export -in &lt;path_to_client_cert.crt&gt; -inkey &lt;path_to_client_cert_privkey.pem&gt; -out my_fancy_client_cert.pkcs12</code></pre>
+</div></div>
+</li>
+<li>
+<p>
+Import your Client Certificate into the certificate store
+</p>
+<div class="listingblock">
+<div class="content">
+<pre><code>pk12util -d "sql:${HOME}/.pki/nssdb" -i &lt;path_to_my_fancy_client_cert.pkcs12&gt; -n "My Fancy Client Certificate"</code></pre>
+</div></div>
+<div class="paragraph"><p>Upon visiting a website that requests a Client Certificate you should now
+be prompted by qutebrowser whether you want to submit the newly imported
+Client Certificate or not.</p></div>
+<div class="paragraph"><p>If you ever need to renew any of these certificates, you can take a look
+at the currently imported certificates using:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>certutil -d "sql:${HOME}/.pki/nssdb" -L</code></pre>
+</div></div>
+<div class="paragraph"><p>Then remove the expired certificates using:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>certutil -d "sql:${HOME}/.pki/nssdb" -D -n "My Fancy Certificate Nickname"</code></pre>
+</div></div>
+<div class="paragraph"><p>And then import the new and valid certificates using the procedure
+described above.</p></div>
+</li>
+</ol></div>
+</li>
+<li>
+<p><em>
+Is there a dark mode? How can I filter websites to be darker?
+</em></p>
+<p>
+There is a total of four possible approaches to get dark websites:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+The <code>colors.webpage.preferred_color_scheme</code> setting tells websites that you prefer
+  a light or dark theme. However, this requires websites to ship an appropriate dark
+  style sheet. The setting requires a restart and QtWebEngine with at least Qt 5.14.
+</p>
+</li>
+<li>
+<p>
+The <code>colors.webpage.darkmode.*</code> settings enable the dark mode of the underlying
+  Chromium. Those setting require a restart and QtWebEngine with at least Qt 5.14. It&#8217;s
+  unfortunately not possible (due to limitations
+  <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=952419">in Chromium</a> and/or
+  <a href="https://bugreports.qt.io/browse/QTBUG-84484">QtWebEngine</a>) to
+  change them dynamically or to specify a list of excluded websites.
+  There is some remaining hope to
+  <a href="https://github.com/qutebrowser/qutebrowser/issues/5542">allow for this</a>
+  using HTML/CSS features, but so far nobody has been able to get things to
+  work (even with Chromium) - help welcome!
+</p>
+</li>
+<li>
+<p>
+The <code>content.user_stylesheets</code> setting allows specifying a custom CSS such as
+  <a href="https://github.com/alphapapa/solarized-everything-css/">Solarized Everything</a>. Despite
+  the name, the repository also offers themes other than just Solarized. This approach
+  often yields worse results compared to the above ones, but it&#8217;s possible to toggle it
+  dynamically using a binding like <code>:bind ,d config-cycle content.user_stylesheets
+  ~/path/to/solarized-everything-css/css/gruvbox/gruvbox-all-sites.css ""</code>
+</p>
+</li>
+<li>
+<p>
+Finally, qutebrowser&#8217;s Greasemonkey support should allow for running a
+  <a href="https://github.com/darkreader/darkreader/issues/926#issuecomment-575893299">stripped down version</a>
+  of the Dark Reader extension. This is mostly untested, though.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p><em>
+How do I make copy to clipboard buttons work?
+</em></p>
+<p>
+You can <code>:set content.javascript.can_access_clipboard true</code>, or
+<code>:set -u some.domain content.javascript.can_access_clipboard true</code> if you want to limit
+the setting to <code>some.domain</code>.
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_troubleshooting">Troubleshooting</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Unable to view Flash content.
+</dt>
+<dd>
+<p>
+    If you have Flash installed for on your system, it&#8217;s necessary to enable plugins
+    to use the flash plugin. Using the command <code>:set content.plugins true</code>
+    in qutebrowser will enable plugins. Packages for Flash should
+    be provided for your platform or it can be obtained from
+    <a href="https://get.adobe.com/flashplayer/">Adobe</a>. Note that QtWebEngine needs
+    PPAPI Flash, while QtWebKit needs NPAPI Flash.
+</p>
+</dd>
+<dt class="hdlist1">
+Unable to view DRM content (Netflix, Spotify, etc.).
+</dt>
+<dd>
+<p>
+    On Arch Linux, simply install <code>chromium-widevine</code> from the AUR.
+</p>
+<div class="paragraph"><p>For other distributions, it should be possible to obtain the needed
+widevine files and store them in the correct places, but the details differ
+wildly between various Qt versions.</p></div>
+</dd>
+<dt class="hdlist1">
+Unable to use <code>spawn</code> on MacOS.
+</dt>
+<dd>
+<p>
+    When running qutebrowser from the prebuilt binary (<code>qutebrowser.app</code>) it
+    <strong>will not</strong> read any files that would alter your <code>$PATH</code> (e.g. <code>.profile</code>,
+    <code>.bashrc</code>, etc). This is not a bug, just that <code>.profile</code> is not propagated
+    to GUI applications in MacOS.
+</p>
+<div class="paragraph"><p>See <a href="https://github.com/qutebrowser/qutebrowser/issues/4273">Issue #4273</a> for
+details and potential workarounds.</p></div>
+</dd>
+<dt class="hdlist1">
+QtWebKit: Experiencing freezing on sites like DuckDuckGo and YouTube.
+</dt>
+<dd>
+<p>
+    This issue could be caused by stale plugin files installed by <code>mozplugger</code>
+    if mozplugger was subsequently removed.
+    Try exiting qutebrowser and removing <code>~/.mozilla/plugins/mozplugger*.so</code>.
+    See <a href="https://github.com/qutebrowser/qutebrowser/issues/357">Issue #357</a>
+    for more details.
+</p>
+</dd>
+<dt class="hdlist1">
+My issue is not listed.
+</dt>
+<dd>
+<p>
+    If you experience any segfaults or crashes, you can report the issue in
+    <a href="https://github.com/qutebrowser/qutebrowser/issues">the issue tracker</a> or
+    using the <code>:report</code> command.
+    If you are reporting a segfault, make sure you read the
+    <a href="stacktrace.html">guide</a> on how to report them with all needed
+    information.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sponsors">GitHub Sponsors FAQ</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Using <a href="https://github.com/sponsors/The-Compiler">GitHub Sponsors</a>, you can sign
+up for a monthly donation to The-Compiler (qutebrowser&#8217;s main developer),
+allowing him to work part-time on qutebrowser. If you keep your donation level
+for long enough, you can get some qutebrowser stickers!</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Why GitHub Sponsors?
+</dt>
+<dd>
+<p>
+    GitHub Sponsors is a crowdfundign platform nicely integrated with
+    qutebrowser&#8217;s existing GitHub page and a better offering than alternatives such
+    as Patreon or Liberapay.
+</p>
+<div class="paragraph"><p>It also offers a
+<a href="https://help.github.com/en/github/supporting-the-open-source-community-with-github-sponsors/about-github-sponsors#about-the-github-sponsors-matching-fund">Matching Fund</a>
+which matches all donations until a cap of $5000, which has already been
+reached by qutebrowser.</p></div>
+</dd>
+<dt class="hdlist1">
+Is it possible to contribute via a one-time donation instead?
+</dt>
+<dd>
+<p>
+   If you prefer a one-time donation, there are various possibilities:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Select a tier which covers the total amount you&#8217;d like to donate (note that
+  payments are prorated based on the current date). After the payment is
+  processed, cancel your GitHub sponsors subscription again. This has a big
+  benefit: There are no fees deducted from your amount.
+</p>
+</li>
+<li>
+<p>
+Sign up for a lower recurring donation instead.
+</p>
+</li>
+<li>
+<p>
+Do so via the <a href="https://github.com/qutebrowser/qutebrowser#donating">existing
+  donation methods</a>. Rewards (shirts/stickers/swag) are handled on a
+  case-by-case basis as GitHub&#8217;s matching fund isn&#8217;t applicable and there might
+  be relatively high fees which make this tricky.
+</p>
+</li>
+<li>
+<p>
+If you want to contribute via a one-time donation and want to make sure
+  you&#8217;ll receive a reward, you might want to sign up to the
+  <a href="https://lists.schokokeks.org/mailman/listinfo.cgi/qutebrowser-announce">qutebrowser-announce</a>
+  mailinglist and wait until there is an official way to do so. It&#8217;s planned to
+  set this up at a later date. Note that the thresholds for perks will be
+  higher because those donations aren&#8217;t matched by GitHub and fees are
+  relatively high.
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+I&#8217;d like a certain reward (e.g. a t-shirt) but I&#8217;d prefer making a smaller monthly donation. Can I upgrade via a one-time donation?
+</dt>
+<dd>
+<p>
+    It&#8217;s planned to set up a donation page to allow this at a later date.
+    However, the thresholds for perks will be higher because those donations
+    aren&#8217;t matched by GitHub and fees are relatively high. Note that you can
+    switch tiers on GitHub sponsors at any time.
+</p>
+</dd>
+<dt class="hdlist1">
+GitHub tries to charge me for an entire year. What gives?
+</dt>
+<dd>
+<p>
+    This happens if you have an existing annual billing cycle with GitHub (for
+    example a Pro membership or Marketplace subscription). At the moment,
+    GitHub&#8217;s billing system only supports annual sponsor payments in that case.
+</p>
+</dd>
+<dt class="hdlist1">
+Can I support you without getting any rewards/merchandise?
+</dt>
+<dd>
+<p>
+    Absolutely! Any merchandise is optional. Before sending out merchandise
+    I&#8217;ll distribute forms asking for size/address/etc. - those forms will have
+    an option to not get any merch at all.
+</p>
+</dd>
+<dt class="hdlist1">
+Can I select my own amount rather than using the predefined tiers?
+</dt>
+<dd>
+<p>
+    Unfortunately, GitHub sponsors doesn&#8217;t support this at the moment. The
+    existing tiers should hopefully cover various options. If you disagree,
+    please <a href="mailto:mail@qutebrowser.org">get in touch</a> - I might be able to add a
+    new sponsorship tier.
+</p>
+</dd>
+<dt class="hdlist1">
+When will rewards be shipped?
+</dt>
+<dd>
+<p>
+    Rewards will be ordered and subsequently shipped once it&#8217;s clear how many
+    people are eliglible. The cut-off date for the donation goals is May
+    2020, so rewards will likely be shipped Q2/2020. This also applies to tiers
+    which make you eliglible for a certain perk immediately, though stickers
+    might be shipped earlier depending on how many people this affects.
+</p>
+</dd>
+<dt class="hdlist1">
+I&#8217;d like some stickers, but I can&#8217;t donate anything because of my financial situation.
+</dt>
+<dd>
+<p>
+    Please <a href="mailto:mail@qutebrowser.org">get in touch</a>! As long as this doesn&#8217;t
+    get abused, I&#8217;d happily send stickers for free.
+</p>
+</dd>
+<dt class="hdlist1">
+We&#8217;re a company interested in sponsoring qutebrowser, can you invoice us for the sponsored amount?
+</dt>
+<dd>
+<p>
+    You will receive a confirmation mail including a PDF receipt from GitHub
+    when sponsoring qutebrowser. If you really need an invoice, I can bill
+    you via my company, <a href="https://bruhin.software/">Bruhin Software</a>. Please
+    <a href="mailto:mail@qutebrowser.org">get in touch</a> to discuss details!
+</p>
+</dd>
+<dt class="hdlist1">
+Can you share details on the stickers?
+</dt>
+<dd>
+<p>
+    There are two sticker designs: Rectangular stickers (with text) and round
+    vinyl stickers. Those are the same as during the 2016/2017 crowdfundings.
+</p>
+<div class="paragraph"><p><span class="image">
+<a class="image" href="https://qutebrowser.org/img/sponsors/stickers.jpg">
+<img src="https://qutebrowser.org/img/sponsors/stickers.jpg" alt="stickers" width="300" />
+</a>
+</span></p></div>
+</dd>
+<dt class="hdlist1">
+Can you share details on the swag?
+</dt>
+<dd>
+<p>
+    A limited number of metal buttons and magnets is available:
+</p>
+<div class="paragraph"><p><span class="image">
+<a class="image" href="https://qutebrowser.org/img/sponsors/swag.jpg">
+<img src="https://qutebrowser.org/img/sponsors/swag.jpg" alt="swag" width="300" />
+</a>
+</span></p></div>
+<div class="paragraph"><p>It&#8217;s planned to order more swag, depending on the exact demand. Possibilities
+would include:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+qutebrowser pens (refillable)
+</p>
+</li>
+<li>
+<p>
+notebooks (the paper kind)
+</p>
+</li>
+<li>
+<p>
+USB-sticks (for the "expensive swag" reward).
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Can you share details on the t-shirts?
+</dt>
+<dd>
+<p>
+    The shirts will be
+    <a href="https://www.bc-collection.eu/en/t-shirts/bc-e190-tu03t">B&amp;C #E190</a> shirts
+    which are the successor to the "Exact 190" shirts distributed in the
+    previous crowdfundings: 100% cotton and relatively thick/heavy.
+</p>
+<div class="paragraph"><p>Sizes from XS and 5XL are available, most of them also as a fitted (women) cut.
+Up to 40 colors are available from the supplier - there will be a selection of
+recommended/tested colors, but any available color can be selected on your own
+risk.</p></div>
+<div class="paragraph"><p>The print will be a white silk-screen print, with the same design as in the
+2016 crowdfunding:</p></div>
+<div class="paragraph"><p><span class="image">
+<a class="image" href="https://qutebrowser.org/img/sponsors/shirt.jpg">
+<img src="https://qutebrowser.org/img/sponsors/shirt.jpg" alt="shirt" width="300" />
+</a>
+</span></p></div>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="privacy">Privacy Policy</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Being a mostly volunteer-run project, qutebrowser does not have the resources
+for a full legalese version of a privacy policy. Instead, this overview should
+answer the most common questions.</p></div>
+<div class="paragraph"><p>For any privacy questions, please contact <a href="mailto:privacy@qutebrowser.org">privacy@qutebrowser.org</a>.</p></div>
+<div class="sect2">
+<h3 id="_website">Website</h3>
+<div class="paragraph"><p>The qutebrowser.org website does not use any cookies or trackers. It does not
+store any logs, except in rare situations when those are explicitly (and
+temporarily) enabled to debug website issues. Even if enabled, IP addresses are
+partially redacted in the logs. As soon as debugging is finished, any logs
+are removed.</p></div>
+<div class="paragraph"><p>Note that some services related to qutebrowser are stored on third-party
+services such as GitHub. By using their websites, you&#8217;re subject to their
+privacy policies.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_crash_reports">Crash reports</h3>
+<div class="paragraph"><p>When qutebrowser crashes or you use the <code>:report</code> command, you have the
+possibility to send a crash report. If you decide to do so, your crash report
+is stored on qutebrowser&#8217;s server, where qutebrowser&#8217;s maintainer (Florian Bruhin / The
+Compiler) can access it. Before February 2021, other core qutebrowser developers (a
+maximum of four people total) could access the reports as well (access was restricted
+based on the sensitive nature of those reports, not because of any known issues with
+those individuals).</p></div>
+<div class="paragraph"><p>If you select the option to include a debug log with your report, it&#8217;s possible
+that sensitive information is contained in your report. You can show and edit
+the log in the crash report window to redact any such information as you see
+fit. Additionally, qutebrowser tries to avoid logging information such as
+passwords entirely (by not logging any input going to websites).</p></div>
+<div class="paragraph"><p>Currently, crash reports are stored indefinitely for technical reasons. With a
+<a href="https://github.com/The-Compiler/crashbin/">new tool designed for crash reports</a>,
+it&#8217;ll become possible to delete crashreports after the underlying issue is
+fixed, but that tool needs some more work before qutebrowser can use it.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_application">Application</h3>
+<div class="paragraph"><p>Without any user interaction, qutebrowser can be expected to make no
+unsolicited requests. It does not contain any telemetry code.</p></div>
+<div class="paragraph"><p>The QtWebEngine library (on which qutebrowser is based on) strips out any
+Chromium features which talk to Google servers, so any unsolicited requests
+should be treated as a bug.</p></div>
+<div class="paragraph"><p>While qutebrowser uses DuckDuckGo as the default search page, no advertising
+deal exists between DuckDuckGo and qutebrowser. Note that by visiting
+DuckDuckGo, you&#8217;re subject to their privacy policy.</p></div>
+<div class="paragraph"><p>With regard to websites you visit, qutebrowser tries to strike a balance
+between usability/compatibility and privacy. There are various <code>content.*</code>
+settings which can be used to tweak such behavior, reduce fingerprinting or
+disable various features (usually at a cost of website compatibility).</p></div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+Last updated
+ 2021-03-01 21:11:30 CET
+</div>
+</div>
+</body>
+</html>

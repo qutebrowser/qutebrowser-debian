@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.0.4" />
+<meta name="generator" content="AsciiDoc 9.1.0" />
 <title>Setting reference</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -842,7 +842,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#bindings.key_mappings">bindings.key_mappings</a></p></td>
-<td align="left" valign="top"><p class="table">This setting can be used to map keys to other keys.</p></td>
+<td align="left" valign="top"><p class="table">Map keys to other keys, so that they are equivalent in all modes.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#changelog_after_upgrade">changelog_after_upgrade</a></p></td>
@@ -1261,8 +1261,8 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Threshold for inverting text with dark mode.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#colors.webpage.prefers_color_scheme_dark">colors.webpage.prefers_color_scheme_dark</a></p></td>
-<td align="left" valign="top"><p class="table">Force <code>prefers-color-scheme: dark</code> colors for websites.</p></td>
+<td align="left" valign="top"><p class="table"><a href="#colors.webpage.preferred_color_scheme">colors.webpage.preferred_color_scheme</a></p></td>
+<td align="left" valign="top"><p class="table">Value to use for <code>prefers-color-scheme:</code> for websites.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#completion.cmd_history_max_items">completion.cmd_history_max_items</a></p></td>
@@ -1501,8 +1501,16 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Netrc-file for HTTP authentication.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#content.notifications">content.notifications</a></p></td>
+<td align="left" valign="top"><p class="table"><a href="#content.notifications.enabled">content.notifications.enabled</a></p></td>
 <td align="left" valign="top"><p class="table">Allow websites to show notifications.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content.notifications.presenter">content.notifications.presenter</a></p></td>
+<td align="left" valign="top"><p class="table">What notification presenter to use for web notifications.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content.notifications.show_origin">content.notifications.show_origin</a></p></td>
+<td align="left" valign="top"><p class="table">Whether to show the origin URL for notifications.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.pdfjs">content.pdfjs</a></p></td>
@@ -1537,12 +1545,16 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Allow websites to register protocol handlers via <code>navigator.registerProtocolHandler</code>.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#content.site_specific_quirks">content.site_specific_quirks</a></p></td>
+<td align="left" valign="top"><p class="table"><a href="#content.site_specific_quirks.enabled">content.site_specific_quirks.enabled</a></p></td>
 <td align="left" valign="top"><p class="table">Enable quirks (such as faked user agent headers) needed to get specific sites to work properly.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#content.ssl_strict">content.ssl_strict</a></p></td>
-<td align="left" valign="top"><p class="table">Validate SSL handshakes.</p></td>
+<td align="left" valign="top"><p class="table"><a href="#content.site_specific_quirks.skip">content.site_specific_quirks.skip</a></p></td>
+<td align="left" valign="top"><p class="table">Disable a list of named quirks.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content.tls.certificate_errors">content.tls.certificate_errors</a></p></td>
+<td align="left" valign="top"><p class="table">How to proceed on TLS certificate errors.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.unknown_url_scheme_policy">content.unknown_url_scheme_policy</a></p></td>
@@ -1601,16 +1613,20 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Encoding to use for the editor.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#fileselect.folder.command">fileselect.folder.command</a></p></td>
+<td align="left" valign="top"><p class="table">Command (and arguments) to use for selecting a single folder in forms. The command should write the selected folder path to the specified file or stdout.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#fileselect.handler">fileselect.handler</a></p></td>
 <td align="left" valign="top"><p class="table">Handler for selecting file(s) in forms. If <code>external</code>, then the commands specified by <code>fileselect.single_file.command</code> and <code>fileselect.multiple_files.command</code> are used to select one or multiple files respectively.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#fileselect.multiple_files.command">fileselect.multiple_files.command</a></p></td>
-<td align="left" valign="top"><p class="table">Command (and arguments) to use for selecting multiple files in forms. The command should write the selected file paths to the specified file, separated by newlines.</p></td>
+<td align="left" valign="top"><p class="table">Command (and arguments) to use for selecting multiple files in forms. The command should write the selected file paths to the specified file or to stdout, separated by newlines.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#fileselect.single_file.command">fileselect.single_file.command</a></p></td>
-<td align="left" valign="top"><p class="table">Command (and arguments) to use for selecting a single file in forms. The command should write the selected file path to the specified file.</p></td>
+<td align="left" valign="top"><p class="table">Command (and arguments) to use for selecting a single file in forms. The command should write the selected file path to the specified file or stdout.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#fonts.completion.category">fonts.completion.category</a></p></td>
@@ -1821,6 +1837,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Include hyperlinks in the keyboard focus chain when tabbing.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#input.media_keys">input.media_keys</a></p></td>
+<td align="left" valign="top"><p class="table">Whether the underlying Chromium should handle media keys.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#input.mouse.back_forward_buttons">input.mouse.back_forward_buttons</a></p></td>
 <td align="left" valign="top"><p class="table">Enable back and forward buttons on the mouse.</p></td>
 </tr>
@@ -1907,6 +1927,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#qt.process_model">qt.process_model</a></p></td>
 <td align="left" valign="top"><p class="table">Which Chromium process model to use.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#qt.workarounds.locale">qt.workarounds.locale</a></p></td>
+<td align="left" valign="top"><p class="table">Work around locale parsing issues in QtWebEngine 5.15.3.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#qt.workarounds.remove_service_workers">qt.workarounds.remove_service_workers</a></p></td>
@@ -3099,7 +3123,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>T</code>: <code>tab-focus</code>
+<code>T</code>: <code>set-cmd-text -sr :tab-focus</code>
 </p>
 </li>
 <li>
@@ -3584,6 +3608,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>yM</code>: <code>yank inline [{title}]({url}) -s</code>
 </p>
 </li>
 <li>
@@ -3608,6 +3633,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>ym</code>: <code>yank inline [{title}]({url})</code>
 </p>
 </li>
 <li>
@@ -3839,9 +3865,10 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </div>
 <div class="sect2">
 <h3 id="bindings.key_mappings">bindings.key_mappings</h3>
-<div class="paragraph"><p>This setting can be used to map keys to other keys.
+<div class="paragraph"><p>Map keys to other keys, so that they are equivalent in all modes.
 When the key used as dictionary-key is pressed, the binding for the key used as dictionary-value is invoked instead.
-This is useful for global remappings of keys, for example to map Ctrl-[ to Escape.
+This is useful for global remappings of keys, for example to map &lt;Ctrl-[&gt; to &lt;Escape&gt;.
+NOTE: This should only be used if two keys should always be equivalent, i.e. for things like &lt;Enter&gt; (keypad) and &lt;Return&gt; (non-keypad). For normal command bindings, qutebrowser works differently to vim: You always bind keys to commands, usually via <code>:bind</code> or <code>config.bind()</code>. Instead of using this setting, consider finding the command a key is bound to (e.g. via <code>:bind gg</code>) and then binding the same command to the desired key.
 Note that when a key is bound (via <code>bindings.default</code> or <code>bindings.commands</code>), the mapping is ignored.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Dict</a></p></div>
 <div class="paragraph"><p>Default:</p></div>
@@ -4585,6 +4612,7 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 <div class="paragraph"><p>Which algorithm to use for modifying how colors are rendered with darkmode.
 The <code>lightness-cielab</code> value was added with QtWebEngine 5.14 and is treated like <code>lightness-hsl</code> with older QtWebEngine versions.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4605,16 +4633,15 @@ The <code>lightness-cielab</code> value was added with QtWebEngine 5.14 and is t
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>lightness-cielab</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.contrast">colors.webpage.darkmode.contrast</h3>
 <div class="paragraph"><p>Contrast for dark mode.
 This only has an effect when <code>colors.webpage.darkmode.algorithm</code> is set to <code>lightness-hsl</code> or <code>brightness-rgb</code>.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Float</a></p></div>
 <div class="paragraph"><p>Default: <code>0.0</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.enabled">colors.webpage.darkmode.enabled</h3>
@@ -4648,34 +4675,35 @@ Example configurations from Chromium&#8217;s <code>chrome://flags</code>:</p></d
 </li>
 </ul></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.grayscale.all">colors.webpage.darkmode.grayscale.all</h3>
 <div class="paragraph"><p>Render all colors as grayscale.
 This only has an effect when <code>colors.webpage.darkmode.algorithm</code> is set to <code>lightness-hsl</code> or <code>brightness-rgb</code>.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.grayscale.images">colors.webpage.darkmode.grayscale.images</h3>
 <div class="paragraph"><p>Desaturation factor for images in dark mode.
 If set to 0, images are left as-is. If set to 1, images are completely grayscale. Values between 0 and 1 desaturate the colors accordingly.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Float</a></p></div>
-<div class="paragraph"><p>Default: <code>0.0</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
 <div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Float</a></p></div>
+<div class="paragraph"><p>Default: <code>0.0</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.policy.images">colors.webpage.darkmode.policy.images</h3>
 <div class="paragraph"><p>Which images to apply dark mode to.
 With QtWebEngine 5.15.0, this setting can cause frequent renderer process crashes due to a <a href="https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/304211">bug in Qt</a>.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4696,12 +4724,14 @@ With QtWebEngine 5.15.0, this setting can cause frequent renderer process crashe
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>smart</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.policy.page">colors.webpage.darkmode.policy.page</h3>
-<div class="paragraph"><p>Which pages to apply dark mode to.</p></div>
+<div class="paragraph"><p>Which pages to apply dark mode to.
+The underlying Chromium setting has been removed in QtWebEngine 5.15.3, thus this setting is ignored there. Instead, every element is now classified individually.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4717,8 +4747,6 @@ With QtWebEngine 5.15.0, this setting can cause frequent renderer process crashe
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>smart</code></p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
-<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.threshold.background">colors.webpage.darkmode.threshold.background</h3>
@@ -4726,29 +4754,49 @@ With QtWebEngine 5.15.0, this setting can cause frequent renderer process crashe
 Background elements with brightness above this threshold will be inverted, and below it will be left as in the original, non-dark-mode page. Set to 256 to never invert the color or to 0 to always invert it.
 Note: This behavior is the opposite of <code>colors.webpage.darkmode.threshold.text</code>!</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
-<div class="paragraph"><p>Default: <code>0</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
 <div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
+<div class="paragraph"><p>Default: <code>0</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.threshold.text">colors.webpage.darkmode.threshold.text</h3>
 <div class="paragraph"><p>Threshold for inverting text with dark mode.
 Text colors with brightness below this threshold will be inverted, and above it will be left as in the original, non-dark-mode page. Set to 256 to always invert text color or to 0 to never invert text color.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>256</code></p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
-<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 </div>
 <div class="sect2">
-<h3 id="colors.webpage.prefers_color_scheme_dark">colors.webpage.prefers_color_scheme_dark</h3>
-<div class="paragraph"><p>Force <code>prefers-color-scheme: dark</code> colors for websites.</p></div>
+<h3 id="colors.webpage.preferred_color_scheme">colors.webpage.preferred_color_scheme</h3>
+<div class="paragraph"><p>Value to use for <code>prefers-color-scheme:</code> for websites.
+The "light" value is only available with QtWebEngine 5.15.2+. On older versions, it is the same as "auto".
+The "auto" value is broken on QtWebEngine 5.15.2 due to a Qt bug. There, it will fall back to "light" unconditionally.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
 <div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>auto</code>: Use the system-wide color scheme setting.
+</p>
+</li>
+<li>
+<p>
+<code>light</code>: Force a light theme.
+</p>
+</li>
+<li>
+<p>
+<code>dark</code>: Force a dark theme.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>auto</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="completion.cmd_history_max_items">completion.cmd_history_max_items</h3>
@@ -4960,9 +5008,9 @@ Changing this setting will cause the completion history to be regenerated on the
 <h3 id="content.autoplay">content.autoplay</h3>
 <div class="paragraph"><p>Automatically start playing <code>&lt;video&gt;</code> elements.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.blocking.adblock.lists">content.blocking.adblock.lists</h3>
@@ -5076,18 +5124,18 @@ Note this whitelists otherwise blocked requests, not first-party URLs. As an exa
 <div class="paragraph"><p>Enable support for the HTML 5 web application cache feature.
 An application cache acts like an HTTP cache in some sense. For documents that use the application cache via JavaScript, the loader engine will first ask the application cache for the contents, before hitting the network.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.cache.maximum_pages">content.cache.maximum_pages</h3>
 <div class="paragraph"><p>Maximum number of pages to hold in the global memory page cache.
 The page cache allows for a nicer user experience when navigating forth or back to pages in the forward/back history, by pausing and resuming up to <em>n</em> pages.
 For more information about the feature, please refer to: <a href="https://webkit.org/blog/427/webkit-page-cache-i-the-basics/">https://webkit.org/blog/427/webkit-page-cache-i-the-basics/</a></p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>0</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.cache.size">content.cache.size</h3>
@@ -5101,16 +5149,18 @@ With QtWebEngine, the maximum supported value is 2147483647 (~2 GB).</p></div>
 <div class="paragraph"><p>Allow websites to read canvas elements.
 Note this is needed for some websites to work properly.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.cookies.accept">content.cookies.accept</h3>
 <div class="paragraph"><p>Which cookies to accept.
 With QtWebEngine, this setting also controls other features with tracking capabilities similar to those of cookies; including IndexedDB, DOM storage, filesystem API, service workers, and AppCache.
 Note that with QtWebKit, only <code>all</code> and <code>never</code> are supported as per-domain values. Setting <code>no-3rdparty</code> or <code>no-unknown-3rdparty</code> per-domain on QtWebKit will have the same effect as <code>all</code>.
-If this setting is used with URL patterns, the pattern gets applied to the origin/first party URL of the page making the request, not the request URL.</p></div>
+If this setting is used with URL patterns, the pattern gets applied to the origin/first party URL of the page making the request, not the request URL.
+With QtWebEngine 5.15.0+, paths will be stripped from URLs, so URL patterns using paths will not match. With QtWebEngine 5.15.2+, subdomains are additionally stripped as well, so you will typically need to set this setting for <code>example.com</code> when the cookie is set on <code>somesubdomain.example.com</code> for it to work properly.
+To debug issues with this setting, start qutebrowser with <code>--debug --logfilter network --debug-flag log-cookies</code> which will show all cookies being set.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
@@ -5180,18 +5230,18 @@ The encoding must be a string describing an encoding such as <em>utf-8</em>, <em
 <h3 id="content.dns_prefetch">content.dns_prefetch</h3>
 <div class="paragraph"><p>Try to pre-fetch DNS entries to speed up browsing.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.frame_flattening">content.frame_flattening</h3>
 <div class="paragraph"><p>Expand each subframe to its contents.
 This will flatten all the frames to become one scrollable page.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.fullscreen.overlay_timeout">content.fullscreen.overlay_timeout</h3>
@@ -5365,9 +5415,9 @@ With QtWebEngine, writing the clipboard as response to a user interaction is alw
 <h3 id="content.javascript.can_close_tabs">content.javascript.can_close_tabs</h3>
 <div class="paragraph"><p>Allow JavaScript to close tabs.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.javascript.can_open_tabs_automatically">content.javascript.can_open_tabs_automatically</h3>
@@ -5451,6 +5501,7 @@ The following levels are valid: <code>none</code>, <code>debug</code>, <code>inf
 <h3 id="content.media.audio_capture">content.media.audio_capture</h3>
 <div class="paragraph"><p>Allow websites to record audio.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5471,12 +5522,12 @@ The following levels are valid: <code>none</code>, <code>debug</code>, <code>inf
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>ask</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.media.audio_video_capture">content.media.audio_video_capture</h3>
 <div class="paragraph"><p>Allow websites to record audio and video.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5497,12 +5548,12 @@ The following levels are valid: <code>none</code>, <code>debug</code>, <code>inf
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>ask</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.media.video_capture">content.media.video_capture</h3>
 <div class="paragraph"><p>Allow websites to record video.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5523,12 +5574,12 @@ The following levels are valid: <code>none</code>, <code>debug</code>, <code>inf
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>ask</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.mouse_lock">content.mouse_lock</h3>
 <div class="paragraph"><p>Allow websites to lock your mouse pointer.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5549,7 +5600,6 @@ The following levels are valid: <code>none</code>, <code>debug</code>, <code>inf
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>ask</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.mute">content.mute</h3>
@@ -5567,9 +5617,10 @@ If unset, <code>~/.netrc</code> is used.</p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
-<h3 id="content.notifications">content.notifications</h3>
+<h3 id="content.notifications.enabled">content.notifications.enabled</h3>
 <div class="paragraph"><p>Allow websites to show notifications.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.13 or newer.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5590,7 +5641,67 @@ If unset, <code>~/.netrc</code> is used.</p></div>
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>ask</code></p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.13 or newer.</p></div>
+</div>
+<div class="sect2">
+<h3 id="content.notifications.presenter">content.notifications.presenter</h3>
+<div class="paragraph"><p>What notification presenter to use for web notifications.
+Note that not all implementations support all features of notifications:
+- With PyQt 5.14, any setting other than <code>qt</code> does not support  the <code>click</code> and
+  <code>close</code> events, as well as the <code>tag</code> option to replace existing notifications.
+- The <code>qt</code> and <code>systray</code> options only support showing one notification at the time
+  and ignore the <code>tag</code> option to replace existing notifications.
+- The <code>herbe</code> option only supports showing one notification at the time and doesn&#8217;t
+  show icons.
+- The <code>messages</code> option doesn&#8217;t show icons and doesn&#8217;t support the <code>click</code> and
+  <code>close</code> events.</p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>auto</code>: Tries <code>libnotify</code>, <code>systray</code> and <code>messages</code>, uses the first one available without showing error messages.
+</p>
+</li>
+<li>
+<p>
+<code>qt</code>: Use Qt&#8217;s native notification presenter, based on a system tray icon. Switching from or to this value requires a restart of qutebrowser. Recommended over <code>systray</code> on PyQt 5.14.
+</p>
+</li>
+<li>
+<p>
+<code>libnotify</code>: Shows messages via DBus in a libnotify-compatible way. If DBus isn&#8217;t available, falls back to <code>systray</code> or <code>messages</code>, but shows an error message.
+</p>
+</li>
+<li>
+<p>
+<code>systray</code>: Use a notification presenter based on a systray icon. Falls back to <code>libnotify</code> or <code>messages</code> if not systray is available. This is a reimplementation of the <code>qt</code> setting value, but with the possibility to switch to it at runtime.
+</p>
+</li>
+<li>
+<p>
+<code>messages</code>: Show notifications as qutebrowser messages. Most notification features aren&#8217;t available.
+</p>
+</li>
+<li>
+<p>
+<code>herbe</code>: (experimental!) Show notifications using herbe (github.com/dudik/herbe). Most notification features aren&#8217;t available.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>auto</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content.notifications.show_origin">content.notifications.show_origin</h3>
+<div class="paragraph"><p>Whether to show the origin URL for notifications.
+Note that URL patterns with this setting only get matched against the origin part of the URL, so e.g. paths in patterns will never match.
+Note that with the <code>qt</code> presenter, origins are never shown.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.pdfjs">content.pdfjs</h3>
@@ -5604,6 +5715,7 @@ Note that the files can still be downloaded by clicking the download button in t
 <h3 id="content.persistent_storage">content.persistent_storage</h3>
 <div class="paragraph"><p>Allow websites to request persistent storage quota via <code>navigator.webkitPersistentStorage.requestQuota</code>.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5624,7 +5736,6 @@ Note that the files can still be downloaded by clicking the download button in t
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>ask</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.plugins">content.plugins</h3>
@@ -5637,9 +5748,9 @@ Note that the files can still be downloaded by clicking the download button in t
 <h3 id="content.print_element_backgrounds">content.print_element_backgrounds</h3>
 <div class="paragraph"><p>Draw the background color and images also when the page is printed.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.private_browsing">content.private_browsing</h3>
@@ -5671,14 +5782,15 @@ Note that with QtWebEngine, it will take a couple of seconds until the change is
 <div class="sect2">
 <h3 id="content.proxy_dns_requests">content.proxy_dns_requests</h3>
 <div class="paragraph"><p>Send DNS requests over the configured proxy.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.register_protocol_handler">content.register_protocol_handler</h3>
 <div class="paragraph"><p>Allow websites to register protocol handlers via <code>navigator.registerProtocolHandler</code>.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5699,35 +5811,111 @@ Note that with QtWebEngine, it will take a couple of seconds until the change is
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>ask</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
-<h3 id="content.site_specific_quirks">content.site_specific_quirks</h3>
+<h3 id="content.site_specific_quirks.enabled">content.site_specific_quirks.enabled</h3>
 <div class="paragraph"><p>Enable quirks (such as faked user agent headers) needed to get specific sites to work properly.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
-<h3 id="content.ssl_strict">content.ssl_strict</h3>
-<div class="paragraph"><p>Validate SSL handshakes.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
+<h3 id="content.site_specific_quirks.skip">content.site_specific_quirks.skip</h3>
+<div class="paragraph"><p>Disable a list of named quirks.
+The js-string-replaceall quirk is needed for Nextcloud Calendar &lt; 2.2.0 with QtWebEngine &lt; 5.15.3. However, the workaround is not fully compliant to the ECMAScript spec and might cause issues on other websites, so it&#8217;s disabled by default.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">FlagList</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<code>true</code>
+<code>ua-whatsapp</code>
 </p>
 </li>
 <li>
 <p>
-<code>false</code>
+<code>ua-google</code>
 </p>
 </li>
 <li>
 <p>
-<code>ask</code>
+<code>ua-slack</code>
+</p>
+</li>
+<li>
+<p>
+<code>ua-googledocs</code>
+</p>
+</li>
+<li>
+<p>
+<code>js-whatsapp-web</code>
+</p>
+</li>
+<li>
+<p>
+<code>js-discord</code>
+</p>
+</li>
+<li>
+<p>
+<code>js-string-replaceall</code>
+</p>
+</li>
+<li>
+<p>
+<code>js-globalthis</code>
+</p>
+</li>
+<li>
+<p>
+<code>js-object-fromentries</code>
+</p>
+</li>
+<li>
+<p>
+<code>misc-krunker</code>
+</p>
+</li>
+<li>
+<p>
+<code>misc-mathml-darkmode</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>js-string-replaceall</code>
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="content.tls.certificate_errors">content.tls.certificate_errors</h3>
+<div class="paragraph"><p>How to proceed on TLS certificate errors.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>ask</code>: Ask how to proceed for every certificate error (unless non-overridable due to HSTS).
+</p>
+</li>
+<li>
+<p>
+<code>ask-block-thirdparty</code>: Ask how to proceed for normal page loads, but silently block resource loads.
+</p>
+</li>
+<li>
+<p>
+<code>block</code>: Automatically block loading on certificate errors.
+</p>
+</li>
+<li>
+<p>
+<code>load-insecurely</code>: Force loading pages despite certificate errors. This is <strong>insecure</strong> and should be avoided. Instead of using this, consider fixing the underlying issue or importing a self-signed certificate via <code>certutil</code> (or Chromium) instead.
 </p>
 </li>
 </ul></div>
@@ -5737,6 +5925,7 @@ Note that with QtWebEngine, it will take a couple of seconds until the change is
 <h3 id="content.unknown_url_scheme_policy">content.unknown_url_scheme_policy</h3>
 <div class="paragraph"><p>How navigation requests to URLs with unknown schemes are handled.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5757,7 +5946,6 @@ Note that with QtWebEngine, it will take a couple of seconds until the change is
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>allow-from-user-interaction</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.user_stylesheets">content.user_stylesheets</h3>
@@ -5776,6 +5964,7 @@ Note that with QtWebEngine, it will take a couple of seconds until the change is
 <h3 id="content.webrtc_ip_handling_policy">content.webrtc_ip_handling_policy</h3>
 <div class="paragraph"><p>Which interfaces to expose via WebRTC.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5801,7 +5990,6 @@ Note that with QtWebEngine, it will take a couple of seconds until the change is
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>all-interfaces</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.xss_auditing">content.xss_auditing</h3>
@@ -5958,6 +6146,37 @@ The following placeholders are defined:</p></div>
 <div class="paragraph"><p>Default: <code>utf-8</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="fileselect.folder.command">fileselect.folder.command</h3>
+<div class="paragraph"><p>Command (and arguments) to use for selecting a single folder in forms. The command should write the selected folder path to the specified file or stdout.
+The following placeholders are defined:
+* <code>{}</code>: Filename of the file to be written to. If not contained in any argument, the
+  standard output of the command is read instead.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">ShellCommand</a></p></div>
+<div class="paragraph"><p>Default:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>xterm</code>
+</p>
+</li>
+<li>
+<p>
+<code>-e</code>
+</p>
+</li>
+<li>
+<p>
+<code>ranger</code>
+</p>
+</li>
+<li>
+<p>
+<code>--choosedir={}</code>
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
 <h3 id="fileselect.handler">fileselect.handler</h3>
 <div class="paragraph"><p>Handler for selecting file(s) in forms. If <code>external</code>, then the commands specified by <code>fileselect.single_file.command</code> and <code>fileselect.multiple_files.command</code> are used to select one or multiple files respectively.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
@@ -5978,9 +6197,10 @@ The following placeholders are defined:</p></div>
 </div>
 <div class="sect2">
 <h3 id="fileselect.multiple_files.command">fileselect.multiple_files.command</h3>
-<div class="paragraph"><p>Command (and arguments) to use for selecting multiple files in forms. The command should write the selected file paths to the specified file, separated by newlines.
+<div class="paragraph"><p>Command (and arguments) to use for selecting multiple files in forms. The command should write the selected file paths to the specified file or to stdout, separated by newlines.
 The following placeholders are defined:
-* <code>{}</code>: Filename of the file to be written to.</p></div>
+* <code>{}</code>: Filename of the file to be written to. If not contained in any argument, the
+  standard output of the command is read instead.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">ShellCommand</a></p></div>
 <div class="paragraph"><p>Default:</p></div>
 <div class="ulist"><ul>
@@ -6008,9 +6228,10 @@ The following placeholders are defined:
 </div>
 <div class="sect2">
 <h3 id="fileselect.single_file.command">fileselect.single_file.command</h3>
-<div class="paragraph"><p>Command (and arguments) to use for selecting a single file in forms. The command should write the selected file path to the specified file.
+<div class="paragraph"><p>Command (and arguments) to use for selecting a single file in forms. The command should write the selected file path to the specified file or stdout.
 The following placeholders are defined:
-* <code>{}</code>: Filename of the file to be written to.</p></div>
+* <code>{}</code>: Filename of the file to be written to. If not contained in any argument, the
+  standard output of the command is read instead.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">ShellCommand</a></p></div>
 <div class="paragraph"><p>Default:</p></div>
 <div class="ulist"><ul>
@@ -6253,6 +6474,7 @@ Valid values are either a float value with a "pt" suffix, or an integer value wi
 <div class="sect2">
 <h3 id="hints.find_implementation">hints.find_implementation</h3>
 <div class="paragraph"><p>Which implementation to use to find elements to hint.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -6268,7 +6490,6 @@ Valid values are either a float value with a "pt" suffix, or an integer value wi
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>python</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="hints.hide_unmatched_rapid_hints">hints.hide_unmatched_rapid_hints</h3>
@@ -6280,7 +6501,7 @@ Valid values are either a float value with a "pt" suffix, or an integer value wi
 <h3 id="hints.leave_on_load">hints.leave_on_load</h3>
 <div class="paragraph"><p>Leave hint mode when starting a new page load.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>true</code></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="hints.min_chars">hints.min_chars</h3>
@@ -6335,7 +6556,7 @@ Valid values are either a float value with a "pt" suffix, or an integer value wi
 </li>
 <li>
 <p>
-<code>\b[&gt;→≫\b]</code>
+<code>\b[&gt;→≫]\b</code>
 </p>
 </li>
 <li>
@@ -6401,7 +6622,7 @@ Valid values are either a float value with a "pt" suffix, or an integer value wi
 </li>
 <li>
 <p>
-<code>\b[&lt;←≪\b]</code>
+<code>\b[&lt;←≪]\b</code>
 </p>
 </li>
 <li>
@@ -6459,7 +6680,7 @@ Ignored for number hints.</p></div>
 </li>
 <li>
 <p>
-<code>input:not([type=&quot;hidden&quot;)]</code>
+<code>input:not([type=&quot;hidden&quot;])</code>
 </p>
 </li>
 <li>
@@ -6494,7 +6715,7 @@ Ignored for number hints.</p></div>
 </li>
 <li>
 <p>
-<code>[contenteditable:not([contenteditable=&quot;false&quot;])]</code>
+<code>[contenteditable]:not([contenteditable=&quot;false&quot;])</code>
 </p>
 </li>
 <li>
@@ -6628,12 +6849,12 @@ Ignored for number hints.</p></div>
 </li>
 <li>
 <p>
-<code>input:not([type)]</code>
+<code>input:not([type])</code>
 </p>
 </li>
 <li>
 <p>
-<code>[contenteditable:not([contenteditable=&quot;false&quot;])]</code>
+<code>[contenteditable]:not([contenteditable=&quot;false&quot;])</code>
 </p>
 </li>
 <li>
@@ -6665,7 +6886,7 @@ Ignored for number hints.</p></div>
 </li>
 <li>
 <p>
-<code>[role=&quot;link&quot;[href]]</code>
+<code>[role=&quot;link&quot;][href]</code>
 </p>
 </li>
 </ul></div>
@@ -6778,7 +6999,7 @@ Items with less time between them are grouped when being displayed in <code>:his
 Patterns may be unreliable on this setting, and they may match the url you are navigating to, or the URL you are navigating from.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="input.insert_mode.plugins">input.insert_mode.plugins</h3>
@@ -6790,6 +7011,16 @@ Patterns may be unreliable on this setting, and they may match the url you are n
 <h3 id="input.links_included_in_focus_chain">input.links_included_in_focus_chain</h3>
 <div class="paragraph"><p>Include hyperlinks in the keyboard focus chain when tabbing.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="input.media_keys">input.media_keys</h3>
+<div class="paragraph"><p>Whether the underlying Chromium should handle media keys.
+On Linux, disabling this also disables Chromium&#8217;s MPRIS integration.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -7046,6 +7277,7 @@ This sets the <code>QT_QPA_PLATFORMTHEME</code> environment variable which contr
 <div class="paragraph"><p>Force software rendering for QtWebEngine.
 This is needed for QtWebEngine to work with Nouveau drivers and can be useful in other scenarios related to graphic issues.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -7071,7 +7303,6 @@ This is needed for QtWebEngine to work with Nouveau drivers and can be useful in
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>none</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="qt.highdpi">qt.highdpi</h3>
@@ -7087,6 +7318,7 @@ It&#8217;s off by default as it can cause issues with some bitmap fonts. As an a
 <div class="paragraph"><p>When to use Chromium&#8217;s low-end device mode.
 This improves the RAM usage of renderer processes, at the expense of performance.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -7107,7 +7339,6 @@ This improves the RAM usage of renderer processes, at the expense of performance
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>auto</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="qt.process_model">qt.process_model</h3>
@@ -7127,6 +7358,7 @@ See the following pages for more details:</p></div>
 </li>
 </ul></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -7147,7 +7379,15 @@ See the following pages for more details:</p></div>
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>process-per-site-instance</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="qt.workarounds.locale">qt.workarounds.locale</h3>
+<div class="paragraph"><p>Work around locale parsing issues in QtWebEngine 5.15.3.
+With some locales, QtWebEngine 5.15.3 is unusable without this workaround. In affected scenarios, QtWebEngine will log "Network service crashed, restarting service." and only display a blank page.
+However, It is expected that distributions shipping QtWebEngine 5.15.3 follow up with a proper fix soon, so it is disabled by default.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="qt.workarounds.remove_service_workers">qt.workarounds.remove_service_workers</h3>
@@ -7227,9 +7467,9 @@ Note smooth scrolling does not work with the <code>:scroll-px</code> command.</p
 <div class="sect2">
 <h3 id="search.wrap">search.wrap</h3>
 <div class="paragraph"><p>Wrap around at the top and bottom of the page when advancing through text matches using <code>:search-next</code> and <code>:search-prev</code>.</p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
 </div>
 <div class="sect2">
 <h3 id="session.default_name">session.default_name</h3>
@@ -7248,6 +7488,7 @@ If this is set to null, the session which was last loaded is saved.</p></div>
 <h3 id="spellcheck.languages">spellcheck.languages</h3>
 <div class="paragraph"><p>Languages to use for spell checking.
 You can check for available languages and install dictionaries using scripts/dictcli.py. Run the script with -h/--help for instructions.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">List of String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -7468,7 +7709,6 @@ You can check for available languages and install dictionaries using scripts/dic
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: empty</p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 </div>
 <div class="sect2">
 <h3 id="statusbar.padding">statusbar.padding</h3>
@@ -7544,7 +7784,7 @@ You can check for available languages and install dictionaries using scripts/dic
 <div class="sect2">
 <h3 id="statusbar.widgets">statusbar.widgets</h3>
 <div class="paragraph"><p>List of widgets displayed in the statusbar.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">List of String</a></p></div>
+<div class="paragraph"><p>Type: <a href="#types">List of StatusbarWidget</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -7580,6 +7820,11 @@ You can check for available languages and install dictionaries using scripts/dic
 <li>
 <p>
 <code>progress</code>: Progress bar for the current page loading.
+</p>
+</li>
+<li>
+<p>
+<code>text:foo</code>: Display the static text after the colon, <code>foo</code> in the example.
 </p>
 </li>
 </ul></div>
@@ -8476,9 +8721,9 @@ transparency negatively affects performance.</p></div>
 <h3 id="zoom.text_only">zoom.text_only</h3>
 <div class="paragraph"><p>Apply the zoom factor on a frame only to the text or to all content.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 </div>
 </div>
 </div>
@@ -8645,6 +8890,11 @@ cellspacing="0" cellpadding="4">
 <p class="table">See the documentation for <code>List</code>.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table">StatusbarWidget</p></td>
+<td align="left" valign="top"><p class="table">A widget for the status bar.</p>
+<p class="table">Allows some predefined widgets and custom text-widgets via text:$CONTENT.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table">String</p></td>
 <td align="left" valign="top"><p class="table">A string value.</p>
 <p class="table">See the setting&#8217;s valid values for more information on allowed values.</p></td>
@@ -8680,7 +8930,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-02-04 10:22:50 CET
+ 2021-05-20 18:13:54 CEST
 </div>
 </div>
 </body>
