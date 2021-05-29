@@ -7,6 +7,7 @@ requirements.txt
 setup.py
 doc/changelog.asciidoc
 doc/changelog.html
+doc/faq.html
 doc/qutebrowser.1
 doc/qutebrowser.1.asciidoc
 doc/img/cheatsheet-big.png
@@ -61,6 +62,8 @@ misc/requirements/requirements-pyqt-5.15.0.txt
 misc/requirements/requirements-pyqt-5.15.0.txt-raw
 misc/requirements/requirements-pyqt-5.15.txt
 misc/requirements/requirements-pyqt-5.15.txt-raw
+misc/requirements/requirements-pyqt-pyinstaller.txt
+misc/requirements/requirements-pyqt-pyinstaller.txt-raw
 misc/requirements/requirements-pyqt.txt
 misc/requirements/requirements-pyqt.txt-raw
 misc/requirements/requirements-pyroma.txt
@@ -68,7 +71,7 @@ misc/requirements/requirements-pyroma.txt-raw
 misc/requirements/requirements-qutebrowser.txt-raw
 misc/requirements/requirements-sphinx.txt
 misc/requirements/requirements-sphinx.txt-raw
-misc/requirements/requirements-tests-git.txt
+misc/requirements/requirements-tests-bleeding.txt
 misc/requirements/requirements-tests.txt
 misc/requirements/requirements-tests.txt-raw
 misc/requirements/requirements-tox.txt
@@ -91,6 +94,7 @@ misc/userscripts/password_fill
 misc/userscripts/qr
 misc/userscripts/qute-bitwarden
 misc/userscripts/qute-keepass
+misc/userscripts/qute-keepassxc
 misc/userscripts/qute-lastpass
 misc/userscripts/qute-pass
 misc/userscripts/qutedmenu
@@ -150,6 +154,7 @@ qutebrowser/browser/webengine/certificateerror.py
 qutebrowser/browser/webengine/cookies.py
 qutebrowser/browser/webengine/darkmode.py
 qutebrowser/browser/webengine/interceptor.py
+qutebrowser/browser/webengine/notification.py
 qutebrowser/browser/webengine/spell.py
 qutebrowser/browser/webengine/tabhistory.py
 qutebrowser/browser/webengine/webenginedownloads.py
@@ -182,6 +187,7 @@ qutebrowser/commands/__init__.py
 qutebrowser/commands/argparser.py
 qutebrowser/commands/cmdexc.py
 qutebrowser/commands/command.py
+qutebrowser/commands/parser.py
 qutebrowser/commands/runners.py
 qutebrowser/commands/userscripts.py
 qutebrowser/completion/__init__.py
@@ -236,6 +242,7 @@ qutebrowser/html/license.html
 qutebrowser/html/log.html
 qutebrowser/html/no_pdfjs.html
 qutebrowser/html/pre.html
+qutebrowser/html/process.html
 qutebrowser/html/settings.html
 qutebrowser/html/styled.html
 qutebrowser/html/tabs.html
@@ -265,7 +272,9 @@ qutebrowser/javascript/position_caret.js
 qutebrowser/javascript/scroll.js
 qutebrowser/javascript/stylesheet.js
 qutebrowser/javascript/webelem.js
+qutebrowser/javascript/quirks/discord.user.js
 qutebrowser/javascript/quirks/globalthis.user.js
+qutebrowser/javascript/quirks/googledocs.user.js
 qutebrowser/javascript/quirks/object_fromentries.user.js
 qutebrowser/javascript/quirks/string_replaceall.user.js
 qutebrowser/javascript/quirks/whatsapp_web.user.js
@@ -304,6 +313,7 @@ qutebrowser/misc/crashsignal.py
 qutebrowser/misc/debugcachestats.py
 qutebrowser/misc/earlyinit.py
 qutebrowser/misc/editor.py
+qutebrowser/misc/elf.py
 qutebrowser/misc/guiprocess.py
 qutebrowser/misc/httpclient.py
 qutebrowser/misc/ipc.py
@@ -330,6 +340,7 @@ qutebrowser/utils/log.py
 qutebrowser/utils/message.py
 qutebrowser/utils/objreg.py
 qutebrowser/utils/qtutils.py
+qutebrowser/utils/resources.py
 qutebrowser/utils/standarddir.py
 qutebrowser/utils/testfile
 qutebrowser/utils/urlmatch.py
@@ -360,7 +371,6 @@ tests/end2end/test_hints_html.py
 tests/end2end/test_insert_mode.py
 tests/end2end/test_invocations.py
 tests/end2end/test_mhtml_e2e.py
-tests/end2end/test_mkvenv.py
 tests/end2end/data/blocked-hosts.gz
 tests/end2end/data/caret.html
 tests/end2end/data/click_element.html
@@ -403,6 +413,11 @@ tests/end2end/data/brave-adblock/generate.py
 tests/end2end/data/brave-adblock/ublock-matches.tsv.gz
 tests/end2end/data/crashers/installedapp.html
 tests/end2end/data/crashers/webrtc.html
+tests/end2end/data/darkmode/blank.html
+tests/end2end/data/darkmode/mathml.html
+tests/end2end/data/darkmode/mathml.svg
+tests/end2end/data/darkmode/prefers-color-scheme.html
+tests/end2end/data/darkmode/yellow.html
 tests/end2end/data/downloads/download with no title.html
 tests/end2end/data/downloads/download with spaces.bin
 tests/end2end/data/downloads/download.bin
@@ -475,8 +490,14 @@ tests/end2end/data/insert_mode_settings/html/textarea.html
 tests/end2end/data/javascript/consolelog.html
 tests/end2end/data/javascript/enabled.html
 tests/end2end/data/javascript/localstorage.html
+tests/end2end/data/javascript/notifications.html
 tests/end2end/data/javascript/window_open.html
 tests/end2end/data/javascript/windowsize.html
+tests/end2end/data/javascript/img/big.png
+tests/end2end/data/javascript/img/padded.png
+tests/end2end/data/javascript/img/padded2.png
+tests/end2end/data/javascript/img/rgb.png
+tests/end2end/data/javascript/img/rgba.png
 tests/end2end/data/keyinput/log.html
 tests/end2end/data/misc/hello.txt.html
 tests/end2end/data/misc/jseval.html
@@ -516,6 +537,7 @@ tests/end2end/data/prompt/jsalert.html
 tests/end2end/data/prompt/jsconfirm.html
 tests/end2end/data/prompt/jsprompt.html
 tests/end2end/data/prompt/notifications.html
+tests/end2end/data/prompt/script.js
 tests/end2end/data/scroll/no_doctype.html
 tests/end2end/data/scroll/position_absolute.html
 tests/end2end/data/scroll/simple.html
@@ -548,6 +570,7 @@ tests/end2end/features/keyinput.feature
 tests/end2end/features/marks.feature
 tests/end2end/features/misc.feature
 tests/end2end/features/navigate.feature
+tests/end2end/features/notifications.feature
 tests/end2end/features/open.feature
 tests/end2end/features/private.feature
 tests/end2end/features/prompts.feature
@@ -570,6 +593,7 @@ tests/end2end/features/test_keyinput_bdd.py
 tests/end2end/features/test_marks_bdd.py
 tests/end2end/features/test_misc_bdd.py
 tests/end2end/features/test_navigate_bdd.py
+tests/end2end/features/test_notifications_bdd.py
 tests/end2end/features/test_open_bdd.py
 tests/end2end/features/test_private_bdd.py
 tests/end2end/features/test_prompts_bdd.py
@@ -587,6 +611,7 @@ tests/end2end/features/urlmarks.feature
 tests/end2end/features/utilcmds.feature
 tests/end2end/features/yankpaste.feature
 tests/end2end/features/zoom.feature
+tests/end2end/fixtures/notificationserver.py
 tests/end2end/fixtures/quteprocess.py
 tests/end2end/fixtures/test_quteprocess.py
 tests/end2end/fixtures/test_testprocess.py
@@ -597,6 +622,7 @@ tests/end2end/fixtures/webserver_sub.py
 tests/end2end/fixtures/webserver_sub_ssl.py
 tests/end2end/misc/test_runners_e2e.py
 tests/end2end/templates/headers-link.html
+tests/end2end/templates/https-script.html
 tests/helpers/fixtures.py
 tests/helpers/logfail.py
 tests/helpers/messagemock.py
@@ -604,7 +630,7 @@ tests/helpers/stubs.py
 tests/helpers/test_helper_utils.py
 tests/helpers/test_logfail.py
 tests/helpers/test_stubs.py
-tests/helpers/utils.py
+tests/helpers/testutils.py
 tests/manual/files.html
 tests/manual/mouse.html
 tests/manual/completion/changing_title.html
@@ -641,6 +667,7 @@ tests/unit/browser/webengine/test_webengineinterceptor.py
 tests/unit/browser/webengine/test_webenginesettings.py
 tests/unit/browser/webengine/test_webenginetab.py
 tests/unit/browser/webkit/test_cache.py
+tests/unit/browser/webkit/test_certificateerror.py
 tests/unit/browser/webkit/test_cookies.py
 tests/unit/browser/webkit/test_mhtml.py
 tests/unit/browser/webkit/test_tabhistory.py
@@ -654,7 +681,7 @@ tests/unit/browser/webkit/network/test_networkmanager.py
 tests/unit/browser/webkit/network/test_networkreply.py
 tests/unit/browser/webkit/network/test_pac.py
 tests/unit/commands/test_argparser.py
-tests/unit/commands/test_runners.py
+tests/unit/commands/test_parser.py
 tests/unit/commands/test_userscripts.py
 tests/unit/completion/test_completer.py
 tests/unit/completion/test_completiondelegate.py
@@ -678,6 +705,7 @@ tests/unit/config/test_configinit.py
 tests/unit/config/test_configtypes.py
 tests/unit/config/test_configutils.py
 tests/unit/config/test_qtargs.py
+tests/unit/config/test_qtargs_locale_workaround.py
 tests/unit/config/test_stylesheet.py
 tests/unit/config/test_websettings.py
 tests/unit/extensions/test_loader.py
@@ -685,6 +713,7 @@ tests/unit/javascript/base.html
 tests/unit/javascript/conftest.py
 tests/unit/javascript/test_greasemonkey.py
 tests/unit/javascript/test_js_execution.py
+tests/unit/javascript/test_js_quirks.py
 tests/unit/javascript/position_caret/invisible.html
 tests/unit/javascript/position_caret/scrolled_down.html
 tests/unit/javascript/position_caret/scrolled_down_img.html
@@ -720,6 +749,7 @@ tests/unit/misc/test_cmdhistory.py
 tests/unit/misc/test_crashdialog.py
 tests/unit/misc/test_earlyinit.py
 tests/unit/misc/test_editor.py
+tests/unit/misc/test_elf.py
 tests/unit/misc/test_guiprocess.py
 tests/unit/misc/test_ipc.py
 tests/unit/misc/test_keyhints.py
@@ -758,6 +788,7 @@ tests/unit/utils/test_javascript.py
 tests/unit/utils/test_jinja.py
 tests/unit/utils/test_log.py
 tests/unit/utils/test_qtutils.py
+tests/unit/utils/test_resources.py
 tests/unit/utils/test_standarddir.py
 tests/unit/utils/test_urlmatch.py
 tests/unit/utils/test_urlutils.py

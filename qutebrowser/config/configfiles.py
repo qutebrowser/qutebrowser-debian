@@ -39,7 +39,7 @@ import qutebrowser
 from qutebrowser.config import (configexc, config, configdata, configutils,
                                 configtypes)
 from qutebrowser.keyinput import keyutils
-from qutebrowser.utils import standarddir, utils, qtutils, log, urlmatch
+from qutebrowser.utils import standarddir, utils, qtutils, log, urlmatch, version
 
 if TYPE_CHECKING:
     from qutebrowser.misc import savemanager
@@ -89,6 +89,7 @@ class StateConfig(configparser.ConfigParser):
         self.read(self._filename, encoding='utf-8')
 
         self.qt_version_changed = False
+        self.qtwe_version_changed = False
         self.qutebrowser_version_changed = VersionChange.unknown
         self._set_changed_attributes()
 
@@ -108,7 +109,19 @@ class StateConfig(configparser.ConfigParser):
             self[sect].pop(key, None)
 
         self['general']['qt_version'] = qVersion()
+        self['general']['qtwe_version'] = self._qtwe_version_str()
         self['general']['version'] = qutebrowser.__version__
+
+    def _qtwe_version_str(self) -> str:
+        """Get the QtWebEngine version string.
+
+        Note that it's too early to use objects.backend here...
+        """
+        try:
+            import PyQt5.QtWebEngineWidgets  # pylint: disable=unused-import
+        except ImportError:
+            return 'no'
+        return str(version.qtwebengine_versions(avoid_init=True).webengine)
 
     def _set_changed_attributes(self) -> None:
         """Set qt_version_changed/qutebrowser_version_changed attributes.
@@ -123,27 +136,29 @@ class StateConfig(configparser.ConfigParser):
         old_qt_version = self['general'].get('qt_version', None)
         self.qt_version_changed = old_qt_version != qVersion()
 
+        old_qtwe_version = self['general'].get('qtwe_version', None)
+        self.qtwe_version_changed = old_qtwe_version != self._qtwe_version_str()
+
         old_qutebrowser_version = self['general'].get('version', None)
         if old_qutebrowser_version is None:
             # https://github.com/python/typeshed/issues/2093
             return  # type: ignore[unreachable]
 
-        old_version = utils.parse_version(old_qutebrowser_version)
-        new_version = utils.parse_version(qutebrowser.__version__)
-
-        if old_version.isNull():
+        try:
+            old_version = utils.VersionNumber.parse(old_qutebrowser_version)
+        except ValueError:
             log.init.warning(f"Unable to parse old version {old_qutebrowser_version}")
             return
 
-        assert not new_version.isNull(), qutebrowser.__version__
+        new_version = utils.VersionNumber.parse(qutebrowser.__version__)
 
         if old_version == new_version:
             self.qutebrowser_version_changed = VersionChange.equal
         elif new_version < old_version:
             self.qutebrowser_version_changed = VersionChange.downgrade
-        elif old_version.segments()[:2] == new_version.segments()[:2]:
+        elif old_version.segments[:2] == new_version.segments[:2]:
             self.qutebrowser_version_changed = VersionChange.patch
-        elif old_version.majorVersion() == new_version.majorVersion():
+        elif old_version.major == new_version.major:
             self.qutebrowser_version_changed = VersionChange.minor
         else:
             self.qutebrowser_version_changed = VersionChange.major
@@ -400,6 +415,22 @@ class YamlMigrations(QObject):
             new_name='statusbar.show',
             true_value='never',
             false_value='always')
+        self._migrate_renamed_bool(
+            old_name='content.ssl_strict',
+            new_name='content.tls.certificate_errors',
+            true_value='block',
+            false_value='load-insecurely',
+            ask_value='ask',
+        )
+
+        for setting in ['colors.webpage.force_dark_color_scheme',
+                        'colors.webpage.prefers_color_scheme_dark']:
+            self._migrate_renamed_bool(
+                old_name=setting,
+                new_name='colors.webpage.preferred_color_scheme',
+                true_value='dark',
+                false_value='auto',
+            )
 
         for setting in ['tabs.title.format',
                         'tabs.title.format_pinned',
@@ -510,14 +541,21 @@ class YamlMigrations(QObject):
     def _migrate_renamed_bool(self, old_name: str,
                               new_name: str,
                               true_value: str,
-                              false_value: str) -> None:
+                              false_value: str,
+                              ask_value: str = None) -> None:
         if old_name not in self._settings:
             return
 
         self._settings[new_name] = {}
 
         for scope, val in self._settings[old_name].items():
-            new_value = true_value if val else false_value
+            if val == 'ask':
+                assert ask_value is not None
+                new_value = ask_value
+            elif val:
+                new_value = true_value
+            else:
+                new_value = false_value
             self._settings[new_name][scope] = new_value
 
         del self._settings[old_name]
@@ -548,9 +586,7 @@ class YamlMigrations(QObject):
         del self._settings[old_name]
         self.changed.emit()
 
-    def _migrate_string_value(self, name: str,
-                              source: str,
-                              target: str) -> None:
+    def _migrate_string_value(self, name: str, source: str, target: str) -> None:
         if name not in self._settings:
             return
 

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.0.4" />
+<meta name="generator" content="AsciiDoc 9.1.0" />
 <title>Frequently asked questions</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -928,9 +928,20 @@ security bugs, please contact me directly at <a href="mailto:mail@qutebrowser.or
 Is there an ad blocker?
 </em></p>
 <p>
-    There is a simple host-based ad blocker that takes <code>/etc/hosts</code>-like lists.
+    Since version 2.0.0, if the
+    <a href="https://pypi.org/project/adblock/">Python <code>adblock</code> library</a> is available,
+    it will be used to integrate
+    <a href="https://github.com/brave/adblock-rust">Brave&#8217;s Rust adblocker library</a>
+    for improved adblocking, based on
+    <a href="https://help.eyeo.com/en/adblockplus/how-to-write-filters">ABP-like filter lists</a>
+    (such as <a href="https://easylist.to/">EasyList</a>).
+    If that library is unavailable or on older versions of qutebrowser, a
+    simpler built-in ad blocker is used instead. It takes <code>/etc/hosts</code>-like lists
+    and thus is only able to block entire hosts.
 </p>
-<div class="paragraph"><p>More advanced ad blockers can have a big impact on browsing speed and <a href="https://blog.mozilla.org/nnethercote/2014/05/14/adblock-pluss-effect-on-firefoxs-memory-usage/">RAM usage</a>, so implementing support for AdBlock Plus-like lists is not a priority.</p></div>
+<div class="paragraph"><p>Note that even the more sophisticated blocker
+<a href="https://github.com/qutebrowser/qutebrowser/issues/5754">does not support element hiding</a>
+(cosmetic filtering) yet, it only blocks network requests.</p></div>
 </li>
 <li>
 <p><em>
@@ -1191,7 +1202,7 @@ Import the CA Certificate
 </p>
 <div class="listingblock">
 <div class="content">
-<pre><code>certutil -D "sql:${HOME}/.pki/nssdb" -A -i &lt;path_to_ca_cert.pem&gt; -n "My Fancy CA" -t "TC,C,T"</code></pre>
+<pre><code>certutil -d "sql:${HOME}/.pki/nssdb" -A -i &lt;path_to_ca_cert.pem&gt; -n "My Fancy CA" -t "TC,C,T"</code></pre>
 </div></div>
 </li>
 <li>
@@ -1242,9 +1253,9 @@ There is a total of four possible approaches to get dark websites:
 <div class="ulist"><ul>
 <li>
 <p>
-The <code>colors.webpage.prefers_color_scheme_dark</code> setting tells websites that you prefer
-  a dark theme. However, this requires websites to ship an appropriate dark style sheet.
-  The setting requires a restart and QtWebEngine with at least Qt 5.14.
+The <code>colors.webpage.preferred_color_scheme</code> setting tells websites that you prefer
+  a light or dark theme. However, this requires websites to ship an appropriate dark
+  style sheet. The setting requires a restart and QtWebEngine with at least Qt 5.14.
 </p>
 </li>
 <li>
@@ -1267,8 +1278,8 @@ The <code>content.user_stylesheets</code> setting allows specifying a custom CSS
   <a href="https://github.com/alphapapa/solarized-everything-css/">Solarized Everything</a>. Despite
   the name, the repository also offers themes other than just Solarized. This approach
   often yields worse results compared to the above ones, but it&#8217;s possible to toggle it
-  dynamically using a binding like <code>:bind ,d 'config-cycle content.user_stylesheets
-  ~/path/to/solarized-everything-css/css/gruvbox/gruvbox-all-sites.css ""'</code>
+  dynamically using a binding like <code>:bind ,d config-cycle content.user_stylesheets
+  ~/path/to/solarized-everything-css/css/gruvbox/gruvbox-all-sites.css ""</code>
 </p>
 </li>
 <li>
@@ -1279,6 +1290,16 @@ Finally, qutebrowser&#8217;s Greasemonkey support should allow for running a
 </p>
 </li>
 </ul></div>
+</li>
+<li>
+<p><em>
+How do I make copy to clipboard buttons work?
+</em></p>
+<p>
+You can <code>:set content.javascript.can_access_clipboard true</code>, or
+<code>:set -u some.domain content.javascript.can_access_clipboard true</code> if you want to limit
+the setting to <code>some.domain</code>.
+</p>
 </li>
 </ol></div>
 </div>
@@ -1379,52 +1400,23 @@ Is it possible to contribute via a one-time donation instead?
 </dt>
 <dd>
 <p>
-   If you prefer a one-time donation, there are various possibilities:
+    Yes! GitHub Sponsors allows for one-time donations (including custom amounts) using
+    the buttons next to "Select a tier". Alternatively, see the
+    <a href="https://github.com/qutebrowser/qutebrowser#donating">readme</a> for other donation
+    methods, but note that physical rewards (stickers/shirts) for such donations are
+    handled on a case-by-case basis due to the higher administrative overhead and fees.
 </p>
-<div class="ulist"><ul>
-<li>
-<p>
-Select a tier which covers the total amount you&#8217;d like to donate (note that
-  payments are prorated based on the current date). After the payment is
-  processed, cancel your GitHub sponsors subscription again. This has a big
-  benefit: There are no fees deducted from your amount.
-</p>
-</li>
-<li>
-<p>
-Sign up for a lower recurring donation instead.
-</p>
-</li>
-<li>
-<p>
-Do so via the <a href="https://github.com/qutebrowser/qutebrowser#donating">existing
-  donation methods</a>. Rewards (shirts/stickers/swag) are handled on a
-  case-by-case basis as GitHub&#8217;s matching fund isn&#8217;t applicable and there might
-  be relatively high fees which make this tricky.
-</p>
-</li>
-<li>
-<p>
-If you want to contribute via a one-time donation and want to make sure
-  you&#8217;ll receive a reward, you might want to sign up to the
-  <a href="https://lists.schokokeks.org/mailman/listinfo.cgi/qutebrowser-announce">qutebrowser-announce</a>
-  mailinglist and wait until there is an official way to do so. It&#8217;s planned to
-  set this up at a later date. Note that the thresholds for perks will be
-  higher because those donations aren&#8217;t matched by GitHub and fees are
-  relatively high.
-</p>
-</li>
-</ul></div>
 </dd>
 <dt class="hdlist1">
 I&#8217;d like a certain reward (e.g. a t-shirt) but I&#8217;d prefer making a smaller monthly donation. Can I upgrade via a one-time donation?
 </dt>
 <dd>
 <p>
-    It&#8217;s planned to set up a donation page to allow this at a later date.
-    However, the thresholds for perks will be higher because those donations
-    aren&#8217;t matched by GitHub and fees are relatively high. Note that you can
-    switch tiers on GitHub sponsors at any time.
+    GitHub allows for one-time donations (see the previous question). For physical
+    rewards, your total contributions will be summed up, so you can indeed make a
+    one-time donation to "upgrade". Before rewards are ordered, all sponsors will be
+    contacted with their total donation amount so that they can still upgrade, if
+    desired.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1452,10 +1444,7 @@ Can I select my own amount rather than using the predefined tiers?
 </dt>
 <dd>
 <p>
-    Unfortunately, GitHub sponsors doesn&#8217;t support this at the moment. The
-    existing tiers should hopefully cover various options. If you disagree,
-    please <a href="mailto:mail@qutebrowser.org">get in touch</a> - I might be able to add a
-    new sponsorship tier.
+    At the bottom of the tier list, GitHub allows specifying a custom donation amount.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1463,11 +1452,14 @@ When will rewards be shipped?
 </dt>
 <dd>
 <p>
-    Rewards will be ordered and subsequently shipped once it&#8217;s clear how many
-    people are eliglible. The cut-off date for the donation goals is May
-    2020, so rewards will likely be shipped Q2/2020. This also applies to tiers
-    which make you eliglible for a certain perk immediately, though stickers
-    might be shipped earlier depending on how many people this affects.
+    Due to COVID-19, the Swiss Post currently
+    <a href="https://service.post.ch/vgkklp/info/informationen/Verkehrseinschraenkungen?lang=en">only
+    accepts priority letters for many countries</a>, including the US. Especially for the
+    t-shirts, the difference between economy and priority shipments is quite
+    significant. For the shirts, I estimate I&#8217;d spend a total of $250 to $1500 on
+    <strong>extra</strong> postage. Thus, shipping is currently on hold until the shipping situation
+    resolves. There&#8217;s currently no ETA for that happening, but rest assured everyone
+    will be notified (if contact details are available) once there are news.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1583,8 +1575,11 @@ privacy policies.</p></div>
 <h3 id="_crash_reports">Crash reports</h3>
 <div class="paragraph"><p>When qutebrowser crashes or you use the <code>:report</code> command, you have the
 possibility to send a crash report. If you decide to do so, your crash report
-is stored on qutebrowser&#8217;s server, where core qutebrowser developers (four
-people at the time of writing) can access it.</p></div>
+is stored on qutebrowser&#8217;s server, where qutebrowser&#8217;s maintainer (Florian Bruhin / The
+Compiler) can access it. Before February 2021, other core qutebrowser developers (a
+maximum of four people total) could access the reports as well (access was restricted
+based on the sensitive nature of those reports, not because of any known issues with
+those individuals).</p></div>
 <div class="paragraph"><p>If you select the option to include a debug log with your report, it&#8217;s possible
 that sensitive information is contained in your report. You can show and edit
 the log in the crash report window to redact any such information as you see
@@ -1617,7 +1612,7 @@ disable various features (usually at a cost of website compatibility).</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-02-04 10:22:41 CET
+ 2021-05-20 18:13:46 CEST
 </div>
 </div>
 </body>
