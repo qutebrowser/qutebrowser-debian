@@ -1,8 +1,8 @@
-qutebrowser (2.2.2-1) UNRELEASED; urgency=medium
+qutebrowser (2.2.3-1) UNRELEASED; urgency=medium
 
   * New upstream release
 
- -- Fritz Reichwald <reichwald@b1-systems.de>  Sat, 29 May 2021 15:51:20 +0200
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Tue, 01 Jun 2021 22:55:33 +0200
 
 qutebrowser (2.0.2-1) unstable; urgency=medium
 
