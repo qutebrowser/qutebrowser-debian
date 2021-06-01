@@ -534,68 +534,6 @@ body.manpage div.sectionbody {
 @media print {
   body.manpage div#toc { display: none; }
 }
-.highlight .hll { background-color: #ffffcc }
-.highlight  { background: #f8f8f8; }
-.highlight .c { color: #408080; font-style: italic } /* Comment */
-.highlight .err { border: 1px solid #FF0000 } /* Error */
-.highlight .k { color: #008000; font-weight: bold } /* Keyword */
-.highlight .o { color: #666666 } /* Operator */
-.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
-.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
-.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
-.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
-.highlight .gd { color: #A00000 } /* Generic.Deleted */
-.highlight .ge { font-style: italic } /* Generic.Emph */
-.highlight .gr { color: #FF0000 } /* Generic.Error */
-.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
-.highlight .gi { color: #00A000 } /* Generic.Inserted */
-.highlight .go { color: #808080 } /* Generic.Output */
-.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
-.highlight .gs { font-weight: bold } /* Generic.Strong */
-.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
-.highlight .gt { color: #0040D0 } /* Generic.Traceback */
-.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
-.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
-.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
-.highlight .kp { color: #008000 } /* Keyword.Pseudo */
-.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
-.highlight .kt { color: #B00040 } /* Keyword.Type */
-.highlight .m { color: #666666 } /* Literal.Number */
-.highlight .s { color: #BA2121 } /* Literal.String */
-.highlight .na { color: #7D9029 } /* Name.Attribute */
-.highlight .nb { color: #008000 } /* Name.Builtin */
-.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
-.highlight .no { color: #880000 } /* Name.Constant */
-.highlight .nd { color: #AA22FF } /* Name.Decorator */
-.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
-.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
-.highlight .nf { color: #0000FF } /* Name.Function */
-.highlight .nl { color: #A0A000 } /* Name.Label */
-.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
-.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
-.highlight .nv { color: #19177C } /* Name.Variable */
-.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
-.highlight .w { color: #bbbbbb } /* Text.Whitespace */
-.highlight .mf { color: #666666 } /* Literal.Number.Float */
-.highlight .mh { color: #666666 } /* Literal.Number.Hex */
-.highlight .mi { color: #666666 } /* Literal.Number.Integer */
-.highlight .mo { color: #666666 } /* Literal.Number.Oct */
-.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
-.highlight .sc { color: #BA2121 } /* Literal.String.Char */
-.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
-.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
-.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
-.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
-.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
-.highlight .sx { color: #008000 } /* Literal.String.Other */
-.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
-.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
-.highlight .ss { color: #19177C } /* Literal.String.Symbol */
-.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
-.highlight .vc { color: #19177C } /* Name.Variable.Class */
-.highlight .vg { color: #19177C } /* Name.Variable.Global */
-.highlight .vi { color: #19177C } /* Name.Variable.Instance */
-.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
 
 
 </style>
@@ -890,8 +828,9 @@ first).
 </li>
 <li>
 <p>
-Join the IRC channel ircs://irc.libera.chat:6697/#qutebrowser[<code>#qutebrowser</code>] on
-<a href="https://libera.chat/">Libera Chat</a> (<a href="https://web.libera.chat/#qutebrowser">webchat</a>).
+Join the IRC channel <a href="irc://irc.freenode.org/#qutebrowser"><code>#qutebrowser</code></a> on
+<a href="https://freenode.net/">Freenode</a>
+(<a href="https://webchat.freenode.net/?channels=#qutebrowser">webchat</a>).
 </p>
 </li>
 </ul></div>
@@ -1480,14 +1419,20 @@ instead it uses custom-named loggers.</p></div>
 <div class="paragraph"><p>The existing loggers are defined in <code>qutebrowser.utils.log</code>. If your feature
 doesn&#8217;t fit in any of the logging categories, simply add a new line like this:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="n">foo</span> <span class="o">=</span> <span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
-</pre></div></div></div>
+<div class="content"><!-- Generator: GNU source-highlight
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>foo <span style="color: #990000">=</span> <span style="font-weight: bold"><span style="color: #000000">getLogger</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'foo'</span><span style="color: #990000">)</span></tt></pre></div></div>
 <div class="paragraph"><p>Then in your source files, do this:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qutebrowser.utils</span> <span class="kn">import</span> <span class="n">log</span>
-<span class="o">...</span>
-<span class="n">log</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">)</span>
-</pre></div></div></div>
+<div class="content"><!-- Generator: GNU source-highlight
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">from</span></span> qutebrowser<span style="color: #990000">.</span>utils <span style="font-weight: bold"><span style="color: #000080">import</span></span> log
+<span style="color: #990000">...</span>
+log<span style="color: #990000">.</span>foo<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">debug</span></span><span style="color: #990000">(</span><span style="color: #FF0000">"Hello World"</span><span style="color: #990000">)</span></tt></pre></div></div>
 <div class="paragraph"><p>The following logging levels are available for every logger:</p></div>
 <div class="tableblock">
 <table rules="all"
@@ -1527,14 +1472,17 @@ cellspacing="0" cellpadding="4">
 commands.</p></div>
 <div class="paragraph"><p>Creating a new command is straightforward:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qutebrowser.api</span> <span class="kn">import</span> <span class="n">cmdutils</span>
+<div class="content"><!-- Generator: GNU source-highlight
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-weight: bold"><span style="color: #000080">from</span></span> qutebrowser<span style="color: #990000">.</span>api <span style="font-weight: bold"><span style="color: #000080">import</span></span> cmdutils
 
-<span class="o">...</span>
+<span style="color: #990000">...</span>
 
-<span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">foo</span><span class="p">():</span>
-    <span class="o">...</span>
-</pre></div></div></div>
+@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">register</span></span><span style="color: #990000">(...)</span>
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">foo</span></span><span style="color: #990000">():</span>
+    <span style="color: #990000">...</span></tt></pre></div></div>
 <div class="paragraph"><p>The commands arguments are automatically deduced by inspecting your function.</p></div>
 <div class="paragraph"><p>If the function is a method of a class, the <code>@cmdutils.register</code> decorator
 needs to have an <code>instance=...</code> parameter which points to the (single/main)
@@ -1552,10 +1500,13 @@ qutebrowser&#8217;s commandline.</p></div>
 <div class="paragraph"><p>The type can be overridden using Python&#8217;s
 <a href="https://www.python.org/dev/peps/pep-3107/">function annotations</a>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">baz</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="o">...</span>
-</pre></div></div></div>
+<div class="content"><!-- Generator: GNU source-highlight
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">register</span></span><span style="color: #990000">(...)</span>
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">foo</span></span><span style="color: #990000">(</span>bar<span style="color: #990000">:</span> int<span style="color: #990000">,</span> baz<span style="color: #990000">=</span>True<span style="color: #990000">):</span>
+    <span style="color: #990000">...</span></tt></pre></div></div>
 <div class="paragraph"><p>Possible values:</p></div>
 <div class="ulist"><ul>
 <li>
@@ -1579,18 +1530,24 @@ A <code>typing.Union</code> of multiple types above: Any of these types are vali
 decorator <strong>after</strong> <code>@cmdutils.register</code>. This can, for example, be used to
 customize the flag an argument should get:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="nd">@cmdutils</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">):</span>
-    <span class="o">...</span>
-</pre></div></div></div>
+<div class="content"><!-- Generator: GNU source-highlight
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">register</span></span><span style="color: #990000">(...)</span>
+@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">argument</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'bar'</span><span style="color: #990000">,</span> flag<span style="color: #990000">=</span><span style="color: #FF0000">'c'</span><span style="color: #990000">)</span>
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">foo</span></span><span style="color: #990000">(</span>bar<span style="color: #990000">):</span>
+    <span style="color: #990000">...</span></tt></pre></div></div>
 <div class="paragraph"><p>For a <code>str</code> argument, you can restrict the allowed strings using <code>choices</code>:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="nd">@cmdutils</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val1&#39;</span><span class="p">,</span> <span class="s1">&#39;val2&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="o">...</span>
-</pre></div></div></div>
+<div class="content"><!-- Generator: GNU source-highlight
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">register</span></span><span style="color: #990000">(...)</span>
+@cmdutils<span style="color: #990000">.</span><span style="font-weight: bold"><span style="color: #000000">argument</span></span><span style="color: #990000">(</span><span style="color: #FF0000">'bar'</span><span style="color: #990000">,</span> choices<span style="color: #990000">=[</span><span style="color: #FF0000">'val1'</span><span style="color: #990000">,</span> <span style="color: #FF0000">'val2'</span><span style="color: #990000">])</span>
+<span style="font-weight: bold"><span style="color: #0000FF">def</span></span> <span style="font-weight: bold"><span style="color: #000000">foo</span></span><span style="color: #990000">(</span>bar<span style="color: #990000">:</span> str<span style="color: #990000">):</span>
+    <span style="color: #990000">...</span></tt></pre></div></div>
 <div class="paragraph"><p>For <code>typing.Union</code> types, the given <code>choices</code> are only checked if other types
 (like <code>int</code>) don&#8217;t match.</p></div>
 <div class="paragraph"><p>The following arguments are supported for <code>@cmdutils.argument</code>:</p></div>
@@ -1774,6 +1731,11 @@ can be useful for debugging:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
+chrome://accessibility/
+</p>
+</li>
+<li>
+<p>
 chrome://appcache-internals/
 </p>
 </li>
@@ -1784,37 +1746,7 @@ chrome://blob-internals/
 </li>
 <li>
 <p>
-chrome://gpu/
-</p>
-</li>
-<li>
-<p>
-chrome://histograms/
-</p>
-</li>
-<li>
-<p>
-chrome://indexeddb-internals/
-</p>
-</li>
-<li>
-<p>
-chrome://media-internals/
-</p>
-</li>
-<li>
-<p>
-chrome://network-errors/
-</p>
-</li>
-<li>
-<p>
-chrome://serviceworker-internals/
-</p>
-</li>
-<li>
-<p>
-chrome://webrtc-internals/
+chrome://conversion-internals/ (QtWebEngine 5.15.3+)
 </p>
 </li>
 <li>
@@ -1824,7 +1756,12 @@ chrome://crash/ (crashes the current renderer process!)
 </li>
 <li>
 <p>
-chrome://kill/ (kills the current renderer process!)
+chrome://gpu/
+</p>
+</li>
+<li>
+<p>
+chrome://gpuclean/ (crashes the current renderer process!)
 </p>
 </li>
 <li>
@@ -1839,7 +1776,32 @@ chrome://gpuhang/ (hangs qutebrowser!)
 </li>
 <li>
 <p>
-chrome://gpuclean/ (crashes the current renderer process!)
+chrome://histograms/
+</p>
+</li>
+<li>
+<p>
+chrome://indexeddb-internals/
+</p>
+</li>
+<li>
+<p>
+chrome://kill/ (kills the current renderer process!)
+</p>
+</li>
+<li>
+<p>
+chrome://media-internals/
+</p>
+</li>
+<li>
+<p>
+chrome://net-internals/ (QtWebEngine 5.15.4+)
+</p>
+</li>
+<li>
+<p>
+chrome://network-errors/
 </p>
 </li>
 <li>
@@ -1854,17 +1816,52 @@ chrome://ppapiflashhang/
 </li>
 <li>
 <p>
+chrome://process-internals/
+</p>
+</li>
+<li>
+<p>
 chrome://quota-internals/
 </p>
 </li>
 <li>
 <p>
-chrome://taskscheduler-internals/
+chrome://sandbox/ (Linux only)
 </p>
 </li>
 <li>
 <p>
-chrome://sandbox/ (Linux only)
+chrome://serviceworker-internals/
+</p>
+</li>
+<li>
+<p>
+chrome://taskscheduler-internals/ (removed in QtWebEngine 5.14)
+</p>
+</li>
+<li>
+<p>
+chrome://tracing/ (QtWebEngine 5.15.3+)
+</p>
+</li>
+<li>
+<p>
+chrome://ukm/ (QtWebEngine 5.15.3+)
+</p>
+</li>
+<li>
+<p>
+chrome://user-actions/ (QtWebEngine 5.15.3+)
+</p>
+</li>
+<li>
+<p>
+chrome://webrtc-internals/
+</p>
+</li>
+<li>
+<p>
+chrome://webrtc-logs/ (QtWebEngine 5.15.3+)
 </p>
 </li>
 </ul></div>
@@ -1951,33 +1948,39 @@ sourcecode.
 </p>
 <div class="paragraph"><p>Example for a class docstring:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Some object.</span>
+<div class="content"><!-- Generator: GNU source-highlight
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">"""Some object.</span></span>
 
-<span class="sd">Attributes:</span>
-<span class="sd">    blub: The current thing to handle.</span>
+<span style="font-style: italic"><span style="color: #9A1900">Attributes:</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    blub: The current thing to handle.</span></span>
 
-<span class="sd">Signals:</span>
-<span class="sd">    valueChanged: Emitted when a value changed.</span>
-<span class="sd">                  arg: The new value</span>
-<span class="sd">&quot;&quot;&quot;</span>
-</pre></div></div></div>
+<span style="font-style: italic"><span style="color: #9A1900">Signals:</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    valueChanged: Emitted when a value changed.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">                  arg: The new value</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">"""</span></span></tt></pre></div></div>
 <div class="paragraph"><p>Example for a method/function docstring:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Do something special.</span>
+<div class="content"><!-- Generator: GNU source-highlight
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><span style="font-style: italic"><span style="color: #9A1900">"""Do something special.</span></span>
 
-<span class="sd">This will do something.</span>
+<span style="font-style: italic"><span style="color: #9A1900">This will do something.</span></span>
 
-<span class="sd">//</span>
+<span style="font-style: italic"><span style="color: #9A1900">//</span></span>
 
-<span class="sd">It is based on http://example.com/.</span>
+<span style="font-style: italic"><span style="color: #9A1900">It is based on http://example.com/.</span></span>
 
-<span class="sd">Args:</span>
-<span class="sd">    foo: ...</span>
+<span style="font-style: italic"><span style="color: #9A1900">Args:</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    foo: ...</span></span>
 
-<span class="sd">Return:</span>
-<span class="sd">    True if something, False if something else.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-</pre></div></div></div>
+<span style="font-style: italic"><span style="color: #9A1900">Return:</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">    True if something, False if something else.</span></span>
+<span style="font-style: italic"><span style="color: #9A1900">"""</span></span></tt></pre></div></div>
 </li>
 <li>
 <p>
@@ -2224,7 +2227,7 @@ Post announcement mail to subreddit
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-06-01 18:33:21 CEST
+ 2021-05-25 15:26:07 CEST
 </div>
 </div>
 </body>
