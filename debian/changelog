@@ -1,9 +1,10 @@
-qutebrowser (2.2.3-1) unstable; urgency=medium
+qutebrowser (2.2.3-1) experimental; urgency=medium
 
   * New upstream release
   * Since 2.2.0 only qtwebengine > 5.12.0 is supported adjusted the dependency
     accordingly
   * Add new dependency on libqt5dbus5 (>= 5.12.1)
+  * Upload to experimental as 2.2.3-1
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Tue, 01 Jun 2021 22:55:33 +0200
 
