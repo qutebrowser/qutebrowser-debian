@@ -1045,6 +1045,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Background color for the selected item in filename prompts.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.prompts.selected.fg">colors.prompts.selected.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color for the selected item in filename prompts.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.statusbar.caret.bg">colors.statusbar.caret.bg</a></p></td>
 <td align="left" valign="top"><p class="table">Background color of the statusbar in caret mode.</p></td>
 </tr>
@@ -1523,6 +1527,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.plugins">content.plugins</a></p></td>
 <td align="left" valign="top"><p class="table">Enable plugins in Web pages.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content.prefers_reduced_motion">content.prefers_reduced_motion</a></p></td>
+<td align="left" valign="top"><p class="table">Request websites to minimize non-essentials animations and motion.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.print_element_backgrounds">content.print_element_backgrounds</a></p></td>
@@ -4315,6 +4323,12 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 <div class="paragraph"><p>Default: <code>grey</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="colors.prompts.selected.fg">colors.prompts.selected.fg</h3>
+<div class="paragraph"><p>Foreground color for the selected item in filename prompts.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
+<div class="paragraph"><p>Default: <code>white</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="colors.statusbar.caret.bg">colors.statusbar.caret.bg</h3>
 <div class="paragraph"><p>Background color of the statusbar in caret mode.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
@@ -5745,6 +5759,17 @@ Note that the files can still be downloaded by clicking the download button in t
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="content.prefers_reduced_motion">content.prefers_reduced_motion</h3>
+<div class="paragraph"><p>Request websites to minimize non-essentials animations and motion.
+This results in the <code>prefers-reduced-motion</code> CSS media query to evaluate to <code>reduce</code> (rather than <code>no-preference</code>).
+On Windows, if this setting is set to False, the system-wide animation setting is considered.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="content.print_element_backgrounds">content.print_element_backgrounds</h3>
 <div class="paragraph"><p>Draw the background color and images also when the page is printed.</p></div>
 <div class="paragraph"><p>This setting supports URL patterns.</p></div>
@@ -6361,60 +6386,70 @@ Valid values are either a float value with a "pt" suffix, or an integer value wi
 <div class="sect2">
 <h3 id="fonts.web.family.cursive">fonts.web.family.cursive</h3>
 <div class="paragraph"><p>Font family for cursive fonts.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FontFamily</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.family.fantasy">fonts.web.family.fantasy</h3>
 <div class="paragraph"><p>Font family for fantasy fonts.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FontFamily</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.family.fixed">fonts.web.family.fixed</h3>
 <div class="paragraph"><p>Font family for fixed fonts.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FontFamily</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.family.sans_serif">fonts.web.family.sans_serif</h3>
 <div class="paragraph"><p>Font family for sans-serif fonts.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FontFamily</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.family.serif">fonts.web.family.serif</h3>
 <div class="paragraph"><p>Font family for serif fonts.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FontFamily</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.family.standard">fonts.web.family.standard</h3>
 <div class="paragraph"><p>Font family for standard fonts.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FontFamily</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.size.default">fonts.web.size.default</h3>
 <div class="paragraph"><p>Default font size (in pixels) for regular text.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>16</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.size.default_fixed">fonts.web.size.default_fixed</h3>
 <div class="paragraph"><p>Default font size (in pixels) for fixed-pitch text.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>13</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.size.minimum">fonts.web.size.minimum</h3>
 <div class="paragraph"><p>Hard minimum font size (in pixels).</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>0</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.size.minimum_logical">fonts.web.size.minimum_logical</h3>
 <div class="paragraph"><p>Minimum logical font size (in pixels) that is applied when zooming out.</p></div>
+<div class="paragraph"><p>This setting supports URL patterns.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>6</code></p></div>
 </div>
@@ -8930,7 +8965,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-06-01 18:33:27 CEST
+ 2021-06-28 17:32:28 CEST
 </div>
 </div>
 </body>

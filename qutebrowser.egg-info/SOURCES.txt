@@ -7,6 +7,7 @@ requirements.txt
 setup.py
 doc/changelog.asciidoc
 doc/contributing.html
+doc/quickstart.html
 doc/qutebrowser.1
 doc/qutebrowser.1.asciidoc
 doc/img/cheatsheet-big.png
@@ -392,6 +393,7 @@ tests/end2end/data/l33t.txt
 tests/end2end/data/long_load.html
 tests/end2end/data/marks.html
 tests/end2end/data/paste_primary.html
+tests/end2end/data/prefers_reduced_motion.html
 tests/end2end/data/reload.txt
 tests/end2end/data/search.html
 tests/end2end/data/search_select.js
