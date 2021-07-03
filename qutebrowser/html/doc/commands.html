@@ -2179,7 +2179,7 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 <div class="sect2">
 <h3 id="greasemonkey-reload">greasemonkey-reload</h3>
-<div class="paragraph"><p>Syntax: <code>:greasemonkey-reload [<strong>--force</strong>]</code></p></div>
+<div class="paragraph"><p>Syntax: <code>:greasemonkey-reload [<strong>--force</strong>] [<strong>--quiet</strong>]</code></p></div>
 <div class="paragraph"><p>Re-read Greasemonkey scripts from disk.</p></div>
 <div class="paragraph"><p>The scripts are read from a <em>greasemonkey</em> subdirectory in qutebrowser&#8217;s data or config directories (see <code>:version</code>).</p></div>
 <div class="sect3">
@@ -2188,6 +2188,11 @@ This command does not split arguments after the last argument and handles quotes
 <li>
 <p>
 <code><strong>-f</strong></code>, <code><strong>--force</strong></code>: For any scripts that have required dependencies, re-download them.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-q</strong></code>, <code><strong>--quiet</strong></code>: Suppress message after loading scripts.
 </p>
 </li>
 </ul></div>
@@ -5225,7 +5230,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-06-01 18:33:26 CEST
+ 2021-06-28 17:32:27 CEST
 </div>
 </div>
 </body>

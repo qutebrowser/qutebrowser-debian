@@ -15,6 +15,40 @@ breaking changes (such as renamed commands) can happen in minor releases.
 // `Fixed` for any bug fixes.
 // `Security` to invite users to upgrade in case of vulnerabilities.
 
+[[v2.3.0]]
+v2.3.0 (2021-06-28)
+-------------------
+
+Added
+~~~~~
+
+- New `content.prefers_reduced_motion` setting to request websites to reduce
+  non-essential motion/animations.
+- New `colors.prompts.selected.fg` setting to customize the text color for
+  selected items in filename prompts.
+
+Changed
+~~~~~~~
+
+- The hosts-based adblocker (using `content.blocking.hosts.lists`) now also
+  blocks all requests to any subdomains of blocked hosts.
+- The `fonts.web.*` settings now support URL patterns.
+- The `:greasemonkey-reload` command now shows a list of loaded scripts and has
+  a new `--quiet` switch to suppress that message.
+- When launching a userscript via hints, a new `QUTE_CURRENT_URL` environment
+  variable now points to the current page (rather than the URL of the selected
+  element, where `QUTE_URL` points to).
+
+Fixed
+~~~~~
+
+- Crash on macOS 10.14+ when logging into Google accounts -- the previous fix
+  was incomplete due wrong information in Apple's documentation.
+- Crash when two Greasemonkey scripts have the same name (usually happening
+  because the same file is in both the data and the config directory).
+- Deprecation warnings when using the `link_pyqt.py` script on Python 3.10
+  (e.g. via `tox` or `mkvenv.py`).
+
 [[v2.2.3]]
 v2.2.3 (2021-06-01)
 -------------------
