@@ -1,6 +1,7 @@
-qutebrowser (2.3.0-1) UNRELEASED; urgency=medium
+qutebrowser (2.3.0-1) experimental; urgency=medium
 
   * New upstream release
+  * Upload to experimental as 2.3.0-1
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Sat, 03 Jul 2021 20:40:33 +0200
 
