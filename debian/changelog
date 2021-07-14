@@ -1,3 +1,10 @@
+qutebrowser (2.0.2-2) unstable; urgency=medium
+
+  * Apply patch to update documentation with regards to the #qutebrowser
+    IRC channel having moved from Freenode to Libera.Chat.
+
+ -- Axel Beckert <abe@debian.org>  Wed, 14 Jul 2021 02:38:48 +0200
+
 qutebrowser (2.0.2-1) unstable; urgency=medium
 
   * New upstream bugfix release.

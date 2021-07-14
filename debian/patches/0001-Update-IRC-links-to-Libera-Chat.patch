@@ -1,0 +1,74 @@
+Author: Axel Beckert <abe@debian.org>
+Description: Update IRC links to Libera Chat
+ Based on a patch by Florian Bruhin <me@the-compiler.org>
+Forwarded: not-needed
+
+--- a/doc/qutebrowser.1.asciidoc
++++ b/doc/qutebrowser.1.asciidoc
+@@ -152,8 +152,8 @@
+ https://lists.schokokeks.org/mailman/listinfo.cgi/qutebrowser
+ * Announce-only mailinglist: mailto:qutebrowser-announce@lists.qutebrowser.org[] /
+ https://lists.schokokeks.org/mailman/listinfo.cgi/qutebrowser-announce
+-* IRC: irc://irc.freenode.org/#qutebrowser[`#qutebrowser`] on
+-https://freenode.net/[Freenode]
++* IRC: irc://irc.libera.chat/#qutebrowser[`#qutebrowser`] on
++https://libera.chat/[Libera Chat]
+ * Github: https://github.com/qutebrowser/qutebrowser
+ 
+ == AUTHOR
+--- a/misc/cheatsheet.svg
++++ b/misc/cheatsheet.svg
+@@ -2570,7 +2570,7 @@
+          id="flowPara5604"
+          style="font-size:13.8667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">Website: https://www.qutebrowser.org/ </flowPara><flowPara
+          id="flowPara5595"
+-         style="font-size:13.8667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">IRC: #qutebrowser on Freenode</flowPara><flowPara
++         style="font-size:13.8667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">IRC: #qutebrowser on Libera Chat</flowPara><flowPara
+          id="flowPara5597"
+          style="font-size:13.8667px;line-height:1.25;font-family:sans-serif;stroke-width:1.06667">Mailinglist: qutebrowser@lists.qutebrowser.org</flowPara></flowRoot>
+     <text
+--- a/qutebrowser/html/doc/contributing.html
++++ b/qutebrowser/html/doc/contributing.html
+@@ -890,9 +890,9 @@
+ </li>
+ <li>
+ <p>
+-Join the IRC channel <a href="irc://irc.freenode.org/#qutebrowser"><code>#qutebrowser</code></a> on
+-<a href="https://freenode.net/">Freenode</a>
+-(<a href="https://webchat.freenode.net/?channels=#qutebrowser">webchat</a>).
++Join the IRC channel <a href="ircs://irc.libera.chat:6697/#qutebrowser"><code>#qutebrowser</code></a> on
++<a href="https://libera.chat/">Libera Chat</a>
++(<a href="https://web.libera.chat/#qutebrowser">webchat</a>).
+ </p>
+ </li>
+ </ul></div>
+--- a/qutebrowser/html/doc/index.html
++++ b/qutebrowser/html/doc/index.html
+@@ -866,9 +866,9 @@
+ <h2 id="_getting_help">Getting help</h2>
+ <div class="sectionbody">
+ <div class="paragraph"><p>You can get help in the IRC channel
+-<a href="irc://irc.freenode.org/#qutebrowser"><code>#qutebrowser</code></a> on
+-<a href="http://freenode.net/">Freenode</a>
+-(<a href="https://webchat.freenode.net/?channels=#qutebrowser">webchat</a>), or by writing a
++<a href="ircs://irc.libera.chat:6697/#qutebrowser"><code>#qutebrowser</code></a> on
++<a href="https://libera.chat/">Libera Chat</a>
++(<a href="https://web.libera.chat/#qutebrowser">webchat</a>), or by writing a
+ message to the
+ <a href="https://lists.schokokeks.org/mailman/listinfo.cgi/qutebrowser">mailinglist</a> at
+ <a href="mailto:qutebrowser@lists.qutebrowser.org">qutebrowser@lists.qutebrowser.org</a>.</p></div>
+--- a/qutebrowser/html/doc/quickstart.html
++++ b/qutebrowser/html/doc/quickstart.html
+@@ -939,9 +939,9 @@
+ </li>
+ <li>
+ <p>
+-Chat via the IRC channel: <a href="irc://irc.freenode.org/#qutebrowser"><code>#qutebrowser</code></a> on
+-<a href="https://freenode.net/">Freenode</a>
+-(<a href="https://webchat.freenode.net/?channels=#qutebrowser">webchat</a>)
++Chat via the IRC channel: <a href="ircs://irc.libera.chat:6697/#qutebrowser"><code>#qutebrowser</code></a> on
++<a href="https://libera.chat/">Libera Chat</a>
++(<a href="https://web.libera.chat/#qutebrowser">webchat</a>)
+ </p>
+ </li>
+ <li>
