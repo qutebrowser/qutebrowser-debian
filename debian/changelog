@@ -1,3 +1,10 @@
+qutebrowser (2.3.1-1) unstable; urgency=medium
+
+  * New upstream bugfix release
+  * Upload to unstable again.
+
+ -- Axel Beckert <abe@debian.org>  Sun, 15 Aug 2021 15:37:04 +0200
+
 qutebrowser (2.3.0-1) experimental; urgency=medium
 
   * New upstream release
