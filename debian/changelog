@@ -4,6 +4,7 @@ qutebrowser (2.4.0-1) UNRELEASED; urgency=medium
     + Add tests/end2end/data/hints/ace/ace.js to debian/copyright and
       lintian overrides.
   * Drop lintian override for no more emitted lintian tag breakout-link.
+  * Declare compliance with Debian Policy 4.6.0. (No changes needed.)
 
  -- Axel Beckert <abe@debian.org>  Fri, 22 Oct 2021 03:56:01 +0200
 
