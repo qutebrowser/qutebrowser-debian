@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.1.0" />
+<meta name="generator" content="AsciiDoc 9.1.1" />
 <title>Configuring qutebrowser</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -830,6 +830,18 @@ to <a href="#configpy-autoconfig">load it from <code>config.py</code></a> if you
 </div>
 </div>
 <div class="sect1">
+<h2 id="patterns">URL pattern support</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Many settings are customizable depending on the page being visited by using URL
+patterns. The <a href="settings.html">settings documentation</a> marks such
+settings with "This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>The syntax is based on Chromium&#8217;s
+<a href="https://developer.chrome.com/docs/extensions/mv3/match_patterns/">URL pattern syntax</a>.
+As an extension, the scheme and path can be left off as a short-hand syntax, so
+<code>example.com</code> is equivalent to <code>*://example.com/*</code>.</p></div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="autoconfig">Configuring qutebrowser via the user interface</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>The easy (but less flexible) way to configure qutebrowser is using its user
@@ -846,9 +858,10 @@ page by running <code>:set</code> without any arguments, where all settings are 
 customizable.</p></div>
 <div class="paragraph"><p>Using the <a href="commands.html#set"><code>:set</code></a> command and command completion, you
 can quickly set settings interactively, for example <code>:set tabs.position left</code>.</p></div>
-<div class="paragraph"><p>Some settings are also customizable for a given
-<a href="https://developer.chrome.com/apps/match_patterns">URL pattern</a> by doing e.g.
-<code>:set --pattern=*://example.com/ content.images false</code>.</p></div>
+<div class="paragraph"><p><a href="#patterns">URL patterns</a> can be used via
+<code>:set --pattern *://example.com/* content.images false</code>, or with shorthand
+syntax for both argument and pattern, <code>:set -u example.com content.images
+false</code>.</p></div>
 <div class="paragraph"><p>To get more help about a setting, use e.g. <code>:help tabs.position</code>.</p></div>
 <div class="paragraph"><p>To bind and unbind keys, you can use the <a href="commands.html#bind"><code>:bind</code></a> and
 <a href="commands.html#unbind"><code>:unbind</code></a> commands:</p></div>
@@ -997,8 +1010,8 @@ prefix to preserve backslashes) or a Python regex object:</p></div>
 </div>
 <div class="sect2">
 <h3 id="_per_domain_settings">Per-domain settings</h3>
-<div class="paragraph"><p>Using <code>config.set</code>, some settings are also customizable for a given
-<a href="https://developer.chrome.com/apps/match_patterns">URL pattern</a>:</p></div>
+<div class="paragraph"><p>Using <code>config.set</code> instead of the <code>c.</code> shorthand, many settings are also
+customizable for a given <a href="#patterns">URL patterns</a>.</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;content.images&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;*://example.com/&#39;</span><span class="p">)</span>
 </pre></div></div></div>
@@ -1184,6 +1197,11 @@ A collection of <a href="https://github.com/chriskempson/base16">base16</a> colo
 </li>
 <li>
 <p>
+Another collection: <a href="https://github.com/leosolid/qutebrowser-themes">qutebrowser-themes</a>
+</p>
+</li>
+<li>
+<p>
 <a href="https://gitlab.com/jjzmajic/qutewal">Pywal integration</a>
 </p>
 </li>
@@ -1281,7 +1299,7 @@ stable across qutebrowser versions):</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-07-28 14:44:04 CEST
+ 2021-10-21 19:13:06 CEST
 </div>
 </div>
 </body>
