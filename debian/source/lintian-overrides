@@ -1,1 +1,8 @@
 qutebrowser source: source-contains-prebuilt-javascript-object tests/end2end/data/hints/angular1/angular.min.js
+
+# Yeah, sure.
+qutebrowser source: source-is-missing debian/missing-sources/angular.js
+
+# No, it's not missing, it's well readable source code and not prebuilt
+qutebrowser source: source-is-missing tests/end2end/data/hints/ace/ace.js
+qutebrowser source: source-contains-prebuilt-javascript-object tests/end2end/data/hints/ace/ace.js

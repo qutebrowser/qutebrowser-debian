@@ -1,6 +1,8 @@
 qutebrowser (2.4.0-1) UNRELEASED; urgency=medium
 
   * New upstream release.
+    + Add tests/end2end/data/hints/ace/ace.js to debian/copyright and
+      lintian overrides.
 
  -- Axel Beckert <abe@debian.org>  Fri, 22 Oct 2021 03:56:01 +0200
 
