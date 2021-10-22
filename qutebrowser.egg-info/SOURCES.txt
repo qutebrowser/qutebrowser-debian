@@ -6,8 +6,6 @@ qutebrowser.py
 requirements.txt
 setup.py
 doc/changelog.asciidoc
-doc/contributing.html
-doc/quickstart.html
 doc/qutebrowser.1
 doc/qutebrowser.1.asciidoc
 doc/img/cheatsheet-big.png
@@ -62,8 +60,6 @@ misc/requirements/requirements-pyqt-5.15.0.txt
 misc/requirements/requirements-pyqt-5.15.0.txt-raw
 misc/requirements/requirements-pyqt-5.15.txt
 misc/requirements/requirements-pyqt-5.15.txt-raw
-misc/requirements/requirements-pyqt-pyinstaller.txt
-misc/requirements/requirements-pyqt-pyinstaller.txt-raw
 misc/requirements/requirements-pyqt.txt
 misc/requirements/requirements-pyqt.txt-raw
 misc/requirements/requirements-pyroma.txt
@@ -358,6 +354,7 @@ scripts/keytester.py
 scripts/link_pyqt.py
 scripts/mkvenv.py
 scripts/open_url_in_instance.sh
+scripts/opengl_info.py
 scripts/setupcommon.py
 scripts/utils.py
 scripts/testbrowser/testbrowser_webengine.py

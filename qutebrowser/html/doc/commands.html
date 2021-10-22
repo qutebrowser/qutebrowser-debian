@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.1.0" />
+<meta name="generator" content="AsciiDoc 9.1.1" />
 <title>Commands</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -1626,7 +1626,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="ulist"><ul>
 <li>
 <p>
-<code><strong>-u</strong></code>, <code><strong>--pattern</strong></code>: The URL pattern to use.
+<code><strong>-u</strong></code>, <code><strong>--pattern</strong></code>: The <a href="configuring.html#patterns">URL pattern</a> to use.
 </p>
 </li>
 <li>
@@ -1836,7 +1836,7 @@ This command does not split arguments after the last argument and handles quotes
 <div class="ulist"><ul>
 <li>
 <p>
-<code><strong>-u</strong></code>, <code><strong>--pattern</strong></code>: The URL pattern to use.
+<code><strong>-u</strong></code>, <code><strong>--pattern</strong></code>: The <a href="configuring.html#patterns">URL pattern</a> to use.
 </p>
 </li>
 <li>
@@ -2445,9 +2445,8 @@ With <code>run</code>: Same as <code>fill</code>.
 <li>
 <p>
 <code><strong>-r</strong></code>, <code><strong>--rapid</strong></code>: Whether to do rapid hinting. With rapid hinting, the hint mode isn&#8217;t left after a hint is followed, so you can easily
- open multiple links. This is only possible with targets
- <code>tab</code> (with <code>tabs.background=true</code>), <code>tab-bg</code>,
- <code>window</code>, <code>run</code>, <code>hover</code>, <code>userscript</code> and <code>spawn</code>.
+ open multiple links. Note this won&#8217;t work with targets
+ <code>tab-fg</code>, <code>fill</code>, <code>delete</code> and <code>right-click</code>.
 </p>
 </li>
 <li>
@@ -3673,7 +3672,7 @@ This command does not split arguments after the last argument and handles quotes
 </li>
 <li>
 <p>
-<code><strong>-u</strong></code>, <code><strong>--pattern</strong></code>: The URL pattern to use.
+<code><strong>-u</strong></code>, <code><strong>--pattern</strong></code>: The <a href="configuring.html#patterns">URL pattern</a> to use.
 </p>
 </li>
 </ul></div>
@@ -3827,7 +3826,7 @@ This command does not split arguments after the last argument and handles quotes
 </div>
 <div class="sect2">
 <h3 id="tab-clone">tab-clone</h3>
-<div class="paragraph"><p>Syntax: <code>:tab-clone [<strong>--bg</strong>] [<strong>--window</strong>]</code></p></div>
+<div class="paragraph"><p>Syntax: <code>:tab-clone [<strong>--bg</strong>] [<strong>--window</strong>] [<strong>--private</strong>]</code></p></div>
 <div class="paragraph"><p>Duplicate the current tab.</p></div>
 <div class="sect3">
 <h4 id="_optional_arguments_50">optional arguments</h4>
@@ -3840,6 +3839,11 @@ This command does not split arguments after the last argument and handles quotes
 <li>
 <p>
 <code><strong>-w</strong></code>, <code><strong>--window</strong></code>: Open in a new window.
+</p>
+</li>
+<li>
+<p>
+<code><strong>-p</strong></code>, <code><strong>--private</strong></code>: Open in a new private window.
 </p>
 </li>
 </ul></div>
@@ -5230,7 +5234,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-07-28 14:44:07 CEST
+ 2021-10-21 19:13:08 CEST
 </div>
 </div>
 </body>

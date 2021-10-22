@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.1.0" />
+<meta name="generator" content="AsciiDoc 9.1.1" />
 <title>Setting reference</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -1345,6 +1345,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Enable the ad/host blocker</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#content.blocking.hosts.block_subdomains">content.blocking.hosts.block_subdomains</a></p></td>
+<td align="left" valign="top"><p class="table">Block subdomains of blocked hosts.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#content.blocking.hosts.lists">content.blocking.hosts.lists</a></p></td>
 <td align="left" valign="top"><p class="table">List of URLs to host blocklists for the host blocker.</p></td>
 </tr>
@@ -1607,6 +1611,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#downloads.position">downloads.position</a></p></td>
 <td align="left" valign="top"><p class="table">Where to show the downloaded files.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#downloads.prevent_mixed_content">downloads.prevent_mixed_content</a></p></td>
+<td align="left" valign="top"><p class="table">Automatically abort insecure (HTTP) downloads originating from secure (HTTPS) pages.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#downloads.remove_finished">downloads.remove_finished</a></p></td>
@@ -2710,6 +2718,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <li>
 <p>
 <code>&lt;Escape&gt;</code>: <code>mode-leave</code>
+</p>
+</li>
+<li>
+<p>
+<code>&lt;Shift-Escape&gt;</code>: <code>fake-key &lt;Escape&gt;</code>
 </p>
 </li>
 <li>
@@ -5021,7 +5034,7 @@ Changing this setting will cause the completion history to be regenerated on the
 <div class="sect2">
 <h3 id="content.autoplay">content.autoplay</h3>
 <div class="paragraph"><p>Automatically start playing <code>&lt;video&gt;</code> elements.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
@@ -5053,7 +5066,14 @@ need to find the link to the raw <code>.txt</code> file (e.g. by extracting it f
 <div class="sect2">
 <h3 id="content.blocking.enabled">content.blocking.enabled</h3>
 <div class="paragraph"><p>Enable the ad/host blocker</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content.blocking.hosts.block_subdomains">content.blocking.hosts.block_subdomains</h3>
+<div class="paragraph"><p>Block subdomains of blocked hosts.
+Note: If only a single subdomain is blocked but should be allowed, consider using <code>content.blocking.whitelist</code> instead.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -5137,7 +5157,7 @@ Note this whitelists otherwise blocked requests, not first-party URLs. As an exa
 <h3 id="content.cache.appcache">content.cache.appcache</h3>
 <div class="paragraph"><p>Enable support for the HTML 5 web application cache feature.
 An application cache acts like an HTTP cache in some sense. For documents that use the application cache via JavaScript, the loader engine will first ask the application cache for the contents, before hitting the network.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
@@ -5175,7 +5195,7 @@ Note that with QtWebKit, only <code>all</code> and <code>never</code> are suppor
 If this setting is used with URL patterns, the pattern gets applied to the origin/first party URL of the page making the request, not the request URL.
 With QtWebEngine 5.15.0+, paths will be stripped from URLs, so URL patterns using paths will not match. With QtWebEngine 5.15.2+, subdomains are additionally stripped as well, so you will typically need to set this setting for <code>example.com</code> when the cookie is set on <code>somesubdomain.example.com</code> for it to work properly.
 To debug issues with this setting, start qutebrowser with <code>--debug --logfilter network --debug-flag log-cookies</code> which will show all cookies being set.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5218,7 +5238,7 @@ The encoding must be a string describing an encoding such as <em>utf-8</em>, <em
 <div class="sect2">
 <h3 id="content.desktop_capture">content.desktop_capture</h3>
 <div class="paragraph"><p>Allow websites to share screen content.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5243,7 +5263,7 @@ The encoding must be a string describing an encoding such as <em>utf-8</em>, <em
 <div class="sect2">
 <h3 id="content.dns_prefetch">content.dns_prefetch</h3>
 <div class="paragraph"><p>Try to pre-fetch DNS entries to speed up browsing.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
@@ -5252,7 +5272,7 @@ The encoding must be a string describing an encoding such as <em>utf-8</em>, <em
 <h3 id="content.frame_flattening">content.frame_flattening</h3>
 <div class="paragraph"><p>Expand each subframe to its contents.
 This will flatten all the frames to become one scrollable page.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
@@ -5273,7 +5293,7 @@ If set to 0, no overlay will be displayed.</p></div>
 <div class="sect2">
 <h3 id="content.geolocation">content.geolocation</h3>
 <div class="paragraph"><p>Allow websites to request geolocations.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5299,14 +5319,14 @@ If set to 0, no overlay will be displayed.</p></div>
 <h3 id="content.headers.accept_language">content.headers.accept_language</h3>
 <div class="paragraph"><p>Value to send in the <code>Accept-Language</code> header.
 Note that the value read from JavaScript is always the global value.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Default: <code>en-US,en;q=0.9</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.headers.custom">content.headers.custom</h3>
 <div class="paragraph"><p>Custom headers for qutebrowser HTTP requests.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Dict</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
@@ -5314,14 +5334,14 @@ Note that the value read from JavaScript is always the global value.</p></div>
 <h3 id="content.headers.do_not_track">content.headers.do_not_track</h3>
 <div class="paragraph"><p>Value to send in the <code>DNT</code> header.
 When this is set to true, qutebrowser asks websites to not track your identity. If set to null, the DNT header is not sent at all.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.headers.referer">content.headers.referer</h3>
 <div class="paragraph"><p>When to send the Referer header.
-The Referer header tells websites from which website you were coming from when visiting them.
+The Referer header tells websites from which website you were coming from when visiting them. Note that with QtWebEngine, websites can override this preference by setting the <code>Referrer-Policy:</code> header, so that any websites visited from them get the full referer.
 No restart is needed with QtWebKit.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
@@ -5393,21 +5413,21 @@ QtWebKit/QtWebEngine.</p></div>
 <div class="paragraph"><p>Note that the value read from JavaScript is always the global value. With
 QtWebEngine between 5.12 and 5.14 (inclusive), changing the value exposed
 to JavaScript requires a restart.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FormatString</a></p></div>
 <div class="paragraph"><p>Default: <code>Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.hyperlink_auditing">content.hyperlink_auditing</h3>
 <div class="paragraph"><p>Enable hyperlink auditing (<code>&lt;a ping&gt;</code>).</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.images">content.images</h3>
 <div class="paragraph"><p>Load images automatically in web pages.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -5421,14 +5441,14 @@ to JavaScript requires a restart.</p></div>
 <h3 id="content.javascript.can_access_clipboard">content.javascript.can_access_clipboard</h3>
 <div class="paragraph"><p>Allow JavaScript to read from or write to the clipboard.
 With QtWebEngine, writing the clipboard as response to a user interaction is always allowed.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.javascript.can_close_tabs">content.javascript.can_close_tabs</h3>
 <div class="paragraph"><p>Allow JavaScript to close tabs.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
@@ -5436,14 +5456,14 @@ With QtWebEngine, writing the clipboard as response to a user interaction is alw
 <div class="sect2">
 <h3 id="content.javascript.can_open_tabs_automatically">content.javascript.can_open_tabs_automatically</h3>
 <div class="paragraph"><p>Allow JavaScript to open new tabs without user interaction.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.javascript.enabled">content.javascript.enabled</h3>
 <div class="paragraph"><p>Enable JavaScript.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -5493,28 +5513,28 @@ The following levels are valid: <code>none</code>, <code>debug</code>, <code>inf
 <div class="sect2">
 <h3 id="content.local_content_can_access_file_urls">content.local_content_can_access_file_urls</h3>
 <div class="paragraph"><p>Allow locally loaded documents to access other local URLs.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.local_content_can_access_remote_urls">content.local_content_can_access_remote_urls</h3>
 <div class="paragraph"><p>Allow locally loaded documents to access remote URLs.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.local_storage">content.local_storage</h3>
 <div class="paragraph"><p>Enable support for HTML 5 local storage and Web SQL.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.media.audio_capture">content.media.audio_capture</h3>
 <div class="paragraph"><p>Allow websites to record audio.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
@@ -5540,7 +5560,7 @@ The following levels are valid: <code>none</code>, <code>debug</code>, <code>inf
 <div class="sect2">
 <h3 id="content.media.audio_video_capture">content.media.audio_video_capture</h3>
 <div class="paragraph"><p>Allow websites to record audio and video.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
@@ -5566,7 +5586,7 @@ The following levels are valid: <code>none</code>, <code>debug</code>, <code>inf
 <div class="sect2">
 <h3 id="content.media.video_capture">content.media.video_capture</h3>
 <div class="paragraph"><p>Allow websites to record video.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
@@ -5592,7 +5612,7 @@ The following levels are valid: <code>none</code>, <code>debug</code>, <code>inf
 <div class="sect2">
 <h3 id="content.mouse_lock">content.mouse_lock</h3>
 <div class="paragraph"><p>Allow websites to lock your mouse pointer.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
@@ -5619,7 +5639,7 @@ The following levels are valid: <code>none</code>, <code>debug</code>, <code>inf
 <h3 id="content.mute">content.mute</h3>
 <div class="paragraph"><p>Automatically mute tabs.
 Note that if the <code>:tab-mute</code> command is used, the mute status for the affected tab is now controlled manually, and this setting doesn&#8217;t have any effect.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
@@ -5633,7 +5653,7 @@ If unset, <code>~/.netrc</code> is used.</p></div>
 <div class="sect2">
 <h3 id="content.notifications.enabled">content.notifications.enabled</h3>
 <div class="paragraph"><p>Allow websites to show notifications.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.13 or newer.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
@@ -5711,7 +5731,7 @@ Note that not all implementations support all features of notifications:
 <div class="paragraph"><p>Whether to show the origin URL for notifications.
 Note that URL patterns with this setting only get matched against the origin part of the URL, so e.g. paths in patterns will never match.
 Note that with the <code>qt</code> presenter, origins are never shown.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
 <div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
@@ -5721,14 +5741,14 @@ Note that with the <code>qt</code> presenter, origins are never shown.</p></div>
 <h3 id="content.pdfjs">content.pdfjs</h3>
 <div class="paragraph"><p>Allow pdf.js to view PDF files in the browser.
 Note that the files can still be downloaded by clicking the download button in the pdf.js viewer.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.persistent_storage">content.persistent_storage</h3>
 <div class="paragraph"><p>Allow websites to request persistent storage quota via <code>navigator.webkitPersistentStorage.requestQuota</code>.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
@@ -5754,7 +5774,7 @@ Note that the files can still be downloaded by clicking the download button in t
 <div class="sect2">
 <h3 id="content.plugins">content.plugins</h3>
 <div class="paragraph"><p>Enable plugins in Web pages.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
@@ -5772,7 +5792,7 @@ On Windows, if this setting is set to False, the system-wide animation setting i
 <div class="sect2">
 <h3 id="content.print_element_backgrounds">content.print_element_backgrounds</h3>
 <div class="paragraph"><p>Draw the background color and images also when the page is printed.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
@@ -5787,7 +5807,7 @@ On Windows, if this setting is set to False, the system-wide animation setting i
 <h3 id="content.proxy">content.proxy</h3>
 <div class="paragraph"><p>Proxy to use.
 In addition to the listed values, you can use a <code>socks://...</code> or <code>http://...</code> URL.
-Note that with QtWebEngine, it will take a couple of seconds until the change is applied, if this value is changed at runtime.</p></div>
+Note that with QtWebEngine, it will take a couple of seconds until the change is applied, if this value is changed at runtime. Authentication for SOCKS proxies isn&#8217;t supported due to Chromium limitations.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Proxy</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5814,7 +5834,7 @@ Note that with QtWebEngine, it will take a couple of seconds until the change is
 <div class="sect2">
 <h3 id="content.register_protocol_handler">content.register_protocol_handler</h3>
 <div class="paragraph"><p>Allow websites to register protocol handlers via <code>navigator.registerProtocolHandler</code>.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
@@ -5919,7 +5939,7 @@ The js-string-replaceall quirk is needed for Nextcloud Calendar &lt; 2.2.0 with 
 <div class="sect2">
 <h3 id="content.tls.certificate_errors">content.tls.certificate_errors</h3>
 <div class="paragraph"><p>How to proceed on TLS certificate errors.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5949,7 +5969,7 @@ The js-string-replaceall quirk is needed for Nextcloud Calendar &lt; 2.2.0 with 
 <div class="sect2">
 <h3 id="content.unknown_url_scheme_policy">content.unknown_url_scheme_policy</h3>
 <div class="paragraph"><p>How navigation requests to URLs with unknown schemes are handled.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
@@ -5981,7 +6001,7 @@ The js-string-replaceall quirk is needed for Nextcloud Calendar &lt; 2.2.0 with 
 <div class="sect2">
 <h3 id="content.webgl">content.webgl</h3>
 <div class="paragraph"><p>Enable WebGL.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -6021,7 +6041,7 @@ The js-string-replaceall quirk is needed for Nextcloud Calendar &lt; 2.2.0 with 
 <div class="paragraph"><p>Monitor load requests for cross-site scripting attempts.
 Suspicious scripts will be blocked and reported in the devtools JavaScript console.
 Note that bypasses for the XSS auditor are widely known and it can be abused for cross-site info leaks in some scenarios, see: <a href="https://www.chromium.org/developers/design-documents/xss-auditor">https://www.chromium.org/developers/design-documents/xss-auditor</a></p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
@@ -6095,6 +6115,14 @@ Any <code>{}</code> in the string will be expanded to the filename, else the fil
 </li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>top</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="downloads.prevent_mixed_content">downloads.prevent_mixed_content</h3>
+<div class="paragraph"><p>Automatically abort insecure (HTTP) downloads originating from secure (HTTPS) pages.
+For per-domain settings, the relevant URL is the URL initiating the download, not the URL the download itself is coming from. It&#8217;s not recommended to set this setting to false globally.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="downloads.remove_finished">downloads.remove_finished</h3>
@@ -6386,70 +6414,70 @@ Valid values are either a float value with a "pt" suffix, or an integer value wi
 <div class="sect2">
 <h3 id="fonts.web.family.cursive">fonts.web.family.cursive</h3>
 <div class="paragraph"><p>Font family for cursive fonts.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FontFamily</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.family.fantasy">fonts.web.family.fantasy</h3>
 <div class="paragraph"><p>Font family for fantasy fonts.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FontFamily</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.family.fixed">fonts.web.family.fixed</h3>
 <div class="paragraph"><p>Font family for fixed fonts.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FontFamily</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.family.sans_serif">fonts.web.family.sans_serif</h3>
 <div class="paragraph"><p>Font family for sans-serif fonts.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FontFamily</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.family.serif">fonts.web.family.serif</h3>
 <div class="paragraph"><p>Font family for serif fonts.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FontFamily</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.family.standard">fonts.web.family.standard</h3>
 <div class="paragraph"><p>Font family for standard fonts.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FontFamily</a></p></div>
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.size.default">fonts.web.size.default</h3>
 <div class="paragraph"><p>Default font size (in pixels) for regular text.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>16</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.size.default_fixed">fonts.web.size.default_fixed</h3>
 <div class="paragraph"><p>Default font size (in pixels) for fixed-pitch text.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>13</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.size.minimum">fonts.web.size.minimum</h3>
 <div class="paragraph"><p>Hard minimum font size (in pixels).</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>0</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.size.minimum_logical">fonts.web.size.minimum_logical</h3>
 <div class="paragraph"><p>Minimum logical font size (in pixels) that is applied when zooming out.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>6</code></p></div>
 </div>
@@ -6683,7 +6711,7 @@ Ignored for number hints.</p></div>
 <div class="sect2">
 <h3 id="hints.selectors">hints.selectors</h3>
 <div class="paragraph"><p>CSS selectors used to determine which elements on a page should have hints.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting can only be set in config.py.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Dict</a></p></div>
 <div class="paragraph"><p>Default:</p></div>
@@ -7032,7 +7060,7 @@ Items with less time between them are grouped when being displayed in <code>:his
 <h3 id="input.insert_mode.leave_on_load">input.insert_mode.leave_on_load</h3>
 <div class="paragraph"><p>Leave insert mode when starting a new page load.
 Patterns may be unreliable on this setting, and they may match the url you are navigating to, or the URL you are navigating from.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -7045,7 +7073,7 @@ Patterns may be unreliable on this setting, and they may match the url you are n
 <div class="sect2">
 <h3 id="input.links_included_in_focus_chain">input.links_included_in_focus_chain</h3>
 <div class="paragraph"><p>Include hyperlinks in the keyboard focus chain when tabbing.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -7084,7 +7112,7 @@ If set to 0, partially typed bindings are never cleared.</p></div>
 <h3 id="input.spatial_navigation">input.spatial_navigation</h3>
 <div class="paragraph"><p>Enable spatial navigation.
 Spatial navigation consists in the ability to navigate between focusable elements in a Web page, such as hyperlinks and form controls, by using Left, Right, Up and Down arrow keys. For example, if the user presses the Right key, heuristics determine whether there is an element he might be trying to reach towards the right and which element he probably wants.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
@@ -7465,7 +7493,7 @@ Note however that enabling this option <strong>can lead to data loss</strong> on
 <h3 id="scrolling.smooth">scrolling.smooth</h3>
 <div class="paragraph"><p>Enable smooth scrolling for web pages.
 Note smooth scrolling does not work with the <code>:scroll-px</code> command.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
@@ -8755,7 +8783,7 @@ transparency negatively affects performance.</p></div>
 <div class="sect2">
 <h3 id="zoom.text_only">zoom.text_only</h3>
 <div class="paragraph"><p>Apply the zoom factor on a frame only to the text or to all content.</p></div>
-<div class="paragraph"><p>This setting supports URL patterns.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebKit backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
@@ -8965,7 +8993,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-07-28 14:44:08 CEST
+ 2021-10-21 19:13:10 CEST
 </div>
 </div>
 </body>
