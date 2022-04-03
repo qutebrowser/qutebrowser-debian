@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.1.1" />
+<meta name="generator" content="AsciiDoc 10.1.4" />
 <title>Commands</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -3963,6 +3963,7 @@ This command does not split arguments after the last argument and handles quotes
 <p>
 <code><em>index</em></code>: <code>+</code> or <code>-</code> to move relative to the current tab by count, or a default of 1 space.
  A tab index to move to that index.
+ <code>start</code> and <code>end</code> to move to the start and the end.
 </p>
 </li>
 </ul></div>
@@ -4494,6 +4495,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Move to the end of the line.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#rl-filename-rubout">rl-filename-rubout</a></p></td>
+<td align="left" valign="top"><p class="table">Delete backwards using the OS path separator as boundary.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#rl-forward-char">rl-forward-char</a></p></td>
 <td align="left" valign="top"><p class="table">Move forward a character.</p></td>
 </tr>
@@ -4510,16 +4515,12 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Remove chars from the cursor to the end of the current word.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#rl-unix-filename-rubout">rl-unix-filename-rubout</a></p></td>
-<td align="left" valign="top"><p class="table">Remove chars from the cursor to the previous path separator.</p></td>
+<td align="left" valign="top"><p class="table"><a href="#rl-rubout">rl-rubout</a></p></td>
+<td align="left" valign="top"><p class="table">Delete backwards using the given characters as boundaries.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#rl-unix-line-discard">rl-unix-line-discard</a></p></td>
 <td align="left" valign="top"><p class="table">Remove chars backward from the cursor to the beginning of the line.</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table"><a href="#rl-unix-word-rubout">rl-unix-word-rubout</a></p></td>
-<td align="left" valign="top"><p class="table">Remove chars from the cursor to the beginning of the word.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#rl-yank">rl-yank</a></p></td>
@@ -4870,6 +4871,11 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>This acts like readline&#8217;s end-of-line.</p></div>
 </div>
 <div class="sect2">
+<h3 id="rl-filename-rubout">rl-filename-rubout</h3>
+<div class="paragraph"><p>Delete backwards using the OS path separator as boundary.</p></div>
+<div class="paragraph"><p>For behavior that matches readline&#8217;s <code>unix-filename-rubout</code> exactly, use <code>:rl-rubout "/ "</code> instead. This command uses the OS path separator (i.e. <code>\</code> on Windows) and ignores spaces.</p></div>
+</div>
+<div class="sect2">
 <h3 id="rl-forward-char">rl-forward-char</h3>
 <div class="paragraph"><p>Move forward a character.</p></div>
 <div class="paragraph"><p>This acts like readline&#8217;s forward-char.</p></div>
@@ -4890,19 +4896,25 @@ This command does not split arguments after the last argument and handles quotes
 <div class="paragraph"><p>This acts like readline&#8217;s kill-word.</p></div>
 </div>
 <div class="sect2">
-<h3 id="rl-unix-filename-rubout">rl-unix-filename-rubout</h3>
-<div class="paragraph"><p>Remove chars from the cursor to the previous path separator.</p></div>
-<div class="paragraph"><p>This acts like readline&#8217;s unix-filename-rubout.</p></div>
+<h3 id="rl-rubout">rl-rubout</h3>
+<div class="paragraph"><p>Syntax: <code>:rl-rubout <em>delim</em></code></p></div>
+<div class="paragraph"><p>Delete backwards using the given characters as boundaries.</p></div>
+<div class="paragraph"><p>With " ", this acts like readline&#8217;s <code>unix-word-rubout</code>. With " /", this acts like readline&#8217;s <code>unix-filename-rubout</code>, but consider using <code>:rl-filename-rubout</code> instead: It uses the OS path separator (i.e. <code>\</code> on Windows) and ignores spaces.</p></div>
+<div class="sect3">
+<h4 id="_positional_arguments_73">positional arguments</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+<code><em>delim</em></code>: A string of characters (or a single character) until which text will be deleted.
+</p>
+</li>
+</ul></div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="rl-unix-line-discard">rl-unix-line-discard</h3>
 <div class="paragraph"><p>Remove chars backward from the cursor to the beginning of the line.</p></div>
 <div class="paragraph"><p>This acts like readline&#8217;s unix-line-discard.</p></div>
-</div>
-<div class="sect2">
-<h3 id="rl-unix-word-rubout">rl-unix-word-rubout</h3>
-<div class="paragraph"><p>Remove chars from the cursor to the beginning of the word.</p></div>
-<div class="paragraph"><p>This acts like readline&#8217;s unix-word-rubout. Whitespace is used as a word delimiter.</p></div>
 </div>
 <div class="sect2">
 <h3 id="rl-yank">rl-yank</h3>
@@ -5033,7 +5045,7 @@ cellspacing="0" cellpadding="4">
 <div class="paragraph"><p>Syntax: <code>:debug-crash [<em>typ</em>]</code></p></div>
 <div class="paragraph"><p>Crash for debugging purposes.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_73">positional arguments</h4>
+<h4 id="_positional_arguments_74">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5048,7 +5060,7 @@ cellspacing="0" cellpadding="4">
 <div class="paragraph"><p>Syntax: <code>:debug-dump-history <em>dest</em></code></p></div>
 <div class="paragraph"><p>Dump the history to a file in the old pre-SQL format.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_74">positional arguments</h4>
+<h4 id="_positional_arguments_75">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5063,7 +5075,7 @@ cellspacing="0" cellpadding="4">
 <div class="paragraph"><p>Syntax: <code>:debug-dump-page [<strong>--plain</strong>] <em>dest</em></code></p></div>
 <div class="paragraph"><p>Dump the current page&#8217;s content to a file.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_75">positional arguments</h4>
+<h4 id="_positional_arguments_76">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5092,7 +5104,7 @@ cellspacing="0" cellpadding="4">
 <div class="paragraph"><p>Syntax: <code>:debug-log-capacity <em>capacity</em></code></p></div>
 <div class="paragraph"><p>Change the number of log lines to be stored in RAM.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_76">positional arguments</h4>
+<h4 id="_positional_arguments_77">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5107,7 +5119,7 @@ cellspacing="0" cellpadding="4">
 <div class="paragraph"><p>Syntax: <code>:debug-log-filter <em>filters</em></code></p></div>
 <div class="paragraph"><p>Change the log filter for console logging.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_77">positional arguments</h4>
+<h4 id="_positional_arguments_78">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5122,7 +5134,7 @@ cellspacing="0" cellpadding="4">
 <div class="paragraph"><p>Syntax: <code>:debug-pyeval [<strong>--file</strong>] [<strong>--quiet</strong>] <em>s</em></code></p></div>
 <div class="paragraph"><p>Evaluate a python string and display the results as a web page.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_78">positional arguments</h4>
+<h4 id="_positional_arguments_79">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5167,7 +5179,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div class="paragraph"><p>Syntax: <code>:debug-set-fake-clipboard [<em>s</em>]</code></p></div>
 <div class="paragraph"><p>Put data into the fake clipboard and enable logging, used for tests.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_79">positional arguments</h4>
+<h4 id="_positional_arguments_80">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5182,7 +5194,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div class="paragraph"><p>Syntax: <code>:debug-trace [<em>expr</em>]</code></p></div>
 <div class="paragraph"><p>Trace executed code via hunter.</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_80">positional arguments</h4>
+<h4 id="_positional_arguments_81">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5213,7 +5225,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div class="paragraph"><p>Execute a webaction.</p></div>
 <div class="paragraph"><p>Available actions: <a href="https://doc.qt.io/archives/qt-5.5/qwebpage.html#WebAction-enum">https://doc.qt.io/archives/qt-5.5/qwebpage.html#WebAction-enum</a> (WebKit) <a href="https://doc.qt.io/qt-5/qwebenginepage.html#WebAction-enum">https://doc.qt.io/qt-5/qwebenginepage.html#WebAction-enum</a> (WebEngine)</p></div>
 <div class="sect3">
-<h4 id="_positional_arguments_81">positional arguments</h4>
+<h4 id="_positional_arguments_82">positional arguments</h4>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5234,7 +5246,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-10-21 19:13:08 CEST
+ 2022-04-01 18:30:34 CEST
 </div>
 </div>
 </body>
