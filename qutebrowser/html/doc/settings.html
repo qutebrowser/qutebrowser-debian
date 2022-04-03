@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.1.1" />
+<meta name="generator" content="AsciiDoc 10.1.4" />
 <title>Setting reference</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -1629,6 +1629,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Encoding to use for the editor.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#editor.remove_file">editor.remove_file</a></p></td>
+<td align="left" valign="top"><p class="table">Delete the temporary file upon closing the editor.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#fileselect.folder.command">fileselect.folder.command</a></p></td>
 <td align="left" valign="top"><p class="table">Command (and arguments) to use for selecting a single folder in forms. The command should write the selected folder path to the specified file or stdout.</p></td>
 </tr>
@@ -1853,8 +1857,16 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Include hyperlinks in the keyboard focus chain when tabbing.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#input.match_counts">input.match_counts</a></p></td>
+<td align="left" valign="top"><p class="table">Interpret number prefixes as counts for bindings.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#input.media_keys">input.media_keys</a></p></td>
 <td align="left" valign="top"><p class="table">Whether the underlying Chromium should handle media keys.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#input.mode_override">input.mode_override</a></p></td>
+<td align="left" valign="top"><p class="table">Mode to change to when focusing on a tab/URL changes.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#input.mouse.back_forward_buttons">input.mouse.back_forward_buttons</a></p></td>
@@ -1917,6 +1929,18 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Additional arguments to pass to Qt, without leading <code>--</code>.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#qt.chromium.low_end_device_mode">qt.chromium.low_end_device_mode</a></p></td>
+<td align="left" valign="top"><p class="table">When to use Chromium&#8217;s low-end device mode.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#qt.chromium.process_model">qt.chromium.process_model</a></p></td>
+<td align="left" valign="top"><p class="table">Which Chromium process model to use.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#qt.chromium.sandboxing">qt.chromium.sandboxing</a></p></td>
+<td align="left" valign="top"><p class="table">What sandboxing mechanisms in Chromium to use.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#qt.environ">qt.environ</a></p></td>
 <td align="left" valign="top"><p class="table">Additional environment variables to set.</p></td>
 </tr>
@@ -1935,14 +1959,6 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#qt.highdpi">qt.highdpi</a></p></td>
 <td align="left" valign="top"><p class="table">Turn on Qt HighDPI scaling.</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table"><a href="#qt.low_end_device_mode">qt.low_end_device_mode</a></p></td>
-<td align="left" valign="top"><p class="table">When to use Chromium&#8217;s low-end device mode.</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table"><a href="#qt.process_model">qt.process_model</a></p></td>
-<td align="left" valign="top"><p class="table">Which Chromium process model to use.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#qt.workarounds.locale">qt.workarounds.locale</a></p></td>
@@ -2311,9 +2327,7 @@ hint: Entered when <code>f</code> is pressed to select links with the keyboard. 
 <li>
 <p>
 passthrough: Similar to insert mode, but passes through all keypresses
-  except <code>&lt;Escape&gt;</code> to leave the mode. It might be useful to bind
-  <code>&lt;Escape&gt;</code> to some other key in this mode if you want to be able to send
-  an Escape key to the website as well. Note that single keys can&#8217;t be
+  except <code>&lt;Shift+Escape&gt;</code> to leave the mode. Note that single keys can&#8217;t be
   bound in this mode.
 </p>
 </li>
@@ -2608,6 +2622,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>&lt;Ctrl-Shift-W&gt;</code>: <code>rl-filename-rubout</code>
+</p>
+</li>
+<li>
+<p>
 <code>&lt;Ctrl-Tab&gt;</code>: <code>completion-item-focus next-category</code>
 </p>
 </li>
@@ -2618,7 +2637,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>&lt;Ctrl-W&gt;</code>: <code>rl-unix-word-rubout</code>
+<code>&lt;Ctrl-W&gt;</code>: <code>rl-rubout &quot; &quot;</code>
 </p>
 </li>
 <li>
@@ -3773,12 +3792,17 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
+<code>&lt;Ctrl-Shift-W&gt;</code>: <code>rl-filename-rubout</code>
+</p>
+</li>
+<li>
+<p>
 <code>&lt;Ctrl-U&gt;</code>: <code>rl-unix-line-discard</code>
 </p>
 </li>
 <li>
 <p>
-<code>&lt;Ctrl-W&gt;</code>: <code>rl-unix-word-rubout</code>
+<code>&lt;Ctrl-W&gt;</code>: <code>rl-rubout &quot; &quot;</code>
 </p>
 </li>
 <li>
@@ -6199,6 +6223,12 @@ The following placeholders are defined:</p></div>
 <div class="paragraph"><p>Default: <code>utf-8</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="editor.remove_file">editor.remove_file</h3>
+<div class="paragraph"><p>Delete the temporary file upon closing the editor.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="fileselect.folder.command">fileselect.folder.command</h3>
 <div class="paragraph"><p>Command (and arguments) to use for selecting a single folder in forms. The command should write the selected folder path to the specified file or stdout.
 The following placeholders are defined:
@@ -6808,6 +6838,31 @@ Ignored for number hints.</p></div>
 </li>
 <li>
 <p>
+<code>[role=&quot;tab&quot;]</code>
+</p>
+</li>
+<li>
+<p>
+<code>[role=&quot;checkbox&quot;]</code>
+</p>
+</li>
+<li>
+<p>
+<code>[role=&quot;menuitem&quot;]</code>
+</p>
+</li>
+<li>
+<p>
+<code>[role=&quot;menuitemcheckbox&quot;]</code>
+</p>
+</li>
+<li>
+<p>
+<code>[role=&quot;menuitemradio&quot;]</code>
+</p>
+</li>
+<li>
+<p>
 <code>[ng-click]</code>
 </p>
 </li>
@@ -6828,7 +6883,7 @@ Ignored for number hints.</p></div>
 </li>
 <li>
 <p>
-<code>[tabindex]</code>
+<code>[tabindex]:not([tabindex=&quot;-1&quot;])</code>
 </p>
 </li>
 </ul></div>
@@ -7078,6 +7133,13 @@ Patterns may be unreliable on this setting, and they may match the url you are n
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="input.match_counts">input.match_counts</h3>
+<div class="paragraph"><p>Interpret number prefixes as counts for bindings.
+This enables for vi-like bindings that can be prefixed with a number to indicate a count. Disabling it allows for emacs-like bindings where number keys are passed through (according to <code>input.forward_unbound_keys</code>) instead.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="input.media_keys">input.media_keys</h3>
 <div class="paragraph"><p>Whether the underlying Chromium should handle media keys.
 On Linux, disabling this also disables Chromium&#8217;s MPRIS integration.</p></div>
@@ -7086,6 +7148,31 @@ On Linux, disabling this also disables Chromium&#8217;s MPRIS integration.</p></
 <div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="input.mode_override">input.mode_override</h3>
+<div class="paragraph"><p>Mode to change to when focusing on a tab/URL changes.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>normal</code>
+</p>
+</li>
+<li>
+<p>
+<code>insert</code>
+</p>
+</li>
+<li>
+<p>
+<code>passthrough</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="input.mouse.back_forward_buttons">input.mouse.back_forward_buttons</h3>
@@ -7111,7 +7198,7 @@ If set to 0, partially typed bindings are never cleared.</p></div>
 <div class="sect2">
 <h3 id="input.spatial_navigation">input.spatial_navigation</h3>
 <div class="paragraph"><p>Enable spatial navigation.
-Spatial navigation consists in the ability to navigate between focusable elements in a Web page, such as hyperlinks and form controls, by using Left, Right, Up and Down arrow keys. For example, if the user presses the Right key, heuristics determine whether there is an element he might be trying to reach towards the right and which element he probably wants.</p></div>
+Spatial navigation consists in the ability to navigate between focusable elements, such as hyperlinks and form controls, on a web page by using the Left, Right, Up and Down arrow keys. For example, if a user presses the Right key, heuristics determine whether there is an element they might be trying to reach towards the right and which element they probably want.</p></div>
 <div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
@@ -7312,6 +7399,105 @@ With QtWebEngine, some Chromium arguments (see <a href="https://peter.sh/experim
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
+<h3 id="qt.chromium.low_end_device_mode">qt.chromium.low_end_device_mode</h3>
+<div class="paragraph"><p>When to use Chromium&#8217;s low-end device mode.
+This improves the RAM usage of renderer processes, at the expense of performance.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Always use low-end device mode.
+</p>
+</li>
+<li>
+<p>
+<code>auto</code>: Decide automatically (uses low-end mode with &lt; 1 GB available RAM).
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Never use low-end device mode.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>auto</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="qt.chromium.process_model">qt.chromium.process_model</h3>
+<div class="paragraph"><p>Which Chromium process model to use.
+Alternative process models use less resources, but decrease security and robustness.
+See the following pages for more details:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://www.chromium.org/developers/design-documents/process-models">https://www.chromium.org/developers/design-documents/process-models</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://doc.qt.io/qt-5/qtwebengine-features.html#process-models">https://doc.qt.io/qt-5/qtwebengine-features.html#process-models</a>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>process-per-site-instance</code>: Pages from separate sites are put into separate processes and separate visits to the same site are also isolated.
+</p>
+</li>
+<li>
+<p>
+<code>process-per-site</code>: Pages from separate sites are put into separate processes. Unlike Process per Site Instance, all visits to the same site will share an OS process. The benefit of this model is reduced memory consumption, because more web pages will share processes. The drawbacks include reduced security, robustness, and responsiveness.
+</p>
+</li>
+<li>
+<p>
+<code>single-process</code>: Run all tabs in a single process. This should be used for debugging purposes only, and it disables <code>:open --private</code>.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>process-per-site-instance</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="qt.chromium.sandboxing">qt.chromium.sandboxing</h3>
+<div class="paragraph"><p>What sandboxing mechanisms in Chromium to use.
+Chromium has various sandboxing layers, which should be enabled for normal browser usage. Mainly for testing and development, it&#8217;s possible to disable individual sandboxing layers via this setting.
+Open <code>chrome://sandbox</code> to see the current sandbox status.
+Changing this setting is only recommended if you know what you&#8217;re doing, as it <strong>disables one of Chromium&#8217;s security layers</strong>. To avoid sandboxing being accidentally disabled persistently, this setting can only be set via <code>config.py</code>, not via <code>:set</code>.
+See the Chromium documentation for more details:
+- <a href="https://chromium.googlesource.com/chromium/src/+/HEAD/docs/linux/sandboxing.md">Linux</a> - <a href="https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md">Windows</a> - <a href="https://chromium.googlesource.com/chromium/src/\+/HEAD/docs/design/sandbox_faq.md">FAQ (Windows-centric)</a></p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting can only be set in config.py.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>enable-all</code>: Enable all available sandboxing mechanisms.
+</p>
+</li>
+<li>
+<p>
+<code>disable-seccomp-bpf</code>: Disable the Seccomp BPF filter sandbox (Linux only).
+</p>
+</li>
+<li>
+<p>
+<code>disable-all</code>: Disable all sandboxing (<strong>not recommended!</strong>).
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>enable-all</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="qt.environ">qt.environ</h3>
 <div class="paragraph"><p>Additional environment variables to set.
 Setting an environment variable to null/None will unset it.</p></div>
@@ -7375,73 +7561,6 @@ It&#8217;s off by default as it can cause issues with some bitmap fonts. As an a
 <div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
-</div>
-<div class="sect2">
-<h3 id="qt.low_end_device_mode">qt.low_end_device_mode</h3>
-<div class="paragraph"><p>When to use Chromium&#8217;s low-end device mode.
-This improves the RAM usage of renderer processes, at the expense of performance.</p></div>
-<div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
-<div class="paragraph"><p>Valid values:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<code>always</code>: Always use low-end device mode.
-</p>
-</li>
-<li>
-<p>
-<code>auto</code>: Decide automatically (uses low-end mode with &lt; 1 GB available RAM).
-</p>
-</li>
-<li>
-<p>
-<code>never</code>: Never use low-end device mode.
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>Default: <code>auto</code></p></div>
-</div>
-<div class="sect2">
-<h3 id="qt.process_model">qt.process_model</h3>
-<div class="paragraph"><p>Which Chromium process model to use.
-Alternative process models use less resources, but decrease security and robustness.
-See the following pages for more details:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<a href="https://www.chromium.org/developers/design-documents/process-models">https://www.chromium.org/developers/design-documents/process-models</a>
-</p>
-</li>
-<li>
-<p>
-<a href="https://doc.qt.io/qt-5/qtwebengine-features.html#process-models">https://doc.qt.io/qt-5/qtwebengine-features.html#process-models</a>
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
-<div class="paragraph"><p>Valid values:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<code>process-per-site-instance</code>: Pages from separate sites are put into separate processes and separate visits to the same site are also isolated.
-</p>
-</li>
-<li>
-<p>
-<code>process-per-site</code>: Pages from separate sites are put into separate processes. Unlike Process per Site Instance, all visits to the same site will share an OS process. The benefit of this model is reduced memory consumption, because more web pages will share processes. The drawbacks include reduced security, robustness, and responsiveness.
-</p>
-</li>
-<li>
-<p>
-<code>single-process</code>: Run all tabs in a single process. This should be used for debugging purposes only, and it disables <code>:open --private</code>.
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>Default: <code>process-per-site-instance</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="qt.workarounds.locale">qt.workarounds.locale</h3>
@@ -8401,6 +8520,11 @@ The following placeholders are defined:</p></div>
 </li>
 <li>
 <p>
+<code>{relative_index}</code>: Index of this tab relative to the current tab.
+</p>
+</li>
+<li>
+<p>
 <code>{id}</code>: Internal tab ID of this tab.
 </p>
 </li>
@@ -8993,7 +9117,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2021-10-21 19:13:10 CEST
+ 2022-04-01 18:30:35 CEST
 </div>
 </div>
 </body>

@@ -45,7 +45,6 @@ misc/requirements/requirements-flake8.txt
 misc/requirements/requirements-flake8.txt-raw
 misc/requirements/requirements-mypy.txt
 misc/requirements/requirements-mypy.txt-raw
-misc/requirements/requirements-pip.txt
 misc/requirements/requirements-pyinstaller.txt
 misc/requirements/requirements-pyinstaller.txt-raw
 misc/requirements/requirements-pylint.txt
@@ -453,7 +452,6 @@ tests/end2end/data/hints/iframe_input.html
 tests/end2end/data/hints/iframe_scroll.html
 tests/end2end/data/hints/iframe_target.html
 tests/end2end/data/hints/input.html
-tests/end2end/data/hints/invisible.html
 tests/end2end/data/hints/issue1186.html
 tests/end2end/data/hints/issue1393.html
 tests/end2end/data/hints/issue3711.html
@@ -472,11 +470,13 @@ tests/end2end/data/hints/bootstrap/checkbox.html
 tests/end2end/data/hints/html/README.md
 tests/end2end/data/hints/html/angular1.html
 tests/end2end/data/hints/html/click_handler.html
+tests/end2end/data/hints/html/invisible.html
 tests/end2end/data/hints/html/javascript.html
 tests/end2end/data/hints/html/nested_block_style.html
 tests/end2end/data/hints/html/nested_formatting_tags.html
 tests/end2end/data/hints/html/nested_table_style.html
 tests/end2end/data/hints/html/simple.html
+tests/end2end/data/hints/html/tabindex-negative.html
 tests/end2end/data/hints/html/target_blank_js.html
 tests/end2end/data/hints/html/with_spaces.html
 tests/end2end/data/hints/html/wrapped.html

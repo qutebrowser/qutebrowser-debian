@@ -633,6 +633,27 @@ Feature: Tab management
             - data/numbers/1.txt (active)
             - data/numbers/3.txt
 
+    Scenario: :tab-move with absolute position
+        When I open data/numbers/1.txt
+        And I open data/numbers/2.txt in a new tab
+        And I open data/numbers/3.txt in a new tab
+        And I run :tab-focus 1
+        And I run :tab-move end
+        Then the following tabs should be open:
+            - data/numbers/2.txt
+            - data/numbers/3.txt
+            - data/numbers/1.txt (active)
+
+    Scenario: :tab-move with absolute position
+        When I open data/numbers/1.txt
+        And I open data/numbers/2.txt in a new tab
+        And I open data/numbers/3.txt in a new tab
+        And I run :tab-move start
+        Then the following tabs should be open:
+            - data/numbers/3.txt (active)
+            - data/numbers/1.txt
+            - data/numbers/2.txt
+
     Scenario: Make sure :tab-move retains metadata
         When I open data/title.html
         And I open data/hello.txt in a new tab
@@ -1349,6 +1370,25 @@ Feature: Tab management
         And I run :tab-take 0/1
         Then the error "Can't take tabs when using windows as tabs" should be shown
 
+    @windows_skip
+    Scenario: Close the last tab of a window when taken by another window
+        Given I have a fresh instance
+        When I open data/numbers/1.txt
+        And I run :tab-only
+        And I open data/numbers/2.txt in a new window
+        And I set tabs.last_close to ignore
+        And I run :tab-take 1/1
+        And I wait until data/numbers/2.txt is loaded
+        Then the session should look like:
+            windows:
+            - tabs:
+              - history:
+                - url: about:blank
+                - url: http://localhost:*/data/numbers/1.txt
+              - active: true
+                history:
+                - url: http://localhost:*/data/numbers/2.txt
+
     # :tab-give
 
     @xfail_norun  # Needs qutewm
@@ -1405,6 +1445,24 @@ Feature: Tab management
         And I set tabs.tabs_are_windows to true
         And I run :tab-give 0
         Then the error "Can't give tabs when using windows as tabs" should be shown
+
+    @windows_skip
+    Scenario: Close the last tab of a window when given to another window
+        Given I have a fresh instance
+        When I open data/numbers/1.txt
+        And I run :tab-only
+        And I open data/numbers/2.txt in a new window
+        And I set tabs.last_close to ignore
+        And I run :tab-give 1
+        And I wait until data/numbers/1.txt is loaded
+        Then the session should look like:
+            windows:
+            - tabs:
+              - active: true
+                history:
+                - url: http://localhost:*/data/numbers/2.txt
+              - history:
+                - url: http://localhost:*/data/numbers/1.txt
 
     # Other
 
@@ -1683,3 +1741,22 @@ Feature: Tab management
         And I run :undo
         And I run :message-info "Still alive!"
         Then the message "Still alive!" should be shown
+
+    Scenario: Passthrough mode override
+        When I run :set -u localhost:*/data/numbers/1.txt input.mode_override 'passthrough'
+        And I open data/numbers/1.txt
+        Then "Entering mode KeyMode.passthrough (reason: mode_override)" should be logged
+
+    Scenario: Insert mode override
+        When I run :set -u localhost:*/data/numbers/1.txt  input.mode_override 'insert'
+        And I open data/numbers/1.txt
+        Then "Entering mode KeyMode.insert (reason: mode_override)" should be logged
+
+    Scenario: Mode override on tab switch
+        When I run :set -u localhost:*/data/numbers/1.txt input.mode_override 'insert'
+        And I open data/numbers/1.txt
+        And I wait for "Entering mode KeyMode.insert (reason: mode_override)" in the log
+        And I run :fake-key -g <esc>
+        And I open data/numbers/2.txt in a new tab
+        And I run :tab-prev
+        Then "Entering mode KeyMode.insert (reason: mode_override)" should be logged
