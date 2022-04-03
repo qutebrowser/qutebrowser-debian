@@ -1,3 +1,10 @@
+qutebrowser (2.5.0-1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+    + Refresh sole, debian-specific patch.
+
+ -- Axel Beckert <abe@debian.org>  Sun, 03 Apr 2022 15:43:35 +0200
+
 qutebrowser (2.4.0-1) unstable; urgency=medium
 
   * New upstream release.
