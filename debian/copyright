@@ -4,7 +4,7 @@ Upstream-Contact: Florian Bruhin <mail@qutebrowser.org>
 Source: https://github.com/qutebrowser/qutebrowser/
 
 Files: *
-Copyright: 2014-2018 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+Copyright: 2014-2022 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 License: GPL-3+
 
 Files: qutebrowser/javascript/pac_utils.js
@@ -20,8 +20,8 @@ Copyright: 2010, Ajax.org B.V.
 License: BSD-3-Clause
 
 Files: debian/*
-Copyright: 2015-2018 Fritz Reichwald <reichwald@b1-systems.de>
-           2017-2018 Axel Beckert <abe@debian.org>
+Copyright: 2015-2021 Fritz Reichwald <reichwald@b1-systems.de>
+           2017-2022 Axel Beckert <abe@debian.org>
 License: GPL-3+
 
 Files: tests/end2end/data/hints/angular1/angular.min.js debian/missing-sources/angular.js
