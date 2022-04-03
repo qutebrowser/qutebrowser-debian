@@ -3,3 +3,6 @@ qutebrowser: command-in-menu-file-and-desktop-file qutebrowser usr/share/menu/qu
 
 # Directory-specific documentation
 qutebrowser: package-contains-documentation-outside-usr-share-doc usr/share/qutebrowser/userscripts/README.md
+
+# Actually templates for error pages, etc.
+qutebrowser: package-contains-documentation-outside-usr-share-doc usr/lib/python3/dist-packages/qutebrowser/html/*.html

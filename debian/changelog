@@ -3,6 +3,9 @@ qutebrowser (2.5.0-1) UNRELEASED; urgency=medium
   * New upstream release.
     + Refresh sole, debian-specific patch.
   * Update copyright years in debian/copyright. Thanks Lintian!
+  * Add lintian override for
+    package-contains-documentation-outside-usr-share-doc
+    usr/lib/python3/dist-packages/qutebrowser/html/*.html
 
  -- Axel Beckert <abe@debian.org>  Sun, 03 Apr 2022 15:43:35 +0200
 
