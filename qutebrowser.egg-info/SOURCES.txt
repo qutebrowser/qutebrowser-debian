@@ -411,7 +411,8 @@ tests/end2end/data/brave-adblock/ublock-matches.tsv.gz
 tests/end2end/data/crashers/installedapp.html
 tests/end2end/data/crashers/webrtc.html
 tests/end2end/data/darkmode/blank.html
-tests/end2end/data/darkmode/mathml.html
+tests/end2end/data/darkmode/mathml-display.html
+tests/end2end/data/darkmode/mathml-inline.html
 tests/end2end/data/darkmode/mathml.svg
 tests/end2end/data/darkmode/prefers-color-scheme.html
 tests/end2end/data/darkmode/yellow.html
