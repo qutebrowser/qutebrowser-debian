@@ -276,9 +276,6 @@ class NotificationBridgePresenter(QObject):
             log.misc.debug("Adapter vanished, bailing out")  # type: ignore[unreachable]
             return
 
-        if notification_id <= 0:
-            raise Error(f"Got invalid notification id {notification_id}")
-
         if replaces_id is None:
             if notification_id in self._active_notifications:
                 raise Error(f"Got duplicate id {notification_id}")
@@ -622,16 +619,17 @@ class HerbeNotificationAdapter(AbstractNotificationAdapter):
         so there's no point.
         """
         if status == QProcess.CrashExit:
-            return
-
-        if code == 0:
+            pass
+        elif code == 0:
             self.click_id.emit(pid)
         elif code == 2:
-            self.close_id.emit(pid)
+            pass
         else:
             proc = self.sender()
             stderr = proc.readAllStandardError()
             raise Error(f'herbe exited with status {code}: {stderr}')
+
+        self.close_id.emit(pid)
 
     @pyqtSlot(QProcess.ProcessError)
     def _on_error(self, error: QProcess.ProcessError) -> None:
@@ -665,6 +663,7 @@ class _ServerQuirks:
     skip_capabilities: bool = False
     wrong_replaces_id: bool = False
     no_padded_images: bool = False
+    wrong_closes_type: bool = False
 
 
 @dataclasses.dataclass
@@ -727,9 +726,18 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
         # Created too many similar notifications in quick succession
         "org.freedesktop.Notifications.Error.ExcessNotificationGeneration",
 
-        # From https://crashes.qutebrowser.org/view/b8c9838a - probably when
-        # notification daemon crashes?
+        # From https://crashes.qutebrowser.org/view/b8c9838a
+        # Process org.freedesktop.Notifications received signal 5
+        # probably when notification daemon crashes?
         "org.freedesktop.DBus.Error.Spawn.ChildSignaled",
+
+        # https://crashes.qutebrowser.org/view/f76f58ae
+        # Process org.freedesktop.Notifications exited with status 1
+        "org.freedesktop.DBus.Error.Spawn.ChildExited",
+
+        # https://crashes.qutebrowser.org/view/8889d0b5
+        # Could not activate remote peer.
+        "org.freedesktop.DBus.Error.NameHasNoOwner",
     }
 
     def __init__(self, parent: QObject = None) -> None:
@@ -855,11 +863,19 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
                 wrong_replaces_id=True,
             )
         elif (name, vendor) == ("Raven", "Budgie Desktop Developers"):
+            # Before refactor
             return _ServerQuirks(
                 # https://github.com/solus-project/budgie-desktop/issues/2114
                 escape_title=True,
                 # https://github.com/solus-project/budgie-desktop/issues/2115
                 wrong_replaces_id=True,
+            )
+        elif (name, vendor) == (
+                "Budgie Notification Server", "Budgie Desktop Developers"):
+            # After refactor: https://github.com/BuddiesOfBudgie/budgie-desktop/pull/36
+            return _ServerQuirks(
+                # https://github.com/BuddiesOfBudgie/budgie-desktop/issues/118
+                wrong_closes_type=True,
             )
         return None
 
@@ -1004,6 +1020,9 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
             else:
                 log.misc.error(msg)
 
+        if notification_id <= 0:
+            self.error.emit(f"Got invalid notification id {notification_id}")
+
         return notification_id
 
     def _convert_image(self, qimage: QImage) -> Optional[QDBusArgument]:
@@ -1082,7 +1101,13 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
     @pyqtSlot(QDBusMessage)
     def _handle_close(self, msg: QDBusMessage) -> None:
         """Handle NotificationClosed from DBus."""
-        self._verify_message(msg, "uu", QDBusMessage.SignalMessage)
+        try:
+            self._verify_message(msg, "uu", QDBusMessage.SignalMessage)
+        except Error:
+            if not self._quirks.wrong_closes_type:
+                raise
+            self._verify_message(msg, "ui", QDBusMessage.SignalMessage)
+
         notification_id, _close_reason = msg.arguments()
         self.close_id.emit(notification_id)
 

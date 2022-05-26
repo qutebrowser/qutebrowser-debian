@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 10.1.4" />
+<meta name="generator" content="AsciiDoc 10.2.0" />
 <title>Setting reference</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -1522,7 +1522,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.pdfjs">content.pdfjs</a></p></td>
-<td align="left" valign="top"><p class="table">Allow pdf.js to view PDF files in the browser.</p></td>
+<td align="left" valign="top"><p class="table">Display PDF files via PDF.js in the browser without showing a download prompt.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.persistent_storage">content.persistent_storage</a></p></td>
@@ -5763,8 +5763,8 @@ Note that with the <code>qt</code> presenter, origins are never shown.</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.pdfjs">content.pdfjs</h3>
-<div class="paragraph"><p>Allow pdf.js to view PDF files in the browser.
-Note that the files can still be downloaded by clicking the download button in the pdf.js viewer.</p></div>
+<div class="paragraph"><p>Display PDF files via PDF.js in the browser without showing a download prompt.
+Note that the files can still be downloaded by clicking the download button in the pdf.js viewer. With this set to <code>false</code>, the <code>:prompt-open-download --pdfjs</code> command (bound to <code>&lt;Ctrl-p&gt;</code> by default) can be used in the download prompt.</p></div>
 <div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
@@ -9117,7 +9117,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2022-04-01 18:30:35 CEST
+ 2022-05-26 14:10:57 CEST
 </div>
 </div>
 </body>

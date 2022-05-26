@@ -89,12 +89,15 @@ class ContentDisposition:
         try:
             parsed = reg('Content-Disposition', decoded)
         except IndexError:  # pragma: no cover
-            # WORKAROUND for https://bugs.python.org/issue37491
+            # WORKAROUND for https://github.com/python/cpython/issues/81672
             # Fixed in Python 3.7.5 and 3.8.0.
             raise ContentDispositionError("Missing closing quote character")
         except ValueError:  # pragma: no cover
-            # WORKAROUND for https://bugs.python.org/issue42946
+            # WORKAROUND for https://github.com/python/cpython/issues/87112
             raise ContentDispositionError("Non-ASCII digit")
+        except AttributeError:
+            # WORKAROUND for https://github.com/python/cpython/issues/93010
+            raise ContentDispositionError("Section number has an invalid leading 0")
 
         if parsed.defects:
             defects = list(parsed.defects)
@@ -158,7 +161,7 @@ def parse_content_disposition(reply):
         # os.path.basename later.
         try:
             value = bytes(reply.rawHeader(content_disposition_header))
-            log.network.debug("Parsing Content-Disposition: {value!r}")
+            log.network.debug(f"Parsing Content-Disposition: {value!r}")
             content_disposition = ContentDisposition.parse(value)
             filename = content_disposition.filename()
         except ContentDispositionError as e:

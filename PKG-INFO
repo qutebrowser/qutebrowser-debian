@@ -1,13 +1,12 @@
 Metadata-Version: 2.1
 Name: qutebrowser
-Version: 2.5.0
+Version: 2.5.1
 Summary: A keyboard-driven, vim-like browser based on PyQt5.
 Home-page: https://www.qutebrowser.org/
 Author: Florian Bruhin
 Author-email: mail@qutebrowser.org
 License: GPL
 Keywords: pyqt browser web qt webkit qtwebkit qtwebengine
-Platform: UNKNOWN
 Classifier: Development Status :: 5 - Production/Stable
 Classifier: Environment :: X11 Applications :: Qt
 Classifier: Intended Audience :: End Users/Desktop
@@ -307,5 +306,3 @@ pdf.js is distributed under the terms of the Apache License. You can
 find a copy of the license in `qutebrowser/3rdparty/pdfjs/LICENSE` (in the
 Windows release or after running `scripts/dev/update_3rdparty.py`), or online
 https://www.apache.org/licenses/LICENSE-2.0.html[here].
-
-
