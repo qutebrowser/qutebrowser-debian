@@ -1,10 +1,10 @@
-qutebrowser (2.5.1-1) UNRELEASED; urgency=medium
+qutebrowser (2.5.1-1) unstable; urgency=medium
 
   * New upstream bugfix release.
   * Declare compliance with Debian Policy 4.6.1. (No changes needed.)
   * Update upstream signing key with new signatures to extent expiry date.
 
- -- Axel Beckert <abe@debian.org>  Thu, 26 May 2022 15:32:40 +0200
+ -- Axel Beckert <abe@debian.org>  Thu, 26 May 2022 16:11:56 +0200
 
 qutebrowser (2.5.0-1) unstable; urgency=medium
 
