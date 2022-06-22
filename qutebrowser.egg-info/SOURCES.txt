@@ -250,8 +250,10 @@ qutebrowser/html/doc/configuring.html
 qutebrowser/html/doc/contributing.html
 qutebrowser/html/doc/faq.html
 qutebrowser/html/doc/index.html
+qutebrowser/html/doc/install.html
 qutebrowser/html/doc/quickstart.html
 qutebrowser/html/doc/settings.html
+qutebrowser/html/doc/stacktrace.html
 qutebrowser/html/doc/userscripts.html
 qutebrowser/html/doc/img/cheatsheet-big.png
 qutebrowser/html/doc/img/cheatsheet-small.png
@@ -653,6 +655,7 @@ tests/unit/browser/test_hints.py
 tests/unit/browser/test_history.py
 tests/unit/browser/test_inspector.py
 tests/unit/browser/test_navigate.py
+tests/unit/browser/test_notification.py
 tests/unit/browser/test_pdfjs.py
 tests/unit/browser/test_qutescheme.py
 tests/unit/browser/test_shared.py

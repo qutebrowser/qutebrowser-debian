@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 10.2.0" />
-<title>Writing qutebrowser userscripts</title>
+<title>Getting stacktraces on crashes</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -790,201 +790,219 @@ install: function(toclevels) {
 }
 
 }
-asciidoc.install();
+asciidoc.install(2);
 /*]]>*/
 </script>
 </head>
 <body class="article">
 <div id="header">
-<h1>Writing qutebrowser userscripts</h1>
+<h1>Getting stacktraces on crashes</h1>
 <span id="author">The Compiler</span><br />
 <span id="email"><code>&lt;<a href="mailto:mail@qutebrowser.org">mail@qutebrowser.org</a>&gt;</code></span><br />
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph"><p>qutebrowser is extensible by writing userscripts which can be called via the
-<code>:spawn --userscript</code> command, or via a key binding.</p></div>
-<div class="paragraph"><p>You can also call a userscript via hints so they get the selected hint URL by
-calling <code>:hint links userscript ...</code>.</p></div>
-<div class="paragraph"><p>These userscripts are similar to the (non-javascript) dwb userscripts. They can
-be written in any language which can read environment variables and write to a
-FIFO. Note they are <strong>not</strong> related to Greasemonkey userscripts.</p></div>
-<div class="paragraph"><p>Note for simple things such as opening the current page with another browser or
-mpv, a simple key binding to something like <code>:spawn mpv {url}</code> should suffice.</p></div>
-<div class="paragraph"><p>Also note userscripts need to have the executable bit set (<code>chmod +x</code>) for
-qutebrowser to run them.</p></div>
-<div class="paragraph"><p>To call a userscript, it needs to be stored in your config or data directory under
-<code>userscripts</code> (for example: <code>~/.local/share/qutebrowser/userscripts/myscript</code>),
-or just use an absolute path.</p></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">On Windows, only userscripts with <code>com</code>, <code>bat</code>, or <code>exe</code> extensions will
-be launched. As an additional resource, see
-<a href="https://www.ii.com/qutebrowser-userscripts-on-windows/">Infinite Ink:
-qutebrowser Userscripts on Windows</a>.</td>
-</tr></table>
-</div>
+<div class="paragraph"><p>When there is a fatal crash in qutebrowser - most of the times a
+<a href="https://en.wikipedia.org/wiki/Segmentation_fault">segfault</a> - the crash report
+usually doesn&#8217;t contain much viable information, as these crashes usually
+happen inside of the Qt mainloop in C++.</p></div>
+<div class="paragraph"><p>To know what the issue is, a
+<a href="https://en.wikipedia.org/wiki/Stack_trace">stack trace</a> with
+<a href="https://en.wikipedia.org/wiki/Debug_symbol">debugging symbols</a> is required.</p></div>
+<div class="paragraph"><p>The rest of this guide is quite Linux specific, though there is a
+<a href="#windows">section for Windows</a> at the end.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_getting_information">Getting information</h2>
+<h2 id="_crashes_which_can_be_reproduced">Crashes which can be reproduced</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>The following environment variables will be set when a userscript is launched:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<code>QUTE_MODE</code>: Either <code>hints</code> (started via hints) or <code>command</code> (started via
-  command or key binding).
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_USER_AGENT</code>: The currently set user agent, if customized.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_FIFO</code>: The FIFO or file to write commands to.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_HTML</code>: Path of a file containing the HTML source of the current page.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_TEXT</code>: Path of a file containing the plaintext of the current page.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_CONFIG_DIR</code>: Path of the directory containing qutebrowser&#8217;s configuration.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_DATA_DIR</code>: Path of the directory containing qutebrowser&#8217;s data.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_DOWNLOAD_DIR</code>: Path of the downloads directory.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_COMMANDLINE_TEXT</code>: Text currently in qutebrowser&#8217;s command line. Note
-  this is only useful for userscripts spawned (e.g. via a keybinding) when
-  qutebrowser is still in command mode. If you want to receive arguments passed
-  to your userscript via <code>:spawn</code>, use the normal way of getting commandline
-  arguments (e.g. <code>$@</code> in bash or <code>sys.argv</code> / <code>argparse</code> / &#8230; in Python).
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_VERSION</code>: The version of qutebrowser, as a string like "2.0.0". Note that this
-  was added in v2.0.0, thus older versions can only be detected by the absence of this
-  variable.
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>In <code>command</code> mode:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<code>QUTE_URL</code>: The current page URL.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_TITLE</code>: The title of the current page.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_SELECTED_TEXT</code>: The text currently selected on the page.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_COUNT</code>: The <code>count</code> from the spawn command running the userscript.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_TAB_INDEX</code>: The current tab&#8217;s index.
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>In <code>hints</code> mode:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<code>QUTE_URL</code>: The URL selected via hints.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_CURRENT_URL</code>: The current page URL.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_SELECTED_TEXT</code>: The plain text of the element selected via hints.
-</p>
-</li>
-<li>
-<p>
-<code>QUTE_SELECTED_HTML</code>: The HTML of the element selected via hints.
-</p>
-</li>
-</ul></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_sending_commands">Sending commands</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Normal qutebrowser commands can be written to <code>$QUTE_FIFO</code> and will be
-executed.</p></div>
-<div class="paragraph"><p>On Unix/macOS, this is a named pipe and commands written to it will get executed
-immediately.</p></div>
-<div class="paragraph"><p>On Windows, this is a regular file, and the commands in it will be executed as
-soon as your userscript terminates. This means when writing multiple commands,
-you should append to the file (<code>&gt;&gt;</code> in bash) rather than overwrite it (<code>&gt;</code>).</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_examples">Examples</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>Opening the currently selected word on <a href="https://www.dict.cc/">dict.cc</a>:</p></div>
+<div class="paragraph"><p>If a crash can be reproduced, packages with debugging symbols should be
+installed, and the crash should be reproduced under gdb.</p></div>
+<div class="sect2">
+<h3 id="_getting_debugging_symbols">Getting debugging symbols</h3>
+<div class="sect3">
+<h4 id="_debian_ubuntu_8230">Debian/Ubuntu/&#8230;</h4>
+<div class="paragraph"><p>For Debian based systems (Debian, Ubuntu, Linux Mint, &#8230;), debug information
+is for QtWebEngine is available in a dedicated repository. Enable that repository
+(<a href="https://wiki.debian.org/HowToGetABacktrace#Installing_the_debugging_symbols">Debian</a>,
+<a href="https://wiki.ubuntu.com/Debug%20Symbol%20Packages">Ubuntu</a>,
+<a href="https://www.linuxmint.com/rel_tessa_mate_whatsnew.php">Linux Mint</a>) and install
+the debug packages:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="nb">echo</span> <span class="s2">&quot;open -t https://www.dict.cc/?s=</span><span class="nv">$QUTE_SELECTED_TEXT</span><span class="s2">&quot;</span> &gt;&gt; <span class="s2">&quot;</span><span class="nv">$QUTE_FIFO</span><span class="s2">&quot;</span>
-</pre></div></div></div>
+<div class="content">
+<pre><code># apt install python3-dbg python3-pyqt5-dbg python3-pyqt5.qtwebengine-dbg libqt5webengine5-dbgsym libqt5webenginecore5-dbgsym</code></pre>
+</div></div>
+<div class="paragraph"><p>or with the QtWebKit backend:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code># apt install python3-dbg python3-pyqt5-dbg python3-pyqt5.qtwebkit-dbg libqt5webkit5-dbg</code></pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_fedora">Fedora</h4>
+<div class="paragraph"><p>For Fedora you first need to install the dnf/yum-utils:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code># dnf install dnf-utils</code></pre>
+</div></div>
+<div class="paragraph"><p>Or:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code># yum install yum-utils</code></pre>
+</div></div>
+<div class="paragraph"><p>Then install the needed debuginfo packages:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code># debuginfo-install python3 qt5-qtwebengine python3-qt5-webengine python3-qt5-base python-qt5 python3-qt5 python3-qt5-webkit</code></pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_archlinux">Archlinux</h4>
+<div class="paragraph"><p>For Archlinux, no debug information is provided. You can either compile Qt
+yourself (which will take a few hours even on a modern machine) or use
+debugging symbols compiled/packaged by me (x86_64 only).</p></div>
+<div class="sect4">
+<h5 id="_to_install_my_pre_built_packages">To install my pre-built packages</h5>
+<div class="paragraph"><p>First download and sign the key:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code># pacman-key -r 0xD6A1C70FE80A0C82
+$ pacman-key -f 0xD6A1C70FE80A0C82
+  Key fingerprint = 14AF EC28 70C6 4863 C5C7  ACCB D6A1 C70F E80A 0C82
+# pacman-key --lsign-key 0xD6A1C70FE80A0C82</code></pre>
+</div></div>
+<div class="paragraph"><p>Then edit your <code>/etc/pacman.conf</code> to add the repository to the bottom:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>[qt-debug]
+Server = https://qutebrowser.org/qt-debug/$arch</code></pre>
+</div></div>
+<div class="paragraph"><p>Then install the packages:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code># pacman -Suy python-pyqt5-debug qt5-base-debug qt5-webkit-debug qt5-webengine-debug</code></pre>
+</div></div>
+<div class="paragraph"><p>The <code>-debug</code> packages conflict with the non-debug variants - it&#8217;s safe to
+remove them.</p></div>
+</div>
+<div class="sect4">
+<h5 id="_to_compile_by_yourself">To compile by yourself</h5>
+<div class="paragraph"><p>Note that building Qt will likely take multiple hours, even on a recent system.
+I&#8217;d also expect it to take around 6 GB of RAM and 30 GB of disk space for a
+successful compile run.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>$ git clone https://github.com/qutebrowser/qt-debug-pkgbuild.git
+$ cd qt-debug-pkgbuild
+$ export DEBUG_CFLAGS='-ggdb3 -fvar-tracking-assignments -Og'
+$ export DEBUG_CXXFLAGS='-ggdb3 -fvar-tracking-assignments -Og'
+$ cd qt5
+$ makepkg -si --pkg qt5-base-debug,qt5-webkit-debug,qt5-webengine-debug
+$ cd ../pyqt5
+$ makepkg -si --pkg python-pyqt5-debug</code></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_getting_the_stack_trace">Getting the stack trace</h3>
+<div class="paragraph"><p>First install <code>gdb</code> on your system if it&#8217;s not installed already.</p></div>
+<div class="paragraph"><p>Then run qutebrowser directly inside gdb like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>$ gdb -ex r --args $(readlink -f $(which python3)) -m qutebrowser --debug --temp-basedir</code></pre>
+</div></div>
+<div class="paragraph"><p>Note qutebrowser/gdb will take a long time to start. After you reproduce the
+crash, you should now see something like:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>Program received signal SIGSEGV, Segmentation fault.
+...
+(gdb)</code></pre>
+</div></div>
+<div class="paragraph"><p>Now enter these commands at the gdb prompt:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>(gdb) set pagination off
+(gdb) set logging overwrite on
+(gdb) set logging on
+(gdb) bt
+(gdb) quit</code></pre>
+</div></div>
+<div class="paragraph"><p>This will create a <code>gdb.txt</code> in your current directory.</p></div>
+<div class="paragraph"><p>Copy the last few lines of the debug log (before you got the gdb prompt) and
+the full content of <code>gdb.txt</code> into the bug report. Please also add some words
+about what you were doing (or what pages you visited) before the crash
+happened.</p></div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_libraries">Libraries</h2>
+<h2 id="_crashes_which_can_not_be_reproduced">Crashes which can NOT be reproduced</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Some third-party libraries are available to make writing userscripts easier:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-Python: <a href="https://github.com/hiway/python-qutescript">python-qutescript</a>
-</p>
-</li>
-<li>
-<p>
-Node.js: <a href="https://www.npmjs.com/package/qutejs">qutejs</a>
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p>If you cannot reproduce the problem, you need to check if a coredump got
+written somewhere. You should not install debug symbols as they won&#8217;t match the
+generated coredump.</p></div>
+<div class="paragraph"><p>First install <code>gdb</code> on your system if it&#8217;s not installed already.</p></div>
+<div class="paragraph"><p>Then check the file <code>/proc/sys/kernel/core_pattern</code> on your system. If it does
+not start with a <code>|</code> character (pipe), check if there is a file named <code>core</code> or
+<code>core.NNNN</code> in the directory from that file, or in the current directory.</p></div>
+<div class="paragraph"><p>If so, execute gdb like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>$ gdb $(readlink -f $(which python3)) /path/to/core</code></pre>
+</div></div>
+<div class="paragraph"><p>If your <code>/proc/sys/kernel/core_pattern</code> contains something like
+<code>|/usr/lib/systemd/systemd-coredump</code>, use <code>coredumpctl</code> to run gdb:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>$ coredumpctl gdb $(readlink -f $(which python3))</code></pre>
+</div></div>
+<div class="sect2">
+<h3 id="_getting_the_stack_trace_2">Getting the stack trace</h3>
+<div class="paragraph"><p>Now enter these commands at the gdb prompt:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>(gdb) set pagination off
+(gdb) set logging overwrite on
+(gdb) set logging on
+(gdb) bt
+(gdb) quit</code></pre>
+</div></div>
+<div class="paragraph"><p>Copy the content of <code>gdb.txt</code> into the bug report. Please also add some words
+about what you were doing (or what pages you visited) before the crash
+happened.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="windows">For Windows</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>First install
+<a href="https://www.microsoft.com/en-us/download/details.aspx?id=58210">DebugDiag</a> from
+Microsoft.</p></div>
+<div class="paragraph"><p>If you see the <em>qutebrowser.exe has stopped working</em> window, do not click
+"Close the program". Instead, open your task manager, there right-click on
+<code>qutebrowser.exe</code> and select "Create dump file". Remember the path of the dump
+file displayed there.</p></div>
+<div class="paragraph"><p>If you do not see such a window, instead run <strong>DebugDiag 2 Collection</strong> while
+qutebrowser is still running. There, use <strong>Add Rule</strong> &#8594; <strong>Crash</strong> &#8594;
+<strong>A specific process</strong> and select <code>qutebrowser.exe</code>. Accept the <strong>Advanced
+Configuration</strong> as-is and select a location to save dump files. Finally, tell
+DebugDiag to activate the rule and reproduce the crash. After a while, a log
+file (<code>.txt</code>) and crash dump should appear in that directory.</p></div>
+<div class="paragraph"><p>Finally, run the <strong>DebugDiag 2 Analysis</strong> tool. There, check <strong>CrashHangAnalysis</strong>
+and add your crash dump via <strong>Add Data files</strong>. Then click <strong>Start analysis</strong>.</p></div>
+<div class="paragraph"><p>Close the Internet Explorer which opens when it&#8217;s done and use the
+folder-button at the top left to get to the reports. There, find the report
+file (as well as the logfile, if any), zip them (important, as some mail
+providers like GMail corrupt the file otherwise) and send them to
+<a href="mailto:mail@qutebrowser.org">mail@qutebrowser.org</a>.</p></div>
 </div>
 </div>
 </div>
