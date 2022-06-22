@@ -1,8 +1,8 @@
 # Override disputed lintian tag based on disputed tech-ctte decision
-qutebrowser: command-in-menu-file-and-desktop-file qutebrowser usr/share/menu/qutebrowser:*
+qutebrowser: command-in-menu-file-and-desktop-file qutebrowser [usr/share/menu/qutebrowser:*]
 
 # Directory-specific documentation
-qutebrowser: package-contains-documentation-outside-usr-share-doc usr/share/qutebrowser/userscripts/README.md
+qutebrowser: package-contains-documentation-outside-usr-share-doc [usr/share/qutebrowser/userscripts/README.md]
 
 # Actually templates for error pages, etc.
-qutebrowser: package-contains-documentation-outside-usr-share-doc usr/lib/python3/dist-packages/qutebrowser/html/*.html
+qutebrowser: package-contains-documentation-outside-usr-share-doc [usr/lib/python3/dist-packages/qutebrowser/html/*.html]
