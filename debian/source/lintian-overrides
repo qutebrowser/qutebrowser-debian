@@ -1,5 +1,11 @@
+# Files were we have the sources in debian/missing-sources/
+qutebrowser source: source-is-missing [qutebrowser/html/doc/configuring.html]
+qutebrowser source: source-is-missing [qutebrowser/html/doc/settings.html]
 qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/end2end/data/hints/angular1/angular.min.js:300]
 qutebrowser source: source-contains-prebuilt-javascript-object [tests/end2end/data/hints/angular1/angular.min.js]
+qutebrowser source: very-long-line-length-in-source-file * > 512 [qutebrowser/html/doc/configuring.html:*]
+qutebrowser source: very-long-line-length-in-source-file * > 512 [debian/missing-sources/settings.asciidoc:398]
+qutebrowser source: very-long-line-length-in-source-file * > 512 [qutebrowser/html/doc/settings.html:2255]
 
 # Yeah, sure.
 qutebrowser source: source-is-missing [debian/missing-sources/angular.js]

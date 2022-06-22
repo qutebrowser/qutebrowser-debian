@@ -4,6 +4,9 @@ qutebrowser (2.5.2-1) UNRELEASED; urgency=medium
   * Update lintian overrides for new "pointed hints" syntax, add some more
     overrides where it became even pickier, mostly about
     very-long-line-length-in-source-file and similar tags.
+  * Write a helper script which downloads missing sources of upstream
+    documentation files which might change often. Also override the
+    according lintian warnings and add the missing source files.
 
  -- Axel Beckert <abe@debian.org>  Wed, 22 Jun 2022 23:26:29 +0200
 
