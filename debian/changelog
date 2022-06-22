@@ -1,4 +1,4 @@
-qutebrowser (2.5.2-1) UNRELEASED; urgency=medium
+qutebrowser (2.5.2-1) unstable; urgency=medium
 
   * New upstream bugfix release.
   * Update lintian overrides for new "pointed hints" syntax, add some more
@@ -8,7 +8,7 @@ qutebrowser (2.5.2-1) UNRELEASED; urgency=medium
     documentation files which might change often. Also override the
     according lintian warnings and add the missing source files.
 
- -- Axel Beckert <abe@debian.org>  Wed, 22 Jun 2022 23:26:29 +0200
+ -- Axel Beckert <abe@debian.org>  Thu, 23 Jun 2022 01:18:39 +0200
 
 qutebrowser (2.5.1-1) unstable; urgency=medium
 
