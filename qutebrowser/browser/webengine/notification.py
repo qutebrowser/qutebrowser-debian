@@ -48,7 +48,7 @@ import dataclasses
 import itertools
 import functools
 import subprocess
-from typing import Any, List, Dict, Optional, Iterator, TYPE_CHECKING
+from typing import Any, List, Dict, Optional, Iterator, Type, TYPE_CHECKING
 
 from PyQt5.QtCore import (Qt, QObject, QVariant, QMetaType, QByteArray, pyqtSlot,
                           pyqtSignal, QTimer, QProcess, QUrl)
@@ -101,6 +101,45 @@ def init() -> None:
 
 class Error(Exception):
     """Raised when something goes wrong with notifications."""
+
+
+class DBusError(Error):
+    """Raised when there was an error coming from DBus."""
+
+    _NON_FATAL_ERRORS = {
+        # notification daemon is gone
+        "org.freedesktop.DBus.Error.NoReply",
+
+        # https://gitlab.gnome.org/GNOME/gnome-flashback/-/blob/3.40.0/gnome-flashback/libnotifications/nd-daemon.c#L178-187
+        # Exceeded maximum number of notifications
+        "org.freedesktop.Notifications.MaxNotificationsExceeded",
+
+        # https://bugs.kde.org/show_bug.cgi?id=409157
+        # https://github.com/KDE/plasma-workspace/blob/v5.21.4/libnotificationmanager/server_p.cpp#L227-L237
+        # Created too many similar notifications in quick succession
+        "org.freedesktop.Notifications.Error.ExcessNotificationGeneration",
+
+        # From https://crashes.qutebrowser.org/view/b8c9838a
+        # Process org.freedesktop.Notifications received signal 5
+        # probably when notification daemon crashes?
+        "org.freedesktop.DBus.Error.Spawn.ChildSignaled",
+
+        # https://crashes.qutebrowser.org/view/f76f58ae
+        # Process org.freedesktop.Notifications exited with status 1
+        "org.freedesktop.DBus.Error.Spawn.ChildExited",
+
+        # https://crashes.qutebrowser.org/view/8889d0b5
+        # Could not activate remote peer.
+        "org.freedesktop.DBus.Error.NameHasNoOwner",
+    }
+
+    def __init__(self, msg: QDBusMessage) -> None:
+        assert msg.type() == QDBusMessage.ErrorMessage
+        self.error = msg.errorName()
+        self.error_message = msg.errorMessage()
+        self.is_fatal = self.error not in self._NON_FATAL_ERRORS
+        text = f"{self.error}: {self.error_message}"
+        super().__init__(text)
 
 
 class AbstractNotificationAdapter(QObject):
@@ -188,31 +227,7 @@ class NotificationBridgePresenter(QObject):
             message.error("Can't switch to qt notification presenter at runtime.")
             setting = "auto"
 
-        if setting in ["auto", "libnotify"]:
-            candidates = [
-                DBusNotificationAdapter,
-                SystrayNotificationAdapter,
-                MessagesNotificationAdapter,
-            ]
-        elif setting == "systray":
-            candidates = [
-                SystrayNotificationAdapter,
-                DBusNotificationAdapter,
-                MessagesNotificationAdapter,
-            ]
-        elif setting == "herbe":
-            candidates = [
-                HerbeNotificationAdapter,
-                DBusNotificationAdapter,
-                SystrayNotificationAdapter,
-                MessagesNotificationAdapter,
-            ]
-        elif setting == "messages":
-            candidates = [MessagesNotificationAdapter]  # always succeeds
-        else:
-            raise utils.Unreachable(setting)
-
-        for candidate in candidates:
+        for candidate in self._get_adapter_candidates(setting):
             try:
                 self._adapter = candidate()
             except Error as e:
@@ -230,6 +245,32 @@ class NotificationBridgePresenter(QObject):
         self._adapter.close_id.connect(self._on_adapter_closed)
         self._adapter.error.connect(self._on_adapter_error)
         self._adapter.clear_all.connect(self._on_adapter_clear_all)
+
+    def _get_adapter_candidates(
+        self,
+        setting: str,
+    ) -> List[Type[AbstractNotificationAdapter]]:
+        candidates: Dict[str, List[Type[AbstractNotificationAdapter]]] = {
+            "libnotify": [
+                DBusNotificationAdapter,
+                SystrayNotificationAdapter,
+                MessagesNotificationAdapter,
+            ],
+            "systray": [
+                SystrayNotificationAdapter,
+                DBusNotificationAdapter,
+                MessagesNotificationAdapter,
+            ],
+            "herbe": [
+                HerbeNotificationAdapter,
+                DBusNotificationAdapter,
+                SystrayNotificationAdapter,
+                MessagesNotificationAdapter,
+            ],
+            "messages": [MessagesNotificationAdapter],  # always succeeds
+        }
+        candidates["auto"] = candidates["libnotify"]
+        return candidates[setting]
 
     def install(self, profile: "QWebEngineProfile") -> None:
         """Set the profile to use this bridge as the presenter."""
@@ -713,33 +754,6 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
     SPEC_VERSION = "1.2"  # Released in January 2011, still current in March 2021.
     NAME = "libnotify"
 
-    _NON_FATAL_ERRORS = {
-        # notification daemon is gone
-        "org.freedesktop.DBus.Error.NoReply",
-
-        # https://gitlab.gnome.org/GNOME/gnome-flashback/-/blob/3.40.0/gnome-flashback/libnotifications/nd-daemon.c#L178-187
-        # Exceeded maximum number of notifications
-        "org.freedesktop.Notifications.MaxNotificationsExceeded",
-
-        # https://bugs.kde.org/show_bug.cgi?id=409157
-        # https://github.com/KDE/plasma-workspace/blob/v5.21.4/libnotificationmanager/server_p.cpp#L227-L237
-        # Created too many similar notifications in quick succession
-        "org.freedesktop.Notifications.Error.ExcessNotificationGeneration",
-
-        # From https://crashes.qutebrowser.org/view/b8c9838a
-        # Process org.freedesktop.Notifications received signal 5
-        # probably when notification daemon crashes?
-        "org.freedesktop.DBus.Error.Spawn.ChildSignaled",
-
-        # https://crashes.qutebrowser.org/view/f76f58ae
-        # Process org.freedesktop.Notifications exited with status 1
-        "org.freedesktop.DBus.Error.Spawn.ChildExited",
-
-        # https://crashes.qutebrowser.org/view/8889d0b5
-        # Could not activate remote peer.
-        "org.freedesktop.DBus.Error.NameHasNoOwner",
-    }
-
     def __init__(self, parent: QObject = None) -> None:
         super().__init__(parent)
         assert _notifications_supported()
@@ -767,7 +781,7 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
             self._on_service_unregistered)
 
         test_service = 'test-notification-service' in objects.debug_flags
-        service = self.TEST_SERVICE if test_service else self.SERVICE
+        service = f"{self.TEST_SERVICE}{os.getpid()}" if test_service else self.SERVICE
 
         self.interface = QDBusInterface(service, self.PATH, self.INTERFACE, bus)
         if not self.interface.isValid():
@@ -838,8 +852,9 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
             # https://github.com/sboli/twmn/pull/96
             return _ServerQuirks(spec_version="0")
         elif (name, vendor) == ("tiramisu", "Sweets"):
-            # https://github.com/Sweets/tiramisu/issues/20
-            return _ServerQuirks(skip_capabilities=True)
+            if utils.VersionNumber.parse(ver) < utils.VersionNumber(2, 0):
+                # https://github.com/Sweets/tiramisu/issues/20
+                return _ServerQuirks(skip_capabilities=True)
         elif (name, vendor) == ("lxqt-notificationd", "lxqt.org"):
             quirks = _ServerQuirks()
             parsed_version = utils.VersionNumber.parse(ver)
@@ -873,10 +888,11 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
         elif (name, vendor) == (
                 "Budgie Notification Server", "Budgie Desktop Developers"):
             # After refactor: https://github.com/BuddiesOfBudgie/budgie-desktop/pull/36
-            return _ServerQuirks(
-                # https://github.com/BuddiesOfBudgie/budgie-desktop/issues/118
-                wrong_closes_type=True,
-            )
+            if utils.VersionNumber.parse(ver) < utils.VersionNumber(10, 6, 2):
+                return _ServerQuirks(
+                    # https://github.com/BuddiesOfBudgie/budgie-desktop/issues/118
+                    wrong_closes_type=True,
+                )
         return None
 
     def _get_server_info(self) -> None:
@@ -931,12 +947,7 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
         ], expected_type
 
         if msg.type() == QDBusMessage.ErrorMessage:
-            err = msg.errorName()
-            if err in self._NON_FATAL_ERRORS:
-                self.error.emit(msg.errorMessage())
-                return
-
-            raise Error(f"Got DBus error: {err} - {msg.errorMessage()}")
+            raise DBusError(msg)
 
         signature = msg.signature()
         if signature != expected_signature:
@@ -952,7 +963,7 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
                 f"Got a message of type {type_str} but expected {expected_type_str}"
                 f"(args: {msg.arguments()})")
 
-    def present(
+    def present(  # noqa: C901 ("too complex")
         self,
         qt_notification: "QWebEngineNotification",
         *,
@@ -1006,7 +1017,15 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
             hints,
             -1,  # timeout; -1 means 'use default'
         )
-        self._verify_message(reply, "u", QDBusMessage.ReplyMessage)
+
+        try:
+            self._verify_message(reply, "u", QDBusMessage.ReplyMessage)
+        except DBusError as e:
+            if e.is_fatal:
+                raise
+            self.error.emit(e.error_message)
+            # Return value gets ignored in NotificationBridgePresenter.present
+            return -1
 
         notification_id = reply.arguments()[0]
 
