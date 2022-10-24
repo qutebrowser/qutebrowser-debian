@@ -19,3 +19,9 @@ override_dh_auto_install:
 
 override_dh_installchangelogs:
 	dh_installchangelogs doc/changelog.asciidoc
+
+# Fix second installation of qutebrowser binary into /usr/local/bin/
+# started somewhen after setuptools 59.6.0 and latest with 65.5.0, see
+# https://bugs.debian.org/1022364
+override_dh_usrlocal:
+	rm -rvf debian/qutebrowser/usr/local/
