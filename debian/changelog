@@ -5,6 +5,8 @@ qutebrowser (2.5.2-2) UNRELEASED; urgency=medium
     for no obvious reason. (Closes: #1022364)
   * Update debian/watch to point to current organisation name instead of
     following the redirect.
+  * debian/watch: Use api.github.com instead of …/releases because Github
+    broke the releases page for any non-JS client.
 
  -- Axel Beckert <abe@debian.org>  Sun, 23 Oct 2022 17:40:03 +0200
 
