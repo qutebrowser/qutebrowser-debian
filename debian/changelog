@@ -1,14 +1,14 @@
-qutebrowser (2.5.3-1) UNRELEASED; urgency=medium
+qutebrowser (2.5.3-1) unstable; urgency=medium
 
   * New minor upstream bugfix and maintenance release.
-    + Update debian/copyright for new javascript/quirks/array_at.user.js
-      file.
+    + Update debian/copyright for new
+      qutebrowser/javascript/quirks/array_at.user.js file.
   * Remove lintian overrides for source-is-missing and
     source-contains-prebuilt-javascript-object false positives which have
     been fixed in Lintian.
   * Declare compliance with Debian Policy 4.6.2. (No changes needed.)
 
- -- Axel Beckert <abe@debian.org>  Fri, 17 Feb 2023 13:21:07 +0100
+ -- Axel Beckert <abe@debian.org>  Fri, 17 Feb 2023 14:33:14 +0100
 
 qutebrowser (2.5.2-2) unstable; urgency=medium
 
