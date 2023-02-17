@@ -8,8 +8,6 @@ qutebrowser source: very-long-line-length-in-source-file * > 512 [debian/missing
 qutebrowser source: very-long-line-length-in-source-file * > 512 [qutebrowser/html/doc/settings.html:2255]
 
 # Yeah, sure.
-qutebrowser source: source-is-missing [debian/missing-sources/angular.js]
-qutebrowser source: source-contains-prebuilt-javascript-object [debian/missing-sources/angular.js]
 qutebrowser source: very-long-line-length-in-source-file * > 512 [debian/missing-sources/angular.js:19260]
 
 # No, it's not missing, it's well readable source code and not prebuilt
