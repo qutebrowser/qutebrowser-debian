@@ -6,6 +6,7 @@ qutebrowser (2.5.3-1) UNRELEASED; urgency=medium
   * Remove lintian overrides for source-is-missing and
     source-contains-prebuilt-javascript-object false positives which have
     been fixed in Lintian.
+  * Declare compliance with Debian Policy 4.6.2. (No changes needed.)
 
  -- Axel Beckert <abe@debian.org>  Fri, 17 Feb 2023 13:21:07 +0100
 
