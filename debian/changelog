@@ -1,3 +1,11 @@
+qutebrowser (2.5.3-1) UNRELEASED; urgency=medium
+
+  * New minor upstream bugfix and maintenance release.
+    + Update debian/copyright for new javascript/quirks/array_at.user.js
+      file.
+
+ -- Axel Beckert <abe@debian.org>  Fri, 17 Feb 2023 13:21:07 +0100
+
 qutebrowser (2.5.2-2) unstable; urgency=medium
 
   * Workaround FTBFS with more recent python3-setuptools which seem to

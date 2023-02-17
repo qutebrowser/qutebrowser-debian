@@ -4,7 +4,7 @@ Upstream-Contact: Florian Bruhin <mail@qutebrowser.org>
 Source: https://github.com/qutebrowser/qutebrowser/
 
 Files: *
-Copyright: 2014-2022 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+Copyright: 2014-2023 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 License: GPL-3+
 
 Files: qutebrowser/javascript/pac_utils.js
@@ -21,12 +21,16 @@ License: BSD-3-Clause
 
 Files: debian/*
 Copyright: 2015-2021 Fritz Reichwald <reichwald@b1-systems.de>
-           2017-2022 Axel Beckert <abe@debian.org>
+           2017-2023 Axel Beckert <abe@debian.org>
 License: GPL-3+
 
 Files: tests/end2end/data/hints/angular1/angular.min.js debian/missing-sources/angular.js
 Copyright: 2010-2017 Google, Inc.
 License: MIT
+
+Files: qutebrowser/javascript/quirks/array_at.user.js
+Copyright: 2020 Tab Atkins Jr.
+License: Expat
 
 License: GPL-2+
  On Debian systems, the complete text of the GNU General Public License can be
@@ -415,6 +419,27 @@ License: MIT
  The above copyright notice and this permission notice (including the
  next paragraph) shall be included in all copies or substantial
  portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+
+License: Expat
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+ .
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
  .
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
