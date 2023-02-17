@@ -807,10 +807,80 @@ breaking changes (such as renamed commands) can happen in minor releases.</p></d
 </div>
 </div>
 <div class="sect1">
+<h2 id="v2.5.3">v2.5.3 (2023-02-17)</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added">Added</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+New <code>array_at</code> quirk, polyfilling the
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at"><code>Array.at</code> method</a>,
+  which is needed by various websites, but only natively available with Qt 6.2.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="_fixed">Fixed</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+Crash when the adblock filter file can&#8217;t be read.
+</p>
+</li>
+<li>
+<p>
+Inconsistent behavior when using <code>:config-{dict,list}-*</code> commands with an
+  invalid value. Before the fix, using the same command again would complain that
+  the value was already present, despite the error and the value not being
+  actually changed.
+</p>
+</li>
+<li>
+<p>
+Incomplete error handling when mutating a dict/list in <code>config.py</code> and setting
+  an invalid value. Before the fix, this would result in either a message in the
+  terminal rather than GUI (startup), or in a crash (<code>:config-source</code>).
+</p>
+</li>
+<li>
+<p>
+Wrong type handling when using <code>:config-{dict,list}-*</code> commands with a config
+  option with non-string values. The only affected option is <code>bindings.commands</code>,
+  which is probably rarely used with those commands.
+</p>
+</li>
+<li>
+<p>
+The <code>readability</code> userscript now correctly passes the source URL to
+  Breadability, to make relative links work.
+</p>
+</li>
+<li>
+<p>
+Update <code>dictcli.py</code> to use the <code>main</code> branch, fixing a 404 error.
+</p>
+</li>
+<li>
+<p>
+Crash with some notification servers when the server did quit.
+</p>
+</li>
+<li>
+<p>
+Minor documentation fixes
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="v2.5.2">v2.5.2 (2022-06-22)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed">Fixed</h3>
+<h3 id="_fixed_2">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -880,7 +950,7 @@ Ever since the v1.2.0 release in 2018, the <code>content.default_encoding</code>
 <h2 id="v2.5.1">v2.5.1 (2022-05-26)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_2">Fixed</h3>
+<h3 id="_fixed_3">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1168,7 +1238,7 @@ Filename prompts now don&#8217;t display a <code>..</code> entry in the list of 
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_added">Added</h3>
+<h3 id="_added_2">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1222,7 +1292,7 @@ New <code>:rl-filename-rubout</code> command, using the OS path separator and ig
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_3">Fixed</h3>
+<h3 id="_fixed_4">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1352,7 +1422,7 @@ Added a site-specific quirk to make cookie dialogs on StackExchange pages
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_added_2">Added</h3>
+<h3 id="_added_3">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1376,7 +1446,7 @@ New <code>--private</code> flag for <code>:tab-clone</code>, which clones a tab 
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_4">Fixed</h3>
+<h3 id="_fixed_5">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1458,7 +1528,7 @@ Using <code>GM_setClipboard</code> in Greasemonkey scripts is now supported.
 <h2 id="v2.3.1">v2.3.1 (2021-07-28)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_5">Fixed</h3>
+<h3 id="_fixed_6">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1490,7 +1560,7 @@ Crash when entering unicode surrogates into the filename prompt.
 <h2 id="v2.3.0">v2.3.0 (2021-06-28)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_3">Added</h3>
+<h3 id="_added_4">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1536,7 +1606,7 @@ When launching a userscript via hints, a new <code>QUTE_CURRENT_URL</code> envir
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_6">Fixed</h3>
+<h3 id="_fixed_7">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1564,7 +1634,7 @@ Deprecation warnings when using the <code>link_pyqt.py</code> script on Python 3
 <h2 id="v2.2.3">v2.2.3 (2021-06-01)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_7">Fixed</h3>
+<h3 id="_fixed_8">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1649,7 +1719,7 @@ Combining <code>/S</code> (silent) and <code>/allusers</code> when uninstalling 
 <h2 id="v2.2.2">v2.2.2 (2021-05-20)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_8">Fixed</h3>
+<h3 id="_fixed_9">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1707,7 +1777,7 @@ New site-specific-quirk for Discord logging users out when using vertical
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_9">Fixed</h3>
+<h3 id="_fixed_10">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1796,7 +1866,7 @@ Using <code>:tab-focus</code> without an argument or count is now deprecated, us
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_added_4">Added</h3>
+<h3 id="_added_5">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1965,7 +2035,7 @@ When a shown message replaces an existing related one (e.g. for zoom levels),
 <li>
 <p>
 The <code>.redirect(...)</code> method on interceptors now supports an
-  <code>ignore_unsupported=True</code> argument which supresses exceptions if a request could
+  <code>ignore_unsupported=True</code> argument which suppresses exceptions if a request could
   not be redirected. Note, however, that it is still not public API.
 </p>
 </li>
@@ -1979,7 +2049,7 @@ When the <code>--config-py</code> argument is used, no warning about a missing
 <li>
 <p>
 The internal <code>_autosave</code> session used for crash recovery is now only saved
-  once per minute, since saving it for every page load is a noticable performance
+  once per minute, since saving it for every page load is a noticeable performance
   issue.
 </p>
 </li>
@@ -2035,7 +2105,7 @@ The polyfill for <code>String.replaceAll</code> (required for Nextcloud Calendar
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_10">Fixed</h3>
+<h3 id="_fixed_11">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2093,7 +2163,7 @@ The <code>qute://spawn-output</code> page used by <code>:spawn -o</code> is now 
 <h2 id="v2.1.1">v2.1.1 (2021-04-01)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_5">Added</h3>
+<h3 id="_added_6">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2116,7 +2186,7 @@ Clicking the <em>x</em> in the devtools window to hide it now also leaves insert
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_11">Fixed</h3>
+<h3 id="_fixed_12">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2293,7 +2363,7 @@ The following command aliases were deprecated in v2.0.0 and are now removed:
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_added_6">Added</h3>
+<h3 id="_added_7">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2403,7 +2473,7 @@ The <code>readability</code> and <code>readability-js</code> userscripts now add
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_12">Fixed</h3>
+<h3 id="_fixed_13">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2511,7 +2581,7 @@ When a hint label text started with an apostrophe, it would show an escaped
 <h2 id="v2.0.2">v2.0.2 (2021-02-04)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_13">Fixed</h3>
+<h3 id="_fixed_14">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2618,7 +2688,7 @@ When running qutebrowser with a single empty commandline argument, such as
 <h2 id="v2.0.1">v2.0.1 (2021-01-28)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_14">Fixed</h3>
+<h3 id="_fixed_15">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -2888,7 +2958,7 @@ Several commands have been renamed for consistency and/or easier grouping of
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_added_7">Added</h3>
+<h3 id="_added_8">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3033,7 +3103,7 @@ New userscripts:
 </li>
 <li>
 <p>
-Various host-blocking settings have been renamed to accomodate the new ABP-like
+Various host-blocking settings have been renamed to accommodate the new ABP-like
   adblocker:
 </p>
 <div class="ulist"><ul>
@@ -3299,7 +3369,7 @@ Various performance improvements, including for the startup time.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_15">Fixed</h3>
+<h3 id="_fixed_16">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3386,7 +3456,7 @@ Nextcloud Calendars started using <code>String.replaceAll</code> which was only 
 <h2 id="v1.14.1">v1.14.1 (2020-12-04)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_8">Added</h3>
+<h3 id="_added_9">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3465,12 +3535,12 @@ Hardware accelerated graphics on macOS
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_16">Fixed</h3>
+<h3 id="_fixed_17">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
 Setting the <code>content.headers.referer</code> setting to <code>same-domain</code> (the default)
-  was supposed to truncate referers to only the host with QtWebEngine.
+  was supposed to truncate referrers to only the host with QtWebEngine.
   Unfortunately, this functionality broke in Qt 5.14. It works properly again
   with this release, including a test so this won&#8217;t happen again.
 </p>
@@ -3478,7 +3548,7 @@ Setting the <code>content.headers.referer</code> setting to <code>same-domain</c
 <li>
 <p>
 With QtWebEngine 5.15, setting the <code>content.headers.referer</code> setting to
-  <code>never</code> did still send referers. This is now fixed as well.
+  <code>never</code> did still send referrers. This is now fixed as well.
 </p>
 </li>
 <li>
@@ -3519,7 +3589,7 @@ With Python 3.8+ and vertical tabs, a deprecation warning for an implicit int
 <p>
 Ever since Qt 5.11, fetching more completion data when that data is loaded
   lazily (such as with history) and the last visible item is selected was broken.
-  The exact reason is currently unknown, but this release adds a tenative fix.
+  The exact reason is currently unknown, but this release adds a tentative fix.
 </p>
 </li>
 <li>
@@ -3781,13 +3851,13 @@ The <code>readability-js</code> userscript now adds some CSS to improve the read
 <div class="ulist"><ul>
 <li>
 <p>
-Images are now shrinked to the page width, similarly to what Firefox' reader
+Images are now shrunk to the page width, similarly to what Firefox' reader
     mode does.
 </p>
 </li>
 <li>
 <p>
-Some images ore now displayed as block (rather than inline) which is what
+Some images are now displayed as block (rather than inline) which is what
     Firefox' reader mode does as well.
 </p>
 </li>
@@ -3813,7 +3883,7 @@ The <code>readability-js</code> userscript now supports hint userscript mode.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_added_9">Added</h3>
+<h3 id="_added_10">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -3887,7 +3957,7 @@ New possible <code>--debug-flag</code> values:
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_17">Fixed</h3>
+<h3 id="_fixed_18">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4031,7 +4101,7 @@ The <code>--password-store</code> argument didn&#8217;t actually set
 <h2 id="v1.13.1">v1.13.1 (2020-07-17)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_18">Fixed</h3>
+<h3 id="_fixed_19">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4260,7 +4330,7 @@ Small performance improvements.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_added_10">Added</h3>
+<h3 id="_added_11">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4334,7 +4404,7 @@ When the devtools are clicked, insert mode is entered automatically.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_19">Fixed</h3>
+<h3 id="_fixed_20">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4444,7 +4514,7 @@ Support for using <code>config.bind(key, None)</code> in <code>config.py</code> 
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_added_11">Added</h3>
+<h3 id="_added_12">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4522,7 +4592,7 @@ The <code>bindings.key_mappings</code> setting now maps <code>&lt;Ctrl+I&gt;</co
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_20">Fixed</h3>
+<h3 id="_fixed_21">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4604,7 +4674,7 @@ CVE-2020-11054: After a certificate error was overridden by the user,
 <h2 id="v1.11.0">v1.11.0 (2020-04-27)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_12">Added</h3>
+<h3 id="_added_13">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4760,7 +4830,7 @@ A warning about old Qt versions is now also shown with Qt 5.9 and 5.10, as
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_21">Fixed</h3>
+<h3 id="_fixed_22">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4811,7 +4881,7 @@ Windows and macOS releases now bundle Qt 5.14.2, including security fixes up
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_22">Fixed</h3>
+<h3 id="_fixed_23">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4832,7 +4902,7 @@ The <code>mkvenv.py</code> script now also works properly on Windows.
 <h2 id="v1.10.1">v1.10.1 (2020-02-15)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_23">Fixed</h3>
+<h3 id="_fixed_24">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -4895,7 +4965,7 @@ The default for <code>colors.statusbar.command.private.bg</code> has been change
 <h2 id="v1.10.0">v1.10.0 (2020-02-02)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_13">Added</h3>
+<h3 id="_added_14">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5003,7 +5073,7 @@ Web notifications are now supported.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_24">Fixed</h3>
+<h3 id="_fixed_25">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5037,7 +5107,7 @@ The <code>qute-pass</code> userscript now works correctly when a <code>PASSWORD_
 <h2 id="v1.9.0">v1.9.0 (2020-01-08)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_14">Added</h3>
+<h3 id="_added_15">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5244,7 +5314,7 @@ Matching of settings using URL patterns
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_25">Fixed</h3>
+<h3 id="_fixed_26">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5390,7 +5460,7 @@ Google Docs (fixes broken IME/compose key)
 <h2 id="v1.8.3">v1.8.3 (2019-12-05)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_26">Fixed</h3>
+<h3 id="_fixed_27">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5418,7 +5488,7 @@ Windows/macOS releases now ship with Qt 5.12.6. This includes security fixes
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_27">Fixed</h3>
+<h3 id="_fixed_28">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5525,7 +5595,7 @@ Qt 5.13 couldn&#8217;t be used yet due to various bugs in Qt 5.13.0 and .1.
 <h2 id="v1.8.0">v1.8.0 (2019-09-25)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_15">Added</h3>
+<h3 id="_added_16">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5653,7 +5723,7 @@ The XSS Auditor is now disabled by default (<code>content.xss_auditing</code> =
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_28">Fixed</h3>
+<h3 id="_fixed_29">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -5752,7 +5822,7 @@ At least Python 3.5.2 is now required to run qutebrowser, support for 3.5.0
 <h2 id="v1.7.0">v1.7.0 (2019-07-18)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_16">Added</h3>
+<h3 id="_added_17">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6033,7 +6103,7 @@ Various performance improvements (e.g. for showing hints or the :open
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_29">Fixed</h3>
+<h3 id="_fixed_30">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6101,7 +6171,7 @@ Minor memory leaks.
 <h2 id="v1.6.3">v1.6.3 (2019-06-18)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_30">Fixed</h3>
+<h3 id="_fixed_31">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6144,7 +6214,7 @@ Windows/macOS releases now ship with Qt 5.12.3, which includes security fixes
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_31">Fixed</h3>
+<h3 id="_fixed_32">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6196,7 +6266,7 @@ Windows/macOS releases now ship with Qt 5.12.2, which includes
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_32">Fixed</h3>
+<h3 id="_fixed_33">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6232,7 +6302,7 @@ Setting <code>colors.statusbar.*.bg</code> to a gradient now has the expected ef
 <h2 id="v1.6.0">v1.6.0 (2019-02-25)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_17">Added</h3>
+<h3 id="_added_18">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6445,7 +6515,7 @@ Combining Qt 5.12 with an older PyQt can lead to issues, so a warning is
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_33">Fixed</h3>
+<h3 id="_fixed_34">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6598,7 +6668,7 @@ The <code>content.cookies.accept</code> setting is now set to <code>all</code> i
 <h2 id="v1.5.1">v1.5.1 (2018-10-10)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_34">Fixed</h3>
+<h3 id="_fixed_35">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6640,7 +6710,7 @@ Tabs appearing when hidden after e.g. closing tabs.
 <h2 id="v1.5.0">v1.5.0 (2018-10-03)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_18">Added</h3>
+<h3 id="_added_19">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6873,7 +6943,7 @@ The <code>:tab-give</code> and <code>:tab-take</code> command now have a new fla
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_35">Fixed</h3>
+<h3 id="_fixed_36">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -6962,7 +7032,7 @@ Long URLs in the statusbar are now elided at the end rather than in the
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_36">Fixed</h3>
+<h3 id="_fixed_37">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7047,7 +7117,7 @@ CVE-2018-10895: Fix CSRF issue on the qute://settings page, leading to
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_37">Fixed</h3>
+<h3 id="_fixed_38">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7091,7 +7161,7 @@ The Windows installer now uninstalls the old version before installing the
 <h2 id="v1.4.0">v1.4.0 (2018-07-03)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_19">Added</h3>
+<h3 id="_added_20">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7380,7 +7450,7 @@ Greasemonkey scripts now support a "@qute-js-world" tag to run them in a
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_38">Fixed</h3>
+<h3 id="_fixed_39">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7451,7 +7521,7 @@ CVE-2018-1000559: An XSS vulnerability on the <code>qute://history</code> page a
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_39">Fixed</h3>
+<h3 id="_fixed_40">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7478,7 +7548,7 @@ In v1.3.2 a dependency on the <code>PyQt5.QtQuickWidgets</code> module was accid
 <h2 id="v1.3.2">v1.3.2 (2018-06-10)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_40">Fixed</h3>
+<h3 id="_fixed_41">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7512,7 +7582,7 @@ QtWebEngine: It&#8217;s now possible to open external links such as <code>magnet
 <h2 id="v1.3.1">v1.3.1 (2018-05-29)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_41">Fixed</h3>
+<h3 id="_fixed_42">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7549,7 +7619,7 @@ Don&#8217;t crash when a tab is opened and quickly closed again.
 <h2 id="v1.3.0">v1.3.0 (2018-05-03)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_20">Added</h3>
+<h3 id="_added_21">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7649,7 +7719,7 @@ Error messages when trying to wrap when <code>tabs.wrap</code> is <code>False</c
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_42">Fixed</h3>
+<h3 id="_fixed_43">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7804,7 +7874,7 @@ The macOS release now should work again on macOS 10.11 and newer.
 <h2 id="v1.2.1">v1.2.1 (2018-03-14)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_43">Fixed</h3>
+<h3 id="_fixed_44">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -7866,7 +7936,7 @@ Shortcuts now correctly use <code>Ctrl</code> instead of <code>Command</code> on
 <h2 id="v1.2.0">v1.2.0 (2018-03-09)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_21">Added</h3>
+<h3 id="_added_22">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -8161,7 +8231,7 @@ Replacements like <code>{url}</code> can now be escaped as <code>{{url}}</code>.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_44">Fixed</h3>
+<h3 id="_fixed_45">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -8345,7 +8415,7 @@ Windows/macOS releases now bundle Qt 5.10.1 which includes security fixes from
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_45">Fixed</h3>
+<h3 id="_fixed_46">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -8365,7 +8435,7 @@ Compatibility with Python 3.7
 <h2 id="v1.1.1">v1.1.1 (2018-01-20)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_46">Fixed</h3>
+<h3 id="_fixed_47">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -8385,7 +8455,7 @@ Fixed crashes with Qt 5.10 when closing a tab before it finished loading.
 <h2 id="v1.1.0">v1.1.0 (2018-01-15)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_22">Added</h3>
+<h3 id="_added_23">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -8722,7 +8792,7 @@ The <code>colors.completion.fg</code> setting can now be a list, allowing to spe
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_47">Fixed</h3>
+<h3 id="_fixed_48">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -8865,7 +8935,7 @@ The <code>x[xtb]</code> default bindings got removed again as many users acciden
 <h2 id="v1.0.4">v1.0.4 (2017-11-28)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_48">Fixed</h3>
+<h3 id="_fixed_49">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -8928,7 +8998,7 @@ The :open-editor command is now not hidden anymore as it&#8217;s also usable in
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_49">Fixed</h3>
+<h3 id="_fixed_50">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -8959,7 +9029,7 @@ Completions are now sorted correctly again when filtered
 <h2 id="v1.0.2">v1.0.2 (2017-10-17)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_50">Fixed</h3>
+<h3 id="_fixed_51">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -8978,7 +9048,7 @@ Fix crash when setting <code>fonts.monospace</code>
 </li>
 <li>
 <p>
-Fix list options not being modifyable via <code>.append()</code> in <code>config.py</code>
+Fix list options not being modifiable via <code>.append()</code> in <code>config.py</code>
 </p>
 </li>
 <li>
@@ -9009,7 +9079,7 @@ Nicer error messages and other minor improvements
 <h2 id="v1.0.1">v1.0.1 (2017-10-13)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_51">Fixed</h3>
+<h3 id="_fixed_52">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -9071,7 +9141,7 @@ New dependency on the <a href="https://www.attrs.org/">attrs</a> project (packag
 </li>
 <li>
 <p>
-The depedency on PyOpenGL (when using QtWebEngine) got removed. Note
+The dependency on PyOpenGL (when using QtWebEngine) got removed. Note
     that PyQt5.QtOpenGL is still a dependency.
 </p>
 </li>
@@ -9125,7 +9195,7 @@ Up/Down now navigates through the command history instead of selecting
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_added_23">Added</h3>
+<h3 id="_added_24">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -9369,7 +9439,7 @@ New dependency on <code>PyOpenGL</code> if QtWebEngine is used.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_added_24">Added</h3>
+<h3 id="_added_25">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -9609,7 +9679,7 @@ Trying to focus the currently focused tab with <code>:tab-focus</code> now focus
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_52">Fixed</h3>
+<h3 id="_fixed_53">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -9780,7 +9850,7 @@ Scrolling to an anchor in a background tab now works correctly, and javascript
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_53">Fixed</h3>
+<h3 id="_fixed_54">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -9835,7 +9905,7 @@ Crash when trying to open a file twice on Windows
 <h2 id="v0.10.0">v0.10.0 (2017-02-25)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_25">Added</h3>
+<h3 id="_added_26">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -10025,7 +10095,7 @@ qutebrowser now automatically uses QtWebEngine if QtWebKit is unavailable
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_54">Fixed</h3>
+<h3 id="_fixed_55">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -10156,7 +10226,7 @@ Lines in Jupyter notebook now trigger insert mode
 <h2 id="v0.9.1">v0.9.1 (2017-01-13)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_55">Fixed</h3>
+<h3 id="_fixed_56">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -10172,7 +10242,7 @@ Prevent websites from downloading files to a location outside of the download
 <h2 id="v0.9.0">v0.9.0 (2016-12-28)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_26">Added</h3>
+<h3 id="_added_27">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -10703,7 +10773,7 @@ The <code>-c</code>/<code>--confdir</code>, <code>--datadir</code> and <code>--c
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_56">Fixed</h3>
+<h3 id="_fixed_57">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -10755,7 +10825,7 @@ Fixed crash when a included HTML was not found
 <h2 id="v0.8.3">v0.8.3 (2016-11-05)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_57">Fixed</h3>
+<h3 id="_fixed_58">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -10826,7 +10896,7 @@ Userscripts now can access QUTE_FIFO correctly on Windows
 <h2 id="v0.8.2">v0.8.2 (2016-08-02)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_58">Fixed</h3>
+<h3 id="_fixed_59">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -10900,7 +10970,7 @@ Fixed <code>:restart</code> deleting the basedir when it was given with <code>--
 <h2 id="v0.8.1">v0.8.1 (2016-07-27)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_59">Fixed</h3>
+<h3 id="_fixed_60">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -10926,7 +10996,7 @@ Hide Harfbuzz warning with the macOS .app
 <h2 id="v0.8.0">v0.8.0 (2016-07-26)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_27">Added</h3>
+<h3 id="_added_28">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -11017,7 +11087,7 @@ New <code>taskadd</code> userscript to add a taskwarrior task annotated with the
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_60">Fixed</h3>
+<h3 id="_fixed_61">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -11074,7 +11144,7 @@ The <code>general -&gt; wrap-search</code> setting as searches now always wrap.
 <h2 id="v0.7.0">v0.7.0 (2016-06-10)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_28">Added</h3>
+<h3 id="_added_29">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -11269,7 +11339,7 @@ Better history implementation which also stores titles.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_61">Fixed</h3>
+<h3 id="_fixed_62">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -11377,7 +11447,7 @@ Strip off trailing spaces for history entries with no title
 <h2 id="v0.6.2">v0.6.2 (2016-04-30)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_62">Fixed</h3>
+<h3 id="_fixed_63">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -11414,7 +11484,7 @@ Fixed various crashes related to PyQt 5.6
 <h2 id="v0.6.1">v0.6.1 (2016-04-10)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_63">Fixed</h3>
+<h3 id="_fixed_64">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -11444,7 +11514,7 @@ Added workaround for a Qt/PyQt bug which is too weird to describe here
 <h2 id="v0.6.0">v0.6.0 (2016-04-04)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_29">Added</h3>
+<h3 id="_added_30">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -11554,7 +11624,7 @@ Blocked hosts are now also read from a <code>blocked-hosts</code> file in the co
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_64">Fixed</h3>
+<h3 id="_fixed_65">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -11662,7 +11732,7 @@ The <code>gt</code>/<code>gT</code> bindings (luakit-like alternatives to <code>
 <h2 id="v0.5.1">v0.5.1 (2016-01-18)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_65">Fixed</h3>
+<h3 id="_fixed_66">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -11688,7 +11758,7 @@ Prevented an error being logged when a website with HTTP authentication was
 <h2 id="v0.5.0">v0.5.0 (2016-01-05)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_30">Added</h3>
+<h3 id="_added_31">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -11983,7 +12053,7 @@ The <code>:download-page</code> command (deprecated in v0.2.0)
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_66">Fixed</h3>
+<h3 id="_fixed_67">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -12076,7 +12146,7 @@ Removed <code>.pyc</code> files accidentally contained in source releases.
 <h2 id="v0.4.1">v0.4.1 (2015-09-30)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_67">Fixed</h3>
+<h3 id="_fixed_68">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -12136,7 +12206,7 @@ Fixed various <code>PendingDeprecationWarnings</code> shown with Python 3.5.
 <h2 id="v0.4.0">v0.4.0 (2015-09-11)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_31">Added</h3>
+<h3 id="_added_32">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -12278,7 +12348,7 @@ Better support for Qt 5.5 and Python 3.5.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_68">Fixed</h3>
+<h3 id="_fixed_69">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -12397,7 +12467,7 @@ The <code>tabs -&gt; hide-always</code> and <code>tabs -&gt; hide-auto</code> se
 <h2 id="v0.3.0">v0.3.0 (2015-06-28)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_32">Added</h3>
+<h3 id="_added_33">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -12607,7 +12677,7 @@ Support for Qt installations without SSL support was dropped.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_69">Fixed</h3>
+<h3 id="_fixed_70">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -12701,7 +12771,7 @@ Sessions now store zoom/scroll-position correctly.
 <h2 id="v0.2.1">v0.2.1 (2015-04-19)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_fixed_70">Fixed</h3>
+<h3 id="_fixed_71">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -12716,7 +12786,7 @@ Added missing manpage (doc/qutebrowser.1.asciidoc) to archive.
 <h2 id="v0.2.0">v0.2.0 (2015-04-19)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_33">Added</h3>
+<h3 id="_added_34">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -13088,7 +13158,7 @@ Add unbound (new) default keybindings to config. This also adds a new <code>&lt;
 <div class="ulist"><ul>
 <li>
 <p>
-To unbind a command keybinding without binding it to a new key, you now have to bind it to <code>&lt;unbound&gt;</code> or it&#8217;ll be readded automatically.
+To unbind a command keybinding without binding it to a new key, you now have to bind it to <code>&lt;unbound&gt;</code> or it&#8217;ll be re-added automatically.
 </p>
 </li>
 </ul></div>
@@ -13283,7 +13353,7 @@ The <code>:download-page</code> command - use <code>:download</code> instead.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_71">Fixed</h3>
+<h3 id="_fixed_72">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -13443,7 +13513,7 @@ Remove debug console completing completely.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_72">Fixed</h3>
+<h3 id="_fixed_73">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -13553,7 +13623,7 @@ Hide adblocked iframes.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_73">Fixed</h3>
+<h3 id="_fixed_74">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -13668,7 +13738,7 @@ Remove hosts-file.net from blocker default lists.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_74">Fixed</h3>
+<h3 id="_fixed_75">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -13743,7 +13813,7 @@ Fix user-stylesheet setting with an empty value.
 <h2 id="v0.1.1">v0.1.1 (2014-12-28)</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_added_34">Added</h3>
+<h3 id="_added_35">Added</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -13848,7 +13918,7 @@ Clean up and temporarily disable alias completion.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_fixed_75">Fixed</h3>
+<h3 id="_fixed_76">Fixed</h3>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -13970,7 +14040,7 @@ Fix crash with <code>:zoom</code>.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2022-06-22 15:33:14 CEST
+ 2023-02-17 11:16:23 CET
 </div>
 </div>
 </body>
