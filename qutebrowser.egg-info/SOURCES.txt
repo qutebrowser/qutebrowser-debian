@@ -269,6 +269,7 @@ qutebrowser/javascript/position_caret.js
 qutebrowser/javascript/scroll.js
 qutebrowser/javascript/stylesheet.js
 qutebrowser/javascript/webelem.js
+qutebrowser/javascript/quirks/array_at.user.js
 qutebrowser/javascript/quirks/discord.user.js
 qutebrowser/javascript/quirks/globalthis.user.js
 qutebrowser/javascript/quirks/googledocs.user.js
