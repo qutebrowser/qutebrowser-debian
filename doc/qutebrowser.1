@@ -1,13 +1,13 @@
 '\" t
 .\"     Title: qutebrowser
 .\"    Author: [see the "AUTHOR" section]
-.\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 03/13/2023
+.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
+.\"      Date: 12/08/2023
 .\"    Manual: qutebrowser manpage
 .\"    Source: qutebrowser
 .\"  Language: English
 .\"
-.TH "QUTEBROWSER" "1" "03/13/2023" "qutebrowser" "qutebrowser manpage"
+.TH "QUTEBROWSER" "1" "12/08/2023" "qutebrowser" "qutebrowser manpage"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -28,13 +28,13 @@
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-qutebrowser \- a keyboard\-driven, vim\-like browser based on PyQt5\&.
+qutebrowser \- a keyboard\-driven, vim\-like browser based on Python and Qt\&.
 .SH "SYNOPSIS"
 .sp
 \fBqutebrowser\fR [\fI\-OPTION\fR [\fI\&...\fR]] [\fI:COMMAND\fR [\fI\&...\fR]] [\fIURL\fR [\fI\&...\fR]]
 .SH "DESCRIPTION"
 .sp
-qutebrowser is a keyboard\-focused browser with a minimal GUI\&. It\(cqs based on Python and Qt5 and is free software, licensed under the GPL\&.
+qutebrowser is a keyboard\-focused browser with a minimal GUI\&. It\(cqs based on Python and Qt and is free software, licensed under the GPL\&.
 .sp
 It was inspired by other browsers/addons like dwb and Vimperator/Pentadactyl\&.
 .sp
@@ -98,10 +98,15 @@ How URLs should be opened if there is already a qutebrowser instance running\&.
 Which backend to use\&.
 .RE
 .PP
+\fB\-\-qt\-wrapper\fR \fI{PyQt6,PyQt5}\fR
+.RS 4
+Which Qt wrapper to use\&. This can also be set via the QUTE_QT_WRAPPER environment variable\&. If both are set, the command line argument takes precedence\&.
+.RE
+.PP
 \fB\-\-desktop\-file\-name\fR \fIDESKTOP_FILE_NAME\fR
 .RS 4
 Set the base name of the desktop entry for this application\&. Used to set the app_id under Wayland\&. See
-https://doc\&.qt\&.io/qt\-5/qguiapplication\&.html#desktopFileName\-prop
+https://doc\&.qt\&.io/qt\-6/qguiapplication\&.html#desktopFileName\-prop
 .RE
 .PP
 \fB\-\-untrusted\-args\fR
@@ -242,7 +247,9 @@ If you found a bug, use the built\-in \fI:report\fR command to create a bug repo
 .sp
 If you prefer, you can also write to the mailinglist at qutebrowser@lists\&.qutebrowser\&.org instead\&.
 .sp
-For security bugs, please contact me directly at me@the\-compiler\&.org, GPG ID 0xFD55A072\&.
+For security bugs, please contact security@qutebrowser\&.org (or if GPG encryption is desired, contact me@the\-compiler\&.org with GPG ID 0x916EB0C8FD55A072)\&.
+.sp
+Alternatively, report a vulnerability via GitHub\(cqs private reporting feature\&.
 .SH "COPYRIGHT"
 .sp
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version\&.

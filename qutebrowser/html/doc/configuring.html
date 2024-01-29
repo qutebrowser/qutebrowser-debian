@@ -1176,8 +1176,8 @@ to do so:</p></div>
 
 <span class="k">def</span> <span class="nf">read_xresources</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
     <span class="n">props</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;xrdb&#39;</span><span class="p">,</span> <span class="s1">&#39;-query&#39;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;xrdb&#39;</span><span class="p">,</span> <span class="s1">&#39;-query&#39;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">l</span> <span class="p">:</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">),</span> <span class="n">lines</span><span class="p">):</span>
         <span class="n">prop</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39;:</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">props</span><span class="p">[</span><span class="n">prop</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
@@ -1230,6 +1230,21 @@ Pywal integration: <a href="https://gitlab.com/jjzmajic/qutewal">qutewal</a>, <a
 <a href="https://www.opencode.net/wakellor957/qb-breath/-/blob/main/qb-breath.py">Manjaro Breath-like</a>
 </p>
 </li>
+<li>
+<p>
+<a href="https://github.com/gicrisf/qute-city-lights">City Lights (matte dark)</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/catppuccin/qutebrowser">Catppuccin</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/iruzo/matrix-qutebrowser">Matrix</a>
+</p>
+</li>
 </ul></div>
 </div>
 <div class="sect3">
@@ -1268,12 +1283,17 @@ stable across qutebrowser versions):</p></div>
 </li>
 <li>
 <p>
-<a href="https://me0w.net/pit/1540882719">nm0i</a>
+<a href="https://web.archive.org/web/20210512185023/https://me0w.net/pit/1540882719">nm0i</a>
 </p>
 </li>
 <li>
 <p>
 <a href="https://www.reddit.com/r/qutebrowser/comments/eh10i7/config_share_qute_with_emacs_keybindings/">jasonsun0310</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://git.sr.ht/~willvaughn/dots/tree/mjolnir/item/.config/qutebrowser/qutemacs.py">willvaughn</a>
 </p>
 </li>
 </ul></div>
@@ -1304,7 +1324,7 @@ stable across qutebrowser versions):</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2023-03-13 22:11:58 CET
+ 2023-12-08 15:32:09 UTC
 </div>
 </div>
 </body>

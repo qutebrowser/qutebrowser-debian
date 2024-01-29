@@ -1,34 +1,20 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Completer attached to a CompletionView."""
 
 import dataclasses
 from typing import TYPE_CHECKING
 
-from PyQt5.QtCore import pyqtSlot, QObject, QTimer
+from qutebrowser.qt.core import pyqtSlot, QObject, QTimer
 
 from qutebrowser.config import config
 from qutebrowser.commands import parser, cmdexc
 from qutebrowser.misc import objects, split
 from qutebrowser.utils import log, utils, debug, objreg
 from qutebrowser.completion.models import miscmodels
+from qutebrowser.completion import completionwidget
 if TYPE_CHECKING:
     from qutebrowser.browser import browsertab
 
@@ -39,7 +25,8 @@ class CompletionInfo:
     """Context passed into all completion functions."""
 
     config: config.Config
-    keyconf: config.KeyConfig  # pylint: disable=used-before-assignment
+    # pylint: disable-next=used-before-assignment
+    keyconf: config.KeyConfig  # type: ignore[name-defined]
     win_id: int
     cur_tab: 'browsertab.AbstractTab'
 
@@ -74,10 +61,15 @@ class Completer(QObject):
     def __repr__(self):
         return utils.get_repr(self)
 
+    def _completion(self) -> completionwidget.CompletionView:
+        """Convenience method to get the current completion."""
+        completion = self.parent()
+        assert isinstance(completion, completionwidget.CompletionView), completion
+        return completion
+
     def _model(self):
         """Convenience method to get the current completion model."""
-        completion = self.parent()
-        return completion.model()
+        return self._completion().model()
 
     def _get_new_completion(self, before_cursor, under_cursor):
         """Get the completion function based on the current command text.
@@ -230,7 +222,7 @@ class Completer(QObject):
     @pyqtSlot()
     def _update_completion(self):
         """Check if completions are available and activate them."""
-        completion = self.parent()
+        completion = self._completion()
 
         if self._cmd.prefix() != ':':
             # This is a search or gibberish, so we don't need to complete

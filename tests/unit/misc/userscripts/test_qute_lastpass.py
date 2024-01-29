@@ -1,21 +1,6 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2020-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for misc.userscripts.qute-lastpass."""
 
@@ -122,7 +107,7 @@ class TestQuteLastPassComponents:
 
         subprocess_mock.assert_called_once_with(
             ['lpass', 'show', '-x', '-j', '-G', '\\bexample\\.com'],
-            stdout=ANY, stderr=ANY)
+            capture_output=True)
 
     def test_pass_returns_candidates(self, subprocess_mock):
         """Test if pass_ returns expected lpass site entry."""
@@ -203,7 +188,7 @@ class TestQuteLastPassMain:
         exit_code = qute_lastpass.main(arguments_mock)
 
         assert exit_code == qute_lastpass.ExitCodes.FAILURE
-        # pylint: disable=line-too-long
+        # FIXME:v4 (lint): disable=line-too-long
         stderr_mock.assert_called_with(
             "LastPass CLI returned for www.example.com - Error: Could not find decryption key. Perhaps you need to login with `lpass login`.")
         qutecommand_mock.assert_not_called()
@@ -263,7 +248,7 @@ class TestQuteLastPassMain:
 
         subprocess_mock.assert_has_calls([
             call(['lpass', 'show', '-x', '-j', '-G', '\\bwww\\.example\\.com'],
-                 stdout=ANY, stderr=ANY),
+                 capture_output=True),
             call(['rofi', '-dmenu'],
                  input=b'12345 | www.example.com | https://www.example.com | fake@fake.com\n23456 | Sites/www.example.com | https://www.example.com | john.doe@fake.com',
                  stdout=ANY)
@@ -328,13 +313,13 @@ class TestQuteLastPassMain:
 
         subprocess_mock.assert_has_calls([
             call(['lpass', 'show', '-x', '-j', '-G', '\\bwww\\.example\\.com'],
-                 stdout=ANY, stderr=ANY),
+                 capture_output=True),
             call(['lpass', 'show', '-x', '-j', '-G', '\\bexample\\.com'],
-                 stdout=ANY, stderr=ANY),
+                 capture_output=True),
             call(['lpass', 'show', '-x', '-j', '-G', '\\bwwwexample'],
-                 stdout=ANY, stderr=ANY),
+                 capture_output=True),
             call(['lpass', 'show', '-x', '-j', '-G', '\\bexample'],
-                 stdout=ANY, stderr=ANY),
+                 capture_output=True),
             call(['rofi', '-dmenu'],
                  input=b'12345 | www.example.com | https://www.example.com | fake@fake.com\n23456 | Sites/www.example.com | https://www.example.com | john.doe@fake.com\n345 | example.com | https://example.com | joe.doe@fake.com\n456 | Sites/example.com | http://example.com | jane.doe@fake.com',
                  stdout=ANY)

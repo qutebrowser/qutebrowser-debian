@@ -1,21 +1,6 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Parsing functions for various HTTP headers."""
 
@@ -25,7 +10,7 @@ import dataclasses
 import os.path
 from typing import Type
 
-from PyQt5.QtNetwork import QNetworkRequest
+from qutebrowser.qt.network import QNetworkRequest
 
 from qutebrowser.utils import log, utils
 
@@ -91,17 +76,18 @@ class ContentDisposition:
         except IndexError:  # pragma: no cover
             # WORKAROUND for https://github.com/python/cpython/issues/81672
             # Fixed in Python 3.7.5 and 3.8.0.
+            # Still getting failures on 3.10 on CI though
             raise ContentDispositionError("Missing closing quote character")
-        except ValueError:  # pragma: no cover
+        except ValueError:
             # WORKAROUND for https://github.com/python/cpython/issues/87112
             raise ContentDispositionError("Non-ASCII digit")
-        except AttributeError:
+        except AttributeError:  # pragma: no cover
             # WORKAROUND for https://github.com/python/cpython/issues/93010
             raise ContentDispositionError("Section number has an invalid leading 0")
 
         if parsed.defects:
             defects = list(parsed.defects)
-            if defects != [cls._IGNORED_DEFECT]:  # type: ignore[comparison-overlap]
+            if defects != [cls._IGNORED_DEFECT]:
                 raise ContentDispositionError(defects)
 
         # https://github.com/python/mypy/issues/12314
@@ -153,7 +139,7 @@ def parse_content_disposition(reply):
     """
     is_inline = True
     filename = None
-    content_disposition_header = 'Content-Disposition'.encode('iso-8859-1')
+    content_disposition_header = b'Content-Disposition'
     # First check if the Content-Disposition header has a filename
     # attribute.
     if reply.hasRawHeader(content_disposition_header):
@@ -190,7 +176,7 @@ def parse_content_type(reply):
         A [mimetype, rest] list, or [None, None] if unset.
         Rest can be None.
     """
-    content_type = reply.header(QNetworkRequest.ContentTypeHeader)
+    content_type = reply.header(QNetworkRequest.KnownHeaders.ContentTypeHeader)
     if content_type is None:
         return [None, None]
     if ';' in content_type:

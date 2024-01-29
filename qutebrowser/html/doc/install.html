@@ -843,52 +843,69 @@ distribution, typically once all couple of months to years.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_on_debian_ubuntu">On Debian / Ubuntu</h2>
+<h2 id="debian">On Debian / Ubuntu / Linux Mint / &#8230;</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>How to install qutebrowser depends a lot on the version of Debian/Ubuntu you&#8217;re
-running.</p></div>
-<div class="sect2">
-<h3 id="ubuntu1604">Debian Stretch / Ubuntu 16.04 LTS / Linux Mint 18</h3>
-<div class="paragraph"><p>Debian Stretch does have QtWebEngine packaged, but only in a very old and insecure
-version (Qt 5.7, based on a Chromium from March 2016). Furthermore, it packages Python
-3.5 which is not supported anymore since qutebrowser v2.0.0.</p></div>
-<div class="paragraph"><p>Ubuntu 16.04 doesn&#8217;t come with an up-to-date engine (a new enough QtWebKit, or
-QtWebEngine) and also comes with Python 3.5.</p></div>
-<div class="paragraph"><p>You should be able to install a newer Python (3.6+) using the
-<a href="https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa">deadsnakes PPA</a> or
-<a href="https://github.com/pyenv/pyenv">pyenv</a>, and then proceed to
-<a href="#tox">install qutebrowser in a virtualenv</a>. However, this is currently untested. If you
-got this setup to work successfully, please submit a pull request to adjust these
-instructions!</p></div>
+<div class="paragraph"><p>With those distributions, qutebrowser is in the official repositories, and you
+can install it with <code>apt install qutebrowser</code>.</p></div>
+<div class="paragraph"><p>However, when using a stable variant (e.g. Debian Stable / Ubuntu LTS / Linux
+Mint), note that your versions of qutebrowser and the underlying QtWebEngine
+will only be updated when there&#8217;s a new release of your distribution (e.g.
+upgrading from Ubuntu 22.04 to 24.04):</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Ubuntu 20.04, Linux Mint 20: qutebrowser 1.10.1, QtWebEngine 5.12.8 (based on Chromium 69 from 2018)
+</p>
+</li>
+<li>
+<p>
+Ubuntu 22.04, Linux Mint 21: qutebrowser 2.5.0, QtWebEngine 5.15.9 (based on Chromium 87 from 2020)
+</p>
+</li>
+<li>
+<p>
+Debian Bookworm: qutebrowser 2.5.3, QtWebEngine 5.15.13 (based on Chromium 87 from 2020)
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The old versions of the underlying Chromium will lead to various compatibility
+issues. Additionally, QtWebEngine on all Debian-based distributions is
+<a href="https://www.debian.org/releases/bookworm/amd64/release-notes/ch-information.en.html#browser-security">not covered</a>
+by Debian&#8217;s security support.</p></div>
+<div class="paragraph"><p>It&#8217;s recommended to <a href="#tox">install qutebrowser in a virtualenv</a> with a newer PyQt/Qt binary instead.
+If you need proprietary codec support or use an architecture not supported by Qt
+binaries, starting with Ubuntu 22.04 and Debian Bookworm, it&#8217;s possible to
+install Qt 6 via apt. By using <code>mkvenv.py</code> with <code>--pyqt-type link</code> you get a
+newer qutebrowser running with:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Ubuntu 22.04, Linux Mint 21: QtWebEngine 6.2.4 (based on Chromium 90 from mid-2021)
+</p>
+</li>
+<li>
+<p>
+Debian Bookworm: QtWebEngine 6.4.2 (based on Chromium 102 from mid-2022)
+</p>
+</li>
+</ul></div>
 <div class="paragraph"><p>Note you&#8217;ll need some basic libraries to use the virtualenv-installed PyQt:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code># apt install --no-install-recommends git ca-certificates python3 python3-venv asciidoc libglib2.0-0 libgl1 libfontconfig1 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-shape0 libxcb-xfixes0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0 libdbus-1-3 libyaml-dev gcc python3-dev libnss3</code></pre>
+<pre><code># apt install --no-install-recommends git ca-certificates python3 python3-venv libgl1 libxkbcommon-x11-0 libegl1-mesa libfontconfig1 libglib2.0-0 libdbus-1-3 libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 libnss3 libxcomposite1 libxdamage1 libxrender1 libxrandr2 libxtst6 libxi6 libasound2</code></pre>
 </div></div>
-</div>
-<div class="sect2">
-<h3 id="_debian_buster_ubuntu_18_04_lts_linux_mint_19">Debian Buster / Ubuntu 18.04 LTS / Linux Mint 19</h3>
-<div class="paragraph"><p>Debian Buster packages qutebrowser, but ships a very old version (v1.6.1 from March
-2019). The QtWebEngine library used for rendering web contents is also very old (Qt
-5.11, based on a Chromium from March 2018) and insecure. It is
-<a href="https://www.debian.org/releases/buster/amd64/release-notes/ch-information.en.html#browser-security">not covered</a>
-by Debian&#8217;s security patches. It&#8217;s recommended to <a href="#tox">install qutebrowser in a virtualenv</a> with a newer PyQt/Qt binary instead.</p></div>
-<div class="paragraph"><p>With Ubuntu 18.04, the situation looks similar (but worse): There, qutebrowser v1.1.1
-from January 2018 is packaged, with QtWebEngine 5.9 based on a Chromium from January
-2017. It&#8217;s recommended to either upgrade to Ubuntu 20.04 LTS or <a href="#tox">install qutebrowser in a virtualenv</a> with a newer PyQt/Qt binary instead.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_ubuntu_20_04_lts_linux_mint_20_or_newer">Ubuntu 20.04 LTS / Linux Mint 20 (or newer)</h3>
-<div class="paragraph"><p>With those distributions, qutebrowser is in the official repositories, and you
-can install it with apt:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code># apt install qutebrowser</code></pre>
-</div></div>
-</div>
 <div class="sect2">
 <h3 id="_additional_hints">Additional hints</h3>
 <div class="ulist"><ul>
+<li>
+<p>
+On Ubuntu 20.04 / Linux Mint 20 / Debian Bullseye, no OpenSSL 3 is available.
+  However, Qt 6.5 <a href="https://www.qt.io/blog/moving-to-openssl-3-in-binary-builds-starting-from-qt-6.5-beta-2">moved to OpenSSL 3</a>
+  for its binary builds. Thus, you will either need to live with
+  <code>:adblock-update</code> and <code>:download</code> being broken, or use <code>--pyqt-version 6.4</code> for
+  the <code>mkvenv.py</code> script to get an older Qt.
+</p>
+</li>
 <li>
 <p>
 If running from git, run the following to generate the documentation for the
@@ -897,14 +914,14 @@ If running from git, run the following to generate the documentation for the
 </p>
 <div class="listingblock">
 <div class="content">
-<pre><code># apt install --no-install-recommends asciidoc
+<pre><code>$ pip install -r misc/requirements/requirements-docs.txt  # or install asciidoc manually
 $ python3 scripts/asciidoc2html.py</code></pre>
 </div></div>
 </li>
 <li>
 <p>
 If you prefer using QtWebKit, there&#8217;s QtWebKit 5.212 available in
-  Ubuntu 18.04 / Debian Buster or newer.  Note however that it is based on an upstream
+  those distributions. Note however that it is based on an upstream
   WebKit from September 2016 with known security issues and no sandboxing or process
   isolation.
 </p>
@@ -941,6 +958,7 @@ For more information see <a href="https://rpmfusion.org/Configuration">https://r
 <div class="content">
 <pre><code># dnf install qt5-qtwebengine-freeworld</code></pre>
 </div></div>
+<div class="paragraph"><p>It&#8217;s currently unknown what the Qt 6 equivalent of this is.</p></div>
 </div>
 </div>
 </div>
@@ -1053,19 +1071,6 @@ sbopkg -r</code></pre>
 as <code>org.qutebrowser.qutebrowser</code>. See the
 <a href="https://github.com/flathub/org.qutebrowser.qutebrowser/wiki">qutebrowser Flatpak documentation</a>
 for more information about setting up certain features with the Flatpak sandbox.</p></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">The Flatpak package is
-<a href="https://github.com/flathub/org.qutebrowser.qutebrowser/issues/8#issuecomment-799579975">looking for (co-)maintainers</a>.
-The package recently was updated after being out of date for multiple years. It
-currently (March 2021) is up to date again. If that situation changes, consider
-to <a href="#tox">install qutebrowser in a virtualenv</a> instead, which is one of the
-officially maintained options and will always be up-to-date.</td>
-</tr></table>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -1112,13 +1117,20 @@ QtWebEngine from source yourself with support for that enabled.</p></div>
 <div class="sect2">
 <h3 id="_nightly_builds">Nightly builds</h3>
 <div class="paragraph"><p>If you want to test out new features before an official qutebrowser release, automated
-<a href="https://github.com/qutebrowser/qutebrowser/actions/workflows/bleeding.yml">nightly
-builds</a> are available. To download them, open the lastest run (usually the first one),
-then download the archive at the bottom of the page. Note that due to GitHub
-limitations, all variants (Windows/macOS, 32/64 bit, debug/non-debug) are contained in a
-single archive.</p></div>
+<a href="https://github.com/qutebrowser/qutebrowser/actions/workflows/nightly.yml">nightly
+builds</a> are available. To download them, open the latest run (usually the first one),
+then download the archive at the bottom of the page.</p></div>
 <div class="paragraph"><p>Those builds also include variants with debug logging enabled, which can be useful to
 track down issues.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">Due to GitHub limitations, you need to be signed in with a GitHub account
+to download the files.</td>
+</tr></table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_a_href_https_chocolatey_org_packages_qutebrowser_chocolatey_package_a"><a href="https://chocolatey.org/packages/qutebrowser">Chocolatey package</a></h3>
@@ -1179,6 +1191,25 @@ mailinglist</a> to get notified on new releases).</p></div>
 <div class="paragraph"><p>The binary release ships with a QtWebEngine built without proprietary codec
 support. To get support for e.g. h264/mp4 videos, you&#8217;ll need to build
 QtWebEngine from source yourself with support for that enabled.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">Currently, qutebrowser
+<a href="https://github.com/qutebrowser/qutebrowser/issues/5020">does not use</a> macOS'
+<a href="https://developer.apple.com/documentation/security/notarizing_macos_software_before_distribution">Notarization</a>,
+due to <a href="https://github.com/pyinstaller/pyinstaller/issues/6612">PyInstaller issues</a>
+(as well as the requirement to
+<a href="https://developer.apple.com/support/compare-memberships/">pay USD 100 per year to Apple</a>).
+Depending on your system settings, this might lead to errors such as
+"qutebrowser.app can&#8217;t be opened because Apple cannot check it for malicious
+software." or "can&#8217;t be opened because it is from an unidentified developer".
+You should be able to open the .app by right-clicking it and selecting "Open", see the
+<a href="https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/mac">macOS documentation</a>
+for details.</td>
+</tr></table>
+</div>
 <div class="paragraph"><p>This binary is also available through the <a href="https://brew.sh/">Homebrew</a> package
 manager as a <a href="https://github.com/Homebrew/homebrew-cask">cask</a>:</p></div>
 <div class="listingblock">
@@ -1189,13 +1220,20 @@ manager as a <a href="https://github.com/Homebrew/homebrew-cask">cask</a>:</p></
 <div class="sect2">
 <h3 id="_nightly_builds_2">Nightly builds</h3>
 <div class="paragraph"><p>If you want to test out new features before an official qutebrowser release, automated
-<a href="https://github.com/qutebrowser/qutebrowser/actions/workflows/bleeding.yml">nightly
-builds</a> are available. To download them, open the lastest run (usually the first one),
-then download the archive at the bottom of the page. Note that due to GitHub
-limitations, all variants (Windows/macOS, 32/64 bit, debug/non-debug) are contained in a
-single archive.</p></div>
+<a href="https://github.com/qutebrowser/qutebrowser/actions/workflows/nightly.yml">nightly
+builds</a> are available. To download them, open the latest run (usually the first one),
+then download the archive at the bottom of the page.</p></div>
 <div class="paragraph"><p>Those builds also include variants with debug logging enabled, which can be useful to
 track down issues.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">Due to GitHub limitations, you need to be signed in with a GitHub account
+to download the files.</td>
+</tr></table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_manual_install_2">Manual Install</h3>
@@ -1206,24 +1244,9 @@ qutebrowser from source.</p></div>
 <h4 id="_homebrew">Homebrew</h4>
 <div class="listingblock">
 <div class="content">
-<pre><code>$ brew install qt
-(build PyQt and PyQtWebEngine from source)
+<pre><code>$ brew install pyqt@6
 $ pip3 install qutebrowser</code></pre>
 </div></div>
-<div class="admonitionblock">
-<table><tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">Homebrew does not package PyQtWebEngine (Python wrappers for
-QtWebEngine), so you will need to build that from sources manually.</td>
-</tr></table>
-</div>
-<div class="paragraph"><p>Since the v1.0 release, qutebrowser uses QtWebEngine by default.</p></div>
-<div class="paragraph"><p>Homebrew&#8217;s builds of Qt and PyQt don&#8217;t come with QtWebKit (and <code>--with-qtwebkit</code>
-uses an old version of QtWebKit which qutebrowser doesn&#8217;t support anymore). If
-you want QtWebKit support, you&#8217;ll need to build an up-to-date QtWebKit
-<a href="https://github.com/annulen/webkit/wiki/Building-QtWebKit-on-OS-X">manually</a>.</p></div>
 </div>
 </div>
 </div>
@@ -1232,7 +1255,7 @@ you want QtWebKit support, you&#8217;ll need to build an up-to-date QtWebKit
 <h2 id="_packagers">Packagers</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>qutebrowser ships with a
-<a href="https://github.com/qutebrowser/qutebrowser/blob/master/misc/Makefile">Makefile</a>
+<a href="https://github.com/qutebrowser/qutebrowser/blob/main/misc/Makefile">Makefile</a>
 intended for packagers. This installs system-wide files in a proper locations,
 so it should be preferred to the usual <code>setup.py install</code> or <code>pip install</code>
 invocation.</p></div>
@@ -1271,7 +1294,7 @@ $ cd qutebrowser</code></pre>
 <div class="sect2">
 <h3 id="_installing_dependencies_including_qt">Installing dependencies (including Qt)</h3>
 <div class="paragraph"><p>Using a Qt installed via virtualenv needs a couple of system-wide libraries.
-See the <a href="#ubuntu1604">Ubuntu 16.04 section</a> for details about which libraries
+See the <a href="#debian">Debian-based distributions section</a> for details about which libraries
 are required.</p></div>
 <div class="paragraph"><p>Then run the install script:</p></div>
 <div class="listingblock">
@@ -1286,7 +1309,7 @@ binary, but has a few caveats:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Make sure your <code>python3</code> is Python 3.6 or newer, otherwise you&#8217;ll get a "No
+Make sure your <code>python3</code> is Python 3.8 or newer, otherwise you&#8217;ll get a "No
   matching distribution found" error and/or qutebrowser will not run.
 </p>
 </li>
@@ -1348,16 +1371,6 @@ launch qutebrowser by doing:</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_building_the_docs">Building the docs</h3>
-<div class="paragraph"><p>To build the documentation, install <code>asciidoc</code> (note that LaTeX which comes as
-optional/recommended dependency with some distributions is not required).</p></div>
-<div class="paragraph"><p>Then, run:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>$ python3 scripts/asciidoc2html.py</code></pre>
-</div></div>
-</div>
-<div class="sect2">
 <h3 id="_updating">Updating</h3>
 <div class="paragraph"><p>If you cloned the git repository, run <code>mkvenv.py --update</code> which will take care
 of updating the code (via <code>git pull</code>) and recreating the environment with the
@@ -1373,7 +1386,7 @@ use the updated versions. However, dependencies won&#8217;t be updated that way.
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2023-03-13 22:11:57 CET
+ 2023-12-08 15:32:06 UTC
 </div>
 </div>
 </body>

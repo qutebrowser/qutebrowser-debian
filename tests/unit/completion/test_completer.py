@@ -1,31 +1,15 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2016-2021 Ryan Roden-Corrent (rcorre) <ryan@rcorre.net>
+# SPDX-FileCopyrightText: Ryan Roden-Corrent (rcorre) <ryan@rcorre.net>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for the Completer Object."""
 
 import unittest.mock
 
 import pytest
-from PyQt5.QtCore import QObject
-from PyQt5.QtGui import QStandardItemModel
+from qutebrowser.qt.gui import QStandardItemModel
 
-from qutebrowser.completion import completer
+from qutebrowser.completion import completer, completionwidget
 from qutebrowser.commands import command
 from qutebrowser.api import cmdutils
 
@@ -48,12 +32,12 @@ class FakeCompletionModel(QStandardItemModel):
         self.info = info
 
 
-class CompletionWidgetStub(QObject):
+class CompletionWidgetStub(completionwidget.CompletionView):
 
     """Stub for the CompletionView."""
 
     def __init__(self, parent=None):
-        super().__init__(parent)
+        super().__init__(cmd=None, win_id=0, parent=parent)
         self.hide = unittest.mock.Mock()
         self.show = unittest.mock.Mock()
         self.set_pattern = unittest.mock.Mock()
@@ -197,7 +181,7 @@ def _set_cmd_prompt(cmd, txt):
                  marks=pytest.mark.xfail(reason='issue #74')),
     (':set -t -p |', 'section', '', []),
     (':open -- |', None, '', []),
-    (':gibberish nonesense |', None, '', []),
+    (':gibberish nonsense |', None, '', []),
     ('/:help|', None, '', []),
     ('::bind|', 'command', ':bind', []),
     (':-w open |', None, '', []),

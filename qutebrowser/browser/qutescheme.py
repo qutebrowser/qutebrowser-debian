@@ -1,21 +1,6 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2016-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Backend-independent qute://* code.
 
@@ -24,6 +9,7 @@ Module attributes:
     _HANDLERS: The handlers registered via decorators.
 """
 
+import sys
 import html
 import json
 import os
@@ -34,7 +20,7 @@ import collections
 import secrets
 from typing import TypeVar, Callable, Dict, List, Optional, Union, Sequence, Tuple
 
-from PyQt5.QtCore import QUrlQuery, QUrl
+from qutebrowser.qt.core import QUrlQuery, QUrl
 
 import qutebrowser
 from qutebrowser.browser import pdfjs, downloads, history
@@ -129,8 +115,8 @@ def data_for_url(url: QUrl) -> Tuple[str, bytes]:
         A (mimetype, data) tuple.
     """
     norm_url = url.adjusted(
-        QUrl.NormalizePathSegments |  # type: ignore[arg-type]
-        QUrl.StripTrailingSlash)
+        QUrl.UrlFormattingOption.NormalizePathSegments |
+        QUrl.UrlFormattingOption.StripTrailingSlash)
     if norm_url != url:
         raise Redirect(norm_url)
 
@@ -425,8 +411,8 @@ def qute_help(url: QUrl) -> _HandlerRet:
 def _qute_settings_set(url: QUrl) -> _HandlerRet:
     """Handler for qute://settings/set."""
     query = QUrlQuery(url)
-    option = query.queryItemValue('option', QUrl.FullyDecoded)
-    value = query.queryItemValue('value', QUrl.FullyDecoded)
+    option = query.queryItemValue('option', QUrl.ComponentFormattingOption.FullyDecoded)
+    value = query.queryItemValue('value', QUrl.ComponentFormattingOption.FullyDecoded)
 
     # https://github.com/qutebrowser/qutebrowser/issues/727
     if option == 'content.javascript.enabled' and value == 'false':
@@ -500,10 +486,11 @@ def qute_back(url: QUrl) -> _HandlerRet:
 
 
 @add_handler('configdiff')
-def qute_configdiff(_url: QUrl) -> _HandlerRet:
+def qute_configdiff(url: QUrl) -> _HandlerRet:
     """Handler for qute://configdiff."""
-    data = config.instance.dump_userconfig().encode('utf-8')
-    return 'text/plain', data
+    include_hidden = QUrlQuery(url).queryItemValue('include_hidden') == 'true'
+    dump = config.instance.dump_userconfig(include_hidden=include_hidden)
+    return 'text/plain', dump.encode('utf-8')
 
 
 @add_handler('pastebin-version')
@@ -565,9 +552,8 @@ def qute_pdfjs(url: QUrl) -> _HandlerRet:
         log.misc.warning(
             "pdfjs resource requested but not found: {}".format(e.path))
         raise NotFoundError("Can't find pdfjs resource '{}'".format(e.path))
-    else:
-        mimetype = utils.guess_mimetype(url.fileName(), fallback=True)
-        return mimetype, data
+    mimetype = utils.guess_mimetype(url.fileName(), fallback=True)
+    return mimetype, data
 
 
 @add_handler('warning')
@@ -582,6 +568,12 @@ def qute_warning(url: QUrl) -> _HandlerRet:
                            title='Qt 5.15 sessions warning',
                            datadir=standarddir.data(),
                            sep=os.sep)
+    elif path == '/qt5':
+        is_venv = hasattr(sys, 'real_prefix') or sys.base_prefix != sys.prefix
+        src = jinja.render('warning-qt5.html',
+                           title='Switch to Qt 6',
+                           is_venv=is_venv,
+                           prefix=sys.prefix)
     else:
         raise NotFoundError("Invalid warning page {}".format(path))
     return 'text/html', src
@@ -597,3 +589,19 @@ def qute_resource(url: QUrl) -> _HandlerRet:
     except FileNotFoundError as e:
         raise NotFoundError(str(e))
     return mimetype, data
+
+
+@add_handler('start')
+def qute_start(_url: QUrl) -> _HandlerRet:
+    """Handler for qute://start."""
+    bookmarks = sorted(objreg.get('bookmark-manager').marks.items(),
+                       key=lambda x: x[1])  # Sort by title
+    quickmarks = sorted(objreg.get('quickmark-manager').marks.items(),
+                        key=lambda x: x[0])  # Sort by name
+    searchurl = config.val.url.searchengines['DEFAULT']
+    page = jinja.render('startpage.html',
+                        title='Welcome to qutebrowser',
+                        bookmarks=bookmarks,
+                        search_url=searchurl,
+                        quickmarks=quickmarks)
+    return 'text/html', page

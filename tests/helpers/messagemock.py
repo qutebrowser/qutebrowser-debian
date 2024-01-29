@@ -1,40 +1,15 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """pytest helper to monkeypatch the message module."""
 
 import logging
-import dataclasses
 
 import pytest
-from PyQt5.QtCore import pyqtSlot, pyqtSignal, QObject
+from qutebrowser.qt.core import pyqtSlot, pyqtSignal, QObject
 
 from qutebrowser.utils import usertypes, message
-
-
-@dataclasses.dataclass
-class Message:
-
-    """Information about a shown message."""
-
-    level: usertypes.MessageLevel
-    text: str
 
 
 class MessageMock(QObject):
@@ -47,7 +22,7 @@ class MessageMock(QObject):
         _logger: The logger to use for messages/questions.
     """
 
-    got_message = pyqtSignal(usertypes.MessageLevel, str)
+    got_message = pyqtSignal(message.MessageInfo)
     got_question = pyqtSignal(usertypes.Question)
 
     def __init__(self, parent=None):
@@ -56,18 +31,18 @@ class MessageMock(QObject):
         self.questions = []
         self._logger = logging.getLogger('messagemock')
 
-    @pyqtSlot(usertypes.MessageLevel, str)
-    def _record_message(self, level, text):
-        self.got_message.emit(level, text)
+    @pyqtSlot(message.MessageInfo)
+    def _record_message(self, info):
+        self.got_message.emit(info)
         log_levels = {
             usertypes.MessageLevel.error: logging.ERROR,
             usertypes.MessageLevel.info: logging.INFO,
             usertypes.MessageLevel.warning: logging.WARNING,
         }
-        log_level = log_levels[level]
+        log_level = log_levels[info.level]
 
-        self._logger.log(log_level, text)
-        self.messages.append(Message(level, text))
+        self._logger.log(log_level, info.text)
+        self.messages.append(info)
 
     @pyqtSlot(usertypes.Question)
     def _record_question(self, question):

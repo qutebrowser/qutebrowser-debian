@@ -3,9 +3,9 @@ lxml  # For HTML reports
 diff-cover
 
 PyQt5-stubs
-types-dataclasses
 types-PyYAML
+types-colorama
+types-Pygments
 
 # So stubs are available even on newer Python versions
 importlib_resources
-importlib_metadata
