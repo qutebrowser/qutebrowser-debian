@@ -1,3 +1,9 @@
+qutebrowser (2.5.4-2) unstable; urgency=medium
+
+  * Remove no longer needed dep python3-sip
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Mon, 29 Jan 2024 22:56:07 +0100
+
 qutebrowser (2.5.4-1) unstable; urgency=medium
 
   * New minor upstream maintenance release.
