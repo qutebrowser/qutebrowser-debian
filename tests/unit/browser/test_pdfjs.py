@@ -1,27 +1,12 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2015 Daniel Schadt
+# SPDX-FileCopyrightText: Daniel Schadt
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import logging
 import os.path
 
 import pytest
-from PyQt5.QtCore import QUrl
+from qutebrowser.qt.core import QUrl
 
 from qutebrowser.browser import pdfjs
 from qutebrowser.utils import urlmatch
@@ -52,7 +37,7 @@ def test_generate_pdfjs_page(available, snippet, monkeypatch):
     assert snippet in content
 
 
-# Note that we got double protection, once because we use QUrl.FullyEncoded and
+# Note that we got double protection, once because we use QUrl.ComponentFormattingOption.FullyEncoded and
 # because we use qutebrowser.utils.javascript.to_js. Characters like " are
 # already replaced by QUrl.
 @pytest.mark.parametrize('filename, expected', [
@@ -178,7 +163,7 @@ def unreadable_file(tmpdir):
     unreadable_file = tmpdir / 'unreadable'
     unreadable_file.ensure()
     unreadable_file.chmod(0)
-    if os.access(str(unreadable_file), os.R_OK):
+    if os.access(unreadable_file, os.R_OK):
         # Docker container or similar
         pytest.skip("File was still readable")
 
@@ -206,6 +191,33 @@ def test_is_available(available, mocker):
         mock.side_effect = pdfjs.PDFJSNotFound('build/pdf.js')
 
     assert pdfjs.is_available() == available
+
+
+@pytest.mark.parametrize('found_file', [
+    "build/pdf.js",
+    "build/pdf.mjs",
+])
+def test_get_pdfjs_js_path(found_file: str, monkeypatch: pytest.MonkeyPatch):
+    def fake_pdfjs_res(requested):
+        if requested.endswith(found_file):
+            return
+        raise pdfjs.PDFJSNotFound(requested)
+
+    monkeypatch.setattr(pdfjs, 'get_pdfjs_res', fake_pdfjs_res)
+    assert pdfjs.get_pdfjs_js_path() == found_file
+
+
+def test_get_pdfjs_js_path_none(monkeypatch: pytest.MonkeyPatch):
+    def fake_pdfjs_res(requested):
+        raise pdfjs.PDFJSNotFound(requested)
+
+    monkeypatch.setattr(pdfjs, 'get_pdfjs_res', fake_pdfjs_res)
+
+    with pytest.raises(
+        pdfjs.PDFJSNotFound,
+        match="Path 'build/pdf.js or build/pdf.mjs' not found"
+    ):
+        pdfjs.get_pdfjs_js_path()
 
 
 @pytest.mark.parametrize('mimetype, url, enabled, expected', [

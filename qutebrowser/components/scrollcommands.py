@@ -1,24 +1,10 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2018-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Scrolling-related commands."""
 
+from typing import Dict, Callable
 from qutebrowser.api import cmdutils, apitypes
 
 
@@ -46,7 +32,7 @@ def scroll_px(tab: apitypes.Tab, dx: int, dy: int, count: int = 1) -> None:
 def scroll(tab: apitypes.Tab, direction: str, count: int = 1) -> None:
     """Scroll the current tab in the given direction.
 
-    Note you can use `:run-with-count` to have a keybinding with a bigger
+    Note you can use `:cmd-run-with-count` to have a keybinding with a bigger
     scroll increment.
 
     Args:
@@ -54,7 +40,8 @@ def scroll(tab: apitypes.Tab, direction: str, count: int = 1) -> None:
                     (up/down/left/right/top/bottom).
         count: multiplier
     """
-    funcs = {
+    # FIXME:mypy Use a callback protocol to enforce having 'count'?
+    funcs: Dict[str, Callable[..., None]] = {
         'up': tab.scroller.up,
         'down': tab.scroller.down,
         'left': tab.scroller.left,

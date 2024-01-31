@@ -1,21 +1,6 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2021 Florian Bruhin (The-Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The-Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Simplistic ELF parser to get the QtWebEngine/Chromium versions.
 
@@ -59,22 +44,16 @@ This is a "best effort" parser. If it errors out, we instead end up relying on t
 PyQtWebEngine version, which is the next best thing.
 """
 
-import struct
 import enum
 import re
 import dataclasses
 import mmap
 import pathlib
-from typing import Any, IO, ClassVar, Dict, Optional, Tuple, cast
+from typing import IO, ClassVar, Dict, Optional, cast
 
-from PyQt5.QtCore import QLibraryInfo
-
-from qutebrowser.utils import log, version
-
-
-class ParseError(Exception):
-
-    """Raised when the ELF file can't be parsed."""
+from qutebrowser.qt import machinery
+from qutebrowser.utils import log, version, qtutils
+from qutebrowser.misc import binparsing
 
 
 class Bitness(enum.Enum):
@@ -91,33 +70,6 @@ class Endianness(enum.Enum):
 
     little = 1
     big = 2
-
-
-def _unpack(fmt: str, fobj: IO[bytes]) -> Tuple[Any, ...]:
-    """Unpack the given struct format from the given file."""
-    size = struct.calcsize(fmt)
-    data = _safe_read(fobj, size)
-
-    try:
-        return struct.unpack(fmt, data)
-    except struct.error as e:
-        raise ParseError(e)
-
-
-def _safe_read(fobj: IO[bytes], size: int) -> bytes:
-    """Read from a file, handling possible exceptions."""
-    try:
-        return fobj.read(size)
-    except (OSError, OverflowError) as e:
-        raise ParseError(e)
-
-
-def _safe_seek(fobj: IO[bytes], pos: int) -> None:
-    """Seek in a file, handling possible exceptions."""
-    try:
-        fobj.seek(pos)
-    except (OSError, OverflowError) as e:
-        raise ParseError(e)
 
 
 @dataclasses.dataclass
@@ -141,17 +93,17 @@ class Ident:
     @classmethod
     def parse(cls, fobj: IO[bytes]) -> 'Ident':
         """Parse an ELF ident header from a file."""
-        magic, klass, data, elfversion, osabi, abiversion = _unpack(cls._FORMAT, fobj)
+        magic, klass, data, elfversion, osabi, abiversion = binparsing.unpack(cls._FORMAT, fobj)
 
         try:
             bitness = Bitness(klass)
         except ValueError:
-            raise ParseError(f"Invalid bitness {klass}")
+            raise binparsing.ParseError(f"Invalid bitness {klass}")
 
         try:
             endianness = Endianness(data)
         except ValueError:
-            raise ParseError(f"Invalid endianness {data}")
+            raise binparsing.ParseError(f"Invalid endianness {data}")
 
         return cls(magic, bitness, endianness, elfversion, osabi, abiversion)
 
@@ -188,7 +140,7 @@ class Header:
     def parse(cls, fobj: IO[bytes], bitness: Bitness) -> 'Header':
         """Parse an ELF header from a file."""
         fmt = cls._FORMATS[bitness]
-        return cls(*_unpack(fmt, fobj))
+        return cls(*binparsing.unpack(fmt, fobj))
 
 
 @dataclasses.dataclass
@@ -219,39 +171,39 @@ class SectionHeader:
     def parse(cls, fobj: IO[bytes], bitness: Bitness) -> 'SectionHeader':
         """Parse an ELF section header from a file."""
         fmt = cls._FORMATS[bitness]
-        return cls(*_unpack(fmt, fobj))
+        return cls(*binparsing.unpack(fmt, fobj))
 
 
 def get_rodata_header(f: IO[bytes]) -> SectionHeader:
     """Parse an ELF file and find the .rodata section header."""
     ident = Ident.parse(f)
     if ident.magic != b'\x7fELF':
-        raise ParseError(f"Invalid magic {ident.magic!r}")
+        raise binparsing.ParseError(f"Invalid magic {ident.magic!r}")
 
     if ident.data != Endianness.little:
-        raise ParseError("Big endian is unsupported")
+        raise binparsing.ParseError("Big endian is unsupported")
 
     if ident.version != 1:
-        raise ParseError(f"Only version 1 is supported, not {ident.version}")
+        raise binparsing.ParseError(f"Only version 1 is supported, not {ident.version}")
 
     header = Header.parse(f, bitness=ident.klass)
 
     # Read string table
-    _safe_seek(f, header.shoff + header.shstrndx * header.shentsize)
+    binparsing.safe_seek(f, header.shoff + header.shstrndx * header.shentsize)
     shstr = SectionHeader.parse(f, bitness=ident.klass)
 
-    _safe_seek(f, shstr.offset)
-    string_table = _safe_read(f, shstr.size)
+    binparsing.safe_seek(f, shstr.offset)
+    string_table = binparsing.safe_read(f, shstr.size)
 
     # Back to all sections
     for i in range(header.shnum):
-        _safe_seek(f, header.shoff + i * header.shentsize)
+        binparsing.safe_seek(f, header.shoff + i * header.shentsize)
         sh = SectionHeader.parse(f, bitness=ident.klass)
         name = string_table[sh.name:].split(b'\x00')[0]
         if name == b'.rodata':
             return sh
 
-    raise ParseError("No .rodata section found")
+    raise binparsing.ParseError("No .rodata section found")
 
 
 @dataclasses.dataclass
@@ -269,20 +221,49 @@ def _find_versions(data: bytes) -> Versions:
     Note that 'data' can actually be a mmap.mmap, but typing doesn't handle that
     correctly: https://github.com/python/typeshed/issues/1467
     """
-    match = re.search(
-        br'\x00QtWebEngine/([0-9.]+) Chrome/([0-9.]+)\x00',
-        data,
-    )
-    if match is None:
-        raise ParseError("No match in .rodata")
+    pattern = br'\x00QtWebEngine/([0-9.]+) Chrome/([0-9.]+)\x00'
+    match = re.search(pattern, data)
+    if match is not None:
+        try:
+            return Versions(
+                webengine=match.group(1).decode('ascii'),
+                chromium=match.group(2).decode('ascii'),
+            )
+        except UnicodeDecodeError as e:
+            raise binparsing.ParseError(e)
 
+    # Here it gets even more crazy: Sometimes, we don't have the full UA in one piece
+    # in the string table somehow (?!). However, Qt 6.2 added a separate
+    # qWebEngineChromiumVersion(), with PyQt wrappers following later. And *that*
+    # apperently stores the full version in the string table separately from the UA.
+    # As we clearly didn't have enough crazy heuristics yet so far, let's hunt for it!
+
+    # We first get the partial Chromium version from the UA:
+    match = re.search(pattern[:-4], data)  # without trailing literal \x00
+    if match is None:
+        raise binparsing.ParseError("No match in .rodata")
+
+    webengine_bytes = match.group(1)
+    partial_chromium_bytes = match.group(2)
+    if b"." not in partial_chromium_bytes or len(partial_chromium_bytes) < 6:
+        # some sanity checking
+        raise binparsing.ParseError("Inconclusive partial Chromium bytes")
+
+    # And then try to find the *full* string, stored separately, based on the
+    # partial one we got above.
+    pattern = br"\x00(" + re.escape(partial_chromium_bytes) + br"[0-9.]+)\x00"
+    match = re.search(pattern, data)
+    if match is None:
+        raise binparsing.ParseError("No match in .rodata for full version")
+
+    chromium_bytes = match.group(1)
     try:
         return Versions(
-            webengine=match.group(1).decode('ascii'),
-            chromium=match.group(2).decode('ascii'),
+            webengine=webengine_bytes.decode('ascii'),
+            chromium=chromium_bytes.decode('ascii'),
         )
     except UnicodeDecodeError as e:
-        raise ParseError(e)
+        raise binparsing.ParseError(e)
 
 
 def _parse_from_file(f: IO[bytes]) -> Versions:
@@ -303,8 +284,8 @@ def _parse_from_file(f: IO[bytes]) -> Versions:
             return _find_versions(cast(bytes, mmap_data))
     except (OSError, OverflowError) as e:
         log.misc.debug(f"mmap failed ({e}), falling back to reading", exc_info=True)
-        _safe_seek(f, sh.offset)
-        data = _safe_read(f, sh.size)
+        binparsing.safe_seek(f, sh.offset)
+        data = binparsing.safe_read(f, sh.size)
         return _find_versions(data)
 
 
@@ -314,9 +295,10 @@ def parse_webenginecore() -> Optional[Versions]:
         # Flatpak has Qt in /usr/lib/x86_64-linux-gnu, but QtWebEngine in /app/lib.
         library_path = pathlib.Path("/app/lib")
     else:
-        library_path = pathlib.Path(QLibraryInfo.location(QLibraryInfo.LibrariesPath))
+        library_path = qtutils.library_path(qtutils.LibraryPath.libraries)
 
-    library_name = sorted(library_path.glob('libQt5WebEngineCore.so*'))
+    suffix = "6" if machinery.IS_QT6 else "5"
+    library_name = sorted(library_path.glob(f'libQt{suffix}WebEngineCore.so*'))
     if not library_name:
         log.misc.debug(f"No QtWebEngine .so found in {library_path}")
         return None
@@ -330,6 +312,6 @@ def parse_webenginecore() -> Optional[Versions]:
 
         log.misc.debug(f"Got versions from ELF: {versions}")
         return versions
-    except ParseError as e:
+    except binparsing.ParseError as e:
         log.misc.debug(f"Failed to parse ELF: {e}", exc_info=True)
         return None

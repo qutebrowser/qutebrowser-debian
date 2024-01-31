@@ -1,21 +1,6 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Other utilities which don't fit anywhere else."""
 
@@ -26,6 +11,7 @@ import re
 import sys
 import enum
 import json
+import fnmatch
 import datetime
 import traceback
 import functools
@@ -33,20 +19,12 @@ import contextlib
 import shlex
 import mimetypes
 from typing import (Any, Callable, IO, Iterator,
-                    Optional, Sequence, Tuple, Type, Union,
-                    TypeVar, TYPE_CHECKING)
-try:
-    # Protocol was added in Python 3.8
-    from typing import Protocol
-except ImportError:  # pragma: no cover
-    if not TYPE_CHECKING:
-        class Protocol:
+                    Optional, Sequence, Tuple, List, Type, Union,
+                    TypeVar, Protocol)
 
-            """Empty stub at runtime."""
-
-from PyQt5.QtCore import QUrl, QVersionNumber, QRect
-from PyQt5.QtGui import QClipboard, QDesktopServices
-from PyQt5.QtWidgets import QApplication
+from qutebrowser.qt.core import QUrl, QVersionNumber, QRect, QPoint
+from qutebrowser.qt.gui import QClipboard, QDesktopServices
+from qutebrowser.qt.widgets import QApplication
 
 import yaml
 try:
@@ -54,7 +32,7 @@ try:
                       CSafeDumper as YamlDumper)
     YAML_C_EXT = True
 except ImportError:  # pragma: no cover
-    from yaml import (SafeLoader as YamlLoader,  # type: ignore[misc]
+    from yaml import (SafeLoader as YamlLoader,  # type: ignore[assignment]
                       SafeDumper as YamlDumper)
     YAML_C_EXT = False
 
@@ -137,17 +115,20 @@ class VersionNumber:
             return NotImplemented
         return self._ver != other._ver
 
+    # FIXME:mypy type ignores below needed for PyQt5-stubs:
+    # Unsupported left operand type for ... ("QVersionNumber")
+
     def __ge__(self, other: 'VersionNumber') -> bool:
-        return self._ver >= other._ver  # type: ignore[operator]
+        return self._ver >= other._ver  # type: ignore[operator,unused-ignore]
 
     def __gt__(self, other: 'VersionNumber') -> bool:
-        return self._ver > other._ver  # type: ignore[operator]
+        return self._ver > other._ver  # type: ignore[operator,unused-ignore]
 
     def __le__(self, other: 'VersionNumber') -> bool:
-        return self._ver <= other._ver  # type: ignore[operator]
+        return self._ver <= other._ver  # type: ignore[operator,unused-ignore]
 
     def __lt__(self, other: 'VersionNumber') -> bool:
-        return self._ver < other._ver  # type: ignore[operator]
+        return self._ver < other._ver  # type: ignore[operator,unused-ignore]
 
 
 class Unreachable(Exception):
@@ -269,7 +250,7 @@ class FakeIOStream(io.TextIOBase):
 
     def __init__(self, write_func: Callable[[str], int]) -> None:
         super().__init__()
-        self.write = write_func  # type: ignore[assignment]
+        self.write = write_func  # type: ignore[method-assign]
 
 
 @contextlib.contextmanager
@@ -525,6 +506,13 @@ def sanitize_filename(name: str,
     return name
 
 
+def _clipboard() -> QClipboard:
+    """Get the QClipboard and make sure it's not None."""
+    clipboard = QApplication.clipboard()
+    assert clipboard is not None
+    return clipboard
+
+
 def set_clipboard(data: str, selection: bool = False) -> None:
     """Set the clipboard to some given data."""
     global fake_clipboard
@@ -535,8 +523,8 @@ def set_clipboard(data: str, selection: bool = False) -> None:
         log.misc.debug("Setting fake {}: {}".format(what, json.dumps(data)))
         fake_clipboard = data
     else:
-        mode = QClipboard.Selection if selection else QClipboard.Clipboard
-        QApplication.clipboard().setText(data, mode=mode)
+        mode = QClipboard.Mode.Selection if selection else QClipboard.Mode.Clipboard
+        _clipboard().setText(data, mode=mode)
 
 
 def get_clipboard(selection: bool = False, fallback: bool = False) -> str:
@@ -561,8 +549,8 @@ def get_clipboard(selection: bool = False, fallback: bool = False) -> str:
         data = fake_clipboard
         fake_clipboard = None
     else:
-        mode = QClipboard.Selection if selection else QClipboard.Clipboard
-        data = QApplication.clipboard().text(mode=mode)
+        mode = QClipboard.Mode.Selection if selection else QClipboard.Mode.Clipboard
+        data = _clipboard().text(mode=mode)
 
     target = "Primary selection" if selection else "Clipboard"
     if not data.strip():
@@ -574,7 +562,7 @@ def get_clipboard(selection: bool = False, fallback: bool = False) -> str:
 
 def supports_selection() -> bool:
     """Check if the OS supports primary selection."""
-    return QApplication.clipboard().supportsSelection()
+    return _clipboard().supportsSelection()
 
 
 def open_file(filename: str, cmdline: str = None) -> None:
@@ -784,30 +772,13 @@ def mimetype_extension(mimetype: str) -> Optional[str]:
 
     This mostly delegates to Python's mimetypes.guess_extension(), but backports some
     changes (via a simple override dict) which are missing from earlier Python versions.
-    Most likely, this can be dropped once the minimum Python version is raised to 3.7.
+    Most likely, this can be dropped once the minimum Python version is raised to 3.10.
     """
     overrides = {
+        # Added in 3.10
+        "application/x-hdf5": ".h5",
         # Added around 3.8
         "application/manifest+json": ".webmanifest",
-        "application/x-hdf5": ".h5",
-
-        # Added in Python 3.7
-        "application/wasm": ".wasm",
-
-        # Wrong values for Python 3.6
-        # https://bugs.python.org/issue1043134
-        # https://github.com/python/cpython/pull/14375
-        "application/octet-stream": ".bin",  # not .a
-        "application/postscript": ".ps",  # not .ai
-        "application/vnd.ms-excel": ".xls",  # not .xlb
-        "application/vnd.ms-powerpoint": ".ppt",  # not .pot
-        "application/xml": ".xsl",  # not .rdf
-        "audio/mpeg": ".mp3",  # not .mp2
-        "image/jpeg": ".jpg",  # not .jpe
-        "image/tiff": ".tiff",  # not .tif
-        "text/html": ".html",  # not .htm
-        "text/plain": ".txt",  # not .bat
-        "video/mpeg": ".mpeg",  # not .m1v
     }
     if mimetype in overrides:
         return overrides[mimetype]
@@ -856,3 +827,28 @@ def parse_rect(s: str) -> QRect:
         raise ValueError("Invalid rectangle")
 
     return rect
+
+
+def parse_point(s: str) -> QPoint:
+    """Parse a point string like 13,-42."""
+    try:
+        x, y = map(int, s.split(',', maxsplit=1))
+    except ValueError:
+        raise ValueError(f"String {s} does not match X,Y")
+
+    try:
+        return QPoint(x, y)
+    except OverflowError as e:
+        raise ValueError(e)
+
+
+def match_globs(patterns: List[str], value: str) -> Optional[str]:
+    """Match a list of glob-like patterns against a value.
+
+    Return:
+        The first matching pattern if there was a match, None with no match.
+    """
+    for pattern in patterns:
+        if fnmatch.fnmatchcase(name=value, pat=pattern):
+            return pattern
+    return None

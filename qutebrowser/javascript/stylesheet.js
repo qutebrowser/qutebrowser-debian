@@ -1,22 +1,7 @@
-/**
- * Copyright 2017-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
- * Copyright 2017 Ulrik de Muelenaere <ulrikdem@gmail.com>
- *
- * This file is part of qutebrowser.
- *
- * qutebrowser is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * qutebrowser is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
- */
+// SPDX-FileCopyrightText: Ulrik de Muelenaere <ulrikdem@gmail.com>
+// SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 "use strict";
 
@@ -92,6 +77,7 @@ window._qutebrowser.stylesheet = (function() {
             create_style();
             return;
         }
+
         const iter = document.createNodeIterator(document,
             NodeFilter.SHOW_PROCESSING_INSTRUCTION | NodeFilter.SHOW_ELEMENT);
         let node;
@@ -101,6 +87,7 @@ window._qutebrowser.stylesheet = (function() {
                 return;
             }
         }
+
         const style_observer = new MutationObserver((mutations) => {
             for (const mutation of mutations) {
                 const nodes = mutation.addedNodes;
@@ -130,11 +117,19 @@ window._qutebrowser.stylesheet = (function() {
             css_content = css;
         }
         // Propagate the new CSS to all child frames.
-        // FIXME:qtwebengine This does not work for cross-origin frames.
         for (let i = 0; i < window.frames.length; ++i) {
             const frame = window.frames[i];
-            if (frame._qutebrowser && frame._qutebrowser.stylesheet) {
-                frame._qutebrowser.stylesheet.set_css(css);
+            try {
+                if (frame._qutebrowser && frame._qutebrowser.stylesheet) {
+                    frame._qutebrowser.stylesheet.set_css(css);
+                }
+            } catch (exc) {
+                if (exc instanceof DOMException && exc.name === "SecurityError") {
+                    // FIXME:qtwebengine This does not work for cross-origin frames.
+                    console.log(`Failed to style frame: ${exc.message}`);
+                } else {
+                    throw exc;
+                }
             }
         }
     };
