@@ -1,4 +1,4 @@
 doc/img/cheatsheet-big.png /usr/share/qutebrowser/img/
 doc/img/cheatsheet-small.png /usr/share/qutebrowser/img/
-icons/qutebrowser.xpm /usr/share/pixmaps/
+qutebrowser/icons/qutebrowser.xpm /usr/share/pixmaps/
 qutebrowser/img/broken_qutebrowser_logo.png /usr/share/qutebrowser/img
