@@ -30,7 +30,7 @@ Depends: python3 (>= 3.8),
 Suggests: libjs-pdf,
           nodejs
 Provides: www-browser
-Description: Keyboard-driven, vim-like browser based on Python and Qt.
+Description: Keyboard-driven, vim-like browser based on Python and Qt
  qutebrowser is a keyboard-focused browser with a minimal GUI. It's
  based on Python and Qt and was inspired by other browsers/addons
  like dwb and Vimperator/Pentadactyl.
