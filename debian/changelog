@@ -1,3 +1,12 @@
+qutebrowser (3.1.0-1) UNRELEASED; urgency=medium
+
+  [ Fritz Reichwald ]
+  * Add upstream signing key to debian/upstream/signing-key.asc
+  * New upstream version 3.1.0
+  * Add debian changes for release 3.1.0
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Tue, 27 Feb 2024 21:57:31 +0100
+
 qutebrowser (2.5.4-2) unstable; urgency=medium
 
   * Remove no longer needed dep python3-sip (Closes: #1060725)
