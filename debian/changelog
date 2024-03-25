@@ -1,3 +1,9 @@
+qutebrowser (2.5.4-3) UNRELEASED; urgency=medium
+
+  * Bump library names for the time64 transition. (Closes: #1067534)
+
+ -- Axel Beckert <abe@debian.org>  Mon, 25 Mar 2024 21:46:23 +0100
+
 qutebrowser (2.5.4-2) unstable; urgency=medium
 
   * Remove no longer needed dep python3-sip (Closes: #1060725)
