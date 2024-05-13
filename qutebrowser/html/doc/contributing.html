@@ -977,7 +977,7 @@ request</a>.</p></div>
 based on your changes like this:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code>git format-patch origin/master <img alt="1" src="data:image/png;base64,
+<pre><code>git format-patch origin/main <img alt="1" src="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAAAAABzHgM7AAAAAmJLR0QAAKqNIzIAAABjSURBVHja
 VY6xDcAwCAS/pPQaLim9QmajdOk2I2SNrMEIlARIoigU8Cek/4e7zdHaWOYOVwaoA6wOCw05Y7FB
 gE0tIWQ+sBcwKM8qoD/wB5wGL8hjfdzWrh01GRp1hInGjDoXwHgsFuzBVLQAAABDdEVYdFNvZnR3
@@ -992,7 +992,7 @@ gE0tIWQ+sBcwKM8qoD/wB5wGL8hjfdzWrh01GRp1hInGjDoXwHgsFuzBVLQAAABDdEVYdFNvZnR3
 YXJlAEAoIylJbWFnZU1hZ2ljayA0LjIuOCA5OS8wOC8wMSBjcmlzdHlAbXlzdGljLmVzLmR1cG9u
 dC5jb22RuiG4AAAAKnRFWHRTaWduYXR1cmUANThhMDcyZTA3MGRhMjJmNjEzNWNiZDNlNDE0NTQ2
 ZjloaiHtAAAADnRFWHRQYWdlADEyeDEyKzArMIRtu30AAAAASUVORK5CYII=" /></td><td>
-Replace <code>master</code> by the branch your work was based on, e.g.,
+Replace <code>main</code> by the branch your work was based on, e.g.,
 <code>origin/develop</code>.
 </td></tr>
 </table></div>
@@ -1025,17 +1025,17 @@ Tests using <a href="https://www.pytest.org">pytest</a>:
 <div class="ulist"><ul>
 <li>
 <p>
-<code>py36</code>, <code>py37</code>, &#8230;: Run pytest for python 3.6/3.7/&#8230; with the system-wide PyQt.
+<code>py38</code>, <code>py39</code>, &#8230;: Run pytest for python 3.8/3.9/&#8230; with the system-wide PyQt.
 </p>
 </li>
 <li>
 <p>
-<code>py36-pyqt512</code>, &#8230;, <code>py36-pyqt515</code>: Run pytest with the given PyQt version (<code>py35-*</code> also works).
+<code>py38-pyqt515</code>, &#8230;, <code>py38-pyqt65</code>: Run pytest with the given PyQt version (<code>py39-*</code> etc. also works).
 </p>
 </li>
 <li>
 <p>
-<code>py36-pyqt515-cov</code>: Run with coverage support (other Python/PyQt versions work too).
+<code>py38-pyqt515-cov</code>: Run with coverage support (other Python/PyQt versions work too).
 </p>
 </li>
 </ul></div>
@@ -1100,6 +1100,23 @@ common spelling mistakes
 </li>
 </ul></div>
 </li>
+<li>
+<p>
+<a href="http://mypy-lang.org/">mypy</a> for static type checking:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>mypy-pyqt5</code> run mypy with PyQt5 installed
+</p>
+</li>
+<li>
+<p>
+<code>mypy-pyqt6</code> run mypy with PyQt6 installed
+</p>
+</li>
+</ul></div>
+</li>
 </ul></div>
 <div class="paragraph"><p>The default test suite is run with <code>tox</code>; the list of default
 environments is obtained with <code>tox -l</code>.</p></div>
@@ -1134,7 +1151,7 @@ false-positives, let me know! I&#8217;m still tweaking the parameters.
 </ul></div>
 </div>
 <div class="sect2">
-<h3 id="_running_specific_tests">Running Specific Tests</h3>
+<h3 id="_running_specific_tests">Running specific tests</h3>
 <div class="paragraph"><p>While you are developing you often don&#8217;t want to run the full test
 suite each time.</p></div>
 <div class="paragraph"><p>Specific test environments can be run with <code>tox -e &lt;envlist&gt;</code>.</p></div>
@@ -1144,17 +1161,25 @@ them from <code>tox</code> arguments with <code>--</code>.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code># run only pytest tests which failed in last run:
-tox -e py35 -- --lf
+tox -e py38 -- --lf
 
 # run only the end2end feature tests:
-tox -e py35 -- tests/end2end/features
+tox -e py38 -- tests/end2end/features
 
 # run everything with undo in the generated name, based on the scenario text
-tox -e py35 -- tests/end2end/features/test_tabs_bdd.py -k undo
+tox -e py38 -- tests/end2end/features/test_tabs_bdd.py -k undo
 
 # run coverage test for specific file (updates htmlcov/index.html)
-tox -e py35-cov -- tests/unit/browser/test_webelem.py</code></pre>
+tox -e py38-cov -- tests/unit/browser/test_webelem.py</code></pre>
 </div></div>
+</div>
+<div class="sect2">
+<h3 id="_specifying_the_backend_for_tests">Specifying the backend for tests</h3>
+<div class="paragraph"><p>Tests automatically pick the backend based on what they manage to import. If
+you have both backends available and you would like the tests to be run with a
+specific one you can set either of a) the environment variable QUTE_TESTS_BACKEND
+, or b) the command line argument --qute-backend, to the desired backend
+(webkit/webengine).</p></div>
 </div>
 <div class="sect2">
 <h3 id="_profiling">Profiling</h3>
@@ -1206,7 +1231,12 @@ memory leaks.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<a href="https://doc.qt.io/qt-5/classes.html">The Qt5 reference</a>
+<a href="https://doc.qt.io/qt-6/classes.html">The Qt 6 reference</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://doc.qt.io/qt-5/classes.html">The Qt 5 reference</a>
 </p>
 </li>
 <li>
@@ -1344,7 +1374,7 @@ Languages</a> (<a href="https://www.rfc-editor.org/errata_search.php?rfc=5646">E
 </li>
 <li>
 <p>
-<a href="https://doc.qt.io/qt-5/stylesheet-reference.html">Qt Style Sheets Reference</a>
+<a href="https://doc.qt.io/qt-6/stylesheet-reference.html">Qt Style Sheets Reference</a>
 </p>
 </li>
 <li>
@@ -1469,7 +1499,7 @@ window=<em>win-id</em>, tab=<em>tab-id</em>])</code>. The default scope is <code
 <code>:debug-all-objects</code> command.</p></div>
 <div class="paragraph"><p>The registry is mainly used for <a href="#commands">command handlers</a>, but it can
 also be useful in places where using Qt&#8217;s
-<a href="https://doc.qt.io/qt-5/signalsandslots.html">signals and slots</a> mechanism would
+<a href="https://doc.qt.io/qt-6/signalsandslots.html">signals and slots</a> mechanism would
 be difficult.</p></div>
 </div>
 <div class="sect2">
@@ -1730,19 +1760,12 @@ will slow Valgrind down noticeably.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-Install <a href="https://www.python.org/downloads/release/python-362/">Python 3.6</a>.
+Install <a href="https://www.python.org/downloads/release/python-3911/">Python 3.9</a>.
 </p>
 </li>
 <li>
 <p>
 Install PyQt via <code>pip install PyQt5</code>.
-</p>
-</li>
-<li>
-<p>
-Create a file at <code>C:\Windows\system32\python3.bat</code> with the following content (adjust the path as necessary):
-  <code>@C:\Python36\python %*</code>.
-  This will make the Python 3.6 interpreter available as <code>python3</code>, which is used by various development scripts.
 </p>
 </li>
 <li>
@@ -1771,7 +1794,64 @@ To install tox, open an elevated cmd, enter your working directory and run <code
 <div class="sect2">
 <h3 id="_chrome_urls">Chrome URLs</h3>
 <div class="paragraph"><p>With the QtWebEngine backend, qutebrowser supports several chrome:// urls which
-can be useful for debugging:</p></div>
+can be useful for debugging.</p></div>
+<div class="paragraph"><p>Info pages:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+chrome://device-log/ (QtWebEngine &gt;= 6.3)
+</p>
+</li>
+<li>
+<p>
+chrome://gpu/
+</p>
+</li>
+<li>
+<p>
+chrome://sandbox/ (Linux only)
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Misc. / Debugging pages:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+chrome://dino/
+</p>
+</li>
+<li>
+<p>
+chrome://histograms/
+</p>
+</li>
+<li>
+<p>
+chrome://network-errors/
+</p>
+</li>
+<li>
+<p>
+chrome://tracing/ (QtWebEngine &gt;= 5.15.3)
+</p>
+</li>
+<li>
+<p>
+chrome://ukm/ (QtWebEngine &gt;= 5.15.3)
+</p>
+</li>
+<li>
+<p>
+chrome://user-actions/ (QtWebEngine &gt;= 5.15.3)
+</p>
+</li>
+<li>
+<p>
+chrome://webrtc-logs/ (QtWebEngine &gt;= 5.15.3)
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Internals pages:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1780,7 +1860,12 @@ chrome://accessibility/
 </li>
 <li>
 <p>
-chrome://appcache-internals/
+chrome://appcache-internals/ (QtWebEngine &lt; 6.4)
+</p>
+</li>
+<li>
+<p>
+chrome://attribution-internals/ (QtWebEngine &gt;= 6.4)
 </p>
 </li>
 <li>
@@ -1790,17 +1875,50 @@ chrome://blob-internals/
 </li>
 <li>
 <p>
-chrome://conversion-internals/ (QtWebEngine 5.15.3+)
+chrome://conversion-internals/ (QtWebEngine &gt;= 5.15.3 and &lt; 6.4)
 </p>
 </li>
+<li>
+<p>
+chrome://indexeddb-internals/
+</p>
+</li>
+<li>
+<p>
+chrome://media-internals/
+</p>
+</li>
+<li>
+<p>
+chrome://net-internals/ (QtWebEngine &gt;= 5.15.4)
+</p>
+</li>
+<li>
+<p>
+chrome://process-internals/
+</p>
+</li>
+<li>
+<p>
+chrome://quota-internals/
+</p>
+</li>
+<li>
+<p>
+chrome://serviceworker-internals/
+</p>
+</li>
+<li>
+<p>
+chrome://webrtc-internals/
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Crash/hang pages:</p></div>
+<div class="ulist"><ul>
 <li>
 <p>
 chrome://crash/ (crashes the current renderer process!)
-</p>
-</li>
-<li>
-<p>
-chrome://gpu/
 </p>
 </li>
 <li>
@@ -1820,92 +1938,7 @@ chrome://gpuhang/ (hangs qutebrowser!)
 </li>
 <li>
 <p>
-chrome://histograms/
-</p>
-</li>
-<li>
-<p>
-chrome://indexeddb-internals/
-</p>
-</li>
-<li>
-<p>
 chrome://kill/ (kills the current renderer process!)
-</p>
-</li>
-<li>
-<p>
-chrome://media-internals/
-</p>
-</li>
-<li>
-<p>
-chrome://net-internals/ (QtWebEngine 5.15.4+)
-</p>
-</li>
-<li>
-<p>
-chrome://network-errors/
-</p>
-</li>
-<li>
-<p>
-chrome://ppapiflashcrash/
-</p>
-</li>
-<li>
-<p>
-chrome://ppapiflashhang/
-</p>
-</li>
-<li>
-<p>
-chrome://process-internals/
-</p>
-</li>
-<li>
-<p>
-chrome://quota-internals/
-</p>
-</li>
-<li>
-<p>
-chrome://sandbox/ (Linux only)
-</p>
-</li>
-<li>
-<p>
-chrome://serviceworker-internals/
-</p>
-</li>
-<li>
-<p>
-chrome://taskscheduler-internals/ (removed in QtWebEngine 5.14)
-</p>
-</li>
-<li>
-<p>
-chrome://tracing/ (QtWebEngine 5.15.3+)
-</p>
-</li>
-<li>
-<p>
-chrome://ukm/ (QtWebEngine 5.15.3+)
-</p>
-</li>
-<li>
-<p>
-chrome://user-actions/ (QtWebEngine 5.15.3+)
-</p>
-</li>
-<li>
-<p>
-chrome://webrtc-internals/
-</p>
-</li>
-<li>
-<p>
-chrome://webrtc-logs/ (QtWebEngine 5.15.3+)
 </p>
 </li>
 </ul></div>
@@ -1922,27 +1955,34 @@ qutebrowser has a <code>WebEngineTab</code> object, which is its abstraction ove
 </li>
 <li>
 <p>
-The <code>WebEngineTab</code> has a <code>_widget</code> attribute, which is the <a href="https://doc.qt.io/qt-5/qwebengineview.html">QWebEngineView</a>
+The <code>WebEngineTab</code> has a <code>_widget</code> attribute, which is the <a href="https://doc.qt.io/qt-6/qwebengineview.html">QWebEngineView</a>
 </p>
 </li>
 <li>
 <p>
-That view has a <a href="https://doc.qt.io/qt-5/qwebenginepage.html">QWebEnginePage</a> for everything which doesn&#8217;t require rendering.
+That view has a <a href="https://doc.qt.io/qt-6/qwebenginepage.html">QWebEnginePage</a> for everything which doesn&#8217;t require rendering.
 </p>
 </li>
 <li>
 <p>
-The view also has a layout with exactly one element (which also is its <code>focusProxy()</code>)
+The view also has a layout with exactly one element (which also is its <code>focusProxy()</code>).
 </p>
 </li>
 <li>
 <p>
-That element is the  <a href="https://code.qt.io/cgit/qt/qtwebengine.git/tree/src/webenginewidgets/render_widget_host_view_qt_delegate_widget.cpp">RenderWidgetHostViewQtDelegateWidget</a> (it inherits <a href="https://doc.qt.io/qt-5/qquickwidget.html">QQuickWidget</a>) - also often referred to as RWHV or RWHVQDW. It can be obtained via <code>sip.cast(tab._widget.focusProxy(), QQuickWidget)</code>.
+Qt 5: That element is the <a href="https://code.qt.io/cgit/qt/qtwebengine.git/tree/src/webenginewidgets/render_widget_host_view_qt_delegate_widget.cpp?h=5.15">RenderWidgetHostViewQtDelegateWidget</a> (it inherits <a href="https://doc.qt.io/qt-6/qquickwidget.html">QQuickWidget</a>) - also often referred to as RWHV or RWHVQDW.
+      It can be obtained via <code>sip.cast(tab._widget.focusProxy(), QQuickWidget)</code>.
 </p>
 </li>
 <li>
 <p>
-Calling <code>rootObject()</code> on that gives us the <a href="https://doc.qt.io/qt-5/qquickitem.html">QQuickItem</a> where Chromium renders into (?). With it, we can do things like <code>.setRotation(20)</code>.
+Qt 6: That element is the <a href="https://code.qt.io/cgit/qt/qtwebengine.git/tree/src/webenginewidgets/api/qwebengineview.cpp">WebEngineQuickWidget</a> (it inherits <a href="https://doc.qt.io/qt-6/qquickwidget.html">QQuickWidget</a>).
+      It can be obtained via <code>tab._widget.focusProxy()</code>.
+</p>
+</li>
+<li>
+<p>
+Calling <code>rootObject()</code> on that gives us the <a href="https://doc.qt.io/qt-6/qquickitem.html">QQuickItem</a> where Chromium renders into (?). With it, we can do things like <code>.setRotation(20)</code>.
 </p>
 </li>
 </ul></div>
@@ -2032,11 +2072,6 @@ Shebang (<code>#!/usr/bin/python</code>, if needed)
 </li>
 <li>
 <p>
-vim-modeline (<code># vim: ft=python fileencoding=utf-8 sts=4 sw=4 et</code>)
-</p>
-</li>
-<li>
-<p>
 Copyright
 </p>
 </li>
@@ -2101,6 +2136,60 @@ other methods
 <p>
 overrides of Qt methods
 </p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+Type hinting: the qutebrowser codebase uses type hints liberally to enable
+  static type checking and autocompletion in editors.
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+We use <a href="http://mypy-lang.org/">mypy</a> in CI jobs to perform static type
+    checking.
+</p>
+</li>
+<li>
+<p>
+Not all of the codebase is covered by type hints currently. We encourage
+    including type hints on all new code and even adding type hints to
+    existing code if you find yourself working on some that isn&#8217;t already
+    covered. There are some module specific rules in the mypy config file,
+    <code>.mypy.ini</code>, to make type hints strictly required in some areas.
+</p>
+</li>
+<li>
+<p>
+More often than not mypy is correct when it raises issues. But don&#8217;t be
+    afraid to add <code># type: ignore[...]</code> statements or casts if you need to.
+    As an optional part of the language not all type information from third
+    parties is always correct. Mypy will raise a new issue if it spots an
+    "ignore" statement which is no longer needed because the underlying
+    issue has been resolved.
+</p>
+</li>
+<li>
+<p>
+One area where we have to take particular care is in code that deals
+    with differences between PyQt5 and PyQt6. We try to write most code in a
+    way that will work with either backend but when you need to deal with
+    differences you should use a pattern like:
+</p>
+<div class="listingblock">
+<div class="content"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">machinery</span><span class="o">.</span><span class="n">IS_QT5</span><span class="p">:</span>
+    <span class="o">...</span> <span class="c1"># do PyQt5 specific implementation</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># PyQt6</span>
+    <span class="o">...</span> <span class="c1"># do PyQt6 specific implementation</span>
+</pre></div></div></div>
+<div class="paragraph"><p>then you have to <a href="https://mypy.readthedocs.io/en/latest/command_line.html#cmdoption-mypy-always-true">tell</a>
+  mypy to treat <code>machinery.IS_QT5</code> as a constant value then run mypy twice to
+  cover both branches. There are a handful of variables in
+  <code>qutebrowser/qt/machinery.py</code> that mypy needs to know about. There are tox
+  jobs (<code>mypy-pyqt5</code> and <code>mypy-pyqt6</code>) that take care of telling mypy to use
+  them as constants.</p></div>
 </li>
 </ul></div>
 </li>
@@ -2181,12 +2270,17 @@ Make sure all issues with the related milestone are closed.
 </li>
 <li>
 <p>
+Mark the <a href="https://github.com/qutebrowser/qutebrowser/milestones">milestone</a> as closed.
+</p>
+</li>
+<li>
+<p>
 Consider updating the completions for <code>content.headers.user_agent</code> in <code>configdata.yml</code>.
 </p>
 </li>
 <li>
 <p>
-Minor release: Consider updating some files from master:
+Minor release: Consider updating some files from main:
 </p>
 <div class="ulist"><ul>
 <li>
@@ -2203,22 +2297,33 @@ Minor release: Consider updating some files from master:
 </li>
 <li>
 <p>
+Update changelog in main branch and ensure the correct version number has <code>(unreleased)</code>
+</p>
+</li>
+<li>
+<p>
+If necessary: Update changelog in release branch from main.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p><strong>Automatic release via GitHub Actions (starting with v3.0.0):</strong></p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Double check Python version in <code>.github/workflows/release.yml</code>
+</p>
+</li>
+<li>
+<p>
+Run the <code>release</code> workflow on the <code>main</code> branch, e.g. via <code>gh workflow run release -f release_type=major</code> (<code>release_type</code> can be <code>major</code>, <code>minor</code> or <code>patch</code>; you can also override <code>python_version</code>)
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p><strong>Manual release:</strong></p></div>
+<div class="ulist"><ul>
+<li>
+<p>
 Make sure Python is up-to-date on build machines.
-</p>
-</li>
-<li>
-<p>
-Mark the milestone at <a href="https://github.com/qutebrowser/qutebrowser/milestones">https://github.com/qutebrowser/qutebrowser/milestones</a> as closed.
-</p>
-</li>
-<li>
-<p>
-Update changelog in master branch
-</p>
-</li>
-<li>
-<p>
-If necessary: Update changelog in release branch from master.
 </p>
 </li>
 <li>
@@ -2231,6 +2336,9 @@ Run <code>./.venv/bin/python3 scripts/dev/update_version.py {major,minor,patch}<
 Run the printed instructions accordingly.
 </p>
 </li>
+</ul></div>
+<div class="paragraph"><p><strong>Post release:</strong></p></div>
+<div class="ulist"><ul>
 <li>
 <p>
 Update <code>qutebrowser-git</code> PKGBUILD if dependencies/install changed.
@@ -2256,6 +2364,11 @@ Announce to qutebrowser and qutebrowser-announce mailinglist.
 Post announcement mail to subreddit
 </p>
 </li>
+<li>
+<p>
+Post on the website formerly known as Twitter
+</p>
+</li>
 </ul></div>
 </div>
 </div>
@@ -2265,7 +2378,7 @@ Post announcement mail to subreddit
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2023-03-13 22:11:56 CET
+ 2023-12-08 15:32:05 UTC
 </div>
 </div>
 </body>

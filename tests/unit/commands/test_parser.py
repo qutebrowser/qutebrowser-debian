@@ -1,23 +1,10 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2015-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Tests for qutebrowser.commands.parser."""
+
+import re
 
 import pytest
 
@@ -64,26 +51,26 @@ class TestCommandParser:
         and https://github.com/qutebrowser/qutebrowser/issues/1773
         """
         p = parser.CommandParser()
-        with pytest.raises(cmdexc.NoSuchCommandError):
+        with pytest.raises(cmdexc.EmptyCommandError):
             p.parse_all(command)
 
     @pytest.mark.parametrize('command, name, args', [
-        ("set-cmd-text -s :open", "set-cmd-text", ["-s", ":open"]),
-        ("set-cmd-text :open {url:pretty}", "set-cmd-text",
+        ("cmd-set-text -s :open", "cmd-set-text", ["-s", ":open"]),
+        ("cmd-set-text :open {url:pretty}", "cmd-set-text",
          [":open {url:pretty}"]),
-        ("set-cmd-text -s :open -t", "set-cmd-text", ["-s", ":open -t"]),
-        ("set-cmd-text :open -t -r {url:pretty}", "set-cmd-text",
+        ("cmd-set-text -s :open -t", "cmd-set-text", ["-s", ":open -t"]),
+        ("cmd-set-text :open -t -r {url:pretty}", "cmd-set-text",
          [":open -t -r {url:pretty}"]),
-        ("set-cmd-text -s :open -b", "set-cmd-text", ["-s", ":open -b"]),
-        ("set-cmd-text :open -b -r {url:pretty}", "set-cmd-text",
+        ("cmd-set-text -s :open -b", "cmd-set-text", ["-s", ":open -b"]),
+        ("cmd-set-text :open -b -r {url:pretty}", "cmd-set-text",
          [":open -b -r {url:pretty}"]),
-        ("set-cmd-text -s :open -w", "set-cmd-text",
+        ("cmd-set-text -s :open -w", "cmd-set-text",
          ["-s", ":open -w"]),
-        ("set-cmd-text :open -w {url:pretty}", "set-cmd-text",
+        ("cmd-set-text :open -w {url:pretty}", "cmd-set-text",
          [":open -w {url:pretty}"]),
-        ("set-cmd-text /", "set-cmd-text", ["/"]),
-        ("set-cmd-text ?", "set-cmd-text", ["?"]),
-        ("set-cmd-text :", "set-cmd-text", [":"]),
+        ("cmd-set-text /", "cmd-set-text", ["/"]),
+        ("cmd-set-text ?", "cmd-set-text", ["?"]),
+        ("cmd-set-text :", "cmd-set-text", [":"]),
     ])
     def test_parse_result(self, config_stub, command, name, args):
         p = parser.CommandParser()
@@ -135,3 +122,13 @@ class TestCompletions:
 
         result = p.parse('tw')
         assert result.cmd.name == 'two'
+
+
+@pytest.mark.parametrize("find_similar, msg", [
+    (True, "tabfocus: no such command (did you mean :tab-focus?)"),
+    (False, "tabfocus: no such command"),
+])
+def test_find_similar(find_similar, msg):
+    p = parser.CommandParser(find_similar=find_similar)
+    with pytest.raises(cmdexc.NoSuchCommandError, match=re.escape(msg)):
+        p.parse_all("tabfocus", aliases=False)

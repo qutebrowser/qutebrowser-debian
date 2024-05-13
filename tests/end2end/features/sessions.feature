@@ -1,5 +1,3 @@
-# vim: ft=cucumber fileencoding=utf-8 sts=4 sw=4 et:
-
 Feature: Saving and loading sessions
 
   Background:
@@ -196,6 +194,26 @@ Feature: Saving and loading sessions
             url: http://localhost:*/data/numbers/3.txt
             zoom: 1.0
 
+  Scenario: Saving with --no-history
+    When I open data/numbers/1.txt
+    And I open data/numbers/2.txt
+    And I open data/numbers/3.txt
+    Then the session saved with --no-history should look like:
+      windows:
+      - tabs:
+        - history:
+          - url: http://localhost:*/data/numbers/3.txt
+
+  Scenario: Saving with --no-history and --only-active-window
+    When I open data/numbers/1.txt
+    And I open data/numbers/2.txt
+    And I open data/numbers/3.txt
+    Then the session saved with --no-history --only-active-window should look like:
+      windows:
+      - tabs:
+        - history:
+          - url: http://localhost:*/data/numbers/3.txt
+
   # https://github.com/qutebrowser/qutebrowser/issues/879
 
   Scenario: Saving a session with a page using history.replaceState()
@@ -309,6 +327,26 @@ Feature: Saving and loading sessions
             - history:
                 - active: true
                   url: http://localhost:*/data/numbers/5.txt
+
+  # https://github.com/qutebrowser/qutebrowser/issues/7696
+  @qtwebkit_skip
+  Scenario: Saving session with an empty download tab
+    When I open data/downloads/downloads.html
+    And I run :click-element --force-event -t tab id download
+    And I wait for "Asking question <qutebrowser.utils.usertypes.Question default='*' mode=<PromptMode.download: 5> *" in the log
+    And I run :mode-leave
+    And I run :session-save current
+    And I run :session-load --clear current
+    And I wait until data/downloads/downloads.html is loaded
+    Then the session should look like:
+      windows:
+        - tabs:
+          - history:
+            - active: true
+              title: Simple downloads
+              url: http://localhost:*/data/downloads/downloads.html
+          - active: true
+            history: []
 
   # :session-delete
 

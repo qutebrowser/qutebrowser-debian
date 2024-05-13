@@ -1,21 +1,6 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Bridge from QWeb(Engine)Settings to our own settings."""
 
@@ -25,8 +10,8 @@ import functools
 import dataclasses
 from typing import Any, Callable, Dict, Optional, Union
 
-from PyQt5.QtCore import QUrl, pyqtSlot, qVersion
-from PyQt5.QtGui import QFont
+from qutebrowser.qt.core import QUrl, pyqtSlot, qVersion
+from qutebrowser.qt.gui import QFont
 
 import qutebrowser
 from qutebrowser.config import config
@@ -164,13 +149,10 @@ class AbstractSettings:
         assert encoding is not usertypes.UNSET  # unclear how to reset
         self._settings.setDefaultTextEncoding(encoding)
 
-    def _update_setting(self, setting: str, value: Any) -> bool:
+    def _update_setting(self, setting: str, value: Any) -> None:
         """Update the given setting/value.
 
         Unknown settings are ignored.
-
-        Return:
-            True if there was a change, False otherwise.
         """
         if setting in self._ATTRIBUTES:
             self.set_attribute(setting, value)
@@ -181,7 +163,6 @@ class AbstractSettings:
         elif setting == 'content.default_encoding':
             self.set_default_text_encoding(value)
         # NOTE: When adding something here, also add it to init_settings()!
-        return False
 
     def update_setting(self, setting: str) -> None:
         """Update the given setting."""
@@ -207,7 +188,7 @@ class AbstractSettings:
 
 
 @debugcachestats.register(name='user agent cache')
-@functools.lru_cache()
+@functools.lru_cache
 def _format_user_agent(template: str, backend: usertypes.Backend) -> str:
     if backend == usertypes.Backend.QtWebEngine:
         from qutebrowser.browser.webengine import webenginesettings
@@ -265,7 +246,7 @@ def clear_private_data() -> None:
     elif objects.backend == usertypes.Backend.QtWebKit:
         from qutebrowser.browser.webkit import cookies
         assert cookies.ram_cookie_jar is not None
-        cookies.ram_cookie_jar.setAllCookies([])
+        cookies.ram_cookie_jar.setAllCookies([])  # type: ignore[unreachable]
     else:
         raise utils.Unreachable(objects.backend)
 

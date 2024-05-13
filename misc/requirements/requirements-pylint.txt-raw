@@ -1,4 +1,5 @@
 pylint
+astroid
 ./scripts/dev/pylint_checkers
 requests
 github3.py
@@ -10,7 +11,3 @@ pefile
 
 # Already included via test requirements
 #@ ignore: urllib3
-
-# Python 3.6
-#@ markers: platformdirs python_version>="3.7"
-#@ add: platformdirs==2.4.0 ; python_version=="3.6.*"
