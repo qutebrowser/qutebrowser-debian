@@ -863,50 +863,12 @@ the debug packages:</p></div>
 </div>
 <div class="sect3">
 <h4 id="_archlinux">Archlinux</h4>
-<div class="paragraph"><p>For Archlinux, no debug information is provided. You can either compile Qt
-yourself (which will take a few hours even on a modern machine) or use
-debugging symbols compiled/packaged by me (x86_64 only).</p></div>
-<div class="sect4">
-<h5 id="_to_install_my_pre_built_packages">To install my pre-built packages</h5>
-<div class="paragraph"><p>First download and sign the key:</p></div>
+<div class="paragraph"><p>For Archlinux, debug information is provided via their <a href="https://wiki.archlinux.org/title/Debuginfod">Debuginfod instance</a>. To use it, set the following in your environment:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><code># pacman-key -r 0xD6A1C70FE80A0C82
-$ pacman-key -f 0xD6A1C70FE80A0C82
-  Key fingerprint = 14AF EC28 70C6 4863 C5C7  ACCB D6A1 C70F E80A 0C82
-# pacman-key --lsign-key 0xD6A1C70FE80A0C82</code></pre>
+<pre><code>DEBUGINFOD_URLS="https://debuginfod.archlinux.org/"</code></pre>
 </div></div>
-<div class="paragraph"><p>Then edit your <code>/etc/pacman.conf</code> to add the repository to the bottom:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>[qt-debug]
-Server = https://qutebrowser.org/qt-debug/$arch</code></pre>
-</div></div>
-<div class="paragraph"><p>Then install the packages:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code># pacman -Suy python-pyqt5-debug qt5-base-debug qt5-webkit-debug qt5-webengine-debug</code></pre>
-</div></div>
-<div class="paragraph"><p>The <code>-debug</code> packages conflict with the non-debug variants - it&#8217;s safe to
-remove them.</p></div>
-</div>
-<div class="sect4">
-<h5 id="_to_compile_by_yourself">To compile by yourself</h5>
-<div class="paragraph"><p>Note that building Qt will likely take multiple hours, even on a recent system.
-I&#8217;d also expect it to take around 6 GB of RAM and 30 GB of disk space for a
-successful compile run.</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><code>$ git clone https://github.com/qutebrowser/qt-debug-pkgbuild.git
-$ cd qt-debug-pkgbuild
-$ export DEBUG_CFLAGS='-ggdb3 -fvar-tracking-assignments -Og'
-$ export DEBUG_CXXFLAGS='-ggdb3 -fvar-tracking-assignments -Og'
-$ cd qt5
-$ makepkg -si --pkg qt5-base-debug,qt5-webkit-debug,qt5-webengine-debug
-$ cd ../pyqt5
-$ makepkg -si --pkg python-pyqt5-debug</code></pre>
-</div></div>
-</div>
+<div class="paragraph"><p>(Until early 2021, there was a custom [<code>qt-debug</code> repository](<a href="https://github.com/qutebrowser/qt-debug-pkgbuild">https://github.com/qutebrowser/qt-debug-pkgbuild</a>). This is now archived.)</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -1010,7 +972,7 @@ providers like GMail corrupt the file otherwise) and send them to
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2023-03-13 22:11:57 CET
+ 2023-12-08 15:32:06 UTC
 </div>
 </div>
 </body>

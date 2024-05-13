@@ -1,21 +1,6 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2020 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Different ways of showing notifications to the user.
 
@@ -50,32 +35,28 @@ import functools
 import subprocess
 from typing import Any, List, Dict, Optional, Iterator, Type, TYPE_CHECKING
 
-from PyQt5.QtCore import (Qt, QObject, QVariant, QMetaType, QByteArray, pyqtSlot,
+from qutebrowser.qt import machinery
+from qutebrowser.qt.core import (Qt, QObject, QVariant, QMetaType, QByteArray, pyqtSlot,
                           pyqtSignal, QTimer, QProcess, QUrl)
-from PyQt5.QtGui import QImage, QIcon, QPixmap
-from PyQt5.QtDBus import (QDBusConnection, QDBusInterface, QDBus, QDBusServiceWatcher,
+from qutebrowser.qt.gui import QImage, QIcon, QPixmap
+from qutebrowser.qt.dbus import (QDBusConnection, QDBusInterface, QDBus, QDBusServiceWatcher,
                           QDBusArgument, QDBusMessage, QDBusError)
-from PyQt5.QtWidgets import QSystemTrayIcon
+from qutebrowser.qt.widgets import QSystemTrayIcon
 
 if TYPE_CHECKING:
     # putting these behind TYPE_CHECKING also means this module is importable
     # on installs that don't have these
-    from PyQt5.QtWebEngineCore import QWebEngineNotification
-    from PyQt5.QtWebEngineWidgets import QWebEngineProfile
+    from qutebrowser.qt.webenginecore import QWebEngineNotification, QWebEngineProfile
 
 from qutebrowser.config import config
 from qutebrowser.misc import objects
-from qutebrowser.utils import qtutils, log, utils, debug, message, version, objreg
+from qutebrowser.utils import (
+    qtutils, log, utils, debug, message, objreg, resources, urlutils
+)
 from qutebrowser.qt import sip
 
 
 bridge: Optional['NotificationBridgePresenter'] = None
-
-
-def _notifications_supported() -> bool:
-    """Check whether the current QtWebEngine version has notification support."""
-    versions = version.qtwebengine_versions(avoid_init=True)
-    return versions.webengine >= utils.VersionNumber(5, 14)
 
 
 def init() -> None:
@@ -90,9 +71,6 @@ def init() -> None:
         # In theory, we could somehow postpone the install if the user switches to "qt"
         # at a later point in time. However, doing so is probably too complex compared
         # to its usefulness.
-        return
-
-    if not _notifications_supported():
         return
 
     global bridge
@@ -135,10 +113,13 @@ class DBusError(Error):
         # https://crashes.qutebrowser.org/view/de62220a
         # after "Notification daemon did quit!"
         "org.freedesktop.DBus.Error.UnknownObject",
+
+        # notmuch-sha1-ef7b6e9e79e5f2f6cba90224122288895c1fe0d8
+        "org.freedesktop.DBus.Error.ServiceUnknown",
     }
 
     def __init__(self, msg: QDBusMessage) -> None:
-        assert msg.type() == QDBusMessage.ErrorMessage
+        assert msg.type() == QDBusMessage.MessageType.ErrorMessage
         self.error = msg.errorName()
         self.error_message = msg.errorMessage()
         self.is_fatal = self.error not in self._NON_FATAL_ERRORS
@@ -206,7 +187,6 @@ class NotificationBridgePresenter(QObject):
     """Notification presenter which bridges notifications to an adapter.
 
     Takes care of:
-    - Working around bugs in PyQt 5.14
     - Storing currently shown notifications, using an ID returned by the adapter.
     - Initializing a suitable adapter when the first notification is shown.
     - Switching out adapters if the current one emitted its error signal.
@@ -214,7 +194,6 @@ class NotificationBridgePresenter(QObject):
 
     def __init__(self, parent: QObject = None) -> None:
         super().__init__(parent)
-        assert _notifications_supported()
 
         self._active_notifications: Dict[int, 'QWebEngineNotification'] = {}
         self._adapter: Optional[AbstractNotificationAdapter] = None
@@ -278,24 +257,7 @@ class NotificationBridgePresenter(QObject):
 
     def install(self, profile: "QWebEngineProfile") -> None:
         """Set the profile to use this bridge as the presenter."""
-        # WORKAROUND for
-        # https://www.riverbankcomputing.com/pipermail/pyqt/2020-May/042916.html
-        # Fixed in PyQtWebEngine 5.15.0
-        # PYQT_WEBENGINE_VERSION was added with PyQtWebEngine 5.13, but if we're here,
-        # we already did a version check above.
-        from PyQt5.QtWebEngine import PYQT_WEBENGINE_VERSION
-        if PYQT_WEBENGINE_VERSION < 0x050F00:
-            # PyQtWebEngine unrefs the callback after it's called, for some
-            # reason.  So we call setNotificationPresenter again to *increase*
-            # its refcount to prevent it from getting GC'd. Otherwise, random
-            # methods start getting called with the notification as `self`, or
-            # segfaults happen, or other badness.
-            def _present_and_reset(qt_notification: "QWebEngineNotification") -> None:
-                profile.setNotificationPresenter(_present_and_reset)
-                self.present(qt_notification)
-            profile.setNotificationPresenter(_present_and_reset)
-        else:
-            profile.setNotificationPresenter(self.present)
+        profile.setNotificationPresenter(self.present)
 
     def present(self, qt_notification: "QWebEngineNotification") -> None:
         """Show a notification using the configured adapter.
@@ -328,7 +290,7 @@ class NotificationBridgePresenter(QObject):
         qt_notification.show()
         self._active_notifications[notification_id] = qt_notification
 
-        qt_notification.closed.connect(  # type: ignore[attr-defined]
+        qt_notification.closed.connect(
             functools.partial(self._adapter.on_web_closed, notification_id))
 
     def _find_replaces_id(
@@ -347,18 +309,11 @@ class NotificationBridgePresenter(QObject):
             f"Finding notification for tag {new_notification.tag()}, "
             f"origin {new_notification.origin()}")
 
-        try:
-            for notification_id, notification in sorted(
-                    self._active_notifications.items(), reverse=True):
-                if notification.matches(new_notification):
-                    log.misc.debug(f"Found match: {notification_id}")
-                    return notification_id
-        except RuntimeError:
-            # WORKAROUND for
-            # https://www.riverbankcomputing.com/pipermail/pyqt/2020-May/042918.html
-            # (also affects .matches)
-            log.misc.debug(
-                f"Ignoring notification tag {new_notification.tag()!r} due to PyQt bug")
+        for notification_id, notification in sorted(
+                self._active_notifications.items(), reverse=True):
+            if notification.matches(new_notification):
+                log.misc.debug(f"Found match: {notification_id}")
+                return notification_id
 
         log.misc.debug("Did not find match")
         return None
@@ -379,13 +334,7 @@ class NotificationBridgePresenter(QObject):
             # Notification from a different application
             return
 
-        try:
-            notification.close()
-        except RuntimeError:
-            # WORKAROUND for
-            # https://www.riverbankcomputing.com/pipermail/pyqt/2020-May/042918.html
-            log.misc.debug(f"Ignoring close request for notification {notification_id} "
-                           "due to PyQt bug")
+        notification.close()
 
     @pyqtSlot(int)
     def _on_adapter_clicked(self, notification_id: int) -> None:
@@ -403,21 +352,14 @@ class NotificationBridgePresenter(QObject):
             log.misc.debug("Did not find matching notification, ignoring")
             return
 
-        try:
-            notification.click()
-        except RuntimeError:
-            # WORKAROUND for
-            # https://www.riverbankcomputing.com/pipermail/pyqt/2020-May/042918.html
-            log.misc.debug(f"Ignoring click request for notification {notification_id} "
-                           "due to PyQt bug")
-            return
+        notification.click()
         self._focus_first_matching_tab(notification)
 
     def _focus_first_matching_tab(self, notification: "QWebEngineNotification") -> None:
         for win_id in objreg.window_registry:
             tabbedbrowser = objreg.get("tabbed-browser", window=win_id, scope="window")
             for idx, tab in enumerate(tabbedbrowser.widgets()):
-                if tab.url().matches(notification.origin(), QUrl.RemovePath):
+                if tab.url().matches(notification.origin(), QUrl.UrlFormattingOption.RemovePath):
                     tabbedbrowser.widget.setCurrentIndex(idx)
                     return
         log.misc.debug(f"No matching tab found for {notification.origin()}")
@@ -512,7 +454,7 @@ class SystrayNotificationAdapter(AbstractNotificationAdapter):
         """Convert a QImage to a QIcon."""
         if image.isNull():
             return QIcon()
-        pixmap = QPixmap.fromImage(image, Qt.NoFormatConversion)
+        pixmap = QPixmap.fromImage(image, Qt.ImageConversionFlag.NoFormatConversion)
         assert not pixmap.isNull()
         icon = QIcon(pixmap)
         assert not icon.isNull()
@@ -562,7 +504,7 @@ class MessagesNotificationAdapter(AbstractNotificationAdapter):
         markup = self._format_message(qt_notification)
         new_id = replaces_id if replaces_id is not None else next(self._id_gen)
 
-        message.info(markup, replace=f'notifications-{new_id}')
+        message.info(markup, replace=f'notifications-{new_id}', rich=True)
 
         # Faking closing, timing might not be 100% accurate
         QTimer.singleShot(
@@ -663,7 +605,7 @@ class HerbeNotificationAdapter(AbstractNotificationAdapter):
         signals, we can't do much - emitting self.error would just go use herbe again,
         so there's no point.
         """
-        if status == QProcess.CrashExit:
+        if status == QProcess.ExitStatus.CrashExit:
             pass
         elif code == 0:
             self.click_id.emit(pid)
@@ -671,6 +613,7 @@ class HerbeNotificationAdapter(AbstractNotificationAdapter):
             pass
         else:
             proc = self.sender()
+            assert isinstance(proc, QProcess), proc
             stderr = proc.readAllStandardError()
             raise Error(f'herbe exited with status {code}: {stderr}')
 
@@ -678,10 +621,10 @@ class HerbeNotificationAdapter(AbstractNotificationAdapter):
 
     @pyqtSlot(QProcess.ProcessError)
     def _on_error(self, error: QProcess.ProcessError) -> None:
-        if error == QProcess.Crashed:
+        if error == QProcess.ProcessError.Crashed:
             return
-        name = debug.qenum_key(QProcess.ProcessError, error)
-        raise Error(f'herbe process error: {name}')
+        name = debug.qenum_key(QProcess, error)
+        self.error.emit(f'herbe process error: {name}')
 
     @pyqtSlot(int)
     def on_web_closed(self, notification_id: int) -> None:
@@ -734,7 +677,14 @@ class _ServerCapabilities:
 def _as_uint32(x: int) -> QVariant:
     """Convert the given int to an uint32 for DBus."""
     variant = QVariant(x)
-    successful = variant.convert(QVariant.UInt)
+
+    if machinery.IS_QT5:
+        target = QVariant.Type.UInt
+    else:  # Qt 6
+        # FIXME:mypy PyQt6-stubs issue
+        target = QMetaType(QMetaType.Type.UInt.value)  # type: ignore[call-overload]
+
+    successful = variant.convert(target)
     assert successful
     return variant
 
@@ -760,7 +710,6 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
 
     def __init__(self, parent: QObject = None) -> None:
         super().__init__(parent)
-        assert _notifications_supported()
 
         if utils.is_windows:
             # The QDBusConnection destructor seems to cause error messages (and
@@ -778,11 +727,10 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
         self._watcher = QDBusServiceWatcher(
             self.SERVICE,
             bus,
-            QDBusServiceWatcher.WatchForUnregistration,
+            QDBusServiceWatcher.WatchModeFlag.WatchForUnregistration,
             self,
         )
-        self._watcher.serviceUnregistered.connect(  # type: ignore[attr-defined]
-            self._on_service_unregistered)
+        self._watcher.serviceUnregistered.connect(self._on_service_unregistered)
 
         test_service = 'test-notification-service' in objects.debug_flags
         service = f"{self.TEST_SERVICE}{os.getpid()}" if test_service else self.SERVICE
@@ -804,10 +752,7 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
                     self._dbus_error_str(bus.lastError()))
 
         self._quirks = _ServerQuirks()
-        if not test_service:
-            # Can't figure out how to make this work with the test server...
-            # https://www.riverbankcomputing.com/pipermail/pyqt/2021-March/043724.html
-            self._get_server_info()
+        self._get_server_info()
 
         if self._quirks.skip_capabilities:
             self._capabilities = _ServerCapabilities.from_list([])
@@ -856,7 +801,7 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
             # https://github.com/sboli/twmn/pull/96
             return _ServerQuirks(spec_version="0")
         elif (name, vendor) == ("tiramisu", "Sweets"):
-            if utils.VersionNumber.parse(ver) < utils.VersionNumber(2, 0):
+            if utils.VersionNumber.parse(ver) < utils.VersionNumber(2):
                 # https://github.com/Sweets/tiramisu/issues/20
                 return _ServerQuirks(skip_capabilities=True)
         elif (name, vendor) == ("lxqt-notificationd", "lxqt.org"):
@@ -901,8 +846,8 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
 
     def _get_server_info(self) -> None:
         """Query notification server information and set quirks."""
-        reply = self.interface.call(QDBus.BlockWithGui, "GetServerInformation")
-        self._verify_message(reply, "ssss", QDBusMessage.ReplyMessage)
+        reply = self.interface.call(QDBus.CallMode.BlockWithGui, "GetServerInformation")
+        self._verify_message(reply, "ssss", QDBusMessage.MessageType.ReplyMessage)
         name, vendor, ver, spec_version = reply.arguments()
 
         log.misc.debug(
@@ -914,12 +859,15 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
             log.misc.debug(f"Enabling quirks {quirks}")
             self._quirks = quirks
 
-        expected_spec_version = self._quirks.spec_version or self.SPEC_VERSION
-        if spec_version != expected_spec_version:
+        expected_spec_versions = [self.SPEC_VERSION]
+        if self._quirks.spec_version is not None:
+            expected_spec_versions.append(self._quirks.spec_version)
+
+        if spec_version not in expected_spec_versions:
             log.misc.warning(
                 f"Notification server ({name} {ver} by {vendor}) implements "
-                f"spec {spec_version}, but {expected_spec_version} was expected. "
-                f"If {name} is up to date, please report a qutebrowser bug.")
+                f"spec {spec_version}, but {'/'.join(expected_spec_versions)} was "
+                f"expected. If {name} is up to date, please report a qutebrowser bug.")
 
         # https://specifications.freedesktop.org/notification-spec/latest/ar01s08.html
         icon_key_overrides = {
@@ -946,11 +894,11 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
         Raises DBusError if the signature doesn't match.
         """
         assert expected_type not in [
-            QDBusMessage.ErrorMessage,
-            QDBusMessage.InvalidMessage,
+            QDBusMessage.MessageType.ErrorMessage,
+            QDBusMessage.MessageType.InvalidMessage,
         ], expected_type
 
-        if msg.type() == QDBusMessage.ErrorMessage:
+        if msg.type() == QDBusMessage.MessageType.ErrorMessage:
             raise DBusError(msg)
 
         signature = msg.signature()
@@ -961,78 +909,18 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
 
         typ = msg.type()
         if typ != expected_type:
-            type_str = debug.qenum_key(QDBusMessage.MessageType, typ)
-            expected_type_str = debug.qenum_key(QDBusMessage.MessageType, expected_type)
+            type_str = debug.qenum_key(QDBusMessage, typ)
+            expected_type_str = debug.qenum_key(QDBusMessage, expected_type)
             raise Error(
                 f"Got a message of type {type_str} but expected {expected_type_str}"
                 f"(args: {msg.arguments()})")
 
-    def present(  # noqa: C901 ("too complex")
+    def _verify_notification_id(
         self,
-        qt_notification: "QWebEngineNotification",
-        *,
-        replaces_id: Optional[int],
-    ) -> int:
-        """Shows a notification over DBus."""
-        if replaces_id is None:
-            replaces_id = 0  # 0 is never a valid ID according to the spec
-
-        actions = []
-        if self._capabilities.actions:
-            actions = ['default', 'Activate']  # key, name
-        actions_arg = QDBusArgument(actions, QMetaType.QStringList)
-
-        origin_url_str = qt_notification.origin().toDisplayString()
-        hints: Dict[str, Any] = {
-            # Include the origin in case the user wants to do different things
-            # with different origin's notifications.
-            "x-qutebrowser-origin": origin_url_str,
-            "desktop-entry": "org.qutebrowser.qutebrowser",
-        }
-
-        is_useful_origin = self._should_include_origin(qt_notification.origin())
-        if self._capabilities.kde_origin_name and is_useful_origin:
-            hints["x-kde-origin-name"] = origin_url_str
-
-        icon = qt_notification.icon()
-        if icon.isNull():
-            filename = ':/icons/qutebrowser-64x64.png'
-            icon = QImage(filename)
-
-        key = self._quirks.icon_key or "image-data"
-        data = self._convert_image(icon)
-        if data is not None:
-            hints[key] = data
-
-        # Titles don't support markup (except with broken servers)
-        title = qt_notification.title()
-        if self._quirks.escape_title:
-            title = html.escape(title, quote=False)
-
-        reply = self.interface.call(
-            QDBus.BlockWithGui,
-            "Notify",
-            "qutebrowser",  # application name
-            _as_uint32(replaces_id),  # replaces notification id
-            "",  # icon name/file URL, we use image-data and friends instead.
-            title,
-            self._format_body(qt_notification.message(), qt_notification.origin()),
-            actions_arg,
-            hints,
-            -1,  # timeout; -1 means 'use default'
-        )
-
-        try:
-            self._verify_message(reply, "u", QDBusMessage.ReplyMessage)
-        except DBusError as e:
-            if e.is_fatal:
-                raise
-            self.error.emit(e.error_message)
-            # Return value gets ignored in NotificationBridgePresenter.present
-            return -1
-
-        notification_id = reply.arguments()[0]
-
+        notification_id: int, *,
+        replaces_id: int,
+    ) -> None:
+        """Ensure the returned notification id is valid."""
         if replaces_id not in [0, notification_id]:
             msg = (
                 f"Wanted to replace notification {replaces_id} but got new id "
@@ -1046,6 +934,111 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
         if notification_id <= 0:
             self.error.emit(f"Got invalid notification id {notification_id}")
 
+    def _get_title_arg(self, title: str) -> str:
+        """Get the title argument for present()."""
+        # Titles don't support markup (except with broken servers)
+        if self._quirks.escape_title:
+            return html.escape(title, quote=False)
+        return title
+
+    def _get_actions_arg(self) -> QDBusArgument:
+        """Get the actions argument for present()."""
+        actions = []
+        if self._capabilities.actions:
+            actions = ['default', 'Activate']  # key, name
+        return QDBusArgument(
+            actions,
+            qtutils.extract_enum_val(QMetaType.Type.QStringList),
+        )
+
+    def _get_hints_arg(self, *, origin_url: QUrl, icon: QImage) -> Dict[str, Any]:
+        """Get the hints argument for present()."""
+        origin_url_str = origin_url.toDisplayString()
+        hints: Dict[str, Any] = {
+            # Include the origin in case the user wants to do different things
+            # with different origin's notifications.
+            "x-qutebrowser-origin": origin_url_str,
+            "desktop-entry": "org.qutebrowser.qutebrowser",
+        }
+
+        is_useful_origin = self._should_include_origin(origin_url)
+        if self._capabilities.kde_origin_name and is_useful_origin:
+            hints["x-kde-origin-name"] = origin_url_str
+
+        if icon.isNull():
+            filename = 'icons/qutebrowser-64x64.png'
+            icon = QImage.fromData(resources.read_file_binary(filename))
+
+        key = self._quirks.icon_key or "image-data"
+        data = self._convert_image(icon)
+        if data is not None:
+            hints[key] = data
+
+        return hints
+
+    def _call_notify_wrapper(
+        self, *,
+        appname: str,
+        replaces_id: QVariant,
+        icon: str,
+        title: str,
+        body: str,
+        actions: QDBusArgument,
+        hints: Dict[str, Any],
+        timeout: int,
+    ) -> Any:
+        """Wrapper around DBus call to use keyword args."""
+        return self.interface.call(
+            QDBus.CallMode.BlockWithGui,
+            "Notify",
+            appname,
+            replaces_id,
+            icon,
+            title,
+            body,
+            actions,
+            hints,
+            timeout,
+        )
+
+    def present(
+        self,
+        qt_notification: "QWebEngineNotification",
+        *,
+        replaces_id: Optional[int],
+    ) -> int:
+        """Shows a notification over DBus."""
+        if replaces_id is None:
+            replaces_id = 0  # 0 is never a valid ID according to the spec
+
+        reply = self._call_notify_wrapper(
+            appname="qutebrowser",
+            replaces_id=_as_uint32(replaces_id),
+            icon="",  # we use image-data and friends instead
+            title=self._get_title_arg(qt_notification.title()),
+            body=self._format_body(
+                body=qt_notification.message(),
+                origin_url=qt_notification.origin(),
+            ),
+            actions=self._get_actions_arg(),
+            hints=self._get_hints_arg(
+                origin_url=qt_notification.origin(),
+                icon=qt_notification.icon(),
+            ),
+            timeout=-1,  # use default
+        )
+
+        try:
+            self._verify_message(reply, "u", QDBusMessage.MessageType.ReplyMessage)
+        except DBusError as e:
+            if e.is_fatal:
+                raise
+            self.error.emit(e.error_message)
+            # Return value gets ignored in NotificationBridgePresenter.present
+            return -1
+
+        notification_id = reply.arguments()[0]
+        self._verify_notification_id(notification_id, replaces_id=replaces_id)
         return notification_id
 
     def _convert_image(self, qimage: QImage) -> Optional[QDBusArgument]:
@@ -1056,10 +1049,10 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
         bits_per_color = 8
         has_alpha = qimage.hasAlphaChannel()
         if has_alpha:
-            image_format = QImage.Format_RGBA8888
+            image_format = QImage.Format.Format_RGBA8888
             channel_count = 4
         else:
-            image_format = QImage.Format_RGB888
+            image_format = QImage.Format.Format_RGB888
             channel_count = 3
 
         qimage.convertTo(image_format)
@@ -1076,14 +1069,7 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
         image_data.add(bits_per_color)
         image_data.add(channel_count)
 
-        try:
-            size = qimage.sizeInBytes()
-        except TypeError:
-            # WORKAROUND for
-            # https://www.riverbankcomputing.com/pipermail/pyqt/2020-May/042919.html
-            # byteCount() is obsolete, but sizeInBytes() is only available with
-            # SIP >= 5.3.0.
-            size = qimage.byteCount()
+        size = qimage.sizeInBytes()
 
         # Despite the spec not mandating this, many notification daemons mandate that
         # the last scanline does not have any padding bytes.
@@ -1115,7 +1101,9 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
         if padding and self._quirks.no_padded_images:
             return None
 
-        bits = qimage.constBits().asstring(size)
+        bits_ptr = qimage.constBits()
+        assert bits_ptr is not None
+        bits = bits_ptr.asstring(size)
         image_data.add(QByteArray(bits))
 
         image_data.endStructure()
@@ -1125,11 +1113,11 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
     def _handle_close(self, msg: QDBusMessage) -> None:
         """Handle NotificationClosed from DBus."""
         try:
-            self._verify_message(msg, "uu", QDBusMessage.SignalMessage)
+            self._verify_message(msg, "uu", QDBusMessage.MessageType.SignalMessage)
         except Error:
             if not self._quirks.wrong_closes_type:
                 raise
-            self._verify_message(msg, "ui", QDBusMessage.SignalMessage)
+            self._verify_message(msg, "ui", QDBusMessage.MessageType.SignalMessage)
 
         notification_id, _close_reason = msg.arguments()
         self.close_id.emit(notification_id)
@@ -1137,7 +1125,7 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
     @pyqtSlot(QDBusMessage)
     def _handle_action(self, msg: QDBusMessage) -> None:
         """Handle ActionInvoked from DBus."""
-        self._verify_message(msg, "us", QDBusMessage.SignalMessage)
+        self._verify_message(msg, "us", QDBusMessage.MessageType.SignalMessage)
         notification_id, action_key = msg.arguments()
         if action_key == "default":
             self.click_id.emit(notification_id)
@@ -1146,7 +1134,7 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
     def on_web_closed(self, notification_id: int) -> None:
         """Send CloseNotification if a notification was closed from JS."""
         self.interface.call(
-            QDBus.NoBlock,
+            QDBus.CallMode.NoBlock,
             "CloseNotification",
             _as_uint32(notification_id),
         )
@@ -1154,10 +1142,10 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
     def _fetch_capabilities(self) -> None:
         """Fetch capabilities from the notification server."""
         reply = self.interface.call(
-            QDBus.BlockWithGui,
+            QDBus.CallMode.BlockWithGui,
             "GetCapabilities",
         )
-        self._verify_message(reply, "as", QDBusMessage.ReplyMessage)
+        self._verify_message(reply, "as", QDBusMessage.MessageType.ReplyMessage)
 
         caplist = reply.arguments()[0]
         self._capabilities = _ServerCapabilities.from_list(caplist)
@@ -1183,9 +1171,7 @@ class DBusNotificationAdapter(AbstractNotificationAdapter):
         if self._capabilities.kde_origin_name or not is_useful_origin:
             prefix = None
         elif self._capabilities.body_markup and self._capabilities.body_hyperlinks:
-            href = html.escape(
-                origin_url.toString(QUrl.FullyEncoded)  # type: ignore[arg-type]
-            )
+            href = html.escape(origin_url.toString(urlutils.FormatOption.ENCODED))
             text = html.escape(urlstr, quote=False)
             prefix = f'<a href="{href}">{text}</a>'
         elif self._capabilities.body_markup:

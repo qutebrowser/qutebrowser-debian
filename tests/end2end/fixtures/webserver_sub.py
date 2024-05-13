@@ -1,21 +1,6 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2015-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Web server for end2end tests.
 
@@ -132,7 +117,7 @@ def redirect_to():
     # header to the exact string supplied.
     response = app.make_response('')
     response.status_code = HTTPStatus.FOUND
-    response.headers['Location'] = flask.request.args['url'].encode('utf-8')
+    response.headers['Location'] = flask.request.args['url']
     return response
 
 
@@ -231,7 +216,7 @@ def drip():
 
     def generate_bytes():
         for _ in range(numbytes):
-            yield "*".encode('utf-8')
+            yield b"*"
             time.sleep(pause)
 
     response = flask.Response(generate_bytes(), headers={
@@ -267,6 +252,12 @@ def https_script(port):
     return flask.render_template('https-script.html', port=port)
 
 
+@app.route('/https-iframe/<int:port>')
+def https_iframe(port):
+    """Get an iframe loaded via HTTPS."""
+    return flask.render_template('https-iframe.html', port=port)
+
+
 @app.route('/response-headers')
 def response_headers():
     """Return a set of response headers from the query string."""
@@ -290,11 +281,17 @@ def view_user_agent():
     return flask.jsonify({'user-agent': flask.request.headers['user-agent']})
 
 
+@app.route('/restrictive-csp')
+def restrictive_csp():
+    csp = "img-src 'self'; default-src none"  # allow favicon.ico
+    return flask.Response(b"", headers={"Content-Security-Policy": csp})
+
+
 @app.route('/favicon.ico')
 def favicon():
     # WORKAROUND for https://github.com/PyCQA/pylint/issues/5783
     # pylint: disable-next=no-member,useless-suppression
-    icon_dir = END2END_DIR.parents[1] / 'icons'
+    icon_dir = END2END_DIR.parents[1] / 'qutebrowser' / 'icons'
     return flask.send_from_directory(
         icon_dir, 'qutebrowser.ico', mimetype='image/vnd.microsoft.icon')
 
@@ -333,8 +330,10 @@ class WSGIServer(cheroot.wsgi.Server):
     @ready.setter
     def ready(self, value):
         if value and not self._printed_ready:
-            print(' * Running on http://127.0.0.1:{}/ (Press CTRL+C to quit)'
-                  .format(self.bind_addr[1]), file=sys.stderr, flush=True)
+            port = self.bind_addr[1]
+            scheme = 'http' if self.ssl_adapter is None else 'https'
+            print(f' * Running on {scheme}://127.0.0.1:{port}/ (Press CTRL+C to quit)',
+                  file=sys.stderr, flush=True)
             self._printed_ready = True
         self._ready = value
 

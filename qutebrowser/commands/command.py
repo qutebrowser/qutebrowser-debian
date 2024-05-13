@@ -1,21 +1,6 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """Contains the Command class, a skeleton for a command."""
 
@@ -77,10 +62,12 @@ class Command:
     COUNT_COMMAND_VALUES = [usertypes.CommandValue.count,
                             usertypes.CommandValue.count_tab]
 
-    def __init__(self, *, handler, name, instance=None, maxsplit=None,
-                 modes=None, not_modes=None, debug=False, deprecated=False,
-                 no_cmd_split=False, star_args_optional=False, scope='global',
-                 backend=None, no_replace_variables=False):
+    def __init__(
+        self, *, handler, name, instance=None, maxsplit=None,
+        modes=None, not_modes=None, debug=False, deprecated=False,
+        no_cmd_split=False, star_args_optional=False, scope='global',
+        backend=None, no_replace_variables=False,
+    ):  # pylint: disable=too-many-arguments
         if modes is not None and not_modes is not None:
             raise ValueError("Only modes or not_modes can be given!")
         if modes is not None:
@@ -403,21 +390,12 @@ class Command:
             raise TypeError("{}: Legacy tuple type annotation!".format(
                 self.name))
 
-        try:
-            origin = typing.get_origin(typ)  # type: ignore[attr-defined]
-        except AttributeError:
-            # typing.get_origin was added in Python 3.8
-            origin = getattr(typ, '__origin__', None)
-
+        origin = typing.get_origin(typ)
         if origin is Union:
-            try:
-                types = list(typing.get_args(typ))  # type: ignore[attr-defined]
-            except AttributeError:
-                # typing.get_args was added in Python 3.8
-                types = list(typ.__args__)
-
+            types = list(typing.get_args(typ))
             if param.default is not inspect.Parameter.empty:
                 types.append(type(param.default))
+
             choices = self.get_arg_info(param).choices
             value = argparser.multitype_conv(param, types, value,
                                              str_choices=choices)

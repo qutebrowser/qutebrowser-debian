@@ -4,6 +4,7 @@ ICONSIZES = 16 24 32 48 64 128 256 512
 DATAROOTDIR = $(PREFIX)/share
 DATADIR ?= $(DATAROOTDIR)
 MANDIR ?= $(DATAROOTDIR)/man
+A2X ?= a2x
 
 ifdef DESTDIR
 SETUPTOOLSOPTS = --root="$(DESTDIR)"
@@ -14,7 +15,7 @@ all: man
 
 man: doc/qutebrowser.1
 doc/qutebrowser.1: doc/qutebrowser.1.asciidoc
-	a2x -f manpage $<
+	$(A2X) -f manpage $<
 
 install: man
 	$(PYTHON) setup.py install --prefix="$(PREFIX)" --optimize=1 $(SETUPTOOLSOPTS)
@@ -24,9 +25,9 @@ install: man
 		"$(DESTDIR)$(MANDIR)/man1/qutebrowser.1"
 	install -Dm644 misc/org.qutebrowser.qutebrowser.desktop \
 		"$(DESTDIR)$(DATADIR)/applications/org.qutebrowser.qutebrowser.desktop"
-	$(foreach i,$(ICONSIZES),install -Dm644 "icons/qutebrowser-$(i)x$(i).png" \
+	$(foreach i,$(ICONSIZES),install -Dm644 "qutebrowser/icons/qutebrowser-$(i)x$(i).png" \
 			"$(DESTDIR)$(DATADIR)/icons/hicolor/$(i)x$(i)/apps/qutebrowser.png";)
-	install -Dm644 icons/qutebrowser.svg \
+	install -Dm644 qutebrowser/icons/qutebrowser.svg \
 		"$(DESTDIR)$(DATADIR)/icons/hicolor/scalable/apps/qutebrowser.svg"
 	install -Dm755 -t "$(DESTDIR)$(DATADIR)/qutebrowser/userscripts/" \
 		$(filter-out misc/userscripts/__pycache__,$(wildcard misc/userscripts/*))

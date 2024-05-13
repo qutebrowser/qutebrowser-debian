@@ -1225,6 +1225,14 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Foreground color of selected odd tabs.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.tooltip.bg">colors.tooltip.bg</a></p></td>
+<td align="left" valign="top"><p class="table">Background color of tooltips.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#colors.tooltip.fg">colors.tooltip.fg</a></p></td>
+<td align="left" valign="top"><p class="table">Foreground color of tooltips.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.webpage.bg">colors.webpage.bg</a></p></td>
 <td align="left" valign="top"><p class="table">Background color for webpages if unset (or empty to use the theme&#8217;s color).</p></td>
 </tr>
@@ -1241,14 +1249,6 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Render all web contents using a dark theme.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.grayscale.all">colors.webpage.darkmode.grayscale.all</a></p></td>
-<td align="left" valign="top"><p class="table">Render all colors as grayscale.</p></td>
-</tr>
-<tr>
-<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.grayscale.images">colors.webpage.darkmode.grayscale.images</a></p></td>
-<td align="left" valign="top"><p class="table">Desaturation factor for images in dark mode.</p></td>
-</tr>
-<tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.policy.images">colors.webpage.darkmode.policy.images</a></p></td>
 <td align="left" valign="top"><p class="table">Which images to apply dark mode to.</p></td>
 </tr>
@@ -1261,7 +1261,7 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Threshold for inverting background elements with dark mode.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.threshold.text">colors.webpage.darkmode.threshold.text</a></p></td>
+<td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.threshold.foreground">colors.webpage.darkmode.threshold.foreground</a></p></td>
 <td align="left" valign="top"><p class="table">Threshold for inverting text with dark mode.</p></td>
 </tr>
 <tr>
@@ -1445,10 +1445,6 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Show javascript alerts.</p></td>
 </tr>
 <tr>
-<td align="left" valign="top"><p class="table"><a href="#content.javascript.can_access_clipboard">content.javascript.can_access_clipboard</a></p></td>
-<td align="left" valign="top"><p class="table">Allow JavaScript to read from or write to the clipboard.</p></td>
-</tr>
-<tr>
 <td align="left" valign="top"><p class="table"><a href="#content.javascript.can_close_tabs">content.javascript.can_close_tabs</a></p></td>
 <td align="left" valign="top"><p class="table">Allow JavaScript to close tabs.</p></td>
 </tr>
@@ -1457,12 +1453,28 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Allow JavaScript to open new tabs without user interaction.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#content.javascript.clipboard">content.javascript.clipboard</a></p></td>
+<td align="left" valign="top"><p class="table">Allow JavaScript to read from or write to the clipboard.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#content.javascript.enabled">content.javascript.enabled</a></p></td>
 <td align="left" valign="top"><p class="table">Enable JavaScript.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#content.javascript.legacy_touch_events">content.javascript.legacy_touch_events</a></p></td>
+<td align="left" valign="top"><p class="table">Enables the legacy touch event feature.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#content.javascript.log">content.javascript.log</a></p></td>
 <td align="left" valign="top"><p class="table">Log levels to use for JavaScript console logging messages.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content.javascript.log_message.excludes">content.javascript.log_message.excludes</a></p></td>
+<td align="left" valign="top"><p class="table">Javascript messages to <strong>not</strong> show in the UI, despite a corresponding <code>content.javascript.log_message.levels</code> setting.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#content.javascript.log_message.levels">content.javascript.log_message.levels</a></p></td>
+<td align="left" valign="top"><p class="table">Javascript message sources/levels to show in the qutebrowser UI.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#content.javascript.modal_dialog">content.javascript.modal_dialog</a></p></td>
@@ -1638,7 +1650,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#fileselect.handler">fileselect.handler</a></p></td>
-<td align="left" valign="top"><p class="table">Handler for selecting file(s) in forms. If <code>external</code>, then the commands specified by <code>fileselect.single_file.command</code> and <code>fileselect.multiple_files.command</code> are used to select one or multiple files respectively.</p></td>
+<td align="left" valign="top"><p class="table">Handler for selecting file(s) in forms. If <code>external</code>, then the commands specified by <code>fileselect.single_file.command</code>, <code>fileselect.multiple_files.command</code> and <code>fileselect.folder.command</code> are used to select one file, multiple files, and folders, respectively.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#fileselect.multiple_files.command">fileselect.multiple_files.command</a></p></td>
@@ -1711,6 +1723,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#fonts.tabs.unselected">fonts.tabs.unselected</a></p></td>
 <td align="left" valign="top"><p class="table">Font used for unselected tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#fonts.tooltip">fonts.tooltip</a></p></td>
+<td align="left" valign="top"><p class="table">Font used for tooltips.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#fonts.web.family.cursive">fonts.web.family.cursive</a></p></td>
@@ -1929,6 +1945,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Additional arguments to pass to Qt, without leading <code>--</code>.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#qt.chromium.experimental_web_platform_features">qt.chromium.experimental_web_platform_features</a></p></td>
+<td align="left" valign="top"><p class="table">Enables Web Platform features that are in development.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#qt.chromium.low_end_device_mode">qt.chromium.low_end_device_mode</a></p></td>
 <td align="left" valign="top"><p class="table">When to use Chromium&#8217;s low-end device mode.</p></td>
 </tr>
@@ -1961,6 +1981,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">Turn on Qt HighDPI scaling.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table"><a href="#qt.workarounds.disable_accelerated_2d_canvas">qt.workarounds.disable_accelerated_2d_canvas</a></p></td>
+<td align="left" valign="top"><p class="table">Disable accelerated 2d canvas to avoid graphical glitches.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table"><a href="#qt.workarounds.locale">qt.workarounds.locale</a></p></td>
 <td align="left" valign="top"><p class="table">Work around locale parsing issues in QtWebEngine 5.15.3.</p></td>
 </tr>
@@ -1987,6 +2011,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#search.wrap">search.wrap</a></p></td>
 <td align="left" valign="top"><p class="table">Wrap around at the top and bottom of the page when advancing through text matches using <code>:search-next</code> and <code>:search-prev</code>.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#search.wrap_messages">search.wrap_messages</a></p></td>
+<td align="left" valign="top"><p class="table">Display messages when advancing through text matches at the top and bottom of the page, e.g. <code>Search hit TOP</code>.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#session.default_name">session.default_name</a></p></td>
@@ -2115,6 +2143,10 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.title.alignment">tabs.title.alignment</a></p></td>
 <td align="left" valign="top"><p class="table">Alignment of the text inside of tabs.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table"><a href="#tabs.title.elide">tabs.title.elide</a></p></td>
+<td align="left" valign="top"><p class="table">Position of ellipsis in truncated title of tabs.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#tabs.title.format">tabs.title.format</a></p></td>
@@ -2773,17 +2805,17 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>.</code>: <code>repeat-command</code>
+<code>.</code>: <code>cmd-repeat-last</code>
 </p>
 </li>
 <li>
 <p>
-<code>/</code>: <code>set-cmd-text /</code>
+<code>/</code>: <code>cmd-set-text /</code>
 </p>
 </li>
 <li>
 <p>
-<code>:</code>: <code>set-cmd-text :</code>
+<code>:</code>: <code>cmd-set-text :</code>
 </p>
 </li>
 <li>
@@ -3063,7 +3095,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>?</code>: <code>set-cmd-text ?</code>
+<code>?</code>: <code>cmd-set-text ?</code>
 </p>
 </li>
 <li>
@@ -3073,7 +3105,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>B</code>: <code>set-cmd-text -s :quickmark-load -t</code>
+<code>B</code>: <code>cmd-set-text -s :quickmark-load -t</code>
 </p>
 </li>
 <li>
@@ -3123,7 +3155,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>O</code>: <code>set-cmd-text -s :open -t</code>
+<code>O</code>: <code>cmd-set-text -s :open -t</code>
 </p>
 </li>
 <li>
@@ -3163,7 +3195,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>T</code>: <code>set-cmd-text -sr :tab-focus</code>
+<code>T</code>: <code>cmd-set-text -sr :tab-focus</code>
 </p>
 </li>
 <li>
@@ -3208,7 +3240,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>b</code>: <code>set-cmd-text -s :quickmark-load</code>
+<code>b</code>: <code>cmd-set-text -s :quickmark-load</code>
 </p>
 </li>
 <li>
@@ -3243,7 +3275,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>gB</code>: <code>set-cmd-text -s :bookmark-load -t</code>
+<code>gB</code>: <code>cmd-set-text -s :bookmark-load -t</code>
 </p>
 </li>
 <li>
@@ -3268,7 +3300,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>gO</code>: <code>set-cmd-text :open -t -r {url:pretty}</code>
+<code>gO</code>: <code>cmd-set-text :open -t -r {url:pretty}</code>
 </p>
 </li>
 <li>
@@ -3288,7 +3320,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>gb</code>: <code>set-cmd-text -s :bookmark-load</code>
+<code>gb</code>: <code>cmd-set-text -s :bookmark-load</code>
 </p>
 </li>
 <li>
@@ -3318,12 +3350,12 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>go</code>: <code>set-cmd-text :open {url:pretty}</code>
+<code>go</code>: <code>cmd-set-text :open {url:pretty}</code>
 </p>
 </li>
 <li>
 <p>
-<code>gt</code>: <code>set-cmd-text -s :tab-select</code>
+<code>gt</code>: <code>cmd-set-text -s :tab-select</code>
 </p>
 </li>
 <li>
@@ -3368,7 +3400,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>o</code>: <code>set-cmd-text -s :open</code>
+<code>o</code>: <code>cmd-set-text -s :open</code>
 </p>
 </li>
 <li>
@@ -3398,17 +3430,17 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>sk</code>: <code>set-cmd-text -s :bind</code>
+<code>sk</code>: <code>cmd-set-text -s :bind</code>
 </p>
 </li>
 <li>
 <p>
-<code>sl</code>: <code>set-cmd-text -s :set -t</code>
+<code>sl</code>: <code>cmd-set-text -s :set -t</code>
 </p>
 </li>
 <li>
 <p>
-<code>ss</code>: <code>set-cmd-text -s :set</code>
+<code>ss</code>: <code>cmd-set-text -s :set</code>
 </p>
 </li>
 <li>
@@ -3553,7 +3585,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>wB</code>: <code>set-cmd-text -s :bookmark-load -w</code>
+<code>wB</code>: <code>cmd-set-text -s :bookmark-load -w</code>
 </p>
 </li>
 <li>
@@ -3588,7 +3620,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>wO</code>: <code>set-cmd-text :open -w {url:pretty}</code>
+<code>wO</code>: <code>cmd-set-text :open -w {url:pretty}</code>
 </p>
 </li>
 <li>
@@ -3598,7 +3630,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>wb</code>: <code>set-cmd-text -s :quickmark-load -w</code>
+<code>wb</code>: <code>cmd-set-text -s :quickmark-load -w</code>
 </p>
 </li>
 <li>
@@ -3623,7 +3655,7 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>wo</code>: <code>set-cmd-text -s :open -w</code>
+<code>wo</code>: <code>cmd-set-text -s :open -w</code>
 </p>
 </li>
 <li>
@@ -3633,12 +3665,12 @@ If you want to preserve default bindings (and get new bindings when there is an 
 </li>
 <li>
 <p>
-<code>xO</code>: <code>set-cmd-text :open -b -r {url:pretty}</code>
+<code>xO</code>: <code>cmd-set-text :open -b -r {url:pretty}</code>
 </p>
 </li>
 <li>
 <p>
-<code>xo</code>: <code>set-cmd-text -s :open -b</code>
+<code>xo</code>: <code>cmd-set-text -s :open -b</code>
 </p>
 </li>
 <li>
@@ -3733,6 +3765,11 @@ If you want to preserve default bindings (and get new bindings when there is an 
 <li>
 <p>
 <code>&lt;Alt-D&gt;</code>: <code>rl-kill-word</code>
+</p>
+</li>
+<li>
+<p>
+<code>&lt;Alt-E&gt;</code>: <code>prompt-fileselect-external</code>
 </p>
 </li>
 <li>
@@ -4653,6 +4690,20 @@ Note that you can use a <code>rgba(...)</code> value for transparency.</p></div>
 <div class="paragraph"><p>Default: <code>white</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="colors.tooltip.bg">colors.tooltip.bg</h3>
+<div class="paragraph"><p>Background color of tooltips.
+If set to null, the Qt default is used.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
+<h3 id="colors.tooltip.fg">colors.tooltip.fg</h3>
+<div class="paragraph"><p>Foreground color of tooltips.
+If set to null, the Qt default is used.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">QssColor</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
+</div>
+<div class="sect2">
 <h3 id="colors.webpage.bg">colors.webpage.bg</h3>
 <div class="paragraph"><p>Background color for webpages if unset (or empty to use the theme&#8217;s color).</p></div>
 <div class="paragraph"><p>Type: <a href="#types">QtColor</a></p></div>
@@ -4697,31 +4748,14 @@ This only has an effect when <code>colors.webpage.darkmode.algorithm</code> is s
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.enabled">colors.webpage.darkmode.enabled</h3>
 <div class="paragraph"><p>Render all web contents using a dark theme.
-Example configurations from Chromium&#8217;s <code>chrome://flags</code>:</p></div>
+Example configurations from Chromium&#8217;s <code>chrome://flags</code>:
+- "With simple HSL/CIELAB/RGB-based inversion": Set
+  <code>colors.webpage.darkmode.algorithm</code> accordingly, and
+  set <code>colors.webpage.darkmode.policy.images</code> to <code>never</code>.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-"With simple HSL/CIELAB/RGB-based inversion": Set
-  <code>colors.webpage.darkmode.algorithm</code> accordingly.
-</p>
-</li>
-<li>
-<p>
-"With selective image inversion": Set
-  <code>colors.webpage.darkmode.policy.images</code> to <code>smart</code>.
-</p>
-</li>
-<li>
-<p>
-"With selective inversion of non-image elements": Set
-  <code>colors.webpage.darkmode.threshold.text</code> to 150 and
-  <code>colors.webpage.darkmode.threshold.background</code> to 205.
-</p>
-</li>
-<li>
-<p>
-"With selective inversion of everything": Combines the two variants
-  above.
+"With selective image inversion": qutebrowser default settings.
 </p>
 </li>
 </ul></div>
@@ -4731,28 +4765,8 @@ Example configurations from Chromium&#8217;s <code>chrome://flags</code>:</p></d
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
-<h3 id="colors.webpage.darkmode.grayscale.all">colors.webpage.darkmode.grayscale.all</h3>
-<div class="paragraph"><p>Render all colors as grayscale.
-This only has an effect when <code>colors.webpage.darkmode.algorithm</code> is set to <code>lightness-hsl</code> or <code>brightness-rgb</code>.</p></div>
-<div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
-</div>
-<div class="sect2">
-<h3 id="colors.webpage.darkmode.grayscale.images">colors.webpage.darkmode.grayscale.images</h3>
-<div class="paragraph"><p>Desaturation factor for images in dark mode.
-If set to 0, images are left as-is. If set to 1, images are completely grayscale. Values between 0 and 1 desaturate the colors accordingly.</p></div>
-<div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
-<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Float</a></p></div>
-<div class="paragraph"><p>Default: <code>0.0</code></p></div>
-</div>
-<div class="sect2">
 <h3 id="colors.webpage.darkmode.policy.images">colors.webpage.darkmode.policy.images</h3>
-<div class="paragraph"><p>Which images to apply dark mode to.
-With QtWebEngine 5.15.0, this setting can cause frequent renderer process crashes due to a <a href="https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/304211">bug in Qt</a>.</p></div>
+<div class="paragraph"><p>Which images to apply dark mode to.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
@@ -4773,6 +4787,11 @@ With QtWebEngine 5.15.0, this setting can cause frequent renderer process crashe
 <code>smart</code>: Apply dark mode based on image content. Not available with Qt 5.15.0.
 </p>
 </li>
+<li>
+<p>
+<code>smart-simple</code>: On QtWebEngine 6.6, use a simpler algorithm for smart mode (based on numbers of colors and transparency), rather than an ML-based model. Same as <em>smart</em> on older QtWebEnigne versions.
+</p>
+</li>
 </ul></div>
 <div class="paragraph"><p>Default: <code>smart</code></p></div>
 </div>
@@ -4781,8 +4800,7 @@ With QtWebEngine 5.15.0, this setting can cause frequent renderer process crashe
 <div class="paragraph"><p>Which pages to apply dark mode to.
 The underlying Chromium setting has been removed in QtWebEngine 5.15.3, thus this setting is ignored there. Instead, every element is now classified individually.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
-<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -4803,20 +4821,18 @@ The underlying Chromium setting has been removed in QtWebEngine 5.15.3, thus thi
 <h3 id="colors.webpage.darkmode.threshold.background">colors.webpage.darkmode.threshold.background</h3>
 <div class="paragraph"><p>Threshold for inverting background elements with dark mode.
 Background elements with brightness above this threshold will be inverted, and below it will be left as in the original, non-dark-mode page. Set to 256 to never invert the color or to 0 to always invert it.
-Note: This behavior is the opposite of <code>colors.webpage.darkmode.threshold.text</code>!</p></div>
+Note: This behavior is the opposite of <code>colors.webpage.darkmode.threshold.foreground</code>!</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
-<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>0</code></p></div>
 </div>
 <div class="sect2">
-<h3 id="colors.webpage.darkmode.threshold.text">colors.webpage.darkmode.threshold.text</h3>
+<h3 id="colors.webpage.darkmode.threshold.foreground">colors.webpage.darkmode.threshold.foreground</h3>
 <div class="paragraph"><p>Threshold for inverting text with dark mode.
 Text colors with brightness below this threshold will be inverted, and above it will be left as in the original, non-dark-mode page. Set to 256 to always invert text color or to 0 to never invert text color.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
-<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Int</a></p></div>
 <div class="paragraph"><p>Default: <code>256</code></p></div>
 </div>
@@ -4826,8 +4842,7 @@ Text colors with brightness below this threshold will be inverted, and above it 
 The "light" value is only available with QtWebEngine 5.15.2+. On older versions, it is the same as "auto".
 The "auto" value is broken on QtWebEngine 5.15.2 due to a Qt bug. There, it will fall back to "light" unconditionally.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
-<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5205,8 +5220,9 @@ With QtWebEngine, the maximum supported value is 2147483647 (~2 GB).</p></div>
 <div class="sect2">
 <h3 id="content.canvas_reading">content.canvas_reading</h3>
 <div class="paragraph"><p>Allow websites to read canvas elements.
-Note this is needed for some websites to work properly.</p></div>
-<div class="paragraph"><p>This setting requires a restart.</p></div>
+Note this is needed for some websites to work properly.
+On QtWebEngine &lt; 6.6, this setting requires a restart and does not support URL patterns, only the global setting is applied.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
@@ -5373,7 +5389,7 @@ No restart is needed with QtWebKit.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<code>always</code>: Always send the Referer.
+<code>always</code>: Always send the Referer. With QtWebEngine 6.2+, this value is unavailable and will act like <code>same-domain</code>.
 </p>
 </li>
 <li>
@@ -5462,14 +5478,6 @@ to JavaScript requires a restart.</p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
 <div class="sect2">
-<h3 id="content.javascript.can_access_clipboard">content.javascript.can_access_clipboard</h3>
-<div class="paragraph"><p>Allow JavaScript to read from or write to the clipboard.
-With QtWebEngine, writing the clipboard as response to a user interaction is always allowed.</p></div>
-<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
-<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
-<div class="paragraph"><p>Default: <code>false</code></p></div>
-</div>
-<div class="sect2">
 <h3 id="content.javascript.can_close_tabs">content.javascript.can_close_tabs</h3>
 <div class="paragraph"><p>Allow JavaScript to close tabs.</p></div>
 <div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
@@ -5485,11 +5493,66 @@ With QtWebEngine, writing the clipboard as response to a user interaction is alw
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="content.javascript.clipboard">content.javascript.clipboard</h3>
+<div class="paragraph"><p>Allow JavaScript to read from or write to the clipboard.
+With QtWebEngine, writing the clipboard as response to a user interaction is always allowed.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>none</code>: Disable access to clipboard.
+</p>
+</li>
+<li>
+<p>
+<code>access</code>: Allow reading from and writing to the clipboard.
+</p>
+</li>
+<li>
+<p>
+<code>access-paste</code>: Allow accessing the clipboard and pasting clipboard content.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>none</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="content.javascript.enabled">content.javascript.enabled</h3>
 <div class="paragraph"><p>Enable JavaScript.</p></div>
 <div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="content.javascript.legacy_touch_events">content.javascript.legacy_touch_events</h3>
+<div class="paragraph"><p>Enables the legacy touch event feature.
+This affects JS APIs such as:
+- ontouch* members on window, document, Element - document.createTouch, document.createTouchList - document.createEvent("TouchEvent")
+Newer Chromium versions have those disabled by default: <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=392584">https://bugs.chromium.org/p/chromium/issues/detail?id=392584</a> <a href="https://groups.google.com/a/chromium.org/g/blink-dev/c/KV6kqDJpYiE">https://groups.google.com/a/chromium.org/g/blink-dev/c/KV6kqDJpYiE</a></p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Legacy touch events are always enabled. This might cause some websites to assume a mobile device.
+</p>
+</li>
+<li>
+<p>
+<code>auto</code>: Legacy touch events are only enabled if a touch screen was detected on startup.
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Legacy touch events are always disabled.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>never</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.javascript.log">content.javascript.log</h3>
@@ -5518,6 +5581,67 @@ The following levels are valid: <code>none</code>, <code>debug</code>, <code>inf
 <li>
 <p>
 <code>warning</code>: <code>debug</code>
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="content.javascript.log_message.excludes">content.javascript.log_message.excludes</h3>
+<div class="paragraph"><p>Javascript messages to <strong>not</strong> show in the UI, despite a corresponding <code>content.javascript.log_message.levels</code> setting.
+Both keys and values are glob patterns, with the key matching the location of the error, and the value matching the error message.
+By default, the <a href="https://web.dev/csp/">Content security policy</a> violations triggered by qutebrowser&#8217;s stylesheet handling are excluded, as those errors are to be expected and can&#8217;t be easily handled by the underlying code.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Dict</a></p></div>
+<div class="paragraph"><p>Default:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>userscript:_qute_stylesheet</code>:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>*Refused to apply inline style because it violates the following Content Security Policy directive: *</code>
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="content.javascript.log_message.levels">content.javascript.log_message.levels</h3>
+<div class="paragraph"><p>Javascript message sources/levels to show in the qutebrowser UI.
+When a JavaScript message is logged from a location matching the glob pattern given in the key, and is from one of the levels listed as value, it&#8217;s surfaced as a message in the qutebrowser UI.
+By default, errors happening in qutebrowser internally are shown to the user.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Dict</a></p></div>
+<div class="paragraph"><p>Default:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>qute:*</code>:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>error</code>
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+<code>userscript:*</code>:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>error</code>
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+<code>userscript:GM-*</code>: empty
 </p>
 </li>
 </ul></div>
@@ -5678,7 +5802,6 @@ If unset, <code>~/.netrc</code> is used.</p></div>
 <h3 id="content.notifications.enabled">content.notifications.enabled</h3>
 <div class="paragraph"><p>Allow websites to show notifications.</p></div>
 <div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.13 or newer.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">BoolAsk</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5704,16 +5827,13 @@ If unset, <code>~/.netrc</code> is used.</p></div>
 <h3 id="content.notifications.presenter">content.notifications.presenter</h3>
 <div class="paragraph"><p>What notification presenter to use for web notifications.
 Note that not all implementations support all features of notifications:
-- With PyQt 5.14, any setting other than <code>qt</code> does not support  the <code>click</code> and
-  <code>close</code> events, as well as the <code>tag</code> option to replace existing notifications.
 - The <code>qt</code> and <code>systray</code> options only support showing one notification at the time
   and ignore the <code>tag</code> option to replace existing notifications.
 - The <code>herbe</code> option only supports showing one notification at the time and doesn&#8217;t
   show icons.
 - The <code>messages</code> option doesn&#8217;t show icons and doesn&#8217;t support the <code>click</code> and
   <code>close</code> events.</p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
-<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5724,7 +5844,7 @@ Note that not all implementations support all features of notifications:
 </li>
 <li>
 <p>
-<code>qt</code>: Use Qt&#8217;s native notification presenter, based on a system tray icon. Switching from or to this value requires a restart of qutebrowser. Recommended over <code>systray</code> on PyQt 5.14.
+<code>qt</code>: Use Qt&#8217;s native notification presenter, based on a system tray icon. Switching from or to this value requires a restart of qutebrowser.
 </p>
 </li>
 <li>
@@ -5756,8 +5876,7 @@ Note that not all implementations support all features of notifications:
 Note that URL patterns with this setting only get matched against the origin part of the URL, so e.g. paths in patterns will never match.
 Note that with the <code>qt</code> presenter, origins are never shown.</p></div>
 <div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
-<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -5808,8 +5927,7 @@ Note that the files can still be downloaded by clicking the download button in t
 This results in the <code>prefers-reduced-motion</code> CSS media query to evaluate to <code>reduce</code> (rather than <code>no-preference</code>).
 On Windows, if this setting is set to False, the system-wide animation setting is considered.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
-<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
 </div>
@@ -5890,8 +6008,7 @@ Note that with QtWebEngine, it will take a couple of seconds until the change is
 </div>
 <div class="sect2">
 <h3 id="content.site_specific_quirks.skip">content.site_specific_quirks.skip</h3>
-<div class="paragraph"><p>Disable a list of named quirks.
-The js-string-replaceall quirk is needed for Nextcloud Calendar &lt; 2.2.0 with QtWebEngine &lt; 5.15.3. However, the workaround is not fully compliant to the ECMAScript spec and might cause issues on other websites, so it&#8217;s disabled by default.</p></div>
+<div class="paragraph"><p>Disable a list of named quirks.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FlagList</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -5932,16 +6049,6 @@ The js-string-replaceall quirk is needed for Nextcloud Calendar &lt; 2.2.0 with 
 </li>
 <li>
 <p>
-<code>js-globalthis</code>
-</p>
-</li>
-<li>
-<p>
-<code>js-object-fromentries</code>
-</p>
-</li>
-<li>
-<p>
 <code>js-array-at</code>
 </p>
 </li>
@@ -5956,14 +6063,7 @@ The js-string-replaceall quirk is needed for Nextcloud Calendar &lt; 2.2.0 with 
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>Default:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<code>js-string-replaceall</code>
-</p>
-</li>
-</ul></div>
+<div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="content.tls.certificate_errors">content.tls.certificate_errors</h3>
@@ -6266,7 +6366,7 @@ The following placeholders are defined:
 </div>
 <div class="sect2">
 <h3 id="fileselect.handler">fileselect.handler</h3>
-<div class="paragraph"><p>Handler for selecting file(s) in forms. If <code>external</code>, then the commands specified by <code>fileselect.single_file.command</code> and <code>fileselect.multiple_files.command</code> are used to select one or multiple files respectively.</p></div>
+<div class="paragraph"><p>Handler for selecting file(s) in forms. If <code>external</code>, then the commands specified by <code>fileselect.single_file.command</code>, <code>fileselect.multiple_files.command</code> and <code>fileselect.folder.command</code> are used to select one file, multiple files, and folders, respectively.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
 <div class="paragraph"><p>Valid values:</p></div>
 <div class="ulist"><ul>
@@ -6445,6 +6545,13 @@ Valid values are either a float value with a "pt" suffix, or an integer value wi
 <div class="paragraph"><p>Font used for unselected tabs.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
 <div class="paragraph"><p>Default: <code>default_size default_family</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="fonts.tooltip">fonts.tooltip</h3>
+<div class="paragraph"><p>Font used for tooltips.
+If set to null, the Qt default is used.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Font</a></p></div>
+<div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
 <h3 id="fonts.web.family.cursive">fonts.web.family.cursive</h3>
@@ -6868,6 +6975,16 @@ Ignored for number hints.</p></div>
 </li>
 <li>
 <p>
+<code>[role=&quot;treeitem&quot;]</code>
+</p>
+</li>
+<li>
+<p>
+<code>[aria-haspopup]</code>
+</p>
+</li>
+<li>
+<p>
 <code>[ng-click]</code>
 </p>
 </li>
@@ -7149,8 +7266,7 @@ This enables for vi-like bindings that can be prefixed with a number to indicate
 <div class="paragraph"><p>Whether the underlying Chromium should handle media keys.
 On Linux, disabling this also disables Chromium&#8217;s MPRIS integration.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
-<div class="paragraph"><p>On QtWebKit, this setting is unavailable.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -7404,6 +7520,33 @@ With QtWebEngine, some Chromium arguments (see <a href="https://peter.sh/experim
 <div class="paragraph"><p>Default: empty</p></div>
 </div>
 <div class="sect2">
+<h3 id="qt.chromium.experimental_web_platform_features">qt.chromium.experimental_web_platform_features</h3>
+<div class="paragraph"><p>Enables Web Platform features that are in development.
+This passes the <code>--enable-experimental-web-platform-features</code> flag to Chromium. By default, this is enabled with Qt 5 to maximize compatibility despite an aging Chromium base.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Enable experimental web platform features.
+</p>
+</li>
+<li>
+<p>
+<code>auto</code>: Enable experimental web platform features when using Qt 5.
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Disable experimental web platform features.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>auto</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="qt.chromium.low_end_device_mode">qt.chromium.low_end_device_mode</h3>
 <div class="paragraph"><p>When to use Chromium&#8217;s low-end device mode.
 This improves the RAM usage of renderer processes, at the expense of performance.</p></div>
@@ -7443,7 +7586,7 @@ See the following pages for more details:</p></div>
 </li>
 <li>
 <p>
-<a href="https://doc.qt.io/qt-5/qtwebengine-features.html#process-models">https://doc.qt.io/qt-5/qtwebengine-features.html#process-models</a>
+<a href="https://doc.qt.io/qt-6/qtwebengine-features.html#process-models">https://doc.qt.io/qt-6/qtwebengine-features.html#process-models</a>
 </p>
 </li>
 </ul></div>
@@ -7561,11 +7704,39 @@ This is needed for QtWebEngine to work with Nouveau drivers and can be useful in
 <div class="sect2">
 <h3 id="qt.highdpi">qt.highdpi</h3>
 <div class="paragraph"><p>Turn on Qt HighDPI scaling.
-This is equivalent to setting QT_AUTO_SCREEN_SCALE_FACTOR=1 or QT_ENABLE_HIGHDPI_SCALING=1 (Qt &gt;= 5.14) in the environment.
+This is equivalent to setting QT_ENABLE_HIGHDPI_SCALING=1 (Qt &gt;= 5.14) in the environment.
 It&#8217;s off by default as it can cause issues with some bitmap fonts. As an alternative to this, it&#8217;s possible to set font sizes and the <code>zoom.default</code> setting.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="qt.workarounds.disable_accelerated_2d_canvas">qt.workarounds.disable_accelerated_2d_canvas</h3>
+<div class="paragraph"><p>Disable accelerated 2d canvas to avoid graphical glitches.
+On some setups graphical issues can occur on sites like Google sheets and PDF.js. These don&#8217;t occur when accelerated 2d canvas is turned off, so we do that by default.
+So far these glitches only occur on some Intel graphics devices.</p></div>
+<div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">String</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>always</code>: Disable accelerated 2d canvas
+</p>
+</li>
+<li>
+<p>
+<code>auto</code>: Disable on Qt6 &lt; 6.6.0, enable otherwise
+</p>
+</li>
+<li>
+<p>
+<code>never</code>: Enable accelerated 2d canvas
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>auto</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="qt.workarounds.locale">qt.workarounds.locale</h3>
@@ -7654,7 +7825,12 @@ Note smooth scrolling does not work with the <code>:scroll-px</code> command.</p
 <div class="sect2">
 <h3 id="search.wrap">search.wrap</h3>
 <div class="paragraph"><p>Wrap around at the top and bottom of the page when advancing through text matches using <code>:search-next</code> and <code>:search-prev</code>.</p></div>
-<div class="paragraph"><p>On QtWebEngine, this setting requires Qt 5.14 or newer.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
+<div class="paragraph"><p>Default: <code>true</code></p></div>
+</div>
+<div class="sect2">
+<h3 id="search.wrap_messages">search.wrap_messages</h3>
+<div class="paragraph"><p>Display messages when advancing through text matches at the top and bottom of the page, e.g. <code>Search hit TOP</code>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>true</code></p></div>
 </div>
@@ -7996,6 +8172,11 @@ You can check for available languages and install dictionaries using scripts/dic
 </li>
 <li>
 <p>
+<code>search_match</code>: A match count when searching, e.g. <code>Match [2/10]</code>.
+</p>
+</li>
+<li>
+<p>
 <code>tabs</code>: Current active tab, e.g. <code>2</code>.
 </p>
 </li>
@@ -8014,12 +8195,22 @@ You can check for available languages and install dictionaries using scripts/dic
 <code>text:foo</code>: Display the static text after the colon, <code>foo</code> in the example.
 </p>
 </li>
+<li>
+<p>
+<code>clock</code>: Display current time. The format can be changed by adding a format string via <code>clock:...</code>. For supported format strings, see <a href="https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes">the Python datetime documentation</a>.
+</p>
+</li>
 </ul></div>
 <div class="paragraph"><p>Default:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
 <code>keypress</code>
+</p>
+</li>
+<li>
+<p>
+<code>search_match</code>
 </p>
 </li>
 <li>
@@ -8488,6 +8679,35 @@ See <code>tabs.new_position.stacking</code> for controlling stacking behavior.</
 <div class="paragraph"><p>Default: <code>left</code></p></div>
 </div>
 <div class="sect2">
+<h3 id="tabs.title.elide">tabs.title.elide</h3>
+<div class="paragraph"><p>Position of ellipsis in truncated title of tabs.</p></div>
+<div class="paragraph"><p>Type: <a href="#types">ElidePosition</a></p></div>
+<div class="paragraph"><p>Valid values:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<code>left</code>
+</p>
+</li>
+<li>
+<p>
+<code>right</code>
+</p>
+</li>
+<li>
+<p>
+<code>middle</code>
+</p>
+</li>
+<li>
+<p>
+<code>none</code>
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Default: <code>right</code></p></div>
+</div>
+<div class="sect2">
 <h3 id="tabs.title.format">tabs.title.format</h3>
 <div class="paragraph"><p>Format to use for the tab title.
 The following placeholders are defined:</p></div>
@@ -8782,6 +9002,11 @@ term, e.g. <code>:open google qutebrowser</code>.</p></div>
 <code>utm_content</code>
 </p>
 </li>
+<li>
+<p>
+<code>utm_name</code>
+</p>
+</li>
 </ul></div>
 </div>
 <div class="sect2">
@@ -8967,6 +9192,10 @@ cellspacing="0" cellpadding="4">
 <td align="left" valign="top"><p class="table">A directory on the local filesystem.</p></td>
 </tr>
 <tr>
+<td align="left" valign="top"><p class="table">ElidePosition</p></td>
+<td align="left" valign="top"><p class="table">Position of ellipsis in truncated text.</p></td>
+</tr>
+<tr>
 <td align="left" valign="top"><p class="table">Encoding</p></td>
 <td align="left" valign="top"><p class="table">Setting for a python encoding.</p></td>
 </tr>
@@ -9052,7 +9281,7 @@ cellspacing="0" cellpadding="4">
 <tr>
 <td align="left" valign="top"><p class="table">QssColor</p></td>
 <td align="left" valign="top"><p class="table">A color value supporting gradients.</p>
-<p class="table">A value can be in one of the following formats: * <code>#RGB</code>/<code>#RRGGBB</code>/<code>#AARRGGBB</code>/<code>#RRRGGGBBB</code>/<code>#RRRRGGGGBBBB</code> * An SVG color name as specified in <a href="https://www.w3.org/TR/SVG/types.html#ColorKeywords">the W3C specification</a>. * transparent (no color) * <code>rgb(r, g, b)</code> / <code>rgba(r, g, b, a)</code> (values 0-255 or percentages) * <code>hsv(h, s, v)</code> / <code>hsva(h, s, v, a)</code> (values 0-255, hue 0-359) * A gradient as explained in <a href="https://doc.qt.io/qt-5/stylesheet-reference.html#list-of-property-types">the Qt documentation</a> under &#8220;Gradient&#8221;</p></td>
+<p class="table">A value can be in one of the following formats: * <code>#RGB</code>/<code>#RRGGBB</code>/<code>#AARRGGBB</code>/<code>#RRRGGGBBB</code>/<code>#RRRRGGGGBBBB</code> * An SVG color name as specified in <a href="https://www.w3.org/TR/SVG/types.html#ColorKeywords">the W3C specification</a>. * transparent (no color) * <code>rgb(r, g, b)</code> / <code>rgba(r, g, b, a)</code> (values 0-255 or percentages) * <code>hsv(h, s, v)</code> / <code>hsva(h, s, v, a)</code> (values 0-255, hue 0-359) * A gradient as explained in <a href="https://doc.qt.io/qt-6/stylesheet-reference.html#list-of-property-types">the Qt documentation</a> under &#8220;Gradient&#8221;</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table">QtColor</p></td>
@@ -9122,7 +9351,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2023-03-13 22:12:01 CET
+ 2023-12-08 15:32:07 UTC
 </div>
 </div>
 </body>

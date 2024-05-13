@@ -1,39 +1,30 @@
-# vim: ft=python fileencoding=utf-8 sts=4 sw=4 et:
-
-# Copyright 2014-2021 Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
 #
-# This file is part of qutebrowser.
-#
-# qutebrowser is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# qutebrowser is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with qutebrowser.  If not, see <https://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 """The main browser widget for QtWebEngine."""
 
-from typing import List, Iterable
+import mimetypes
+from typing import List, Iterable, Optional
 
-from PyQt5.QtCore import pyqtSignal, QUrl
-from PyQt5.QtGui import QPalette
-from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
+from qutebrowser.qt import machinery
+from qutebrowser.qt.core import pyqtSignal, pyqtSlot, QUrl
+from qutebrowser.qt.gui import QPalette
+from qutebrowser.qt.webenginewidgets import QWebEngineView
+from qutebrowser.qt.webenginecore import (
+    QWebEnginePage, QWebEngineCertificateError, QWebEngineSettings,
+    QWebEngineHistory,
+)
 
 from qutebrowser.browser import shared
 from qutebrowser.browser.webengine import webenginesettings, certificateerror
 from qutebrowser.config import config
-from qutebrowser.utils import log, debug, usertypes
+from qutebrowser.utils import log, debug, usertypes, qtutils
 
 
 _QB_FILESELECTION_MODES = {
-    QWebEnginePage.FileSelectOpen: shared.FileSelectionMode.single_file,
-    QWebEnginePage.FileSelectOpenMultiple: shared.FileSelectionMode.multiple_files,
+    QWebEnginePage.FileSelectionMode.FileSelectOpen: shared.FileSelectionMode.single_file,
+    QWebEnginePage.FileSelectionMode.FileSelectOpenMultiple: shared.FileSelectionMode.multiple_files,
     # WORKAROUND for https://bugreports.qt.io/browse/QTBUG-91489
     #
     # QtWebEngine doesn't expose this value from its internal
@@ -54,7 +45,9 @@ class WebEngineView(QWebEngineView):
         self._win_id = win_id
         self._tabdata = tabdata
 
-        theme_color = self.style().standardPalette().color(QPalette.Base)
+        style = self.style()
+        assert style is not None
+        theme_color = style.standardPalette().color(QPalette.ColorRole.Base)
         if private:
             assert webenginesettings.private_profile is not None
             profile = webenginesettings.private_profile
@@ -70,7 +63,10 @@ class WebEngineView(QWebEngineView):
         return self.focusProxy()
 
     def shutdown(self):
-        self.page().shutdown()
+        """Shut down the underlying page."""
+        page = self.page()
+        assert isinstance(page, WebEnginePage), page
+        page.shutdown()
 
     def createWindow(self, wintype):
         """Called by Qt when a page wants to create a new window.
@@ -103,21 +99,21 @@ class WebEngineView(QWebEngineView):
         log.webview.debug("createWindow with type {}, background {}".format(
             debug_type, background))
 
-        if wintype == QWebEnginePage.WebBrowserWindow:
+        if wintype == QWebEnginePage.WebWindowType.WebBrowserWindow:
             # Shift-Alt-Click
             target = usertypes.ClickTarget.window
-        elif wintype == QWebEnginePage.WebDialog:
+        elif wintype == QWebEnginePage.WebWindowType.WebDialog:
             log.webview.warning("{} requested, but we don't support "
                                 "that!".format(debug_type))
             target = usertypes.ClickTarget.tab
-        elif wintype == QWebEnginePage.WebBrowserTab:
+        elif wintype == QWebEnginePage.WebWindowType.WebBrowserTab:
             # Middle-click / Ctrl-Click with Shift
             # FIXME:qtwebengine this also affects target=_blank links...
             if background:
                 target = usertypes.ClickTarget.tab
             else:
                 target = usertypes.ClickTarget.tab_bg
-        elif wintype == QWebEnginePage.WebBrowserBackgroundTab:
+        elif wintype == QWebEnginePage.WebWindowType.WebBrowserBackgroundTab:
             # Middle-click / Ctrl-Click
             if background:
                 target = usertypes.ClickTarget.tab_bg
@@ -136,6 +132,57 @@ class WebEngineView(QWebEngineView):
             return
         super().contextMenuEvent(ev)
 
+    def page(self) -> "WebEnginePage":
+        """Return the page for this view."""
+        maybe_page = super().page()
+        assert maybe_page is not None
+        assert isinstance(maybe_page, WebEnginePage)
+        return maybe_page
+
+    def settings(self) -> "QWebEngineSettings":
+        """Return the settings for this view."""
+        maybe_settings = super().settings()
+        assert maybe_settings is not None
+        return maybe_settings
+
+    def history(self) -> "QWebEngineHistory":
+        """Return the history for this view."""
+        maybe_history = super().history()
+        assert maybe_history is not None
+        return maybe_history
+
+
+def extra_suffixes_workaround(upstream_mimetypes):
+    """Return any extra suffixes for mimetypes in upstream_mimetypes.
+
+    Return any file extensions (aka suffixes) for mimetypes listed in
+    upstream_mimetypes that are not already contained in there.
+
+    WORKAROUND: for https://bugreports.qt.io/browse/QTBUG-116905
+    Affected Qt versions > 6.2.2 (probably) < 6.7.0
+    """
+    if not (
+        qtutils.version_check("6.2.3", compiled=False)
+        and not qtutils.version_check("6.7.0", compiled=False)
+    ):
+        return set()
+
+    suffixes = {entry for entry in upstream_mimetypes if entry.startswith(".")}
+    mimes = {entry for entry in upstream_mimetypes if "/" in entry}
+    python_suffixes = set()
+    for mime in mimes:
+        if mime.endswith("/*"):
+            python_suffixes.update(
+                [
+                    suffix
+                    for suffix, mimetype in mimetypes.types_map.items()
+                    if mimetype.startswith(mime[:-1])
+                ]
+            )
+        else:
+            python_suffixes.update(mimetypes.guess_all_extensions(mime))
+    return python_suffixes - suffixes
+
 
 class WebEnginePage(QWebEnginePage):
 
@@ -147,8 +194,9 @@ class WebEnginePage(QWebEnginePage):
 
     Signals:
         certificate_error: Emitted on certificate errors.
-                           Needs to be directly connected to a slot setting the
-                           'ignore' attribute.
+                           Needs to be directly connected to a slot calling
+                           .accept_certificate(), .reject_certificate, or
+                           .defer().
         shutting_down: Emitted when the page is shutting down.
         navigation_request: Emitted on acceptNavigationRequest.
     """
@@ -157,12 +205,43 @@ class WebEnginePage(QWebEnginePage):
     shutting_down = pyqtSignal()
     navigation_request = pyqtSignal(usertypes.NavigationRequest)
 
+    _JS_LOG_LEVEL_MAPPING = {
+        QWebEnginePage.JavaScriptConsoleMessageLevel.InfoMessageLevel:
+            usertypes.JsLogLevel.info,
+        QWebEnginePage.JavaScriptConsoleMessageLevel.WarningMessageLevel:
+            usertypes.JsLogLevel.warning,
+        QWebEnginePage.JavaScriptConsoleMessageLevel.ErrorMessageLevel:
+            usertypes.JsLogLevel.error,
+    }
+
+    _NAVIGATION_TYPE_MAPPING = {
+        QWebEnginePage.NavigationType.NavigationTypeLinkClicked:
+            usertypes.NavigationRequest.Type.link_clicked,
+        QWebEnginePage.NavigationType.NavigationTypeTyped:
+            usertypes.NavigationRequest.Type.typed,
+        QWebEnginePage.NavigationType.NavigationTypeFormSubmitted:
+            usertypes.NavigationRequest.Type.form_submitted,
+        QWebEnginePage.NavigationType.NavigationTypeBackForward:
+            usertypes.NavigationRequest.Type.back_forward,
+        QWebEnginePage.NavigationType.NavigationTypeReload:
+            usertypes.NavigationRequest.Type.reload,
+        QWebEnginePage.NavigationType.NavigationTypeOther:
+            usertypes.NavigationRequest.Type.other,
+        QWebEnginePage.NavigationType.NavigationTypeRedirect:
+            usertypes.NavigationRequest.Type.redirect,
+    }
+
     def __init__(self, *, theme_color, profile, parent=None):
         super().__init__(profile, parent)
         self._is_shutting_down = False
         self._theme_color = theme_color
         self._set_bg_color()
         config.instance.changed.connect(self._set_bg_color)
+        if machinery.IS_QT6:
+            self.certificateError.connect(  # pylint: disable=no-member
+                self._handle_certificate_error
+            )
+            # Qt 5: Overridden method instead of signal
 
     @config.change_filter('colors.webpage.bg')
     def _set_bg_color(self):
@@ -175,11 +254,17 @@ class WebEnginePage(QWebEnginePage):
         self._is_shutting_down = True
         self.shutting_down.emit()
 
-    def certificateError(self, error):
+    @pyqtSlot(QWebEngineCertificateError)
+    def _handle_certificate_error(self, qt_error):
         """Handle certificate errors coming from Qt."""
-        error = certificateerror.CertificateErrorWrapper(error)
+        error = certificateerror.CertificateErrorWrapper(qt_error)
         self.certificate_error.emit(error)
-        return error.ignore
+        # Right now, we never defer accepting, due to a PyQt bug
+        return error.certificate_was_accepted()
+
+    if machinery.IS_QT5:
+        # Overridden method instead of signal
+        certificateError = _handle_certificate_error  # noqa: N815
 
     def javaScriptConfirm(self, url, js_msg):
         """Override javaScriptConfirm to use qutebrowser prompts."""
@@ -213,42 +298,16 @@ class WebEnginePage(QWebEnginePage):
 
     def javaScriptConsoleMessage(self, level, msg, line, source):
         """Log javascript messages to qutebrowser's log."""
-        level_map = {
-            QWebEnginePage.InfoMessageLevel: usertypes.JsLogLevel.info,
-            QWebEnginePage.WarningMessageLevel: usertypes.JsLogLevel.warning,
-            QWebEnginePage.ErrorMessageLevel: usertypes.JsLogLevel.error,
-        }
-        shared.javascript_log_message(level_map[level], source, line, msg)
+        shared.javascript_log_message(self._JS_LOG_LEVEL_MAPPING[level], source, line, msg)
 
     def acceptNavigationRequest(self,
                                 url: QUrl,
                                 typ: QWebEnginePage.NavigationType,
                                 is_main_frame: bool) -> bool:
         """Override acceptNavigationRequest to forward it to the tab API."""
-        type_map = {
-            QWebEnginePage.NavigationTypeLinkClicked:
-                usertypes.NavigationRequest.Type.link_clicked,
-            QWebEnginePage.NavigationTypeTyped:
-                usertypes.NavigationRequest.Type.typed,
-            QWebEnginePage.NavigationTypeFormSubmitted:
-                usertypes.NavigationRequest.Type.form_submitted,
-            QWebEnginePage.NavigationTypeBackForward:
-                usertypes.NavigationRequest.Type.back_forward,
-            QWebEnginePage.NavigationTypeReload:
-                usertypes.NavigationRequest.Type.reloaded,
-            QWebEnginePage.NavigationTypeOther:
-                usertypes.NavigationRequest.Type.other,
-        }
-        try:
-            type_map[QWebEnginePage.NavigationTypeRedirect] = (
-                usertypes.NavigationRequest.Type.redirect)
-        except AttributeError:
-            # Added in Qt 5.14
-            pass
-
         navigation = usertypes.NavigationRequest(
             url=url,
-            navigation_type=type_map.get(
+            navigation_type=self._NAVIGATION_TYPE_MAPPING.get(
                 typ, usertypes.NavigationRequest.Type.other),
             is_main_frame=is_main_frame)
         self.navigation_request.emit(navigation)
@@ -257,13 +316,28 @@ class WebEnginePage(QWebEnginePage):
     def chooseFiles(
         self,
         mode: QWebEnginePage.FileSelectionMode,
-        old_files: Iterable[str],
-        accepted_mimetypes: Iterable[str],
+        old_files: Iterable[Optional[str]],
+        accepted_mimetypes: Iterable[Optional[str]],
     ) -> List[str]:
         """Override chooseFiles to (optionally) invoke custom file uploader."""
+        accepted_mimetypes_filtered = [m for m in accepted_mimetypes if m is not None]
+        old_files_filtered = [f for f in old_files if f is not None]
+        extra_suffixes = extra_suffixes_workaround(accepted_mimetypes_filtered)
+        if extra_suffixes:
+            log.webview.debug(
+                "adding extra suffixes to filepicker: "
+                f"before={accepted_mimetypes_filtered} "
+                f"added={extra_suffixes}",
+            )
+            accepted_mimetypes_filtered = list(
+                accepted_mimetypes_filtered
+            ) + list(extra_suffixes)
+
         handler = config.val.fileselect.handler
         if handler == "default":
-            return super().chooseFiles(mode, old_files, accepted_mimetypes)
+            return super().chooseFiles(
+                mode, old_files_filtered, accepted_mimetypes_filtered,
+            )
         assert handler == "external", handler
         try:
             qb_mode = _QB_FILESELECTION_MODES[mode]
@@ -271,6 +345,8 @@ class WebEnginePage(QWebEnginePage):
             log.webview.warning(
                 f"Got file selection mode {mode}, but we don't support that!"
             )
-            return super().chooseFiles(mode, old_files, accepted_mimetypes)
+            return super().chooseFiles(
+                mode, old_files_filtered, accepted_mimetypes_filtered,
+            )
 
         return shared.choose_file(qb_mode=qb_mode)

@@ -994,7 +994,7 @@ playing them all at once.</p></div>
 </li>
 <li>
 <p><em>
-How do I use qutebrowser with mutt?
+How do I use qutebrowser with mutt/neomutt or other mail clients?
 </em></p>
 <p>
     For security reasons, local files without <code>.html</code> extensions aren&#8217;t
@@ -1005,8 +1005,26 @@ How do I use qutebrowser with mutt?
 </p>
 <div class="listingblock">
 <div class="content">
-<pre><code>    text/html; qutebrowser %s; needsterminal; nametemplate=%s.html</code></pre>
+<pre><code>text/html; qutebrowser %s; needsterminal; nametemplate=%s.html</code></pre>
 </div></div>
+<div class="paragraph"><p>Note that you might want to add additional options to qutebrowser, so that it
+runs as a separate instance configured to disable JavaScript and avoid network
+requests, in order to avoid privacy leaks when reading mails. The easiest way
+to do so is by specifying a non-existent proxy server, e.g.:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>qutebrowser --temp-basedir -s content.proxy http://localhost:666 -s content.dns_prefetch false -s content.javascript.enabled false %s</code></pre>
+</div></div>
+<div class="paragraph"><p>With Qt 6, using something like:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>qutebrowser --temp-basedir -s content.dns_prefetch false -s content.javascript.enabled false %s</code></pre>
+</div></div>
+<div class="paragraph"><p>should lead to a similar result, due to a more restrictive implementation of
+the <code>content.local_content_can_access_remote_urls</code> setting (<code>false</code> by default
+already). However, it&#8217;s advised to use a page like
+<a href="https://www.emailprivacytester.com/">Email Privacy Tester</a> to verify your
+configuration.</p></div>
 </li>
 <li>
 <p><em>
@@ -1122,7 +1140,7 @@ Why does it take longer to open a URL in qutebrowser than in chromium?
     loaded until it is detected that there is an instance running
     to which the URL is then passed. This takes some time.
     One workaround is to use this
-    <a href="https://github.com/qutebrowser/qutebrowser/blob/master/scripts/open_url_in_instance.sh">script</a>
+    <a href="https://github.com/qutebrowser/qutebrowser/blob/main/scripts/open_url_in_instance.sh">script</a>
     and place it in your $PATH with the name "qutebrowser". This
     script passes the URL via a unix socket to qutebrowser (if its
     running already) using socat which is much faster and starts a new
@@ -1296,9 +1314,9 @@ Finally, qutebrowser&#8217;s Greasemonkey support should allow for running a
 How do I make copy to clipboard buttons work?
 </em></p>
 <p>
-You can <code>:set content.javascript.can_access_clipboard true</code>, or
-<code>:set -u some.domain content.javascript.can_access_clipboard true</code> if you want to limit
-the setting to <code>some.domain</code>.
+You can <code>:set content.javascript.clipboard access</code> to allow this globally (not
+recommended!), or <code>:set -u some.domain content.javascript.clipboard access</code> if
+you want to limit the setting to <code>some.domain</code>.
 </p>
 </li>
 </ol></div>
@@ -1612,7 +1630,7 @@ disable various features (usually at a cost of website compatibility).</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2023-03-13 22:11:54 CET
+ 2023-12-08 15:32:03 UTC
 </div>
 </div>
 </body>
