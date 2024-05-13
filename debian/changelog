@@ -1,3 +1,13 @@
+qutebrowser (3.1.0-1) unstable; urgency=medium
+
+  [ Fritz Reichwald ]
+  * Add upstream signing key to debian/upstream/signing-key.asc
+  * New upstream version 3.1.0 (Closes: #1062231)
+  * Add debian changes for release 3.1.0
+  * Declare compliance with Debian Policy 4.7.0. (No changes needed.)
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Mon, 22 Jul 2024 21:34:31 +0200
+
 qutebrowser (2.5.4-3) unstable; urgency=medium
 
   * Bump library names for the time64 transition. (Closes: #1067534)
