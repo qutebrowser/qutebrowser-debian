@@ -52,6 +52,8 @@ misc/requirements/requirements-pyqt-6.5.txt
 misc/requirements/requirements-pyqt-6.5.txt-raw
 misc/requirements/requirements-pyqt-6.6.txt
 misc/requirements/requirements-pyqt-6.6.txt-raw
+misc/requirements/requirements-pyqt-6.7.txt
+misc/requirements/requirements-pyqt-6.7.txt-raw
 misc/requirements/requirements-pyqt-6.txt
 misc/requirements/requirements-pyqt-6.txt-raw
 misc/requirements/requirements-pyqt.txt
@@ -157,7 +159,7 @@ qutebrowser/browser/webkit/__init__.py
 qutebrowser/browser/webkit/cache.py
 qutebrowser/browser/webkit/certificateerror.py
 qutebrowser/browser/webkit/cookies.py
-qutebrowser/browser/webkit/http.py
+qutebrowser/browser/webkit/httpheaders.py
 qutebrowser/browser/webkit/mhtml.py
 qutebrowser/browser/webkit/tabhistory.py
 qutebrowser/browser/webkit/webkitelem.py
@@ -716,7 +718,7 @@ tests/unit/browser/webkit/test_webkit_view.py
 tests/unit/browser/webkit/test_webkitelem.py
 tests/unit/browser/webkit/test_webkitsettings.py
 tests/unit/browser/webkit/http/test_content_disposition.py
-tests/unit/browser/webkit/http/test_http.py
+tests/unit/browser/webkit/http/test_httpheaders.py
 tests/unit/browser/webkit/network/test_filescheme.py
 tests/unit/browser/webkit/network/test_networkmanager.py
 tests/unit/browser/webkit/network/test_networkreply.py
@@ -789,6 +791,7 @@ tests/unit/misc/test_autoupdate.py
 tests/unit/misc/test_checkpyver.py
 tests/unit/misc/test_cmdhistory.py
 tests/unit/misc/test_crashdialog.py
+tests/unit/misc/test_crashsignal.py
 tests/unit/misc/test_earlyinit.py
 tests/unit/misc/test_editor.py
 tests/unit/misc/test_elf.py
