@@ -1238,7 +1238,7 @@ cellspacing="0" cellpadding="4">
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.algorithm">colors.webpage.darkmode.algorithm</a></p></td>
-<td align="left" valign="top"><p class="table">Which algorithm to use for modifying how colors are rendered with darkmode.</p></td>
+<td align="left" valign="top"><p class="table">Which algorithm to use for modifying how colors are rendered with dark mode.</p></td>
 </tr>
 <tr>
 <td align="left" valign="top"><p class="table"><a href="#colors.webpage.darkmode.contrast">colors.webpage.darkmode.contrast</a></p></td>
@@ -4711,7 +4711,7 @@ If set to null, the Qt default is used.</p></div>
 </div>
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.algorithm">colors.webpage.darkmode.algorithm</h3>
-<div class="paragraph"><p>Which algorithm to use for modifying how colors are rendered with darkmode.
+<div class="paragraph"><p>Which algorithm to use for modifying how colors are rendered with dark mode.
 The <code>lightness-cielab</code> value was added with QtWebEngine 5.14 and is treated like <code>lightness-hsl</code> with older QtWebEngine versions.</p></div>
 <div class="paragraph"><p>This setting requires a restart.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
@@ -4748,6 +4748,7 @@ This only has an effect when <code>colors.webpage.darkmode.algorithm</code> is s
 <div class="sect2">
 <h3 id="colors.webpage.darkmode.enabled">colors.webpage.darkmode.enabled</h3>
 <div class="paragraph"><p>Render all web contents using a dark theme.
+On QtWebEngine &lt; 6.7, this setting requires a restart and does not support URL patterns, only the global setting is applied.
 Example configurations from Chromium&#8217;s <code>chrome://flags</code>:
 - "With simple HSL/CIELAB/RGB-based inversion": Set
   <code>colors.webpage.darkmode.algorithm</code> accordingly, and
@@ -4759,7 +4760,7 @@ Example configurations from Chromium&#8217;s <code>chrome://flags</code>:
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>This setting requires a restart.</p></div>
+<div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>This setting is only available with the QtWebEngine backend.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">Bool</a></p></div>
 <div class="paragraph"><p>Default: <code>false</code></p></div>
@@ -6956,6 +6957,11 @@ Ignored for number hints.</p></div>
 <li>
 <p>
 <code>[role=&quot;checkbox&quot;]</code>
+</p>
+</li>
+<li>
+<p>
+<code>[role=&quot;switch&quot;]</code>
 </p>
 </li>
 <li>
@@ -9351,7 +9357,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2023-12-08 15:32:07 UTC
+ 2024-06-25 09:08:54 UTC
 </div>
 </div>
 </body>

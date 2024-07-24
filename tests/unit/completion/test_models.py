@@ -29,7 +29,7 @@ from qutebrowser.completion import completer
 from qutebrowser.completion.models import (
     configmodel, listcategory, miscmodels, urlmodel, filepathcategory)
 from qutebrowser.config import configdata, configtypes
-from qutebrowser.utils import usertypes
+from qutebrowser.utils import usertypes, utils
 from qutebrowser.mainwindow import tabbedbrowser
 
 
@@ -417,6 +417,8 @@ def test_filesystem_completion(qtmodeltester, config_stub, info,
         base = '~'
         expected_1 = str(pathlib.Path('~') / 'file1.txt')
         expected_2 = str(pathlib.Path('~') / 'file2.txt')
+    else:
+        raise utils.Unreachable(method)
 
     config_stub.val.completion.open_categories = ['filesystem']
     model = urlmodel.url(info=info)
@@ -1310,11 +1312,11 @@ def test_url_completion_benchmark(benchmark, info,
     web_history.completion.insert_batch(entries)
 
     quickmark_manager_stub.marks = collections.OrderedDict([
-        ('title{}'.format(i), 'example.com/{}'.format(i))
+        ('title{}'.format('a'*i), 'example.com/{}'.format(i))
         for i in range(1000)])
 
     bookmark_manager_stub.marks = collections.OrderedDict([
-        ('example.com/{}'.format(i), 'title{}'.format(i))
+        ('example.com/{}'.format('a'*i), 'title{}'.format(i))
         for i in range(1000)])
 
     def bench():
@@ -1326,6 +1328,7 @@ def test_url_completion_benchmark(benchmark, info,
         model.set_pattern('ex 1')
         model.set_pattern('ex 12')
         model.set_pattern('ex 123')
+        model.set_pattern('zzzzz')  # no match
 
     benchmark(bench)
 

@@ -48,10 +48,13 @@ class ListCategory(QSortFilterProxyModel):
             log.completion.warning(f"Trimming {len(val)}-char pattern to 5000")
             val = val[:5000]
         self._pattern = val
-        val = re.sub(r' +', r' ', val)  # See #1919
-        val = re.escape(val)
-        val = val.replace(r'\ ', '.*')
-        rx = QRegularExpression(val, QRegularExpression.PatternOption.CaseInsensitiveOption)
+
+        # Positive lookahead per search term. This means that all search terms must
+        # be matched but they can be matched anywhere in the string, so they can be
+        # in any order. For example "foo bar" -> "(?=.*foo)(?=.*bar)"
+        re_pattern = "^" + "".join(f"(?=.*{re.escape(term)})" for term in val.split())
+
+        rx = QRegularExpression(re_pattern, QRegularExpression.PatternOption.CaseInsensitiveOption)
         qtutils.ensure_valid(rx)
         self.setFilterRegularExpression(rx)
         self.invalidate()
