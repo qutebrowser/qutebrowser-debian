@@ -2,6 +2,10 @@ qutebrowser (3.2.1-1) unstable; urgency=medium
 
   * New upstream version 3.2.1
 
+  [ Bastian Germann ]
+  * Drop qutebrowser-qtwebkit (Closes: #1093553)
+  * Drop qutebrowser-qtwebengine (Closes: #892562)
+
  -- Fritz Reichwald <reichwald@b1-systems.de>  Wed, 24 Jul 2024 11:32:46 +0200
 
 qutebrowser (3.1.0-1) unstable; urgency=medium
