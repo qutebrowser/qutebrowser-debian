@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: qutebrowser
-Version: 3.2.1
+Version: 3.4.0
 Summary: A keyboard-driven, vim-like browser based on Python and Qt.
 Home-page: https://www.qutebrowser.org/
 Author: Florian Bruhin
@@ -17,19 +17,19 @@ Classifier: Operating System :: POSIX :: Linux
 Classifier: Operating System :: MacOS
 Classifier: Operating System :: POSIX :: BSD
 Classifier: Programming Language :: Python :: 3
-Classifier: Programming Language :: Python :: 3.8
 Classifier: Programming Language :: Python :: 3.9
 Classifier: Programming Language :: Python :: 3.10
 Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
 Classifier: Topic :: Internet
 Classifier: Topic :: Internet :: WWW/HTTP
 Classifier: Topic :: Internet :: WWW/HTTP :: Browsers
-Requires-Python: >=3.8
+Requires-Python: >=3.9
 Description-Content-Type: text/plain
 License-File: LICENSE
 Requires-Dist: jinja2
 Requires-Dist: PyYAML
-Requires-Dist: importlib_resources>=1.1.0; python_version < "3.9"
 
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -77,7 +77,7 @@ image:doc/img/hints.png["screenshot 4",width=300,link="doc/img/hints.png"]
 Downloads
 ---------
 
-See the https://github.com/qutebrowser/qutebrowser/releases[github releases
+See the https://github.com/qutebrowser/qutebrowser/releases[GitHub releases
 page] for available downloads and the link:doc/install.asciidoc[INSTALL] file for
 detailed instructions on how to get qutebrowser running on various platforms.
 
@@ -117,7 +117,7 @@ Requirements
 
 The following software and libraries are required to run qutebrowser:
 
-* https://www.python.org/[Python] 3.8 or newer
+* https://www.python.org/[Python] 3.9 or newer
 * https://www.qt.io/[Qt], either 6.2.0 or newer, or 5.15.0 or newer, with the following modules:
   - QtCore / qtbase
   - QtQuick (part of qtbase or qtdeclarative in some distributions)
@@ -137,10 +137,6 @@ websites and using it for transmission of sensitive data._
   (Qt 6) or 5.15.0 or newer (Qt 5)
 * https://palletsprojects.com/p/jinja/[jinja2]
 * https://github.com/yaml/pyyaml[PyYAML]
-
-On Python 3.8, the following backport is also required:
-
-* https://importlib-resources.readthedocs.io/[importlib_resources]
 
 On macOS, the following libraries are also required:
 
@@ -285,9 +281,9 @@ main inspiration for qutebrowser)
   https://github.com/akhodakivskiy/VimFx[VimFx] (seems to offer a
   https://gir.st/blog/legacyfox.htm[hack] to run on modern Firefox releases),
   https://github.com/shinglyu/QuantumVim[QuantumVim],
-  https://github.com/ueokande/vim-vixen[Vim Vixen] (ESR only),
+  https://github.com/ueokande/vim-vixen[Vim Vixen],
   https://github.com/amedama41/vvimpulation[VVimpulation],
-  https://krabby.netlify.com/[Krabby]
+  https://krabby.netlify.app/[Krabby]
 * Chrome/Chromium addons:
   https://github.com/k2nr/ViChrome/[ViChrome],
   https://github.com/jinzhu/vrome[Vrome],

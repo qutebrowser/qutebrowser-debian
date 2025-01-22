@@ -54,6 +54,8 @@ misc/requirements/requirements-pyqt-6.6.txt
 misc/requirements/requirements-pyqt-6.6.txt-raw
 misc/requirements/requirements-pyqt-6.7.txt
 misc/requirements/requirements-pyqt-6.7.txt-raw
+misc/requirements/requirements-pyqt-6.8.txt
+misc/requirements/requirements-pyqt-6.8.txt-raw
 misc/requirements/requirements-pyqt-6.txt
 misc/requirements/requirements-pyqt-6.txt-raw
 misc/requirements/requirements-pyqt.txt
@@ -278,6 +280,7 @@ qutebrowser/javascript/global_wrapper.js
 qutebrowser/javascript/greasemonkey_wrapper.js
 qutebrowser/javascript/history.js
 qutebrowser/javascript/pac_utils.js
+qutebrowser/javascript/pdfjs_polyfills.js
 qutebrowser/javascript/position_caret.js
 qutebrowser/javascript/scroll.js
 qutebrowser/javascript/stylesheet.js
@@ -570,6 +573,7 @@ tests/end2end/data/numbers/6.txt
 tests/end2end/data/numbers/7.txt
 tests/end2end/data/numbers/8.txt
 tests/end2end/data/numbers/9.txt
+tests/end2end/data/prompt/clipboard.html
 tests/end2end/data/prompt/geolocation.html
 tests/end2end/data/prompt/jsalert.html
 tests/end2end/data/prompt/jsconfirm.html

@@ -4,7 +4,7 @@
 
 """Things which need to be done really early (e.g. before importing Qt).
 
-At this point we can be sure we have all python 3.8 features available.
+At this point we can be sure we have all python 3.9 features available.
 """
 
 try:
@@ -175,7 +175,7 @@ def qt_version(qversion=None, qt_version_str=None):
 
 
 def get_qt_version():
-    """Get the Qt version, or None if too old for QLibaryInfo.version()."""
+    """Get the Qt version, or None if too old for QLibraryInfo.version()."""
     try:
         from qutebrowser.qt.core import QLibraryInfo
         return QLibraryInfo.version().normalized()
@@ -245,10 +245,6 @@ def check_libraries():
     for subpkg in ['QtQml', 'QtOpenGL', 'QtDBus']:
         package = f'{machinery.INFO.wrapper}.{subpkg}'
         modules[package] = _missing_str(package)
-
-    if sys.version_info < (3, 9):
-        # Backport required
-        modules['importlib_resources'] = _missing_str("importlib_resources")
 
     if sys.platform.startswith('darwin'):
         from qutebrowser.qt.core import QVersionNumber
