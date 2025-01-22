@@ -5,7 +5,7 @@ qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/end2end/
 qutebrowser source: source-contains-prebuilt-javascript-object [tests/end2end/data/hints/angular1/angular.min.js]
 qutebrowser source: very-long-line-length-in-source-file * > 512 [qutebrowser/html/doc/configuring.html:*]
 qutebrowser source: very-long-line-length-in-source-file * > 512 [debian/missing-sources/settings.asciidoc:398]
-qutebrowser source: very-long-line-length-in-source-file * > 512 [qutebrowser/html/doc/settings.html:2287]
+qutebrowser source: very-long-line-length-in-source-file * > 512 [qutebrowser/html/doc/settings.html:2291]
 
 # Yeah, sure.
 qutebrowser source: very-long-line-length-in-source-file * > 512 [debian/missing-sources/angular.js:19260]
