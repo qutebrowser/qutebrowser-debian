@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 10.2.0" />
+<meta name="generator" content="AsciiDoc 10.2.1" />
 <title>Commands</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
@@ -821,6 +821,12 @@ completion when pressing <code>:</code>, as they&#8217;re typically not useful t
 <code>{url:host}</code>, <code>{url:domain}</code>, <code>{url:auth}</code>, <code>{url:scheme}</code>, <code>{url:username}</code>,
   <code>{url:password}</code>, <code>{url:port}</code>, <code>{url:path}</code> and <code>{url:query}</code>
   expand to the respective parts of the current URL
+</p>
+</li>
+<li>
+<p>
+<code>{url:yank}</code> expands to the URL of the current page but strips all the query
+  parameters in the <code>url.yank_ignored_parameters</code> setting.
 </p>
 </li>
 <li>
@@ -5359,7 +5365,7 @@ With this command, <code>;;</code> is interpreted literally instead of splitting
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2024-06-25 09:08:56 UTC
+ 2024-12-14 20:53:27 UTC
 </div>
 </div>
 </body>

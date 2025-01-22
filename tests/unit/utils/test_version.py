@@ -623,7 +623,7 @@ def test_path_info(monkeypatch, equal):
 @pytest.fixture
 def import_fake(stubs, monkeypatch):
     """Fixture to patch imports using ImportFake."""
-    fake = stubs.ImportFake({mod: True for mod in version.MODULE_INFO}, monkeypatch)
+    fake = stubs.ImportFake(dict.fromkeys(version.MODULE_INFO, True), monkeypatch)
     fake.patch()
     return fake
 
@@ -737,7 +737,6 @@ class TestModuleVersions:
         ('yaml', True),
         ('adblock', True),
         ('dataclasses', False),
-        ('importlib_resources', False),
         ('objc', True),
     ])
     def test_existing_attributes(self, name, has_version):
@@ -1085,6 +1084,7 @@ class TestWebEngineVersions:
         except ImportError:
             pytest.skip("Requires QtWebEngine 6.3+")
 
+        print(version.qtwebengine_versions())  # useful when adding new versions
         inferred = version.WebEngineVersions.from_webengine(
             qWebEngineVersion(), source="API")
         assert inferred.chromium_security == qWebEngineChromiumSecurityPatchVersion()

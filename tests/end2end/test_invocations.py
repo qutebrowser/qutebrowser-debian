@@ -335,7 +335,7 @@ def test_launching_with_old_python(python):
     except FileNotFoundError:
         pytest.skip(f"{python} not found")
     assert proc.returncode == 1
-    error = "At least Python 3.8 is required to run qutebrowser"
+    error = "At least Python 3.9 is required to run qutebrowser"
     assert proc.stderr.decode('ascii').startswith(error)
 
 
@@ -631,6 +631,36 @@ def test_cookies_store(quteproc_new, request, short_tmpdir, store):
     data = json.loads(content)
     expected_cookies = {'cookie': 'value'} if store else {}
     assert data == {'cookies': expected_cookies}
+
+    quteproc_new.send_cmd(':quit')
+    quteproc_new.wait_for_quit()
+
+
+def test_permission_prompt_across_restart(quteproc_new, request, short_tmpdir):
+    # Start test process
+    args = _base_args(request.config) + [
+        '--basedir', str(short_tmpdir),
+        '-s', 'content.notifications.enabled', 'ask',
+    ]
+    quteproc_new.start(args)
+
+    def notification_prompt(answer):
+        quteproc_new.open_path('data/prompt/notifications.html')
+        quteproc_new.send_cmd(':click-element id button')
+        quteproc_new.wait_for(message='Asking question *')
+        quteproc_new.send_cmd(f':prompt-accept {answer}')
+
+    # Make sure we are prompted the first time we are opened in this basedir
+    notification_prompt('yes')
+    quteproc_new.wait_for_js('notification permission granted')
+
+    # Restart with same basedir
+    quteproc_new.send_cmd(':quit')
+    quteproc_new.wait_for_quit()
+    quteproc_new.start(args)
+
+    # We should be re-prompted in the new instance
+    notification_prompt('no')
 
     quteproc_new.send_cmd(':quit')
     quteproc_new.wait_for_quit()
@@ -988,7 +1018,7 @@ def test_restart(request, quteproc_new):
     quteproc_new.wait_for_quit()
 
     assert line.message.startswith(prefix)
-    pid = int(line.message[len(prefix):])
+    pid = int(line.message.removeprefix(prefix))
     os.kill(pid, signal.SIGTERM)
 
     try:

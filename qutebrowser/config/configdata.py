@@ -9,8 +9,8 @@ Module attributes:
 DATA: A dict of Option objects after init() has been called.
 """
 
-from typing import (Any, Dict, Iterable, List, Mapping, MutableMapping, Optional,
-                    Sequence, Tuple, Union, NoReturn, cast)
+from typing import (Any, Optional, Union, NoReturn, cast)
+from collections.abc import Iterable, Mapping, MutableMapping, Sequence
 import functools
 import dataclasses
 
@@ -53,8 +53,8 @@ class Migrations:
         deleted: A list of option names which have been removed.
     """
 
-    renamed: Dict[str, str] = dataclasses.field(default_factory=dict)
-    deleted: List[str] = dataclasses.field(default_factory=list)
+    renamed: dict[str, str] = dataclasses.field(default_factory=dict)
+    deleted: list[str] = dataclasses.field(default_factory=list)
 
 
 def _raise_invalid_node(name: str, what: str, node: Any) -> NoReturn:
@@ -94,7 +94,6 @@ def _parse_yaml_type(
         _raise_invalid_node(name, 'type', node)
 
     try:
-        # pylint: disable=possibly-used-before-assignment
         typ = getattr(configtypes, type_name)
     except AttributeError:
         raise AttributeError("Did not find type {} for {}".format(
@@ -183,12 +182,11 @@ def _parse_yaml_backends(
     elif isinstance(node, dict):
         return _parse_yaml_backends_dict(name, node)
     _raise_invalid_node(name, 'backends', node)
-    raise utils.Unreachable
 
 
 def _read_yaml(
         yaml_data: str,
-) -> Tuple[Mapping[str, Option], Migrations]:
+) -> tuple[Mapping[str, Option], Migrations]:
     """Read config data from a YAML file.
 
     Args:

@@ -6,7 +6,7 @@
 
 import functools
 import urllib.parse
-from typing import MutableMapping
+from collections.abc import MutableMapping
 
 from qutebrowser.qt.core import pyqtSignal, QObject, QTimer
 from qutebrowser.qt.network import (QNetworkAccessManager, QNetworkRequest,
@@ -16,7 +16,7 @@ from qutebrowser.utils import qtlog, usertypes
 
 
 class HTTPRequest(QNetworkRequest):
-    """A QNetworkRquest that follows (secure) redirects by default."""
+    """A QNetworkRequest that follows (secure) redirects by default."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
