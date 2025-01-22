@@ -24,10 +24,14 @@ Architecture: all
 Depends: python3 (>= 3.8),
          python3-importlib-resources | python3 (>= 3.9),
          python3-yaml,
-         qutebrowser-qtwebengine | qutebrowser-qtwebkit,
+         python3-pyqt6,
+         python3-pyqt6.qtquick,
+         python3-pyqt6.qtwebengine (>= 6.2.0),
+         libqt6sql6-sqlite,
          ${misc:Depends},
          ${python3:Depends}
 Suggests: libjs-pdf,
+          python3-pygments,
           nodejs
 Provides: www-browser
 Description: Keyboard-driven, vim-like browser based on Python and Qt
@@ -35,48 +39,4 @@ Description: Keyboard-driven, vim-like browser based on Python and Qt
  based on Python and Qt and was inspired by other browsers/addons
  like dwb and Vimperator/Pentadactyl.
  .
- qutebrowser supports two different rendering engine backends:
- QtWebKit and QtWebEngine.
-
-Package: qutebrowser-qtwebengine
-Architecture: all
-Depends: libqt6core6 (>= 6.2.0),
-         libqt6dbus6 (>= 6.2.0),
-         libqt6sql6-sqlite,
-         libqt6webenginecore6 (>= 6.2.0),
-         python3-pyqt6,
-         python3-pyqt6.qtquick,
-         python3-pyqt6.qtwebengine (>= 6.2.0),
-         qutebrowser (= ${source:Version}),
-         ${misc:Depends}
-Suggests: python3-pygments
-Description: QtWebEngine backend dependency package for qutebrowser
- qutebrowser is a keyboard-focused browser with a minimal GUI. It's
- based on Python and PyQt5 and was inspired by other browsers/addons
- like dwb and Vimperator/Pentadactyl.
- .
- This package contains all the required dependencies to use
- qutebrowser with the QtWebEngine backend.
-
-Package: qutebrowser-qtwebkit
-Architecture: all
-Depends: libqt5core5t64 (>= 5.15.0),
-         libqt5dbus5t64 (>= 5.15.0),
-         libqt5sql5-sqlite,
-         libqt5webkit5 (>= 5.212),
-         python3-pyqt5,
-         python3-pyqt5.qtopengl,
-         python3-pyqt5.qtquick,
-         python3-pyqt5.qtsql,
-         python3-pyqt5.qtwebkit (>= 5.15.0),
-         qutebrowser (= ${source:Version}),
-         ${misc:Depends}
-Recommends: ca-certificates,
-            python3-pygments
-Description: QtWebKit backend dependency package for qutebrowser
- qutebrowser is a keyboard-focused browser with a minimal GUI. It's
- based on Python and PyQt5 and was inspired by other browsers/addons
- like dwb and Vimperator/Pentadactyl.
- .
- This package contains all the required dependencies to use
- qutebrowser with the QtWebKit backend.
+ qutebrowser supports the rendering engine QtWebEngine.
