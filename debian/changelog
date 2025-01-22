@@ -1,3 +1,9 @@
+qutebrowser (3.4.0-1) UNRELEASED; urgency=medium
+
+  * New upstream version 3.4.0 
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Wed, 22 Jan 2025 20:06:03 +0100
+
 qutebrowser (3.2.1-1) unstable; urgency=medium
 
   * New upstream version 3.2.1
