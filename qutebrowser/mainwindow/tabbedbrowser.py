@@ -4,6 +4,8 @@
 
 """The main tabbed browser widget."""
 
+import os
+import signal
 import collections
 import functools
 import weakref
@@ -1008,7 +1010,18 @@ class TabbedBrowser(QWidget):
             browsertab.TerminationStatus.killed: "Renderer process was killed",
             browsertab.TerminationStatus.unknown: "Renderer process did not start",
         }
-        msg = messages[status] + f" (status {code})"
+
+        sig = None
+        try:
+            if os.WIFSIGNALED(code):
+                sig = signal.Signals(os.WTERMSIG(code))
+        except (AttributeError, ValueError):
+            pass
+
+        if sig is not None:
+            msg = messages[status] + f" (status {code}: {sig.name})"
+        else:
+            msg = messages[status] + f" (status {code})"
 
         # WORKAROUND for https://bugreports.qt.io/browse/QTBUG-91715
         versions = version.qtwebengine_versions()

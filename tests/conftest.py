@@ -104,6 +104,10 @@ def _apply_platform_markers(config, item):
          pytest.mark.skipif,
          testutils.ON_CI,
          "Skipped on CI."),
+        ('no_offscreen',
+         pytest.mark.skipif,
+         testutils.offscreen_plugin_enabled(),
+         "Skipped with offscreen platform plugin."),
         ('unicode_locale',
          pytest.mark.skipif,
          sys.getfilesystemencoding() == 'ascii',
@@ -122,6 +126,28 @@ def _apply_platform_markers(config, item):
          pytest.mark.skipif,
          not config.webengine and ssl.OPENSSL_VERSION_INFO[0] == 3,
          "Failing due to cheroot: https://github.com/cherrypy/cheroot/issues/346"),
+        (
+            "qt69_ci_flaky",  # WORKAROUND: https://github.com/qutebrowser/qutebrowser/issues/8444#issuecomment-2569610110
+            pytest.mark.flaky(reruns=3),
+            (
+                config.webengine
+                and version.qtwebengine_versions(avoid_init=True).webengine
+                == utils.VersionNumber(6, 9)
+                and testutils.ON_CI
+            ),
+            "Flaky with QtWebEngine 6.9 on CI",
+        ),
+        (
+            "qt69_ci_skip",  # WORKAROUND: https://github.com/qutebrowser/qutebrowser/issues/8444#issuecomment-2569610110
+            pytest.mark.skipif,
+            (
+                config.webengine
+                and version.qtwebengine_versions(avoid_init=True).webengine
+                == utils.VersionNumber(6, 9)
+                and testutils.ON_CI
+            ),
+            "Skipped with QtWebEngine 6.9 on CI",
+        ),
     ]
 
     for searched_marker, new_marker_kind, condition, default_reason in markers:
@@ -202,16 +228,20 @@ def pytest_ignore_collect(collection_path: pathlib.Path) -> bool:
 
 
 @pytest.fixture(scope='session')
-def qapp_args():
-    """Make QtWebEngine unit tests run on older Qt versions + newer kernels."""
+def qapp_args() -> list[str]:
+    """Work around various issues when running QtWebEngine tests."""
+    args = [sys.argv[0], "--webEngineArgs"]
     if testutils.disable_seccomp_bpf_sandbox():
-        return [sys.argv[0], testutils.DISABLE_SECCOMP_BPF_FLAG]
+        args.append(testutils.DISABLE_SECCOMP_BPF_FLAG)
+    if testutils.use_software_rendering():
+        args.append(testutils.SOFTWARE_RENDERING_FLAG)
 
     # Disabling PaintHoldingCrossOrigin makes tests needing UI interaction with
     # QtWebEngine more reliable.
     # Only needed with QtWebEngine and Qt 6.5, but Qt just ignores arguments it
     # doesn't know about anyways.
-    return [sys.argv[0], "--webEngineArgs", "--disable-features=PaintHoldingCrossOrigin"]
+    args.append("--disable-features=PaintHoldingCrossOrigin")
+    return args
 
 
 @pytest.fixture(scope='session')
@@ -228,6 +258,8 @@ def pytest_addoption(parser):
                      help="Delay (in ms) after qutebrowser process started.")
     parser.addoption('--qute-profile-subprocs', action='store_true',
                      default=False, help="Run cProfile for subprocesses.")
+    parser.addoption('--qute-strace-subprocs', action='store_true',
+                     default=False, help="Run strace for subprocesses.")
     parser.addoption('--qute-backend', action='store',
                      choices=['webkit', 'webengine'], help='Set backend for BDD tests')
 
@@ -300,8 +332,17 @@ def pytest_report_header(config):
 
 @pytest.fixture(scope='session', autouse=True)
 def check_display(request):
-    if utils.is_linux and not os.environ.get('DISPLAY', ''):
+    if (
+        utils.is_linux
+        and not os.environ.get("DISPLAY", "")
+        and not testutils.offscreen_plugin_enabled()
+    ):
         raise RuntimeError("No display and no Xvfb available!")
+
+
+def pytest_xvfb_disable() -> bool:
+    """Disable Xvfb if the offscreen plugin is in use."""
+    return testutils.offscreen_plugin_enabled()
 
 
 @pytest.fixture(autouse=True)

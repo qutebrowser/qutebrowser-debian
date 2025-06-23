@@ -1,16 +1,15 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.4
 Name: qutebrowser
-Version: 3.4.0
+Version: 3.5.1
 Summary: A keyboard-driven, vim-like browser based on Python and Qt.
 Home-page: https://www.qutebrowser.org/
 Author: Florian Bruhin
 Author-email: mail@qutebrowser.org
-License: GPL
+License: GPL-3.0-or-later
 Keywords: pyqt browser web qt webkit qtwebkit qtwebengine
 Classifier: Development Status :: 5 - Production/Stable
 Classifier: Environment :: X11 Applications :: Qt
 Classifier: Intended Audience :: End Users/Desktop
-Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
 Classifier: Natural Language :: English
 Classifier: Operating System :: Microsoft :: Windows
 Classifier: Operating System :: POSIX :: Linux
@@ -30,6 +29,18 @@ Description-Content-Type: text/plain
 License-File: LICENSE
 Requires-Dist: jinja2
 Requires-Dist: PyYAML
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
 
 // SPDX-License-Identifier: GPL-3.0-or-later
 

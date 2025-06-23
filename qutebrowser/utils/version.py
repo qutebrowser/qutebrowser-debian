@@ -487,7 +487,7 @@ def _pdfjs_version() -> str:
     else:
         pdfjs_file = pdfjs_file.decode('utf-8')
         version_re = re.compile(
-            r"""^ *(PDFJS\.version|(var|const) pdfjsVersion) = ['"](?P<version>[^'"]+)['"];$""",
+            r"""^ *(PDFJS\.version|(var|const|\*) pdfjsVersion) = ['"]?(?P<version>[^'"\n]+)['"]?;?$""",
             re.MULTILINE)
 
         match = version_re.search(pdfjs_file)
@@ -551,6 +551,7 @@ class WebEngineVersions:
         112: '112.0.5615.213',  # 2023-05-24, Qt 6.6
         118: '118.0.5993.220',  # 2024-01-25, Qt 6.7
         122: '122.0.6261.171',  # 2024-04-15, Qt 6.8
+        130: '130.0.6723.192',  # 2025-01-06, Qt 6.9
     }
 
     # Dates based on https://chromereleases.googleblog.com/
@@ -593,6 +594,7 @@ class WebEngineVersions:
         utils.VersionNumber(5, 15, 16): (_BASES[87], '119.0.6045.123'),  # 2023-11-07
         utils.VersionNumber(5, 15, 17): (_BASES[87], '123.0.6312.58'),  # 2024-03-19
         utils.VersionNumber(5, 15, 18): (_BASES[87], '130.0.6723.59'),  # 2024-10-14
+        utils.VersionNumber(5, 15, 19): (_BASES[87], '135.0.7049.95'),  # 2025-04-14
 
 
         ## Qt 6.2
@@ -637,6 +639,12 @@ class WebEngineVersions:
         ## Qt 6.8
         utils.VersionNumber(6, 8): (_BASES[122], '129.0.6668.70'),  # 2024-09-24
         utils.VersionNumber(6, 8, 1): (_BASES[122], '131.0.6778.70'),  # 2024-11-12
+        utils.VersionNumber(6, 8, 2): (_BASES[122], '132.0.6834.111'),  # 2025-01-22
+        utils.VersionNumber(6, 8, 3): (_BASES[122], '134.0.6998.89'),  # 2025-03-10
+
+        ## Qt 6.9
+        utils.VersionNumber(6, 9): (_BASES[130], '133.0.6943.141'),  # 2025-02-25
+        utils.VersionNumber(6, 9, 1): (_BASES[130], '136.0.7103.114'),  # 2025-05-13
     }
 
     def __post_init__(self) -> None:

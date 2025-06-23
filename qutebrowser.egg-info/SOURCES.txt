@@ -56,6 +56,8 @@ misc/requirements/requirements-pyqt-6.7.txt
 misc/requirements/requirements-pyqt-6.7.txt-raw
 misc/requirements/requirements-pyqt-6.8.txt
 misc/requirements/requirements-pyqt-6.8.txt-raw
+misc/requirements/requirements-pyqt-6.9.txt
+misc/requirements/requirements-pyqt-6.9.txt-raw
 misc/requirements/requirements-pyqt-6.txt
 misc/requirements/requirements-pyqt-6.txt-raw
 misc/requirements/requirements-pyqt.txt
@@ -449,6 +451,7 @@ tests/end2end/data/brave-adblock/LICENSE
 tests/end2end/data/brave-adblock/README.md
 tests/end2end/data/brave-adblock/generate.py
 tests/end2end/data/brave-adblock/ublock-matches.tsv.gz
+tests/end2end/data/crashers/document_picture_in_picture.html
 tests/end2end/data/crashers/installedapp.html
 tests/end2end/data/crashers/webrtc.html
 tests/end2end/data/darkmode/blank.html

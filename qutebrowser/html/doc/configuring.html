@@ -1114,7 +1114,7 @@ tabs.show: switching</code></pre>
 <div class="paragraph"><p>You can use:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
-<div class="content"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">yaml</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 
 <span class="k">with</span> <span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">configdir</span> <span class="o">/</span> <span class="s1">&#39;config.yml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">yaml_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
@@ -1140,12 +1140,12 @@ tabs.show: switching</code></pre>
 <div class="paragraph"><p>You can use:</p></div>
 <div class="listingblock">
 <div class="title">config.py:</div>
-<div class="content"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">yaml</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 
 <span class="k">with</span> <span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">configdir</span> <span class="o">/</span> <span class="s1">&#39;colors.yml&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">yaml_data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">dict_attrs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dict_attrs</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">yield from</span> <span class="n">dict_attrs</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">k</span><span class="p">)</span>
@@ -1162,7 +1162,7 @@ tabs.show: switching</code></pre>
 <div class="paragraph"><p>If you have a lot of chained commands you want to bind, you can write a helper
 to do so:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bind_chained</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">commands</span><span class="p">):</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">bind_chained</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">commands</span><span class="p">):</span>
     <span class="n">config</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s1">&#39; ;; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">commands</span><span class="p">))</span>
 
 <span class="n">bind_chained</span><span class="p">(</span><span class="s1">&#39;&lt;Escape&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;clear-keychain&#39;</span><span class="p">,</span> <span class="s1">&#39;search&#39;</span><span class="p">)</span>
@@ -1172,9 +1172,9 @@ to do so:</p></div>
 <h4 id="_reading_colors_from_xresources">Reading colors from Xresources</h4>
 <div class="paragraph"><p>You can use something like this to read colors from an <code>~/.Xresources</code> file:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">subprocess</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
 
-<span class="k">def</span> <span class="nf">read_xresources</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_xresources</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
     <span class="n">props</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;xrdb&#39;</span><span class="p">,</span> <span class="s1">&#39;-query&#39;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -1245,6 +1245,16 @@ Pywal integration: <a href="https://gitlab.com/jjzmajic/qutewal">qutewal</a>, <a
 <a href="https://github.com/iruzo/matrix-qutebrowser">Matrix</a>
 </p>
 </li>
+<li>
+<p>
+<a href="https://github.com/harmtemolder/qutebrowser-solarized">Solarized</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/Rehpotsirhc-z/qutebrowser-doom-one">Doom One</a>
+</p>
+</li>
 </ul></div>
 </div>
 <div class="sect3">
@@ -1261,8 +1271,8 @@ You can silence those with:</p></div>
 stable across qutebrowser versions):</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span></span><span class="c1"># pylint: disable=C0111</span>
-<span class="kn">from</span> <span class="nn">qutebrowser.config.configfiles</span> <span class="kn">import</span> <span class="n">ConfigAPI</span>  <span class="c1"># noqa: F401</span>
-<span class="kn">from</span> <span class="nn">qutebrowser.config.config</span> <span class="kn">import</span> <span class="n">ConfigContainer</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qutebrowser.config.configfiles</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigAPI</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qutebrowser.config.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigContainer</span>  <span class="c1"># noqa: F401</span>
 <span class="n">config</span><span class="p">:</span> <span class="n">ConfigAPI</span> <span class="o">=</span> <span class="n">config</span>  <span class="c1"># noqa: F821 pylint: disable=E0602,C0103</span>
 <span class="n">c</span><span class="p">:</span> <span class="n">ConfigContainer</span> <span class="o">=</span> <span class="n">c</span>  <span class="c1"># noqa: F821 pylint: disable=E0602,C0103</span>
 </pre></div></div></div>
@@ -1324,7 +1334,7 @@ stable across qutebrowser versions):</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2024-12-14 20:53:25 UTC
+ 2025-06-05 14:57:15 UTC
 </div>
 </div>
 </body>
