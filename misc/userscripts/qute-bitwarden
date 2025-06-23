@@ -96,7 +96,8 @@ def ask_password(password_prompt_invocation):
         raise Exception('Could not unlock vault')
     master_pass = process.stdout.strip()
     return subprocess.check_output(
-        ['bw', 'unlock', '--raw', master_pass],
+        ['bw', 'unlock', '--raw', '--passwordenv', 'BW_MASTERPASS'],
+        env={**os.environ, 'BW_MASTERPASS': master_pass},
         text=True,
     ).strip()
 
@@ -132,7 +133,7 @@ def get_session_key(auto_lock, password_prompt_invocation):
 def pass_(domain, encoding, auto_lock, password_prompt_invocation):
     session_key = get_session_key(auto_lock, password_prompt_invocation)
     process = subprocess.run(
-        ['bw', 'list', 'items', '--session', session_key, '--url', domain],
+        ['bw', 'list', 'items', '--nointeraction', '--session', session_key, '--url', domain],
         capture_output=True,
     )
 
@@ -140,6 +141,10 @@ def pass_(domain, encoding, auto_lock, password_prompt_invocation):
     if err:
         msg = 'Bitwarden CLI returned for {:s} - {:s}'.format(domain, err)
         stderr(msg)
+
+        if "Vault is locked" in err:
+            stderr("Bitwarden Vault got locked, trying again with clean session")
+            return pass_(domain, encoding, 0, password_prompt_invocation)
 
     if process.returncode:
         return '[]'
@@ -152,7 +157,7 @@ def pass_(domain, encoding, auto_lock, password_prompt_invocation):
 def get_totp_code(selection_id, domain_name, encoding, auto_lock, password_prompt_invocation):
     session_key = get_session_key(auto_lock, password_prompt_invocation)
     process = subprocess.run(
-        ['bw', 'get', 'totp', '--session', session_key, selection_id],
+        ['bw', 'get', 'totp', '--nointeraction', '--session', session_key, selection_id],
         capture_output=True,
     )
 
@@ -161,6 +166,10 @@ def get_totp_code(selection_id, domain_name, encoding, auto_lock, password_promp
         # domain_name instead of selection_id to make it more user-friendly
         msg = 'Bitwarden CLI returned for {:s} - {:s}'.format(domain_name, err)
         stderr(msg)
+
+        if "Vault is locked" in err:
+            stderr("Bitwarden Vault got locked, trying again with clean session")
+            return get_totp_code(selection_id, domain_name, encoding, 0, password_prompt_invocation)
 
     if process.returncode:
         return '[]'
@@ -195,12 +204,20 @@ def main(arguments):
     # the registered domain name and finally: the IPv4 address if that's what
     # the URL represents
     candidates = []
-    for target in filter(None, [
-                extract_result.fqdn,
-                extract_result.registered_domain,
-                extract_result.subdomain + '.' + extract_result.domain,
-                extract_result.domain,
-                extract_result.ipv4]):
+    for target in filter(
+        None,
+        [
+            extract_result.fqdn,
+            (
+                extract_result.top_domain_under_public_suffix
+                if hasattr(extract_result, "top_domain_under_public_suffix")
+                else extract_result.registered_domain
+            ),
+            extract_result.subdomain + "." + extract_result.domain,
+            extract_result.domain,
+            extract_result.ipv4,
+        ],
+    ):
         target_candidates = json.loads(
             pass_(
                 target,

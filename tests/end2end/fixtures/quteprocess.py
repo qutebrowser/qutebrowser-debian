@@ -83,6 +83,8 @@ def is_ignored_lowlevel_message(message):
         # GitHub Actions with Archlinux unstable packages
         'libEGL warning: DRI3: Screen seems not DRI3 capable',
         'libEGL warning: egl: failed to create dri2 screen',
+        'libEGL warning: DRI3 error: Could not get DRI3 device',
+        'libEGL warning: Activate DRI3 at Xorg or build mesa with DRI2',
     ]
     return any(testutils.pattern_match(pattern=pattern, value=message)
                for pattern in ignored_messages)
@@ -131,6 +133,8 @@ def is_ignored_chromium_message(line):
         # Qt 6.2:
         # [503633:503650:0509/185222.442798:ERROR:ssl_client_socket_impl.cc(959)] handshake failed; returned -1, SSL error code 1, net_error -202
         'handshake failed; returned -1, SSL error code 1, net_error -202',
+        # Qt 6.8 + Python 3.14
+        'handshake failed; returned -1, SSL error code 1, net_error -101',
 
         # Qt 6.2:
         # [2432160:7:0429/195800.168435:ERROR:command_buffer_proxy_impl.cc(140)] ContextResult::kTransientFailure: Failed to send GpuChannelMsg_CreateCommandBuffer.
@@ -241,6 +245,14 @@ def is_ignored_chromium_message(line):
         # [7072:3412:1209/220659.527:ERROR:simple_index_file.cc(322)] Failed to
         # write the temporary index file
         "Failed to write the temporary index file",
+
+        # Qt 6.9 Beta 3 on GitHub Actions
+        # [978:1041:0311/070551.759339:ERROR:bus.cc(407)]
+        "Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory",
+
+        # Qt 6.9 on GitHub Actions with Windows Server 2025
+        # [4348:7828:0605/123815.402:ERROR:shared_image_manager.cc(356)]
+        "SharedImageManager::ProduceMemory: Trying to Produce a Memory representation from a non-existent mailbox.",
     ]
     return any(testutils.pattern_match(pattern=pattern, value=message)
                for pattern in ignored_messages)
@@ -399,24 +411,37 @@ class QuteProc(testprocess.Process):
 
     def _executable_args(self):
         profile = self.request.config.getoption('--qute-profile-subprocs')
+        strace = self.request.config.getoption('--qute-strace-subprocs')
         if hasattr(sys, 'frozen'):
-            if profile:
-                raise RuntimeError("Can't profile with sys.frozen!")
+            if profile or strace:
+                raise RuntimeError("Can't profile/strace with sys.frozen!")
             executable = str(pathlib.Path(sys.executable).parent / 'qutebrowser')
             args = []
         else:
-            executable = sys.executable
+            if strace:
+                executable = 'strace'
+                args = [
+                    "-o",
+                    "qb-strace",
+                    "--output-separately",  # create .PID files
+                    "--write=2",  # dump full stderr data (qb JSON logs)
+                    sys.executable,
+                ]
+            else:
+                executable = sys.executable
+                args = []
+
             if profile:
                 profile_dir = pathlib.Path.cwd() / 'prof'
                 profile_id = '{}_{}'.format(self._instance_id,
                                             next(self._run_counter))
                 profile_file = profile_dir / '{}.pstats'.format(profile_id)
                 profile_dir.mkdir(exist_ok=True)
-                args = [str(pathlib.Path('scripts') / 'dev' / 'run_profile.py'),
+                args += [str(pathlib.Path('scripts') / 'dev' / 'run_profile.py'),
                         '--profile-tool', 'none',
                         '--profile-file', str(profile_file)]
             else:
-                args = ['-bb', '-m', 'qutebrowser']
+                args += ['-bb', '-m', 'qutebrowser']
         return executable, args
 
     def _default_args(self):
@@ -431,8 +456,11 @@ class QuteProc(testprocess.Process):
                 '--qt-flag', 'disable-features=PaintHoldingCrossOrigin',
                 '--qt-arg', 'geometry', '800x600+0+0']
 
-        if self.request.config.webengine and testutils.disable_seccomp_bpf_sandbox():
-            args += testutils.DISABLE_SECCOMP_BPF_ARGS
+        if self.request.config.webengine:
+            if testutils.disable_seccomp_bpf_sandbox():
+                args += testutils.DISABLE_SECCOMP_BPF_ARGS
+            if testutils.use_software_rendering():
+                args += testutils.SOFTWARE_RENDERING_ARGS
 
         args.append('about:blank')
         return args
@@ -532,6 +560,7 @@ class QuteProc(testprocess.Process):
     def before_test(self):
         """Clear settings before every test."""
         super().before_test()
+        self.send_cmd(':clear-messages')
         self.send_cmd(':config-clear')
         self._init_settings()
         self.clear_data()

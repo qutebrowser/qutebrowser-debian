@@ -5449,18 +5449,23 @@ No restart is needed with QtWebKit.</p></div>
 </li>
 <li>
 <p>
+<code>{upstream_browser_version_short}</code>: The corresponding Safari/Chrome
+  version, but only with its major version.
+</p>
+</li>
+<li>
+<p>
 <code>{qutebrowser_version}</code>: The currently running qutebrowser version.
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>The default value is equal to the unchanged user agent of
-QtWebKit/QtWebEngine.</p></div>
-<div class="paragraph"><p>Note that the value read from JavaScript is always the global value. With
-QtWebEngine between 5.12 and 5.14 (inclusive), changing the value exposed
-to JavaScript requires a restart.</p></div>
+<div class="paragraph"><p>The default value is equal to the default user agent of
+QtWebKit/QtWebEngine, but with the <code>QtWebEngine/...</code> part removed for
+increased compatibility.</p></div>
+<div class="paragraph"><p>Note that the value read from JavaScript is always the global value.</p></div>
 <div class="paragraph"><p>This setting supports <a href="configuring.html#patterns">URL patterns</a>.</p></div>
 <div class="paragraph"><p>Type: <a href="#types">FormatString</a></p></div>
-<div class="paragraph"><p>Default: <code>Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}</code></p></div>
+<div class="paragraph"><p>Default: <code>Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version_short} Safari/{webkit_version}</code></p></div>
 </div>
 <div class="sect2">
 <h3 id="content.hyperlink_auditing">content.hyperlink_auditing</h3>
@@ -6025,17 +6030,7 @@ Note that with QtWebEngine, it will take a couple of seconds until the change is
 <div class="ulist"><ul>
 <li>
 <p>
-<code>ua-whatsapp</code>
-</p>
-</li>
-<li>
-<p>
 <code>ua-google</code>
-</p>
-</li>
-<li>
-<p>
-<code>ua-slack</code>
 </p>
 </li>
 <li>
@@ -9382,7 +9377,7 @@ cellspacing="0" cellpadding="4">
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2024-12-14 20:53:22 UTC
+ 2025-06-05 14:57:13 UTC
 </div>
 </div>
 </body>

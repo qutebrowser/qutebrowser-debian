@@ -45,8 +45,11 @@ def _base_args(config):
     else:
         args += ['--backend', 'webkit']
 
-    if config.webengine and testutils.disable_seccomp_bpf_sandbox():
-        args += testutils.DISABLE_SECCOMP_BPF_ARGS
+    if config.webengine:
+        if testutils.disable_seccomp_bpf_sandbox():
+            args += testutils.DISABLE_SECCOMP_BPF_ARGS
+        if testutils.use_software_rendering():
+            args += testutils.SOFTWARE_RENDERING_ARGS
 
     args.append('about:blank')
     return args
@@ -512,6 +515,10 @@ def test_preferred_colorscheme_with_dark_mode(
         '-s', 'colors.webpage.darkmode.enabled', 'true',
         '-s', 'colors.webpage.darkmode.algorithm', 'brightness-rgb',
     ]
+    if webengine_versions.webengine == utils.VersionNumber(6, 9):
+        # WORKAROUND: For unknown reasons, dark mode colors are wrong with
+        # Qt 6.9 + hardware rendering + Xvfb.
+        args += testutils.SOFTWARE_RENDERING_ARGS
     quteproc_new.start(args)
 
     quteproc_new.open_path('data/darkmode/prefers-color-scheme.html')
@@ -738,10 +745,13 @@ def test_dark_mode(webengine_versions, quteproc_new, request,
         '-s', 'colors.webpage.darkmode.enabled', 'true',
         '-s', 'colors.webpage.darkmode.algorithm', algorithm,
     ]
-    quteproc_new.start(args)
+    if webengine_versions.webengine == utils.VersionNumber(6, 9):
+        # WORKAROUND: For unknown reasons, dark mode colors are wrong with
+        # Qt 6.9 + hardware rendering + Xvfb.
+        args += testutils.SOFTWARE_RENDERING_ARGS
 
-    ver = webengine_versions.webengine
-    minor_version = str(ver.strip_patch())
+    quteproc_new.start(args)
+    minor_version = str(webengine_versions.webengine.strip_patch())
 
     arch = platform.machine()
     for key in [
@@ -774,6 +784,11 @@ def test_dark_mode_mathml(webengine_versions, quteproc_new, request, qtbot, suff
         '-s', 'colors.webpage.darkmode.enabled', 'true',
         '-s', 'colors.webpage.darkmode.algorithm', 'brightness-rgb',
     ]
+    if webengine_versions.webengine == utils.VersionNumber(6, 9):
+        # WORKAROUND: For unknown reasons, dark mode colors are wrong with
+        # Qt 6.9 + hardware rendering + Xvfb.
+        args += testutils.SOFTWARE_RENDERING_ARGS
+
     quteproc_new.start(args)
 
     quteproc_new.open_path(f'data/darkmode/mathml-{suffix}.html')
@@ -884,11 +899,14 @@ def test_sandboxing(
         request, quteproc_new, sandboxing,
         has_namespaces, has_seccomp, has_yama, expected_result,
 ):
+    # https://github.com/qutebrowser/qutebrowser/issues/8424
+    userns_restricted = testutils.is_userns_restricted()
+
     if not request.config.webengine:
         pytest.skip("Skipped with QtWebKit")
     elif sandboxing == "enable-all" and testutils.disable_seccomp_bpf_sandbox():
         pytest.skip("Full sandboxing not supported")
-    elif version.is_flatpak():
+    elif version.is_flatpak() or userns_restricted:
         # https://github.com/flathub/io.qt.qtwebengine.BaseApp/pull/66
         has_namespaces = False
         expected_result = "You are NOT adequately sandboxed."
@@ -1021,11 +1039,13 @@ def test_restart(request, quteproc_new):
     pid = int(line.message.removeprefix(prefix))
     os.kill(pid, signal.SIGTERM)
 
-    try:
-        # If the new process hangs, this will hang too.
-        # Still better than just ignoring it, so we can fix it if something is broken.
-        os.waitpid(pid, 0)  # pid, options... positional-only :(
-    except (ChildProcessError, PermissionError):
-        # Already gone. Even if not documented, Windows seems to raise PermissionError
-        # here...
-        pass
+    # This often hangs on Windows for unknown reasons
+    if not utils.is_windows:
+        try:
+            # If the new process hangs, this will hang too.
+            # Still better than just ignoring it, so we can fix it if something is broken.
+            os.waitpid(pid, 0)  # pid, options... positional-only :(
+        except (ChildProcessError, PermissionError):
+            # Already gone. Even if not documented, Windows seems to raise PermissionError
+            # here...
+            pass

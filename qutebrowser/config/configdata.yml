@@ -656,9 +656,7 @@ content.site_specific_quirks.skip:
   type:
     name: FlagList
     valid_values:
-      - ua-whatsapp
       - ua-google
-      - ua-slack
       - ua-googledocs
       - js-whatsapp-web
       - js-discord
@@ -752,7 +750,7 @@ content.headers.referer:
 content.headers.user_agent:
   default: 'Mozilla/5.0 ({os_info})
       AppleWebKit/{webkit_version} (KHTML, like Gecko)
-      {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version}
+      {upstream_browser_key}/{upstream_browser_version_short}
       Safari/{webkit_version}'
   type:
     name: FormatString
@@ -764,6 +762,7 @@ content.headers.user_agent:
       - qt_version
       - upstream_browser_key
       - upstream_browser_version
+      - upstream_browser_version_short
       - qutebrowser_version
     completions:
       # See https://techblog.willshouse.com/2012/01/03/most-common-user-agents/
@@ -773,14 +772,14 @@ content.headers.user_agent:
       # Vim-protip: Place your cursor below this comment and run
       # :r!python scripts/dev/ua_fetch.py
       - - "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
-          (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
-        - Chrome 131 macOS
+          (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36"
+        - Chrome 137 macOS
       - - "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
-          like Gecko) Chrome/131.0.0.0 Safari/537.36"
-        - Chrome 131 Win10
+          like Gecko) Chrome/137.0.0.0 Safari/537.36"
+        - Chrome 137 Win10
       - - "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like
-          Gecko) Chrome/131.0.0.0 Safari/537.36"
-        - Chrome 131 Linux
+          Gecko) Chrome/137.0.0.0 Safari/537.36"
+        - Chrome 137 Linux
   supports_pattern: true
   desc: |
     User agent to send.
@@ -795,14 +794,15 @@ content.headers.user_agent:
     * `{upstream_browser_key}`: "Version" for QtWebKit, "Chrome" for
       QtWebEngine.
     * `{upstream_browser_version}`: The corresponding Safari/Chrome version.
+    * `{upstream_browser_version_short}`: The corresponding Safari/Chrome
+      version, but only with its major version.
     * `{qutebrowser_version}`: The currently running qutebrowser version.
 
-    The default value is equal to the unchanged user agent of
-    QtWebKit/QtWebEngine.
+    The default value is equal to the default user agent of
+    QtWebKit/QtWebEngine, but with the `QtWebEngine/...` part removed for
+    increased compatibility.
 
-    Note that the value read from JavaScript is always the global value. With
-    QtWebEngine between 5.12 and 5.14 (inclusive), changing the value exposed
-    to JavaScript requires a restart.
+    Note that the value read from JavaScript is always the global value.
 
 content.host_blocking.enabled:
   renamed: content.blocking.enabled

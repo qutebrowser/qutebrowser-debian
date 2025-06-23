@@ -448,6 +448,38 @@ class TestWebEngineArgs:
         expected = ['--disable-features=InstalledApp'] if has_workaround else []
         assert disable_features_args == expected
 
+    @pytest.mark.parametrize('qt_version, disabled', [
+        # Qt 6.6
+        ('6.6.3', None),
+        # Qt 6.7
+        ('6.7.0', "DocumentPictureInPictureAPI"),
+        ('6.7.1', "DocumentPictureInPictureAPI"),
+        ('6.7.2', "DocumentPictureInPictureAPI"),
+        ('6.7.3', "DocumentPictureInPictureAPI"),
+        # Qt 6.8
+        ('6.8.0', "DocumentPictureInPictureAPI"),
+        ('6.8.1', "DocumentPictureInPictureAPI"),
+        ('6.8.2', "DocumentPictureInPictureAPI"),
+        ('6.8.3', "DocumentPictureInPictureAPI"),
+        # Qt 6.9
+        ('6.9.0', "DocumentPictureInPictureAPI,PermissionElement"),
+        ('6.9.1', "DocumentPictureInPictureAPI"),  # tbd
+    ])
+    def test_disble_feature_workaround(
+        self, parser, version_patcher, qt_version, disabled
+    ):
+        version_patcher(qt_version)
+
+        parsed = parser.parse_args([])
+        args = qtargs.qt_args(parsed)
+        disable_features_args = [
+            arg for arg in args
+            if arg.startswith(qtargs._DISABLE_FEATURES)
+        ]
+
+        expected = [f"--disable-features={disabled}"] if disabled else []
+        assert disable_features_args == expected
+
     @pytest.mark.parametrize('enabled', [True, False])
     def test_media_keys(self, config_stub, parser, enabled):
         config_stub.val.input.media_keys = enabled

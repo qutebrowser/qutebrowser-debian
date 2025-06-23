@@ -910,7 +910,7 @@ pointers:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<a href="https://github.com/qutebrowser/qutebrowser/labels/easy">Issues which should
+<a href="https://github.com/qutebrowser/qutebrowser/contribute">Issues which should
 be easy to solve</a>
 </p>
 </li>
@@ -1536,7 +1536,7 @@ doesn&#8217;t fit in any of the logging categories, simply add a new line like t
 </pre></div></div></div>
 <div class="paragraph"><p>Then in your source files, do this:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qutebrowser.utils</span> <span class="kn">import</span> <span class="n">log</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qutebrowser.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">log</span>
 <span class="o">...</span>
 <span class="n">log</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">)</span>
 </pre></div></div></div>
@@ -1579,12 +1579,12 @@ cellspacing="0" cellpadding="4">
 commands.</p></div>
 <div class="paragraph"><p>Creating a new command is straightforward:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qutebrowser.api</span> <span class="kn">import</span> <span class="n">cmdutils</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qutebrowser.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">cmdutils</span>
 
 <span class="o">...</span>
 
 <span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">foo</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">():</span>
     <span class="o">...</span>
 </pre></div></div></div>
 <div class="paragraph"><p>The commands arguments are automatically deduced by inspecting your function.</p></div>
@@ -1605,7 +1605,7 @@ qutebrowser&#8217;s commandline.</p></div>
 <a href="https://www.python.org/dev/peps/pep-3107/">function annotations</a>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">baz</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">baz</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Possible values:</p></div>
@@ -1633,14 +1633,14 @@ customize the flag an argument should get:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="nd">@cmdutils</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div></div></div>
 <div class="paragraph"><p>For a <code>str</code> argument, you can restrict the allowed strings using <code>choices</code>:</p></div>
 <div class="listingblock">
 <div class="content"><div class="highlight"><pre><span></span><span class="nd">@cmdutils</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="nd">@cmdutils</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;val1&#39;</span><span class="p">,</span> <span class="s1">&#39;val2&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">bar</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
     <span class="o">...</span>
 </pre></div></div></div>
 <div class="paragraph"><p>For <code>typing.Union</code> types, the given <code>choices</code> are only checked if other types
@@ -2405,7 +2405,7 @@ Post on the website formerly known as Twitter
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2024-12-14 20:53:20 UTC
+ 2025-06-05 14:57:09 UTC
 </div>
 </div>
 </body>
