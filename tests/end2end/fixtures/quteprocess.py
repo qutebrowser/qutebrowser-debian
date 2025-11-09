@@ -239,7 +239,7 @@ def is_ignored_chromium_message(line):
         # Qt 6.7 on GitHub Actions
         # [3456:5752:1111/103609.929:ERROR:block_files.cc(443)] Failed to open
         # C:\Users\RUNNER~1\AppData\Local\Temp\qutebrowser-basedir-ruvn1lys\data\webengine\DawnCache\data_0
-        "Failed to open *webengine*DawnCache*data_*",
+        "Failed to open *webengine*Dawn*Cache*data_*",
 
         # Qt 6.8 on GitHub Actions
         # [7072:3412:1209/220659.527:ERROR:simple_index_file.cc(322)] Failed to
@@ -253,6 +253,16 @@ def is_ignored_chromium_message(line):
         # Qt 6.9 on GitHub Actions with Windows Server 2025
         # [4348:7828:0605/123815.402:ERROR:shared_image_manager.cc(356)]
         "SharedImageManager::ProduceMemory: Trying to Produce a Memory representation from a non-existent mailbox.",
+
+        # Qt 6.10 debug build
+        # "[453900:453973:0909/000324.265214:WARNING:viz_main_impl.cc(85)]"
+        "VizNullHypothesis is disabled (not a warning)",
+
+        # Qt 6.10 on Windows + GitHub Actions
+        # [1784:7100:1022/150433.690:ERROR:direct_composition_support.cc(225)]
+        "GetGpuDriverOverlayInfo: Failed to retrieve video device",
+        # [1784:7100:1022/150434.202:ERROR:direct_composition_support.cc(1122)]
+        "QueryInterface to IDCompositionDevice4 failed: No such interface supported (0x80004002)",
     ]
     return any(testutils.pattern_match(pattern=pattern, value=message)
                for pattern in ignored_messages)

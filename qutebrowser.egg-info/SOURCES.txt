@@ -1,6 +1,7 @@
 LICENSE
 MANIFEST.in
 README.asciidoc
+pyproject.toml
 pytest.ini
 qutebrowser.py
 requirements.txt
@@ -22,8 +23,6 @@ misc/org.qutebrowser.qutebrowser.appdata.xml
 misc/org.qutebrowser.qutebrowser.desktop
 misc/apparmor/usr.bin.qutebrowser
 misc/requirements/README.md
-misc/requirements/requirements-check-manifest.txt
-misc/requirements/requirements-check-manifest.txt-raw
 misc/requirements/requirements-dev.txt
 misc/requirements/requirements-dev.txt-raw
 misc/requirements/requirements-docs.txt
@@ -42,6 +41,8 @@ misc/requirements/requirements-pyqt-5.15.txt
 misc/requirements/requirements-pyqt-5.15.txt-raw
 misc/requirements/requirements-pyqt-5.txt
 misc/requirements/requirements-pyqt-5.txt-raw
+misc/requirements/requirements-pyqt-6.10.txt
+misc/requirements/requirements-pyqt-6.10.txt-raw
 misc/requirements/requirements-pyqt-6.2.txt
 misc/requirements/requirements-pyqt-6.2.txt-raw
 misc/requirements/requirements-pyqt-6.3.txt
@@ -349,6 +350,7 @@ qutebrowser/misc/split.py
 qutebrowser/misc/sql.py
 qutebrowser/misc/throttle.py
 qutebrowser/misc/utilcmds.py
+qutebrowser/misc/wmname.py
 qutebrowser/qt/__init__.py
 qutebrowser/qt/_core_pyqtproperty.py
 qutebrowser/qt/core.py
@@ -521,6 +523,7 @@ tests/end2end/data/hints/html/javascript.html
 tests/end2end/data/hints/html/nested_block_style.html
 tests/end2end/data/hints/html/nested_formatting_tags.html
 tests/end2end/data/hints/html/nested_table_style.html
+tests/end2end/data/hints/html/shadow_dom.html
 tests/end2end/data/hints/html/simple.html
 tests/end2end/data/hints/html/tabindex-negative.html
 tests/end2end/data/hints/html/target_blank_js.html
@@ -817,6 +820,7 @@ tests/unit/misc/test_split_hypothesis.py
 tests/unit/misc/test_sql.py
 tests/unit/misc/test_throttle.py
 tests/unit/misc/test_utilcmds.py
+tests/unit/misc/test_wmname.py
 tests/unit/misc/userscripts/test_qute_lastpass.py
 tests/unit/scripts/test_dictcli.py
 tests/unit/scripts/test_importer.py
