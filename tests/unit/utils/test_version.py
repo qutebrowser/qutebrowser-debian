@@ -15,17 +15,21 @@ import textwrap
 import datetime
 import dataclasses
 import importlib.metadata
+import unittest.mock
+from typing import Any
 
 import pytest
+import pytest_mock
 import hypothesis
 import hypothesis.strategies
 from qutebrowser.qt import machinery
-from qutebrowser.qt.core import PYQT_VERSION_STR
+from qutebrowser.qt.core import PYQT_VERSION_STR, QUrl
+from qutebrowser.qt.webenginecore import QWebEngineProfile
 
 import qutebrowser
 from qutebrowser.config import config, websettings
 from qutebrowser.utils import version, usertypes, utils, standarddir
-from qutebrowser.misc import pastebin, objects, elf
+from qutebrowser.misc import pastebin, objects, elf, wmname
 from qutebrowser.browser import pdfjs
 
 try:
@@ -620,39 +624,43 @@ def test_path_info(monkeypatch, equal):
         assert pathinfo['system data'] == 'SYSTEM DATA PATH'
 
 
-@pytest.fixture
-def import_fake(stubs, monkeypatch):
-    """Fixture to patch imports using ImportFake."""
-    fake = stubs.ImportFake(dict.fromkeys(version.MODULE_INFO, True), monkeypatch)
-    fake.patch()
-    return fake
-
-
 class TestModuleVersions:
 
     """Tests for _module_versions() and ModuleInfo."""
 
+    @pytest.fixture
+    def import_fake(self, stubs, monkeypatch):
+        """Fixture to patch imports using ImportFake."""
+        fake = stubs.ImportFake(dict.fromkeys(version.MODULE_INFO, True), monkeypatch)
+        fake.patch()
+        return fake
+
+    @pytest.fixture(autouse=True)
+    def importlib_metadata_mock(
+        self, mocker: pytest_mock.MockerFixture
+    ) -> unittest.mock.Mock:
+        return mocker.patch("importlib.metadata.version", return_value="4.5.6")
+
     def test_all_present(self, import_fake):
-        """Test with all modules present in version 1.2.3."""
+        """Test with all modules present in a fixed version."""
         expected = []
         for name in import_fake.modules:
             version.MODULE_INFO[name]._reset_cache()
             if '__version__' not in version.MODULE_INFO[name]._version_attributes:
-                expected.append('{}: yes'.format(name))
+                expected.append(f"{name}: 4.5.6")  # from importlib.metadata
             else:
-                expected.append('{}: 1.2.3'.format(name))
+                expected.append(f"{name}: 1.2.3")
         assert version._module_versions() == expected
 
-    @pytest.mark.parametrize('module, idx, expected', [
-        ('colorama', 0, 'colorama: no'),
-        ('adblock', 4, 'adblock: no'),
+    @pytest.mark.parametrize('module, expected', [
+        ('colorama', 'colorama: no'),
+        ('adblock', 'adblock: no'),
     ])
-    def test_missing_module(self, module, idx, expected, import_fake):
+    def test_missing_module(self, module, expected, import_fake):
         """Test with a module missing.
 
         Args:
             module: The name of the missing module.
-            idx: The index where the given text is expected.
             expected: The expected text.
         """
         import_fake.modules[module] = False
@@ -660,6 +668,7 @@ class TestModuleVersions:
         mod_info = version.MODULE_INFO[module]
         mod_info._reset_cache()
 
+        idx = list(version.MODULE_INFO).index(module)
         assert version._module_versions()[idx] == expected
 
         for method_name, expected_result in [
@@ -693,7 +702,16 @@ class TestModuleVersions:
         assert not mod_info.is_usable()
 
         expected = f"adblock: {fake_version} (< {mod_info.min_version}, outdated)"
-        assert version._module_versions()[4] == expected
+        idx = list(version.MODULE_INFO).index("adblock")
+        assert version._module_versions()[idx] == expected
+
+    def test_importlib_not_found(self, importlib_metadata_mock: unittest.mock.Mock):
+        """Test with no __version__ attribute and missing importlib.metadata."""
+        assert not version.MODULE_INFO["jinja2"]._version_attributes  # sanity check
+        importlib_metadata_mock.side_effect = importlib.metadata.PackageNotFoundError
+        version.MODULE_INFO["jinja2"]._reset_cache()
+        idx = list(version.MODULE_INFO).index("jinja2")
+        assert version._module_versions()[idx] == "jinja2: unknown"
 
     @pytest.mark.parametrize('attribute, expected_modules', [
         ('VERSION', ['colorama']),
@@ -722,17 +740,17 @@ class TestModuleVersions:
             mod_info = version.MODULE_INFO[name]
             if name in expected_modules:
                 assert mod_info.get_version() == "1.2.3"
-                expected.append('{}: 1.2.3'.format(name))
+                expected.append(f"{name}: 1.2.3")
             else:
-                assert mod_info.get_version() is None
-                expected.append('{}: yes'.format(name))
+                assert mod_info.get_version() == "4.5.6"  # from importlib.metadata
+                expected.append(f"{name}: 4.5.6")
 
         assert version._module_versions() == expected
 
     @pytest.mark.parametrize('name, has_version', [
         ('sip', False),
         ('colorama', True),
-        ('jinja2', True),
+        # jinja2: removed in 3.3
         ('pygments', True),
         ('yaml', True),
         ('adblock', True),
@@ -1136,13 +1154,7 @@ class TestChromiumVersion:
 
     def test_prefers_saved_user_agent(self, monkeypatch, patch_no_api):
         webenginesettings._init_user_agent_str(_QTWE_USER_AGENT.format('87'))
-
-        class FakeProfile:
-            def defaultProfile(self):
-                raise AssertionError("Should not be called")
-
-        monkeypatch.setattr(webenginesettings, 'QWebEngineProfile', FakeProfile())
-
+        monkeypatch.setattr(QWebEngineProfile, "defaultProfile", lambda: 1/0)
         version.qtwebengine_versions()
 
     def test_unpatched(self, qapp, cache_tmpdir, data_tmpdir, config_stub):
@@ -1263,10 +1275,67 @@ class TestChromiumVersion:
         assert versions.webengine == override
 
 
+class FakeExtensionInfo:
+    def __init__(
+        self,
+        name: str,
+        *,
+        enabled: bool = False,
+        installed: bool = False,
+        loaded: bool = False,
+        action_popup_url: QUrl = QUrl(),
+    ) -> None:
+        self._name = name
+        self.enabled = enabled
+        self.installed = installed
+        self.loaded = loaded
+        self.action_popup_url = action_popup_url
+
+    def isEnabled(self) -> bool:
+        return self.enabled
+
+    def isInstalled(self) -> bool:
+        return self.installed
+
+    def isLoaded(self) -> bool:
+        return self.loaded
+
+    def name(self) -> str:
+        return self._name
+
+    def actionPopupUrl(self) -> QUrl:
+        return self.action_popup_url
+
+    def path(self) -> str:
+        return f"{self._name}-path"
+
+    def id(self) -> str:
+        return f"{self._name}-id"
+
+
+class FakeExtensionManager:
+
+    def __init__(self, extensions: list[FakeExtensionInfo]) -> None:
+        self._extensions = extensions
+
+    def extensions(self) -> list[FakeExtensionInfo]:
+        return self._extensions
+
+
+class FakeExtensionProfile:
+
+    def __init__(self, ext_manager: FakeExtensionManager) -> None:
+        self._ext_manager = ext_manager
+
+    def extensionManager(self) -> FakeExtensionManager:
+        return self._ext_manager
+
+
 @dataclasses.dataclass
 class VersionParams:
 
     name: str
+    gui_platform: str = 'GUI_PLATFORM'
     git_commit: bool = True
     frozen: bool = False
     qapp: bool = True
@@ -1287,6 +1356,8 @@ class VersionParams:
     VersionParams('no-ssl', ssl_support=False),
     VersionParams('no-autoconfig-loaded', autoconfig_loaded=False),
     VersionParams('no-config-py-loaded', config_py_loaded=False),
+    VersionParams('xcb-platform', gui_platform='xcb'),
+    VersionParams('wayland-platform', gui_platform='wayland'),
 ], ids=lambda param: param.name)
 def test_version_info(params, stubs, monkeypatch, config_stub):
     """Test version.version_info()."""
@@ -1307,16 +1378,21 @@ def test_version_info(params, stubs, monkeypatch, config_stub):
         'QSslSocket': FakeQSslSocket('SSL VERSION', params.ssl_support),
         'platform.platform': lambda: 'PLATFORM',
         'platform.architecture': lambda: ('ARCHITECTURE', ''),
+        'wmname.x11_wm_name': lambda: 'X11 WM NAME',
+        'wmname.wayland_compositor_name': lambda: 'WAYLAND COMPOSITOR NAME',
         '_os_info': lambda: ['OS INFO 1', 'OS INFO 2'],
         '_path_info': lambda: {'PATH DESC': 'PATH NAME'},
-        'objects.qapp': (stubs.FakeQApplication(style='STYLE', platform_name='PLATFORM')
-                         if params.qapp else None),
+        'objects.qapp': (
+            stubs.FakeQApplication(style='STYLE', platform_name=params.gui_platform)
+            if params.qapp
+            else None
+        ),
         'qtutils.library_path': (lambda _loc: 'QT PATH'),
         'sql.version': lambda: 'SQLITE VERSION',
         '_uptime': lambda: datetime.timedelta(hours=1, minutes=23, seconds=45),
         'config.instance.yaml_loaded': params.autoconfig_loaded,
         'machinery.INFO': machinery.SelectionInfo(
-            wrapper="QT WRAPPER",
+            wrapper='QT WRAPPER',
             reason=machinery.SelectionReason.fake
         ),
     }
@@ -1324,11 +1400,23 @@ def test_version_info(params, stubs, monkeypatch, config_stub):
     version.opengl_info.cache_clear()
     monkeypatch.setenv('QUTE_FAKE_OPENGL', 'VENDOR, 1.0 VERSION')
 
+    if not params.qapp:
+        expected_gui_platform = None
+    elif params.gui_platform == 'GUI_PLATFORM':
+        expected_gui_platform = 'GUI_PLATFORM'
+    elif params.gui_platform == 'xcb':
+        expected_gui_platform = 'xcb (X11 WM NAME)'
+    elif params.gui_platform == 'wayland':
+        expected_gui_platform = 'wayland (WAYLAND COMPOSITOR NAME)'
+    else:
+        raise utils.Unreachable(params.gui_platform)
+
     substitutions = {
         'git_commit': '\nGit commit: GIT COMMIT' if params.git_commit else '',
         'style': '\nStyle: STYLE' if params.qapp else '',
-        'platform_plugin': ('\nPlatform plugin: PLATFORM' if params.qapp
-                            else ''),
+        'platform_plugin': (
+            f'\nQt Platform: {expected_gui_platform}' if params.qapp else ''
+        ),
         'opengl': '\nOpenGL: VENDOR, 1.0 VERSION' if params.qapp else '',
         'qt': 'QT VERSION',
         'frozen': str(params.frozen),
@@ -1336,6 +1424,7 @@ def test_version_info(params, stubs, monkeypatch, config_stub):
         'python_path': 'EXECUTABLE PATH',
         'uptime': "1:23:45",
         'autoconfig_loaded': "yes" if params.autoconfig_loaded else "no",
+        'webextensions': "",  # overridden below if QtWebEngine is used
     }
 
     patches['qtwebengine_versions'] = (
@@ -1358,6 +1447,21 @@ def test_version_info(params, stubs, monkeypatch, config_stub):
         substitutions['backend'] = 'new QtWebKit (WebKit WEBKIT VERSION)'
     else:
         monkeypatch.delattr(version, 'qtutils.qWebKitVersion', raising=False)
+        if machinery.IS_QT6:
+            monkeypatch.setattr(
+                QWebEngineProfile,
+                "defaultProfile",
+                lambda: FakeExtensionProfile(
+                    FakeExtensionManager([FakeExtensionInfo("ext1")])
+                ),
+            )
+            substitutions['webextensions'] = (
+                "\n"
+                "WebExtensions:\n"
+                "  ext1 (ext1-id)\n"
+                "  [ ] enabled  [ ] loaded  [ ] installed\n"
+                "  ext1-path\n"
+            )
         patches['objects.backend'] = usertypes.Backend.QtWebEngine
         substitutions['backend'] = 'QtWebEngine 1.2.3\n  (source: faked)'
 
@@ -1397,7 +1501,7 @@ def test_version_info(params, stubs, monkeypatch, config_stub):
         pdf.js: PDFJS VERSION
         sqlite: SQLITE VERSION
         QtNetwork SSL: {ssl}
-        {style}{platform_plugin}{opengl}
+        {webextensions}{style}{platform_plugin}{opengl}
         Platform: PLATFORM, ARCHITECTURE{linuxdist}
         Frozen: {frozen}
         Imported from {import_path}
@@ -1482,6 +1586,95 @@ class TestOpenGLInfo:
         assert str(info) == 'OpenGL ES'
 
 
+@pytest.mark.skipif(
+    not machinery.IS_QT6, reason="extensions are only available with Qt6"
+)
+class TestWebEngineExtensions:
+
+    def test_qtwebkit(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setattr(version.objects, "backend", usertypes.Backend.QtWebKit)
+        monkeypatch.setattr(QWebEngineProfile, "defaultProfile", lambda: 1/0)
+        assert not version._webengine_extensions()
+
+    def test_avoid_chromium_init(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setattr(version.objects, "backend", usertypes.Backend.QtWebEngine)
+        monkeypatch.setattr(objects, "debug_flags", {"avoid-chromium-init"})
+        monkeypatch.setattr(QWebEngineProfile, "defaultProfile", lambda: 1/0)
+        assert not version._webengine_extensions()
+
+    def test_no_extension_manager(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setattr(QWebEngineProfile, "defaultProfile", object)
+        assert not version._webengine_extensions()
+
+    @pytest.mark.parametrize(
+        "extensions, expected",
+        [
+            pytest.param([], ["WebExtensions: none"], id="empty"),
+            pytest.param(
+                [FakeExtensionInfo("ext1")],
+                [
+                    "WebExtensions:",
+                    "  ext1 (ext1-id)",
+                    "  [ ] enabled  [ ] loaded  [ ] installed",
+                    "  ext1-path",
+                    "",
+                ],
+                id="single",
+            ),
+            pytest.param(
+                [
+                    FakeExtensionInfo("ext1", enabled=True),
+                    FakeExtensionInfo(
+                        "ext2", enabled=True, loaded=True, installed=True
+                    ),
+                ],
+                [
+                    "WebExtensions:",
+                    "  ext1 (ext1-id)",
+                    "  [x] enabled  [ ] loaded  [ ] installed",
+                    "  ext1-path",
+                    "",
+                    "  ext2 (ext2-id)",
+                    "  [x] enabled  [x] loaded  [x] installed",
+                    "  ext2-path",
+                    "",
+                ],
+                id="multiple",
+            ),
+            pytest.param(
+                [
+                    FakeExtensionInfo(
+                        "ext", action_popup_url=QUrl("chrome-extension://ext")
+                    )
+                ],
+                [
+                    "WebExtensions:",
+                    "  ext (ext-id)",
+                    "  [ ] enabled  [ ] loaded  [ ] installed",
+                    "  ext-path",
+                    "  chrome-extension://ext",
+                    "",
+                ],
+                id="with-url",
+            ),
+        ],
+    )
+    def test_extensions(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        extensions: list[FakeExtensionInfo],
+        expected: list[str],
+    ) -> None:
+        monkeypatch.setattr(
+            QWebEngineProfile,
+            "defaultProfile",
+            lambda: FakeExtensionProfile(
+                FakeExtensionManager(extensions)
+            ),
+        )
+        assert version._webengine_extensions() == expected
+
+
 @pytest.fixture
 def pbclient(stubs):
     http_stub = stubs.HTTPPostStub()
@@ -1534,6 +1727,46 @@ def test_pastebin_version_error(pbclient, caplog, message_mock, monkeypatch):
 
     msg = message_mock.getmsg(usertypes.MessageLevel.error)
     assert msg.text == "Failed to pastebin version info: test"
+
+
+@pytest.mark.parametrize("platform, expected", [
+    ("windows", "windows"),
+    ("xcb", "xcb (X11 WM NAME)"),
+    ("wayland", "wayland (WAYLAND COMPOSITOR NAME)"),
+    ("wayland-egl", "wayland-egl (WAYLAND COMPOSITOR NAME)"),
+])
+def test_gui_platform_info(
+    platform: str, expected: str, monkeypatch: pytest.MonkeyPatch, stubs: Any
+) -> None:
+    monkeypatch.setattr(
+        version.objects,
+        "qapp",
+        stubs.FakeQApplication(platform_name=platform, style="STYLE"),
+    )
+    monkeypatch.setattr(version.wmname, "x11_wm_name", lambda: "X11 WM NAME")
+    monkeypatch.setattr(
+        version.wmname, "wayland_compositor_name", lambda: "WAYLAND COMPOSITOR NAME"
+    )
+    assert version.gui_platform_info() == expected
+
+
+@pytest.mark.parametrize("platform", ["xcb", "wayland", "wayland-egl"])
+def test_gui_platform_info_error(
+    platform: str,
+    monkeypatch: pytest.MonkeyPatch,
+    mocker: pytest_mock.MockerFixture,
+    stubs: Any,
+) -> None:
+    monkeypatch.setattr(
+        version.objects,
+        "qapp",
+        stubs.FakeQApplication(platform_name=platform, style="STYLE"),
+    )
+    mocker.patch.object(wmname, "x11_wm_name", side_effect=wmname.Error("fake error"))
+    mocker.patch.object(
+        wmname, "wayland_compositor_name", side_effect=wmname.Error("fake error")
+    )
+    assert version.gui_platform_info() == f"{platform} (Error: fake error)"
 
 
 def test_uptime(monkeypatch, qapp):

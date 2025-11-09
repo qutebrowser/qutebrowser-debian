@@ -1069,12 +1069,6 @@ Tests using <a href="https://www.pytest.org">pytest</a>:
 </li>
 <li>
 <p>
-<code>check-manifest</code>: Check MANIFEST.in completeness with
-  <a href="https://github.com/mgedmin/check-manifest">check-manifest</a>.
-</p>
-</li>
-<li>
-<p>
 <code>mkvenv</code>: Bootstrap a virtualenv for testing.
 </p>
 </li>
@@ -2342,7 +2336,12 @@ Double check Python version in <code>.github/workflows/release.yml</code>
 </li>
 <li>
 <p>
-Run the <code>release</code> workflow on the <code>main</code> branch, e.g. via <code>gh workflow run release -f release_type=major</code> (<code>release_type</code> can be <code>major</code>, <code>minor</code> or <code>patch</code>; you can also override <code>python_version</code>)
+Run the <code>release</code> workflow on the <code>main</code> branch, e.g. via <code>gh workflow run release -f release_type=minor</code> (<code>release_type</code> can be <code>major</code>, <code>minor</code> or <code>patch</code>; you can also override <code>python_version</code>)
+</p>
+</li>
+<li>
+<p>
+Consider running <code>gh run watch</code> or <code>gh run view --web</code> to watch the progress
 </p>
 </li>
 </ul></div>
@@ -2405,7 +2404,7 @@ Post on the website formerly known as Twitter
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2025-06-05 14:57:09 UTC
+ 2025-11-03 15:31:39 UTC
 </div>
 </div>
 </body>

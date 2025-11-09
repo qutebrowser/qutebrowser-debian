@@ -9,7 +9,15 @@
 import re
 import ast
 import os
-import os.path
+import sys
+import pathlib
+
+# Add repo root to path so we can import scripts. Prior to PEP517 support this
+# was the default behavior for setuptools.
+# https://github.com/pypa/setuptools/issues/3939#issuecomment-1573619382
+# > If users want to import local modules they are recommended to explicitly add
+# > the current directory to sys.path at the top of setup.py.
+sys.path.append(".")
 
 from scripts import setupcommon as common
 
@@ -17,7 +25,7 @@ import setuptools
 
 
 try:
-    BASEDIR = os.path.dirname(os.path.realpath(__file__))
+    BASEDIR = pathlib.Path(__file__).resolve().parent
 except NameError:
     BASEDIR = None
 
@@ -42,8 +50,8 @@ def _get_constant(name):
         The value of the argument.
     """
     field_re = re.compile(r'__{}__\s+=\s+(.*)'.format(re.escape(name)))
-    path = os.path.join(BASEDIR, 'qutebrowser', '__init__.py')
-    line = field_re.search(read_file(path)).group(1)
+    init_path = BASEDIR / 'qutebrowser' / '__init__.py'
+    line = field_re.search(read_file(init_path)).group(1)
     value = ast.literal_eval(line)
     return value
 
@@ -91,6 +99,6 @@ try:
     )
 finally:
     if BASEDIR is not None:
-        path = os.path.join(BASEDIR, 'qutebrowser', 'git-commit-id')
-        if os.path.exists(path):
-            os.remove(path)
+        git_commit_id_path = BASEDIR / 'qutebrowser' / 'git-commit-id'
+        if git_commit_id_path.exists():
+            git_commit_id_path.unlink()

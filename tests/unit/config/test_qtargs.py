@@ -158,12 +158,17 @@ class TestWebEngineArgs:
             assert '--enable-in-process-stack-traces' not in args
 
     @pytest.mark.parametrize(
-        'qt6, value, has_arg',
+        'qt_version, qt6, value, has_arg',
         [
-            (False, 'auto', False),
-            (True, 'auto', True),
-            (True, 'always', True),
-            (True, 'never', False),
+            ('5.15.2', False, 'auto', False),
+            ('6.5.3', True, 'auto', True),
+            ('6.6.0', True, 'auto', True),
+            ('6.7.0', True, 'auto', True),
+            ('6.8.1', True, 'auto', True),
+            ('6.8.2', True, 'auto', False),
+            ('6.5.3', True, 'always', True),
+            ('6.5.3', True, 'never', False),
+            ('6.8.2', True, 'always', True),
         ],
     )
     def test_accelerated_2d_canvas(
@@ -172,10 +177,12 @@ class TestWebEngineArgs:
         version_patcher,
         config_stub,
         monkeypatch,
+        qt_version,
         qt6,
         value,
         has_arg,
     ):
+        version_patcher(qt_version)
         config_stub.val.qt.workarounds.disable_accelerated_2d_canvas = value
         monkeypatch.setattr(machinery, 'IS_QT6', qt6)
 
@@ -463,9 +470,9 @@ class TestWebEngineArgs:
         ('6.8.3', "DocumentPictureInPictureAPI"),
         # Qt 6.9
         ('6.9.0', "DocumentPictureInPictureAPI,PermissionElement"),
-        ('6.9.1', "DocumentPictureInPictureAPI"),  # tbd
+        ('6.9.1', "DocumentPictureInPictureAPI,PermissionElement"),
     ])
-    def test_disble_feature_workaround(
+    def test_disable_feature_workaround(
         self, parser, version_patcher, qt_version, disabled
     ):
         version_patcher(qt_version)
