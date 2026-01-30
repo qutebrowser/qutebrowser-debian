@@ -1013,12 +1013,12 @@ prefix to preserve backslashes) or a Python regex object:</p></div>
 <div class="paragraph"><p>Using <code>config.set</code> instead of the <code>c.</code> shorthand, many settings are also
 customizable for a given <a href="#patterns">URL patterns</a>.</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;content.images&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;*://example.com/&#39;</span><span class="p">)</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;content.images&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;*://example.com/*&#39;</span><span class="p">)</span>
 </pre></div></div></div>
 <div class="paragraph"><p>Alternatively, you can use <code>with config.pattern(...) as p:</code> to get a shortcut
 similar to <code>c.</code> which is scoped to the given domain:</p></div>
 <div class="listingblock">
-<div class="content"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">pattern</span><span class="p">(</span><span class="s1">&#39;*://example.com/&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+<div class="content"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">config</span><span class="o">.</span><span class="n">pattern</span><span class="p">(</span><span class="s1">&#39;*://example.com/*&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
     <span class="n">p</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">images</span> <span class="o">=</span> <span class="kc">False</span>
 </pre></div></div></div>
 </div>
@@ -1334,7 +1334,7 @@ stable across qutebrowser versions):</p></div>
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2025-11-03 15:31:46 UTC
+ 2025-11-30 17:39:28 UTC
 </div>
 </div>
 </body>
