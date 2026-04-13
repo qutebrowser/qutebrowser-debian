@@ -1,4 +1,4 @@
-qutebrowser (3.7.0-1) UNRELEASED; urgency=medium
+qutebrowser (3.7.0-1) unstable; urgency=medium
 
   [ drlkf ]
   * Add suggested packages needed for userscripts PR:10
