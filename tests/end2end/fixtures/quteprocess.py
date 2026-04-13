@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Florian Bruhin (The Compiler) <mail@qutebrowser.org>
+# SPDX-FileCopyrightText: Freya Bruhin (The Compiler) <mail@qutebrowser.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -96,7 +96,7 @@ def is_ignored_chromium_message(line):
         (\d+:\d+:)?  # Process/Thread ID
         \d{4}/[\d.]+:  # MMDD/Time
         (?P<loglevel>[A-Z]+):  # Log level
-        [^ :]+    # filename / line
+        [^ ]+    # filename / line
         \]
         \ (?P<message>.*)  # message
     """, re.VERBOSE)
@@ -240,6 +240,7 @@ def is_ignored_chromium_message(line):
         # [3456:5752:1111/103609.929:ERROR:block_files.cc(443)] Failed to open
         # C:\Users\RUNNER~1\AppData\Local\Temp\qutebrowser-basedir-ruvn1lys\data\webengine\DawnCache\data_0
         "Failed to open *webengine*Dawn*Cache*data_*",
+        "Failed to open *webengine*GPUCache*data_*",
 
         # Qt 6.8 on GitHub Actions
         # [7072:3412:1209/220659.527:ERROR:simple_index_file.cc(322)] Failed to
@@ -263,6 +264,14 @@ def is_ignored_chromium_message(line):
         "GetGpuDriverOverlayInfo: Failed to retrieve video device",
         # [1784:7100:1022/150434.202:ERROR:direct_composition_support.cc(1122)]
         "QueryInterface to IDCompositionDevice4 failed: No such interface supported (0x80004002)",
+
+        # Qt 6.10 on Windows + GitHub Actions
+        # [3508:6056:1103/172403.602:ERROR:cache_util_win.cc(20)]
+        "Unable to move the cache: The system cannot find the file specified. (0x2)",
+        # [3508:5516:1103/172403.608:ERROR:disk_cache.cc(216)]
+        "Unable to create cache",
+        # [3508:5516:1103/172403.608:ERROR:gpu_disk_cache.cc(711)]
+        "Gpu Cache Creation failed: -2",
     ]
     return any(testutils.pattern_match(pattern=pattern, value=message)
                for pattern in ignored_messages)

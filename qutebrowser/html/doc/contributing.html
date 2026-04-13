@@ -1025,17 +1025,17 @@ Tests using <a href="https://www.pytest.org">pytest</a>:
 <div class="ulist"><ul>
 <li>
 <p>
-<code>py39</code>, <code>py310</code>, &#8230;: Run pytest for python 3.9/3.10/&#8230; with the system-wide PyQt.
+<code>py310</code>, <code>py311</code>, &#8230;: Run pytest for python 3.10/3.11/&#8230; with the system-wide PyQt.
 </p>
 </li>
 <li>
 <p>
-<code>py39-pyqt515</code>, &#8230;, <code>py39-pyqt65</code>: Run pytest with the given PyQt version (<code>py310-*</code> etc. also works).
+<code>py310-pyqt515</code>, &#8230;, <code>py310-pyqt65</code>: Run pytest with the given PyQt version (<code>py311-*</code> etc. also works).
 </p>
 </li>
 <li>
 <p>
-<code>py39-pyqt515-cov</code>: Run with coverage support (other Python/PyQt versions work too).
+<code>py310-pyqt515-cov</code>: Run with coverage support (other Python/PyQt versions work too).
 </p>
 </li>
 </ul></div>
@@ -1155,16 +1155,16 @@ them from <code>tox</code> arguments with <code>--</code>.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><code># run only pytest tests which failed in last run:
-tox -e py39 -- --lf
+tox -e py310 -- --lf
 
 # run only the end2end feature tests:
-tox -e py39 -- tests/end2end/features
+tox -e py310 -- tests/end2end/features
 
 # run everything with undo in the generated name, based on the scenario text
-tox -e py39 -- tests/end2end/features/test_tabs_bdd.py -k undo
+tox -e py310 -- tests/end2end/features/test_tabs_bdd.py -k undo
 
 # run coverage test for specific file (updates htmlcov/index.html)
-tox -e py39-cov -- tests/unit/browser/test_webelem.py</code></pre>
+tox -e py310-cov -- tests/unit/browser/test_webelem.py</code></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1827,6 +1827,11 @@ chrome://gpu/
 chrome://sandbox/ (Linux only)
 </p>
 </li>
+<li>
+<p>
+chrome://qt/ (QtWebEngine &gt;= 6.7)
+</p>
+</li>
 </ul></div>
 <div class="paragraph"><p>Misc. / Debugging pages:</p></div>
 <div class="ulist"><ul>
@@ -1863,6 +1868,11 @@ chrome://user-actions/ (QtWebEngine &gt;= 5.15.3)
 <li>
 <p>
 chrome://webrtc-logs/ (QtWebEngine &gt;= 5.15.3)
+</p>
+</li>
+<li>
+<p>
+chrome://extensions/ (QtWebEngine &gt;= 6.10)
 </p>
 </li>
 </ul></div>
@@ -2404,7 +2414,7 @@ Post on the website formerly known as Twitter
 <div id="footer">
 <div id="footer-text">
 Last updated
- 2025-11-30 17:39:21 UTC
+ 2026-04-03 14:14:18 UTC
 </div>
 </div>
 </body>
