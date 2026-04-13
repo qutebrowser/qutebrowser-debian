@@ -43,6 +43,8 @@ misc/requirements/requirements-pyqt-5.txt
 misc/requirements/requirements-pyqt-5.txt-raw
 misc/requirements/requirements-pyqt-6.10.txt
 misc/requirements/requirements-pyqt-6.10.txt-raw
+misc/requirements/requirements-pyqt-6.11.txt
+misc/requirements/requirements-pyqt-6.11.txt-raw
 misc/requirements/requirements-pyqt-6.2.txt
 misc/requirements/requirements-pyqt-6.2.txt-raw
 misc/requirements/requirements-pyqt-6.3.txt
@@ -594,10 +596,8 @@ tests/end2end/data/service-worker/index.html
 tests/end2end/data/service-worker/worker.js
 tests/end2end/data/sessions/history_replace_state.html
 tests/end2end/data/sessions/snowman.html
-tests/end2end/data/ssl/cert.csr
 tests/end2end/data/ssl/cert.pem
 tests/end2end/data/ssl/key.pem
-tests/end2end/data/ssl/privkey.pem
 tests/end2end/data/userscripts/echo.bat
 tests/end2end/data/userscripts/echo_hint_text
 tests/end2end/data/userscripts/hello_if_count

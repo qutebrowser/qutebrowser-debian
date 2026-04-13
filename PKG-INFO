@@ -1,9 +1,9 @@
 Metadata-Version: 2.4
 Name: qutebrowser
-Version: 3.6.3
+Version: 3.7.0
 Summary: A keyboard-driven, vim-like browser based on Python and Qt.
 Home-page: https://www.qutebrowser.org/
-Author: Florian Bruhin
+Author: Freya Bruhin
 Author-email: mail@qutebrowser.org
 License: GPL-3.0-or-later
 Keywords: pyqt browser web qt webkit qtwebkit qtwebengine
@@ -191,7 +191,7 @@ for those, please mailto:mail@qutebrowser.org[get in touch] for details.
   via Credit Card, SEPA bank transfers, or Paypal. Payment fees are paid by me,
   but they are https://liberapay.com/about/faq#fees[relatively low].
 * SEPA bank transfer inside Europe (**no fees**):
-  - Account holder: Florian Bruhin
+  - Account holder: Freya Bruhin
   - Country: Switzerland
   - IBAN (EUR): CH13 0900 0000 9160 4094 6
   - IBAN (other): CH80 0900 0000 8711 8587 3
@@ -233,7 +233,7 @@ image:doc/img/sponsors/hsr.png["HSR Hochschule für Technik Rapperswil",link="ht
 Authors
 -------
 
-qutebrowser's primary author is Florian Bruhin (The Compiler), but qutebrowser
+qutebrowser's primary author is Freya Bruhin (The Compiler), but qutebrowser
 wouldn't be what it is without the help of
 https://github.com/qutebrowser/qutebrowser/graphs/contributors[hundreds of contributors]!
 
