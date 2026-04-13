@@ -1,8 +1,6 @@
 # Files were we have the sources in debian/missing-sources/
 qutebrowser source: source-is-missing [qutebrowser/html/doc/configuring.html]
 qutebrowser source: source-is-missing [qutebrowser/html/doc/settings.html]
-qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/end2end/data/hints/angular1/angular.min.js:300]
-qutebrowser source: source-contains-prebuilt-javascript-object [tests/end2end/data/hints/angular1/angular.min.js]
 qutebrowser source: very-long-line-length-in-source-file * > 512 [qutebrowser/html/doc/configuring.html:*]
 qutebrowser source: very-long-line-length-in-source-file * > 512 [debian/missing-sources/settings.asciidoc:*]
 qutebrowser source: very-long-line-length-in-source-file * > 512 [qutebrowser/html/doc/settings.html:*]
@@ -19,15 +17,15 @@ qutebrowser source: very-long-line-length-in-source-file 630 > 512 [tests/end2en
 # No, these are test cases and likely hand written or written with the
 # help of a simple oneliner.
 qutebrowser source: source-is-missing [tests/end2end/data/downloads/issue1725.html]
+qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/end2end/data/downloads/issue1725.html:8]
+qutebrowser source: source-contains-prebuilt-javascript-object [tests/end2end/data/hints/angular1/angular.min.js]
+qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/end2end/data/hints/angular1/angular.min.js:300]
 qutebrowser source: source-is-missing [tests/end2end/data/hints/html/wrapped_button.html]
+qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/end2end/data/hints/html/wrapped_button.html:12]
 qutebrowser source: source-is-missing [tests/end2end/data/misc/hello.txt.html]
+qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/end2end/data/misc/hello.txt.html:80]
 qutebrowser source: source-is-missing [tests/end2end/data/scroll/simple.html]
+qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/end2end/data/scroll/simple.html:*]
 qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/unit/components/test_braveadblock.py:49]
 
-qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/end2end/data/scroll/simple.html:*]
-qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/end2end/data/downloads/issue1725.html:8]
-qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/end2end/data/hints/html/wrapped_button.html:12]
-qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/end2end/data/misc/hello.txt.html:80]
-
 # Binary files
-qutebrowser source: very-long-line-length-in-source-file * > 512 [tests/unit/scripts/importer_sample/chrome/input/Web Data:*]
