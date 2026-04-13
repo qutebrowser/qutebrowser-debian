@@ -1,6 +1,5 @@
 Source: qutebrowser
 Section: web
-Priority: optional
 Maintainer: Fritz Reichwald <reichwald@b1-systems.de>
 Uploaders: Axel Beckert <abe@debian.org>
 Build-Depends: asciidoc,
@@ -9,15 +8,15 @@ Build-Depends: asciidoc,
                docbook-xml,
                docbook-xsl,
                libxml2-utils,
+               pybuild-plugin-pyproject,
                python3 (>= 3.9),
                python3-setuptools,
                source-highlight,
                xsltproc
-Standards-Version: 4.7.0
+Standards-Version: 4.7.3
 Homepage: https://qutebrowser.org/
 Vcs-Git: https://github.com/qutebrowser/qutebrowser-debian.git
 Vcs-Browser: https://github.com/qutebrowser/qutebrowser-debian
-Rules-Requires-Root: no
 
 Package: qutebrowser
 Architecture: all

@@ -6,6 +6,9 @@ qutebrowser (3.7.0-1) UNRELEASED; urgency=medium
   [ Fritz Reichwald ]
   * New upstream version 3.7.0
   * cleanup/restructuring debian/source/lintian-overrides
+  * cleanup debian/control fields that are obsolete
+  * add Build-Depends for pybuild backends
+  * Declare compliance with Debian Policy 4.7.3. (No changes needed.)
 
  -- Fritz Reichwald <reichwald@b1-systems.de>  Mon, 13 Apr 2026 12:54:49 +0200
 
