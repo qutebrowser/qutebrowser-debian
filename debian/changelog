@@ -1,8 +1,12 @@
-qutebrowser (3.6.3-2) UNRELEASED; urgency=medium
+qutebrowser (3.7.0-1) UNRELEASED; urgency=medium
 
+  [ drlkf ]
   * Add suggested packages needed for userscripts PR:10
 
- -- Fritz Reichwald <reichwald@b1-systems.de>  Mon, 13 Apr 2026 12:36:19 +0200
+  [ Fritz Reichwald ]
+  * New upstream version 3.7.0
+
+ -- Fritz Reichwald <reichwald@b1-systems.de>  Mon, 13 Apr 2026 12:54:49 +0200
 
 qutebrowser (3.6.3-1) unstable; urgency=medium
 
