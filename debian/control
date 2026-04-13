@@ -31,6 +31,8 @@ Depends: python3 (>= 3.9),
          ${python3:Depends}
 Suggests: libjs-pdf,
           python3-pygments,
+          python3-tldextract,
+          rofi,
           nodejs
 Provides: www-browser
 Description: Keyboard-driven, vim-like browser based on Python and Qt
